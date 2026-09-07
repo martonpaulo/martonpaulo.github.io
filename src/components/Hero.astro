@@ -4,9 +4,8 @@ import "./Hero.scss";
 import Eyebrow from "./Eyebrow.astro";
 
 /**
- * The opening of a page: an optional eyebrow, a big display heading held
- * between two large brackets, and an optional lede, centered, rising into
- * place on load. The brackets are the site's mark at page scale.
+ * The opening of a page: an optional eyebrow, a big display heading and an
+ * optional lede, centered, rising into place on load.
  */
 interface Props {
   title: string;
@@ -19,11 +18,7 @@ const { title, eyebrow, lede } = Astro.props;
 
 <header class="hero stack-center enter">
   {eyebrow && <Eyebrow as="p">{eyebrow}</Eyebrow>}
-  <div class="hero__frame">
-    <span class="hero__bracket hero__bracket--open" aria-hidden="true">[</span>
-    <h1 class="hero__title" set:html={title} />
-    <span class="hero__bracket hero__bracket--close" aria-hidden="true">]</span>
-  </div>
+  <h1 class="hero__title" set:html={title} />
   {lede && <p class="lede">{lede}</p>}
   <slot />
 </header>

@@ -31,8 +31,8 @@ const description = fill(about.description, {
 
     <section class="section" aria-labelledby="now-heading">
       <SectionHeading id="now-heading" title={about.nowHeading} />
-      <ul class="about__list" role="list">
-        {person.now.map((item) => <li class="about__item">{item}</li>)}
+      <ul class="bracket-list" role="list">
+        {person.now.map((item) => <li>{item}</li>)}
       </ul>
     </section>
 

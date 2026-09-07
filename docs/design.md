@@ -31,8 +31,8 @@ colour of every heading, every link and the brackets. It appears on nothing deco
 Marton speaking. Body text is a neutral off-white so the yellow stays the only warm note.
 
 **The bracket, at every scale.** The site's signature is `[ ]`: the mark in the navigation, the
-brackets around every label, and two large faint brackets holding the page title on wide screens,
-opening as the page arrives. It is the previous site's identity, kept.
+brackets around every label, and `[ ]` as the bullet of every list. Never around a title; the
+owner tried it and it read as decoration. It is the previous site's identity, kept.
 
 **Light that moves, quietly.** Two faint blurred discs, one green and one warm, drift behind every
 page on a slow cycle so the room never feels static. They are ambience, not the signature: they
@@ -116,7 +116,7 @@ Breakpoints are the one thing that cannot be a custom property, so they live onc
   names are block__element--modifier, prefixed with the component's name, because component styles
   are global.
 - A new component starts from the shared utilities (`.container`, `.stack-center`, `.actions`,
-  `.lede`, `.prose`, `.section`) before adding its own rules.
+  `.bracket-list`, `.lede`, `.prose`, `.section`) before adding its own rules.
 - Every interactive element is at least `--touch-target` tall, has a visible focus ring, and works
   without a pointer.
 - The share image in `src/pages/og/[id].png.ts` mirrors the tokens as constants; when a token

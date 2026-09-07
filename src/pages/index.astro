@@ -29,7 +29,7 @@ const eyebrow = fill(home.eyebrow, { name: person.name, role: person.role });
 
   <section class="section" aria-labelledby="now-heading">
     <SectionHeading id="now-heading" title={home.nowHeading} />
-    <ul class="home__now" role="list">
+    <ul class="home__now bracket-list" role="list">
       {person.now.map((item) => <li>{item}</li>)}
     </ul>
     <p class="home__more actions">

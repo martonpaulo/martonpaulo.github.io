@@ -2,22 +2,3 @@
   max-width: var(--measure-wide);
   margin-inline: auto;
 }
-
-.about__list {
-  list-style: none;
-  display: grid;
-  gap: var(--space-3);
-  color: var(--text-muted);
-}
-
-.about__item {
-  position: relative;
-  padding-left: var(--space-4);
-
-  &::before {
-    content: "✦";
-    position: absolute;
-    left: 0;
-    color: var(--primary);
-  }
-}

@@ -41,6 +41,28 @@
   list-style: none;
 }
 
+/* A list whose bullet is the site's bracket mark. */
+.bracket-list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+  color: var(--text-muted);
+}
+
+.bracket-list > li {
+  position: relative;
+  padding-left: var(--space-4);
+}
+
+.bracket-list > li::before {
+  content: "[ ]";
+  position: absolute;
+  left: 0;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  color: var(--primary);
+}
+
 /* Vertical rhythm between top-level page sections. */
 .section + .section {
   margin-top: var(--space-6);

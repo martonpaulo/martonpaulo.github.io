@@ -3,11 +3,6 @@
 }
 
 .home__now {
-  list-style: none;
-  display: grid;
-  gap: var(--space-3);
   max-width: var(--measure);
   margin-inline: auto;
-  text-align: center;
-  color: var(--text-muted);
 }
