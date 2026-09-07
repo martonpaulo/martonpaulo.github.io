@@ -14,20 +14,20 @@
   color: var(--primary);
   background: var(--surface);
   transition:
-    background var(--duration-fast) var(--ease),
-    color var(--duration-fast) var(--ease),
-    transform var(--duration-fast) var(--ease-bounce),
-    box-shadow var(--duration-fast) var(--ease);
+    background var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
 }
 
 .button:hover {
   background: var(--surface-strong);
   color: var(--primary-strong);
-  transform: translateY(calc(var(--lift) / 2));
 }
 
 .button:active {
-  transform: translateY(0);
+  transform: scale(var(--press));
+  transition-duration: var(--duration-fast);
 }
 
 .button--primary {

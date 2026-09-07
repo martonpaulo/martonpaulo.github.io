@@ -78,8 +78,8 @@ a {
   text-decoration-thickness: var(--hairline);
   text-underline-offset: 0.2em;
   transition:
-    color var(--duration-fast) var(--ease),
-    text-decoration-color var(--duration-fast) var(--ease);
+    color var(--duration) var(--ease-out),
+    text-decoration-color var(--duration) var(--ease-out);
 }
 
 a:hover {

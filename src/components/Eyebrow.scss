@@ -1,3 +1,4 @@
+// The site's signature: every label sits inside brackets.
 .eyebrow {
   display: block;
   margin: 0;
@@ -6,4 +7,12 @@
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.eyebrow::before {
+  content: "[ ";
+}
+
+.eyebrow::after {
+  content: " ]";
 }

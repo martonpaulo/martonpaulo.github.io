@@ -11,7 +11,7 @@
 
 // Content rises into place on load; each child of an entering group follows the last.
 .enter > * {
-  animation: enter var(--enter-duration) var(--ease) both;
+  animation: enter var(--enter-duration) var(--ease-out) both;
 }
 
 $enter-steps: 6;

@@ -8,7 +8,7 @@
     "skip": "Skip to content"
   },
   "home": {
-    "greeting": "Small software,<br />made with care.",
+    "greeting": "Small software,<br />made with care",
     "featuredHeading": "Things I've made",
     "allWork": "See everything",
     "nowHeading": "Lately",
@@ -56,8 +56,8 @@
   "contact": {
     "title": "Get in touch",
     "lede": "Email is the fastest way to reach {givenName}. LinkedIn works too, and the code is on GitHub.",
-    "colophon": "© {year} {name}. Set in Gabarito and Figtree. Built with Astro from a few JSON files;",
-    "sourceLink": "source"
+    "colophon": "© {year} {name}. Set in Gabarito and Figtree. Built with Astro from a few JSON files.",
+    "sourceLink": "Source on GitHub"
   },
   "notFound": {
     "title": "Nothing here",

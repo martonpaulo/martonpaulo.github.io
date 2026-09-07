@@ -11,7 +11,7 @@
 
 .mark__shadow {
   stroke: color-mix(in srgb, currentColor 30%, transparent);
-  transition: transform var(--duration-fast) var(--ease);
+  transition: transform var(--duration) var(--ease-out);
 }
 
 .mark__ink {

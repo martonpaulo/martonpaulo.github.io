@@ -15,8 +15,8 @@
   font-weight: var(--weight-body);
   text-decoration: none;
   transition:
-    background var(--duration-fast) var(--ease),
-    color var(--duration-fast) var(--ease);
+    background var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out);
 }
 
 .work-filters__chip:hover {

@@ -14,8 +14,8 @@
   }
 }
 
-// The ambient light: two soft blobs that drift slowly behind the page, one
-// green and one warm, so the background reads as a room with a lamp in it.
+// Ambient light only: two faint discs drift behind the page so it never feels
+// static. It stays quiet on purpose; the site's signature is the bracket mark.
 .page-glow {
   position: fixed;
   inset: 0;
@@ -38,13 +38,13 @@
   &::before {
     top: calc(-0.5 * var(--glow-size));
     left: calc(50% - 0.6 * var(--glow-size));
-    background: color-mix(in srgb, var(--bg-glow) 60%, transparent);
+    background: color-mix(in srgb, var(--bg-glow) var(--glow-strength), transparent);
   }
 
   &::after {
     top: calc(-0.35 * var(--glow-size));
     left: calc(50% - 0.1 * var(--glow-size));
-    background: color-mix(in srgb, var(--bg-glow-warm) 35%, transparent);
+    background: color-mix(in srgb, var(--bg-glow-warm) var(--glow-strength-warm), transparent);
     animation-direction: alternate-reverse;
     animation-duration: calc(var(--drift-duration) * 1.35);
   }

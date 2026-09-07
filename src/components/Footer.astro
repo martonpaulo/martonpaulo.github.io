@@ -38,8 +38,8 @@ const year = new Date().getFullYear();
       }
     </ul>
   </section>
-  <p class="footer__colophon container">
-    {fill(contact.colophon, { year, name: person.name })}
-    <a href={site.repository} rel="noopener">{contact.sourceLink}</a>.
-  </p>
+  <div class="footer__colophon container">
+    <p>{fill(contact.colophon, { year, name: person.name })}</p>
+    <p><a href={site.repository} rel="noopener">{contact.sourceLink}</a></p>
+  </div>
 </footer>

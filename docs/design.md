@@ -27,12 +27,17 @@ developer terminal; green signifies a room somebody chose. It is the only scheme
 not switch to light, because the tiles are the light.
 
 **A lamp, not a highlighter.** The accent is `#f2cf72`, the yellow of a warm bulb, and it is the
-colour of every heading and every link. It appears on nothing decorative, so when it appears it is
+colour of every heading, every link and the brackets. It appears on nothing decorative, so when it appears it is
 Marton speaking. Body text is a neutral off-white so the yellow stays the only warm note.
 
-**Light that moves.** Two blurred discs, one green and one warm, drift slowly behind every page on
-a forty-second cycle. They are the room's lamp and its shadow; they never touch the content and
-they stop under reduced motion.
+**The bracket, at every scale.** The site's signature is `[ ]`: the mark in the navigation, the
+brackets around every label, and two large faint brackets holding the page title on wide screens,
+opening as the page arrives. It is the previous site's identity, kept.
+
+**Light that moves, quietly.** Two faint blurred discs, one green and one warm, drift behind every
+page on a slow cycle so the room never feels static. They are ambience, not the signature: they
+stay below the threshold where a visitor would call them an effect, and they stop under reduced
+motion.
 
 **Pastel tiles for the work.** Eight tile colours, one per featured project, chosen so the
 project's own screenshot reads on it: lilac under Tabelo's dark editor, cream under WindowHop's
@@ -56,17 +61,18 @@ lives in the navigation pill, the favicon and the share images, in the accent on
 sticky at the top. It never grows a menu because there is nothing to hide in it.
 
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
-eyebrow and one claim as the heading: "Small software, made with care." Section headings are
-nouns ("Work", "Lately", "Get in touch"), not greetings. No adjectives about passion; the
+eyebrow and one claim as the heading: "Small software, made with care". Section headings are
+nouns ("Work", "Lately", "Get in touch"), not greetings, and no heading ends in a full stop. No adjectives about passion; the
 projects carry that.
 
 ## Motion
 
 Three kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`). Ambience: the two lights behind the page drift
-on a slow loop. Response: a tile lifts a quarter rem and gains a shadow on hover while its artwork
-slides half a rem down with a slight bounce; a button lifts an eighth. Pages cross-fade through the
-browser's own view transitions. Under `prefers-reduced-motion` all of it stops, and the site is
+on a slow loop. Response: a tile lifts an eighth of a rem and gains a shadow on hover while its artwork
+grows by two percent; buttons change tint on hover and press to 98% on click. Every curve is an
+ease-out, never a bounce, so nothing overshoots. Pages cross-fade through Astro's client router,
+and the background is kept alive across the change so the light never restarts. Under `prefers-reduced-motion` all of it stops, and the site is
 exactly as usable.
 
 ## What is deliberately absent

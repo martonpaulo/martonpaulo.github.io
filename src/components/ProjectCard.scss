@@ -13,20 +13,18 @@
   overflow: hidden;
   isolation: isolate;
   transition:
-    transform var(--duration-slow) var(--ease-bounce),
-    box-shadow var(--duration) var(--ease),
-    filter var(--duration) var(--ease);
+    transform var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
 }
 
 .project-card:hover {
   transform: translateY(var(--lift));
   box-shadow: var(--shadow-card);
-  filter: saturate(1.15);
 }
 
 .project-card:active {
-  transform: translateY(0);
-  box-shadow: none;
+  transform: scale(var(--press));
+  transition-duration: var(--duration-fast);
 }
 
 .project-card:focus-visible {
@@ -60,11 +58,12 @@
   position: relative;
   height: var(--card-art-height);
   margin-top: var(--space-3);
-  transition: transform var(--duration-slow) var(--ease-bounce);
+  transition: transform var(--duration-slow) var(--ease-out);
+  transform-origin: top left;
 }
 
 .project-card:hover .project-card__art {
-  transform: translateY(var(--space-2));
+  transform: scale(1.02);
 }
 
 /* Panels start at the left edge and run off the bottom-right of the tile. */

@@ -5,15 +5,69 @@
   padding-block: var(--space-5);
 }
 
+.hero__frame {
+  position: relative;
+  width: 100%;
+}
+
 // `ch` is measured in the heading's own font, so the limit sits on the h1.
 .hero__title {
-  width: 100%;
   max-width: var(--measure-title);
   margin-inline: auto;
+}
+
+// The brackets sit outside the title on wide screens and hide on narrow ones,
+// where they would cost the title its width.
+.hero__bracket {
+  display: none;
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: calc(1.6 * var(--text-3xl));
+  line-height: 1;
+  color: var(--primary);
+  opacity: var(--bracket-opacity);
+  transform: translateY(-50%);
+  animation: bracket-open var(--enter-duration) var(--ease-out) both;
+  animation-delay: calc(2 * var(--enter-stagger));
+}
+
+.hero__bracket--open {
+  right: calc(100% - var(--space-2));
+  --bracket-shift: var(--space-3);
+}
+
+.hero__bracket--close {
+  left: calc(100% - var(--space-2));
+  --bracket-shift: calc(-1 * var(--space-3));
+}
+
+@keyframes bracket-open {
+  from {
+    opacity: 0;
+    transform: translate(var(--bracket-shift), -50%);
+  }
+
+  to {
+    opacity: var(--bracket-opacity);
+    transform: translate(0, -50%);
+  }
 }
 
 @include bp.up("tablet") {
   .hero {
     padding-block: var(--space-6) var(--space-5);
+  }
+
+  .hero__frame {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--space-4);
+  }
+
+  .hero__bracket {
+    display: block;
   }
 }

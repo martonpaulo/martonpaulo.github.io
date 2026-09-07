@@ -3,6 +3,7 @@ import "../styles/global.scss";
 import "./Base.scss";
 
 import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
@@ -77,12 +78,13 @@ const graph = jsonLdGraph([personNode(site, person, links), websiteNode(site), .
     <Font cssVariable="--font-body" preload={[{ weight: 400, style: "normal", subset: "latin" }]} />
 
     <script type="application/ld+json" is:inline set:html={graph} />
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main">{nav.skip}</a>
-    <div class="page-glow" aria-hidden="true"></div>
+    <div class="page-glow" aria-hidden="true" transition:persist="glow"></div>
     <Nav />
-    <main id="main" class="page-main container">
+    <main id="main" class="page-main container" transition:animate="fade">
       <slot />
     </main>
     <Footer />

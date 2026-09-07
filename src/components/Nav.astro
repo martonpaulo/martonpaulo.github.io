@@ -16,7 +16,7 @@ const path = Astro.url.pathname;
 const items = navigationItems(nav, path);
 ---
 
-<div class="nav-bar">
+<div class="nav-bar" transition:name="nav">
   <nav class="nav" aria-label={nav.label}>
     <a
       class="nav__home"

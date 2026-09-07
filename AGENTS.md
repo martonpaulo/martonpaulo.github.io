@@ -101,9 +101,10 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 - **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
   phones, two from `tablet`, four on `ultrawide`; the container widens on ultrawide instead of
   stretching the cards.
-- **No client JavaScript unless a feature needs it.** Every page ships zero script apart from
-  JSON-LD. Page transitions are the browser's cross-document view transitions in CSS. A feature
-  that needs a script must say what it does that HTML and CSS cannot.
+- **One script, and it is Astro's.** The only client JavaScript is Astro's `<ClientRouter />`,
+  there because the background light must keep drifting across navigations (`transition:persist`
+  on `.page-glow`) instead of restarting on every page. Nothing else ships a script; a feature that
+  needs one must say what it does that HTML and CSS cannot.
 - **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
   Open Graph, Twitter, JSON-LD (built in `src/lib/seo.ts`) and font preloads. A page passes
   `description`, an `ogImage` path from `shareImageFor()` and optional extra JSON-LD; it never

@@ -71,6 +71,6 @@
     "Learning languages. Besides the ones I speak, I've picked up bits of French, Russian, Arabic, Brazilian Sign Language (Libras) and Toki Pona. Talking to people in their own language is the whole point.",
     "Tinkering with my tools: a VS Code setup tuned past reason, an old Linux machine kept alive because I can, and a growing pile of scripts for macOS."
   ],
-  "tagline": "Small software, made with care.",
+  "tagline": "Small software, made with care",
   "intro": "I make web products with React and TypeScript, and lately native apps for the Mac and iPhone in Swift. What I build on my own is local-first, free, and does one thing well."
 }
