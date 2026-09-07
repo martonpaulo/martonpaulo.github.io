@@ -1,134 +1,94 @@
-# Marton Paulo's Portfolio
+# martonpaulo.com
 
-**IMPORTANT: This project is a work in progress. The design and functionality may change over time as I continue to improve it. Please check back later for updates.**
+![Validate and deploy](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml/badge.svg)
+![License](https://img.shields.io/github/license/martonpaulo/martonpaulo.github.io)
 
-![License](https://img.shields.io/github/license/martonpaulo/portfolio) ![Last Commit](https://img.shields.io/github/last-commit/martonpaulo/portfolio) ![React Version](https://img.shields.io/github/package-json/dependency-version/martonpaulo/portfolio/react) ![TypeScript Version](https://img.shields.io/github/package-json/dependency-version/martonpaulo/portfolio/dev/typescript) ![Test and Deploy Status](https://github.com/martonpaulo/portfolio/actions/workflows/deploy.yml/badge.svg)
+Marton Paulo's personal site, live at [www.martonpaulo.com](https://www.martonpaulo.com). A static
+portfolio built with [Astro](https://astro.build) from a single `db.json`, published to GitHub Pages
+on every push to `main`. No backend, no database, no cookies, no client-side JavaScript.
 
-Welcome to my portfolio hosted at [martonpaulo.com](https://www.martonpaulo.com). This website showcases my projects, skills, and professional journey. Built with modern technologies and optimized for performance, it reflects my passion for front-end development.
+<br />
 
-## 🌐 Tech Stack
+## 🔁 The daily routine
 
-- **Front-End**: React with TypeScript and Next.js for static site generation, styled with Bulma CSS, icons provided by Phosphor Icons, dynamic data fetching with React Query
-- **Hosting**: GitHub Pages via domain provided by Hostinger at [martonpaulo.com](https://www.martonpaulo.com) with CI/CD pipeline on GitHub Actions
-- **Back-End**: Directus headless CMS with a dockerized setup hosted on Railway at [directus.martonpaulo.com](https://directus.martonpaulo.com)
-- **Database**: PostgreSQL hosted on AWS RDS
-- **Media Management**: Cloudinary for storing and optimization
-- **Analytics**: Google Analytics and Bitly for link tracking
-- **Professional Email**: powered by Zoho Mail at [info@martonpaulo.com](mailto:info@martonpaulo.com) with custom domain
-
-## 🚀 Setting Up the Environment
-
-Follow these steps to set up the project locally:
+> [!TIP]
+> Edit `db.json`, run `npm run validate`, commit, push. The deploy workflow does the rest.
 
 ```bash
-# Clone the repository
-git clone https://github.com/martonpaulo/portfolio.git
-
-# Navigate to the project directory
-cd portfolio
-
-# Install dependencies
-npm install
+npm ci
+npm run dev
 ```
 
-### Available Scripts
+<br />
 
-- `npm run dev`: start the development server at `http://localhost:3000`
-- `npm run build`: build the project for production
-- `npm run lint`: lint the codebase with ESLint
+## 🧭 I want to…
 
-### Disclaimers
+| I want to…                                 | Do this                                                                                          |
+| :----------------------------------------- | :----------------------------------------------------------------------------------------------- |
+| Add or edit a project, the bio, a link     | Edit `db.json`. The shape is enforced by `src/content.config.ts`; a wrong value fails the build. |
+| Put a project on the home page             | Set its `featured` to `true`. Three to eight projects fit.                                       |
+| Change the order of projects within a year | Reorder them in `db.json`; the site keeps the file's order.                                      |
+| Give a project a short link                | Every project with a `live` URL already answers at `/p/<slug>/`.                                 |
+| Change a colour, font or spacing           | Read `docs/design.md`, then change the token in `src/styles/global.css`.                         |
+| See the site locally                       | `npm run dev`, then open `http://localhost:4321`.                                                |
+| Run everything CI runs                     | `npm run validate`                                                                               |
+| Check the share images                     | `npm run build`, then look in `dist/og/`.                                                        |
 
-#### CORS Issues
+<br />
 
-To avoid CORS issues when running the project locally, you may need to use a browser extension that enables CORS. This is required because the backend is hosted on a different domain.
+## 🗂 How it is put together
 
-#### Websocket Connection Error
+```text
+db.json                    every word of content, validated at build time
+src/content.config.ts      collections and schemas over db.json
+src/lib/db.ts              typed readers (site, person, links, projects)
+src/layouts/Base.astro     <head>: title, description, canonical, Open Graph, JSON-LD, fonts
+src/pages/                 index, work/, work/[slug], work/kind/[kind], about, 404
+src/pages/og/[id].png.ts   one share image per page, rendered with satori and resvg
+src/styles/global.css      design tokens, reset, the few shared classes
+docs/product.md            what the site is for and what it will never do
+docs/design.md             what the design means and why each token exists
+```
 
-During local development, you may encounter a WebSocket error in the console. This is related to the Hot Module Replacement (HMR) feature in Next.js. It is not an issue in production, as HMR is only used during local development and does not affect static site generation. You can safely ignore this warning.
+Requirements: Node 22.12 or newer (even versions). TypeScript stays on major 6 until `astro check`
+supports 7.
 
-## 📋 To Do List
+<br />
 
-### Fixes
+## ✅ Validation
 
-- [x] fix API data fetching errors
-- [x] refactor hooks and remove warnings
-- [x] resolve hydration errors
-- [x] ~~Footer should be a dumb component~~
-- [x] fix navbar for mobile devices
-- [x] fix icon usage
-- [x] address CORS issues
-- [x] fix websocket connection error
-- [x] fix alert message
-- [ ] update AWS admin password
-- [ ] rename the database
-- [ ] fix all the projects
+| Command            | Checks                                                                                                         |
+| :----------------- | :------------------------------------------------------------------------------------------------------------- |
+| `npm run check`    | Types, and `db.json` against the schemas                                                                       |
+| `npm run lint`     | ESLint and Prettier                                                                                            |
+| `npm test`         | Invariants the schema cannot express: unique slugs, a link per project, a sensible number of featured projects |
+| `npm run build`    | The whole site, sitemap, redirects and share images into `dist/`                                               |
+| `npm run validate` | All of the above, in that order                                                                                |
 
-### Features and Improvements
+CI runs `validate` on every push and pull request, and deploys only when a file the build reads
+changed.
 
-- [x] integrate backend for dynamic data fetching
-- [x] ~~add a language switcher for English, Spanish, and Portuguese~~
-- [x] ~~add a blog or fetch posts from Medium and LinkedIn~~
-- [x] ~~add light and dark mode switcher~~
-- [x] add contact email
-- [x] create a 404 error page
-- [x] refactor project initial code
-- [x] automatically reorder imports
-- [x] create a Projects page
-- [x] add a footer with social media links
-- [x] integrate Google Analytics for all shared links
-- [x] learn about Cloudnary for image optimization
-- [x] add a logo to the navbar
-- [x] add links order
-- [x] add a resume download link
-- [x] add Projects skeleton loader
-- [x] understand "sort" field in Directus API
-- [x] add pagination to the Projects page
-- [ ] create a blog page to fetch posts from LinkedIn and Médium if it is possible
-- [ ] create a feedback page
-- [ ] center image and open modal on project click
-- [ ] improve the project design
-- [ ] showcase projects on the homepage
-- [ ] implement caching for API requests
-- [ ] add tag filters to the Projects page
-- [ ] implement URL redirects for live projects paths
-- [ ] create a Mentors / References page
-- [ ] add a Skills section with technology icons
-- [ ] implement a work timeline
-- [ ] improve SEO with metadata from Directus API and add sitemap
-- [ ] integrate Cloudflare Analytics
-- [ ] enhance the design with personal photos: at Mundolingo Argentina, radio in Argentina, Poliglotar presentation
-- [ ] add Framer Motion animations
-- [ ] validate SEO and accessibility with Lighthouse
-- [ ] use getStaticProps or getServerSideProps in Next.js for dynamic data optimization
-- [ ] add tests with Jest, React Testing Library and Cypress
-- [ ] prefetch data with React Query
-- [ ] CSP and HSTS security headers
-- [ ] is it necessary to implement a cookie banner?
-- [ ] check favicongenerator.net
+<br />
 
-## 🌟 Inspirations
+## 🔒 Security and privacy
 
-The design and functionality of this portfolio were inspired by:
+The site is static HTML and CSS. It sets no cookies, runs no analytics, loads fonts from its own
+origin, and makes no request to a third party from the visitor's browser. There are no secrets
+and no environment variables; the build succeeds from a clean clone.
 
-- [Duse Kenç](https://dusekenc.com/)
-- [Martha Monk Tolosa](https://www.marthatoulouse.com/)
-- [Tamal Sen](https://tamalsen.dev/)
-- [Dewald Els](https://dewaldels.com/)
-- [Yeabsira's Portfolio](https://yeabsiras-portfolio.vercel.app/)
-- [Sean Halpin](https://www.seanhalpin.xyz/)
-- [Ramma Heshwari](https://www.rammaheshwari.com/)
-- [Matt Farley](https://mattfarley.ca/)
-- [Frozen Hearth](https://frozenhearth.vercel.app/)
+<br />
 
-## 📝 References
+## 🚧 Limitations
 
-The pagination algorithm used in this project is based on the implementation by Zac Fukuda. You can find more details about it [here](https://www.zacfukuda.com/blog/pagination-algorithm).
+- Content is one JSON file by design. See `docs/product.md` for what the site will never do and
+  why: no CMS, no translations, no blog, no forms.
+- Share images render once at build time in the light colour scheme.
+- The custom domain's DNS lives at Hostinger and is managed outside this repository.
 
-## 📄 License
+<br />
 
-This project is licensed under the MIT License. For details, see the [LICENSE](LICENSE) file.
+## 📄 License and credits
 
----
-
-Thank you for visiting! Feel free to explore or reach out via [info@martonpaulo.com](mailto:info@martonpaulo.com).
+MIT, see [LICENSE](LICENSE). Type set in [Newsreader](https://github.com/productiontype/Newsreader)
+and [IBM Plex](https://github.com/IBM/plex), both under the SIL Open Font License, loaded through
+Fontsource.
