@@ -24,19 +24,20 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 - Makes contact one action away: email, LinkedIn, GitHub, and CV from every page.
 - Is found by search engines and previews well when shared: canonical URLs, titles, descriptions,
   Open Graph and Twitter cards, sitemap, robots, and structured data for a person.
-- Loads instantly on any connection and reads well on any screen, in light and dark schemes.
-- Keeps every word of content in one file, `db.json`, so an update is one edit and one push.
+- Loads instantly on any connection and reads well on any screen, from a phone to an ultrawide
+  monitor.
+- Keeps every word of content in a handful of JSON files under `db/`, so an update is one edit and one push.
 
 ## What it will never do
 
 - **Run a backend, CMS, or database.** Directus, Strapi, PostgreSQL on AWS, and Cloudinary were
   all tried and all died or cost money for a site whose content changes a few times a year. The
-  content is `db.json` in the repository, validated at build time.
+  content is the `db/` folder in the repository, validated at build time.
 - **Translate the copy.** The audience reads English, the owner writes fluently in it, and an
   earlier multilingual version tripled the maintenance of every sentence. Language skills are
   listed as content, not offered as UI.
 - **Host a blog.** Writing lives where its readers already are (LinkedIn, Medium). A stale on-site
-  blog reads worse than none; `db.json` can point to external writing instead.
+  blog reads worse than none; `db/` can point to external writing instead.
 - **Collect feedback or run forms.** There is no server to receive them. Email is the channel.
 - **Set cookies or show a cookie banner.** The site sets none. Analytics, if added later, must be
   cookieless so this stays true.
@@ -58,7 +59,7 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
   `www.martonpaulo.com`. DNS lives at Hostinger and stays owner-managed.
 - No secrets, no environment variables, no runtime services: the build must succeed from a clean
   clone with `npm ci && npm run build`.
-- One content source, `db.json`, with a schema enforced at build time. A malformed entry fails the
+- One content source, the `db/` folder, with a schema enforced at build time. A malformed entry fails the
   build rather than shipping a broken page.
 - Accessible by default: WCAG 2.2 AA contrast, keyboard navigation, reduced-motion respected,
   real HTML semantics.

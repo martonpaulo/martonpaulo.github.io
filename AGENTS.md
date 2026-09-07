@@ -4,14 +4,14 @@
 
 - Project name: `martonpaulo.com`
 - Public name: `martonpaulo.com`
-- Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a single db.json and published to GitHub Pages at martonpaulo.com.
+- Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `www.martonpaulo.com`. The npm package name is private and never published.
 - Landing page: the site itself, canonical URL `https://www.martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. DNS lives at Hostinger and is owner-managed; nothing in this repository touches it.
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
 - Development language: English.
-- Product copy: English only, no localization. Language skills are content in `db.json`, not a UI feature; the reason is recorded in `docs/product.md`.
+- Product copy: English only, no localization. Language skills are content in `db/person.json`, not a UI feature; the reason is recorded in `docs/product.md`.
 - Branch policy: `main`-only. Work is committed directly to `main`; a branch is an occasional convenience for an experiment, never a requirement, and no pull request is needed to deliver.
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
@@ -46,19 +46,20 @@ answer is in that file, not in this one.
 
 ## Commands
 
-| Command            | What it does                                                                                      |
-| :----------------- | :------------------------------------------------------------------------------------------------ |
-| `npm run dev`      | Astro dev server at `http://localhost:4321`                                                       |
-| `npm run check`    | `astro check`: type-checks `.astro` and `.ts`, validates `db.json` against the collection schemas |
-| `npm run lint`     | ESLint, then Prettier in check mode                                                               |
-| `npm run format`   | Prettier in write mode                                                                            |
-| `npm test`         | Node's test runner over `tests/`: invariants in `db.json` the schema cannot express               |
-| `npm run build`    | Static build into `dist/`, including sitemap, share images and redirects                          |
-| `npm run validate` | `check`, `lint`, `test`, `build`, in that order; what CI runs                                     |
-| `npm run preview`  | Serves `dist/` locally                                                                            |
+| Command            | What it does                                                                                  |
+| :----------------- | :-------------------------------------------------------------------------------------------- |
+| `npm run dev`      | Astro dev server at `http://localhost:4321`                                                   |
+| `npm run check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema |
+| `npm run lint`     | ESLint, then Prettier in check mode                                                           |
+| `npm run format`   | Prettier in write mode                                                                        |
+| `npm test`         | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
+| `npm run build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
+| `npm run validate` | `check`, `lint`, `test`, `build`, in that order; what CI runs                                 |
+| `npm run preview`  | Serves `dist/` locally                                                                        |
 
 Node 22.12 or newer, even versions only. TypeScript stays on major 6 until `astro check` supports
-TypeScript 7; do not bump it to make the lockfile look current.
+TypeScript 7; do not bump it to make the lockfile look current. Styles are Sass (`.scss`) only for
+the breakpoint mixin and nesting; tokens stay CSS custom properties.
 
 ## Patterns this project repeats
 
@@ -66,39 +67,60 @@ These are the conventions the code already follows. A change that would break on
 new one, stops and asks the owner first, naming the existing pattern, the proposed one, and why the
 existing one does not fit. Deviating is allowed; deviating silently is what produces two patterns.
 
-- **`db.json` is the only content.** Every word a visitor reads comes from it. Copy is never typed
-  into a component except structural labels ("Work", "Built with"). Pages read it through the
-  collections in `src/content.config.ts` and the helpers in `src/lib/db.ts`; the one exception is
-  `astro.config.ts`, which imports it directly to derive redirects because the config runs before
+- **The `db/` folder is the only content, including interface copy.** Every word a visitor reads
+  comes from it: `site.json`, `person.json`, `links.json`, `projects.json`, and `copy.json` with
+  every label, heading and template string. Placeholders like `{givenName}` are filled by `fill()` in `src/lib/copy.ts`.
+  A string typed into a component is a defect. The one exception is `astro.config.ts`, which
+  imports `db/projects.json` and `db/site.json` directly because the config runs before
   collections exist.
-- **The schema is the validation.** A new field is added to the zod schema in `content.config.ts`
-  before it is used, so a wrong value fails `astro check` and the build. Invariants zod cannot
-  express (unique slugs, a link per project) are Node tests in `tests/`.
-- **Order is authored, not sorted.** The loader records each entry's position as `order`; readers
-  sort by year and then by `order`, so the owner controls sequence by editing the file.
-- **Visual decisions are tokens.** `docs/design.md` explains them; `src/styles/global.css` holds
-  them; components use only the variables. No utility framework, no inline colours, no spacing
-  outside `--space-*`. The share-image endpoint mirrors the light tokens as constants and changes
-  with them.
-- **The bracket motif is the site's grammar.** Section labels use `.eyebrow`; years, filters and
-  status lines wrap in `[ ]` through `::before`/`::after`. A new kind of label joins that system
-  rather than inventing another.
-- **Styles are scoped per component.** Each `.astro` file styles its own markup in its `<style>`
-  block. Global CSS holds tokens, resets and the few shared classes (`.eyebrow`, `.mono`,
-  `.muted`, `.visually-hidden`, `.skip-link`).
-- **No client JavaScript unless a feature needs it.** Every page currently ships zero script apart
-  from JSON-LD. Page transitions are the browser's cross-document view transitions in CSS. A
-  feature that needs a script must say what it does that HTML and CSS cannot.
+- **The schema is the validation.** A new field is added to the zod schema in
+  `src/content.config.ts` before it is used, so a wrong value fails `astro check` and the build.
+  Invariants zod cannot express (unique slugs, a link or a note per project, artwork on every
+  featured project) are Node tests in `tests/`.
+- **Order is authored, not sorted.** The loader records each entry's position in its file as
+  `order`; readers in `src/lib/db.ts` sort by it, and `byYear()` is the only other ordering.
+- **Markup, style and logic are separate files.** A component is `Name.astro` (markup and prop
+  wiring only) beside `Name.scss` (its styles, global, so every class is prefixed with the
+  component's name in block__element--modifier form). Page-level styles live in
+  `src/styles/pages/`. Anything that computes lives in `src/lib/*.ts` (`projects.ts`,
+  `navigation.ts`, `links.ts`, `images.ts`, `pages.ts`, `person.ts`, `seo.ts`, `copy.ts`), so a
+  frontmatter block reads data and calls functions and does nothing else.
+- **Visual decisions are tokens.** `docs/design.md` explains them; `src/styles/tokens.scss` holds
+  them as CSS custom properties; components use only the variables. Sizes use `rem` on a doubling
+  scale (`--space-1` … `--space-6`). Breakpoints are the one Sass mixin, in
+  `src/styles/_breakpoints.scss`, so no width is repeated by hand. No utility framework, no inline
+  colours, no magic numbers.
+- **Shared utilities before new rules.** `.container`, `.stack-center`, `.actions`, `.lede`,
+  `.prose`, `.section` and `.visually-hidden` in `src/styles/utilities.scss` cover the layouts
+  every page repeats. A component reaches for them first.
+- **Accessibility is part of the markup, not a pass afterwards.** Landmarks and skip link in the
+  layout, `aria-current` on the active navigation and filter, one link per card with the project
+  name as its accessible name and decorative images with empty `alt`, headings in order with hidden
+  ones where a section has no visible title, every control at least `--touch-target` tall, a
+  visible focus ring in `--focus`, and every animation off under `prefers-reduced-motion`.
+- **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
+  phones, two from `tablet`, four on `ultrawide`; the container widens on ultrawide instead of
+  stretching the cards.
+- **No client JavaScript unless a feature needs it.** Every page ships zero script apart from
+  JSON-LD. Page transitions are the browser's cross-document view transitions in CSS. A feature
+  that needs a script must say what it does that HTML and CSS cannot.
 - **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
-  Open Graph, Twitter, JSON-LD for the person and site, and font preloads. A page passes
-  `description`, an `ogImage` path and optional extra JSON-LD; it never writes `<head>` tags.
+  Open Graph, Twitter, JSON-LD (built in `src/lib/seo.ts`) and font preloads. A page passes
+  `description`, an `ogImage` path from `shareImageFor()` and optional extra JSON-LD; it never
+  writes `<head>` tags.
 - **Share images are generated, never drawn by hand.** `src/pages/og/[id].png.ts` renders one PNG
   per page from the same content with satori and resvg. A new page that deserves its own card adds
   an entry there.
+- **Project artwork is a real capture.** `src/assets/projects/<slug>.png` is a transparent PNG of
+  the product's own interface cut into a rounded panel, or its app icon when there is no interface
+  to capture. It is referenced from the project's `image` field in `db/projects.json` with an `alt` and a
+  `fit`, and rendered through `<Image>` with the widths in `src/lib/images.ts`.
 - **Static output, trailing slashes.** `trailingSlash: "always"` matches how GitHub Pages serves
   `directory` builds. Internal links end with `/`.
 - **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL; the list is
-  derived from `db.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
+  derived from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
+  Sibling projects deployed from other repositories are served by GitHub under
+  `www.martonpaulo.com/<repo>/`, so their `live` links point there.
 
 ## Instruction hierarchy and sources of truth
 
@@ -155,7 +177,7 @@ For any command, process, browser action, integration, or delegated task likely 
 
 ## Data, security, and destructive operations
 
-- `db.json` is canonical data and the only durable state. `dist/`, `.astro/` and
+- The `db/` folder is canonical data and the only durable state. `dist/`, `.astro/` and
   `node_modules/.astro/fonts` are reconstructible and never committed.
 - Keep credentials, tokens, private keys, personal data beyond what the site publishes on purpose,
   and sensitive payloads out of the repository and logs. The site needs none of them; a change that
@@ -167,11 +189,12 @@ For any command, process, browser action, integration, or delegated task likely 
 ## Product interface and accessibility
 
 - Read `docs/design.md` before any visual change. It says what the site is meant to signify and
-  why each token exists; a change that cannot be explained in its terms does not belong.
+  why each token exists; a change that cannot be explained in its terms does not belong. The
+  visual reference is seanhalpin.xyz; the owner's taste is minimal, personal and never template-like.
 - Prefer native HTML and established patterns. Custom UI must provide clear product value.
 - Define layout, hierarchy, controls, loading, content, empty, error, retry, disabled, cancellation, and destructive states when applicable.
-- Include keyboard navigation, focus, screen-reader labels, scalable text, contrast, safe areas, reduced motion, and non-color status cues in the same change. `--ink-3` is the lightest text colour allowed on `--paper`; check contrast before adding a lighter one.
-- Keep visible copy in `db.json` and consistent with the product language strategy.
+- Include keyboard navigation, focus, screen-reader labels, scalable text, contrast, safe areas, reduced motion, and non-color status cues in the same change. `--text-muted` is the lightest text allowed on `--bg` and `--tile-ink-muted` on a tile; check contrast before adding a lighter one.
+- Keep visible copy in `db/copy.json` and consistent with the product language strategy.
 - Keep expensive work out of the build's hot paths: share images are the slowest step and are generated once per page.
 - Measure before claiming a performance problem and optimize measured user-visible bottlenecks. The target is 100 in every Lighthouse category on the home page and a project page.
 
@@ -429,7 +452,7 @@ unblocking action, and the observable condition for resumption.
 ## Tests and validation
 
 - `npm run validate` is the gate before every commit. It is what CI runs on every push and pull request; the deploy job runs only after it passes and only when a build input changed.
-- Add a Node test in `tests/` for an invariant of `db.json` the schema cannot express. Do not test framework behavior or mirror the schema.
+- Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
 - Run the smallest relevant check during iteration (`npm run check` for content and types, `npm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.
 - Never claim a check passed unless it ran successfully. Report exact skips, blockers, residual risk, and manual gaps.
