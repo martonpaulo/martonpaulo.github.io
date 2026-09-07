@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+
+const description = "This page does not exist on martonpaulo.com.";
+---
+
+<Base title="Not found" description={description}>
+  <p class="eyebrow">404</p>
+  <h1>Nothing here.</h1>
+  <p class="lede">
+    The page you wanted moved, or never existed. Try the <a href="/">home page</a>, the
+    <a href="/work/">list of work</a>, or <a href="#contact">say hi</a> and tell me what you were looking
+    for.
+  </p>
+</Base>
+
+<style>
+  h1 {
+    margin-top: var(--space-3);
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    max-width: 32rem;
+    color: var(--ink-2);
+  }
+</style>

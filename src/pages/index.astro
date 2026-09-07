@@ -1,0 +1,84 @@
+---
+import ProjectList from "../components/ProjectList.astro";
+import Base from "../layouts/Base.astro";
+import { getFeaturedProjects, getPerson, getSite } from "../lib/db";
+
+const site = await getSite();
+const person = await getPerson();
+const featured = await getFeaturedProjects();
+---
+
+<Base description={site.description}>
+  <section class="hero">
+    <p class="eyebrow">{person.location.toLowerCase()} · {person.availability.toLowerCase()}</p>
+    <h1>{person.name}</h1>
+    <p class="lede">
+      {person.role}. I make web products with React and TypeScript, and lately native macOS apps in
+      Swift. Most of what I build on my own is small, <em>local-first</em> and free.
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="work-heading">
+    <h2 id="work-heading" class="eyebrow">selected work</h2>
+    <ProjectList projects={featured} />
+    <p class="more"><a href="/work/">Everything I've made, by year</a></p>
+  </section>
+
+  <section class="section" aria-labelledby="now-heading">
+    <h2 id="now-heading" class="eyebrow">now</h2>
+    <ul class="now">
+      {person.now.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="more"><a href="/about/">More about me</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero h1 {
+    margin-top: var(--space-3);
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    max-width: 32rem;
+    color: var(--ink-2);
+  }
+
+  .section {
+    margin-top: var(--space-7);
+  }
+
+  .section > .eyebrow {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .now {
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+    color: var(--ink-2);
+  }
+
+  .now li {
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .now li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-3);
+  }
+
+  .more {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+  }
+</style>

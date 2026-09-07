@@ -1,14 +1,9 @@
-name: Deploy Next.js site to GitHub Pages
+name: Validate and deploy
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - "**/*.md"
-      - ".gitignore"
-      - "node_modules/**"
-      - "dist/**"
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -17,48 +12,65 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages-deploy"
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
+    outputs:
+      deploy_needed: ${{ steps.changes.outputs.deploy_needed }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: 20
-          cache: "npm"
+          fetch-depth: 0
 
-      - name: Cache Next.js build
-        uses: actions/cache@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', 'package.json', 'next.config.js') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-
+          node-version: 24
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Build Next.js project
-        run: npm run build
+      - run: npm run check
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: ./out
+          path: dist
+
+      # Deploy only when something the build reads changed. The set below is
+      # derived from the build's inputs: content, source, static files, the
+      # Astro and TypeScript configuration, dependencies, and this workflow.
+      # Markdown outside the build (README, docs, AGENTS.md) is excluded
+      # because nothing in the build reads it. A push with no usable `before`
+      # (first push, force-push, manual dispatch) deploys, since an unknown
+      # change set must not be read as an empty one.
+      - id: changes
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" != "push" ] || [ -z "$BEFORE" ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            echo "deploy_needed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git diff --name-only "$BEFORE" "$AFTER" | grep -E -q '^(db\.json|src/|public/|astro\.config\.ts|tsconfig\.json|package\.json|package-lock\.json|\.github/workflows/deploy\.yml)'; then
+            echo "deploy_needed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy_needed=false" >> "$GITHUB_OUTPUT"
+          fi
 
   deploy:
-    needs: build
+    needs: validate
+    if: github.event_name != 'pull_request' && needs.validate.outputs.deploy_needed == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

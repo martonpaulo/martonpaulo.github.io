@@ -1,0 +1,214 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getProjects, getSite, kindLabels } from "../../lib/db";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, index) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      newer: projects[index - 1] ?? null,
+      older: projects[index + 1] ?? null,
+    },
+  }));
+}
+
+const { project, newer, older } = Astro.props;
+const site = await getSite();
+
+const links = [
+  { key: "live", label: project.kind === "macos" ? "Download" : "Open", url: project.links.live },
+  { key: "source", label: "Source", url: project.links.source },
+  { key: "package", label: "Package", url: project.links.package },
+].filter((link): link is { key: string; label: string; url: string } => Boolean(link.url));
+
+const description = `${project.name}: ${project.tagline} Built with ${project.stack.join(", ")}.`;
+
+const jsonLd = [
+  {
+    "@type": "SoftwareSourceCode",
+    "@id": `${site.url}/work/${project.slug}/#software`,
+    name: project.name,
+    description: project.description,
+    url: `${site.url}/work/${project.slug}/`,
+    codeRepository: project.links.source,
+    programmingLanguage: project.stack,
+    dateCreated: String(project.year),
+    author: { "@id": `${site.url}/#person` },
+  },
+];
+---
+
+<Base
+  title={project.name}
+  description={description}
+  ogImage={`/og/${project.slug}.png`}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <article>
+    <p class="eyebrow">{project.year} · {kindLabels[project.kind]}</p>
+    <h1>{project.name}</h1>
+    <p class="tagline">{project.tagline}</p>
+
+    <div class="body">
+      <p>{project.description}</p>
+      {
+        project.status === "archived" && (
+          <p class="note">Archived: it still runs, but I no longer maintain it.</p>
+        )
+      }
+    </div>
+
+    <dl class="meta">
+      <div>
+        <dt>Built with</dt>
+        <dd>{project.stack.join(", ")}</dd>
+      </div>
+      {
+        links.length > 0 && (
+          <div>
+            <dt>Links</dt>
+            <dd>
+              <ul class="links">
+                {links.map((link) => (
+                  <li>
+                    <a href={link.url} rel="noopener">
+                      {link.label} <span aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )
+      }
+      {
+        project.tags.length > 0 && (
+          <div>
+            <dt>Tags</dt>
+            <dd class="mono">{project.tags.join(" · ")}</dd>
+          </div>
+        )
+      }
+    </dl>
+  </article>
+
+  <nav class="siblings" aria-label="Other projects">
+    {
+      newer && (
+        <a href={`/work/${newer.slug}/`} class="sibling">
+          <span class="mono">newer</span>
+          <span>{newer.name}</span>
+        </a>
+      )
+    }
+    {
+      older && (
+        <a href={`/work/${older.slug}/`} class="sibling sibling-older">
+          <span class="mono">older</span>
+          <span>{older.name}</span>
+        </a>
+      )
+    }
+  </nav>
+</Base>
+
+<style>
+  h1 {
+    margin-top: var(--space-3);
+  }
+
+  .tagline {
+    margin-top: var(--space-3);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+
+  .body {
+    margin-top: var(--space-5);
+    max-width: 34rem;
+  }
+
+  .note {
+    font-size: var(--text-sm);
+    color: var(--ink-3);
+  }
+
+  .meta {
+    margin: var(--space-6) 0 0;
+    display: grid;
+    gap: var(--space-3);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-4);
+  }
+
+  .meta > div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    column-gap: var(--space-4);
+    align-items: baseline;
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .links a {
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+
+  .siblings {
+    margin-top: var(--space-7);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-4);
+  }
+
+  .sibling {
+    display: grid;
+    gap: var(--space-1);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+  }
+
+  .sibling .mono {
+    color: var(--ink-3);
+  }
+
+  .sibling-older {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  @media (max-width: 30rem) {
+    .meta > div {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-1);
+    }
+  }
+</style>

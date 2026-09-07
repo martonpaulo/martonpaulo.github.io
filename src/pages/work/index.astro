@@ -1,0 +1,74 @@
+---
+import ProjectList from "../../components/ProjectList.astro";
+import WorkFilters from "../../components/WorkFilters.astro";
+import Base from "../../layouts/Base.astro";
+import { getProjects } from "../../lib/db";
+
+const projects = await getProjects();
+const years = [...new Set(projects.map((project) => project.year))];
+const description =
+  "Everything Marton Paulo has built and published, by year: macOS apps, browser tools, libraries, games and experiments, with live demos and source code.";
+---
+
+<Base title="Work" description={description} ogImage="/og/work.png">
+  <h1>Work</h1>
+  <p class="lede">
+    Everything I've made and published, newest first. Study projects and archived ones stay because
+    they show where the rest came from.
+  </p>
+
+  <WorkFilters current="all" />
+
+  {
+    years.map((year) => (
+      <section class="year-group" aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`} class="year">
+          {year}
+        </h2>
+        <ProjectList
+          projects={projects.filter((project) => project.year === year)}
+          showYear={false}
+        />
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    max-width: 32rem;
+    color: var(--ink-2);
+  }
+
+  .year-group {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    column-gap: var(--space-4);
+  }
+
+  .year {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+    padding-top: 0.45rem;
+  }
+
+  .year::before {
+    content: "[ ";
+  }
+
+  .year::after {
+    content: " ]";
+  }
+
+  @media (max-width: 30rem) {
+    .year-group {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-3);
+    }
+  }
+</style>

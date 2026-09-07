@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <style>
+    .shadow { stroke: #c4cbf3; }
+    .ink { stroke: #1f3bd6; }
+    @media (prefers-color-scheme: dark) {
+      .shadow { stroke: #2b3a8f; }
+      .ink { stroke: #95a6ff; }
+    }
+  </style>
+  <path class="shadow" d="M10.5 4.5h-5v17h5M15.5 4.5h5v17h-5" stroke-width="2.6" stroke-linecap="square"/>
+  <path class="ink" d="M9 3H4v17h5M16 3h5v17h-5" stroke-width="2.6" stroke-linecap="square"/>
+</svg>

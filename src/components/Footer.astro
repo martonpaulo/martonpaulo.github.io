@@ -1,0 +1,83 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  person: { givenName: string; name: string };
+  links: CollectionEntry<"links">[];
+  repository: string;
+}
+
+const { person, links, repository } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" id="contact">
+  <p class="eyebrow">say hi</p>
+  <p class="lede">
+    The fastest way to reach {person.givenName} is email. LinkedIn works too, and the code is on GitHub.
+  </p>
+  <ul class="links">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.data.url}
+            rel={link.data.url.startsWith("mailto:") ? undefined : "me noopener"}
+          >
+            {link.data.label}
+          </a>
+          <span class="handle">{link.data.handle}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="colophon">
+    {
+      `© ${year} ${person.name}. Set in Newsreader and IBM Plex. Built with Astro from one JSON file; `
+    }
+    <a href={repository} rel="noopener">source</a>.
+  </p>
+</footer>
+
+<style>
+  .footer {
+    margin-top: auto;
+    padding: var(--space-7) 0 var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  .lede {
+    margin-top: var(--space-2);
+    max-width: 34rem;
+  }
+
+  .links {
+    list-style: none;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: var(--space-4);
+    row-gap: var(--space-1);
+    margin-top: var(--space-4);
+  }
+
+  .links li {
+    display: contents;
+  }
+
+  .links a {
+    text-decoration: none;
+  }
+
+  .handle {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+    align-self: center;
+  }
+
+  .colophon {
+    margin-top: var(--space-6);
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+  }
+</style>

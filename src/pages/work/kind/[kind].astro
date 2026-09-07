@@ -1,0 +1,43 @@
+---
+import ProjectList from "../../../components/ProjectList.astro";
+import WorkFilters from "../../../components/WorkFilters.astro";
+import { projectKinds } from "../../../content.config";
+import Base from "../../../layouts/Base.astro";
+import { getProjects, kindLabelsPlural, type Project } from "../../../lib/db";
+
+export function getStaticPaths() {
+  return projectKinds.map((kind) => ({ params: { kind } }));
+}
+
+const kind = Astro.params.kind as Project["kind"];
+const label = kindLabelsPlural[kind];
+const projects = (await getProjects()).filter((project) => project.kind === kind);
+const description = `The ${label} Marton Paulo has built and published, newest first, with live demos and source code.`;
+---
+
+<Base title={`Work: ${label}`} description={description} ogImage="/og/work.png">
+  <h1>Work</h1>
+  <p class="lede">
+    Only the {label}. <a href="/work/">See everything</a> for the full list by year.
+  </p>
+
+  <WorkFilters current={kind} />
+
+  <section class="group">
+    <ProjectList projects={projects} />
+  </section>
+</Base>
+
+<style>
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    max-width: 32rem;
+    color: var(--ink-2);
+  }
+
+  .group {
+    margin-top: var(--space-6);
+  }
+</style>
