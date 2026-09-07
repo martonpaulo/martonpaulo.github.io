@@ -2,61 +2,55 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
-// db.json is the only content source. Each top-level key becomes a collection
-// so pages read typed, validated data and a malformed entry fails the build.
-const DB_PATH = "db.json";
+// The db/ folder is the only content source: one JSON file per collection.
+// Each becomes a typed collection so a malformed entry fails the build.
+const dbFile = (name: string) => `db/${name}.json`;
 
-// The store sorts entries by id, so each entry records its position in db.json
-// and readers sort by `order` to keep the author's sequence.
-const fromDb = (key: string) =>
-  file(DB_PATH, {
+type Entry = Record<string, unknown>;
+
+/** Array collections keep the author's order: the store sorts by id, so each entry records its position. */
+const listFromDb = (name: string, idField = "id") =>
+  file(dbFile(name), {
     parser: (text) =>
-      JSON.parse(text)[key].map((entry: Record<string, unknown>, order: number) => ({
-        ...entry,
+      JSON.parse(text).map((entry: Entry, order: number) => ({
+        id: entry[idField],
         order,
+        ...entry,
       })),
   });
 
-const singletonFromDb = (key: string) =>
-  file(DB_PATH, { parser: (text) => ({ [key]: JSON.parse(text)[key] }) });
+/** A single object becomes a one-entry collection keyed by the file's name. */
+const objectFromDb = (name: string) =>
+  file(dbFile(name), { parser: (text) => ({ [name]: JSON.parse(text) }) });
 
-const link = z.object({
-  id: z.string(),
-  order: z.number().int(),
-  label: z.string(),
-  url: z.url().or(z.string().startsWith("mailto:")),
-  handle: z.string(),
-  primary: z.boolean(),
-});
+export const projectKinds = [
+  "web",
+  "macos",
+  "ios",
+  "typeface",
+  "library",
+  "game",
+  "experiment",
+] as const;
 
-export const projectKinds = ["web", "macos", "library", "game", "experiment"] as const;
-
-const project = z.object({
-  slug: z.string().regex(/^[a-z0-9-]+$/),
-  order: z.number().int(),
-  name: z.string(),
-  tagline: z.string().max(90),
-  description: z.string(),
-  year: z.number().int().min(2015).max(2100),
-  kind: z.enum(projectKinds),
-  stack: z.array(z.string()).min(1),
-  tags: z.array(z.string().regex(/^[a-z0-9-]+$/)),
-  links: z.object({
-    live: z.url().optional(),
-    source: z.url().optional(),
-    package: z.url().optional(),
-  }),
-  featured: z.boolean(),
-  status: z.enum(["active", "archived"]),
-});
+export const tileColors = [
+  "lilac",
+  "mint",
+  "salmon",
+  "sky",
+  "cream",
+  "sage",
+  "peach",
+  "lavender",
+] as const;
 
 const site = defineCollection({
-  loader: singletonFromDb("site"),
+  loader: objectFromDb("site"),
   schema: z.object({
     url: z.url(),
     name: z.string(),
     title: z.string(),
-    description: z.string().max(200),
+    description: z.string().max(160),
     locale: z.string(),
     repository: z.url(),
     twitter: z.string().nullable(),
@@ -64,13 +58,14 @@ const site = defineCollection({
 });
 
 const person = defineCollection({
-  loader: singletonFromDb("person"),
+  loader: objectFromDb("person"),
   schema: z.object({
     name: z.string(),
     givenName: z.string(),
     role: z.string(),
+    tagline: z.string().max(60),
+    intro: z.string(),
     location: z.string(),
-    availability: z.string(),
     bio: z.array(z.string()).min(1),
     now: z.array(z.string()),
     languages: z.array(z.object({ name: z.string(), level: z.string() })),
@@ -79,19 +74,136 @@ const person = defineCollection({
   }),
 });
 
-const links = defineCollection({ loader: fromDb("links"), schema: link });
+const kindLabel = z.object({ one: z.string(), many: z.string() });
 
-const projects = defineCollection({
-  // The loader keys entries by `id`; projects carry a `slug`, so map it.
-  loader: file(DB_PATH, {
-    parser: (text) =>
-      JSON.parse(text).projects.map((entry: { slug: string }, order: number) => ({
-        id: entry.slug,
-        order,
-        ...entry,
-      })),
+/** Every visible string that is not a project's or a person's own content. `{placeholders}` are filled by src/lib/copy.ts. */
+const copy = defineCollection({
+  loader: objectFromDb("copy"),
+  schema: z.object({
+    nav: z.object({
+      label: z.string(),
+      home: z.string(),
+      work: z.string(),
+      about: z.string(),
+      contact: z.string(),
+      skip: z.string(),
+    }),
+    home: z.object({
+      eyebrow: z.string(),
+      greeting: z.string(),
+      featuredHeading: z.string(),
+      allWork: z.string(),
+      nowHeading: z.string(),
+      moreAbout: z.string(),
+    }),
+    work: z.object({
+      title: z.string(),
+      lede: z.string(),
+      description: z.string(),
+      featuredHeading: z.string(),
+      archiveHeading: z.string(),
+      filterLabel: z.string(),
+      filterAll: z.string(),
+      kindTitle: z.string(),
+      kindLede: z.string(),
+      kindDescription: z.string(),
+      kindFeaturedHeading: z.string(),
+      kindArchiveHeading: z.string(),
+    }),
+    project: z.object({
+      description: z.string(),
+      builtWith: z.string(),
+      year: z.string(),
+      status: z.string(),
+      maintained: z.string(),
+      archived: z.string(),
+      open: z.string(),
+      download: z.string(),
+      source: z.string(),
+      package: z.string(),
+      siblingsLabel: z.string(),
+      newer: z.string(),
+      older: z.string(),
+    }),
+    about: z.object({
+      title: z.string(),
+      description: z.string(),
+      biographyLabel: z.string(),
+      nowHeading: z.string(),
+      stackHeading: z.string(),
+      languagesHeading: z.string(),
+      interestsHeading: z.string(),
+    }),
+    contact: z.object({
+      title: z.string(),
+      lede: z.string(),
+      colophon: z.string(),
+      sourceLink: z.string(),
+    }),
+    notFound: z.object({
+      title: z.string(),
+      lede: z.string(),
+      description: z.string(),
+      home: z.string(),
+      work: z.string(),
+      contact: z.string(),
+    }),
+    og: z.object({ workSubtitle: z.string() }),
+    kinds: z.object({
+      web: kindLabel,
+      macos: kindLabel,
+      ios: kindLabel,
+      typeface: kindLabel,
+      library: kindLabel,
+      game: kindLabel,
+      experiment: kindLabel,
+    } satisfies Record<(typeof projectKinds)[number], typeof kindLabel>),
   }),
-  schema: project,
 });
 
-export const collections = { site, person, links, projects };
+const links = defineCollection({
+  loader: listFromDb("links"),
+  schema: z.object({
+    id: z.string(),
+    order: z.number().int(),
+    label: z.string(),
+    url: z.url().or(z.string().startsWith("mailto:")),
+    handle: z.string(),
+    primary: z.boolean(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: listFromDb("projects", "slug"),
+  schema: ({ image }) =>
+    z.object({
+      slug: z.string().regex(/^[a-z0-9-]+$/),
+      order: z.number().int(),
+      name: z.string(),
+      tagline: z.string().max(90),
+      description: z.string(),
+      year: z.number().int().min(2015).max(2100),
+      kind: z.enum(projectKinds),
+      stack: z.array(z.string()).min(1),
+      tags: z.array(z.string().regex(/^[a-z0-9-]+$/)),
+      links: z.object({
+        live: z.url().optional(),
+        source: z.url().optional(),
+        package: z.url().optional(),
+      }),
+      /** Shown when a project has no public link, so the absence reads as a decision. */
+      note: z.string().optional(),
+      featured: z.boolean(),
+      status: z.enum(["active", "archived"]),
+      tile: z.enum(tileColors).optional(),
+      image: z
+        .object({
+          src: image(),
+          alt: z.string(),
+          fit: z.enum(["cover", "contain"]),
+        })
+        .optional(),
+    }),
+});
+
+export const collections = { site, person, links, copy, projects };

@@ -1,36 +1,56 @@
-// Invariants the build cannot catch: the content loader keys projects by slug,
-// so a duplicate would silently overwrite an entry instead of failing.
+// Invariants the schema cannot express. The content loader keys projects by
+// slug, so a duplicate would silently overwrite an entry instead of failing.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
-const db = JSON.parse(await readFile(new URL("../db.json", import.meta.url), "utf8"));
+const read = async (name) =>
+  JSON.parse(await readFile(new URL(`../db/${name}.json`, import.meta.url), "utf8"));
+
+const [projects, links, site, copy] = await Promise.all(
+  ["projects", "links", "site", "copy"].map(read),
+);
+
+const FEATURED_MIN = 3;
+const FEATURED_MAX = 9;
+const SEARCH_SNIPPET_MAX = 160;
 
 test("every project has a unique slug", () => {
-  const slugs = db.projects.map((project) => project.slug);
+  const slugs = projects.map((project) => project.slug);
   assert.equal(new Set(slugs).size, slugs.length, `duplicate slugs in ${slugs.join(", ")}`);
 });
 
-test("every project has at least one link", () => {
-  for (const project of db.projects) {
-    assert.ok(
-      Object.values(project.links).some(Boolean),
-      `${project.slug} has no live, source, or package link`,
-    );
+test("every project has a link, or a note saying why it has none", () => {
+  for (const project of projects) {
+    const hasLink = Object.values(project.links).some(Boolean);
+    assert.ok(hasLink || project.note, `${project.slug} has neither a link nor a note`);
   }
 });
 
-test("featured projects are few enough to fit the home page", () => {
-  const featured = db.projects.filter((project) => project.featured);
-  assert.ok(featured.length >= 3 && featured.length <= 8, `featured: ${featured.length}`);
+test("featured projects are few enough for the home page and each has artwork", () => {
+  const featured = projects.filter((project) => project.featured);
+  assert.ok(
+    featured.length >= FEATURED_MIN && featured.length <= FEATURED_MAX,
+    `featured: ${featured.length}`,
+  );
+  for (const project of featured) {
+    assert.ok(project.image, `${project.slug} is featured without an image`);
+    assert.ok(project.tile, `${project.slug} is featured without a tile colour`);
+  }
 });
 
-test("links have unique ids and at least one primary", () => {
-  const ids = db.links.map((link) => link.id);
+test("every project kind has a label in the copy", () => {
+  for (const project of projects) {
+    assert.ok(copy.kinds[project.kind], `${project.slug} has kind ${project.kind} without a label`);
+  }
+});
+
+test("links have unique ids and one of them is email", () => {
+  const ids = links.map((link) => link.id);
   assert.equal(new Set(ids).size, ids.length);
-  assert.ok(db.links.some((link) => link.primary));
+  assert.ok(links.some((link) => link.url.startsWith("mailto:")));
 });
 
 test("site description fits a search snippet", () => {
-  assert.ok(db.site.description.length <= 160, `${db.site.description.length} characters`);
+  assert.ok(site.description.length <= SEARCH_SNIPPET_MAX, `${site.description.length} characters`);
 });

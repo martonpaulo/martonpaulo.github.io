@@ -1,48 +1,40 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig, fontProviders } from "astro/config";
 
-import db from "./db.json" with { type: "json" };
+import projects from "./db/projects.json" with { type: "json" };
+import site from "./db/site.json" with { type: "json" };
 
 // Every live project gets a short redirect (/p/<slug>) that survives the
-// project moving hosts: the target lives in db.json, not in a hard-coded list.
+// project moving hosts: the target lives in db/projects.json, not in a list here.
 const projectRedirects = Object.fromEntries(
-  db.projects
-    .filter((project) => project.links.live)
+  projects
+    .filter((project) => "live" in project.links)
     .map((project) => [`/p/${project.slug}`, project.links.live as string]),
 );
 
 export default defineConfig({
-  site: db.site.url,
+  site: site.url,
   trailingSlash: "always",
   redirects: projectRedirects,
   integrations: [sitemap({ filter: (page) => !page.includes("/p/") })],
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: "Newsreader",
-      cssVariable: "--font-serif",
-      weights: [400],
-      styles: ["normal", "italic"],
+      name: "Gabarito",
+      cssVariable: "--font-display",
+      weights: [700],
+      styles: ["normal"],
       subsets: ["latin"],
-      fallbacks: ["Georgia", "serif"],
+      fallbacks: ["Avenir Next", "Segoe UI", "system-ui", "sans-serif"],
     },
     {
       provider: fontProviders.fontsource(),
-      name: "IBM Plex Sans",
-      cssVariable: "--font-sans",
+      name: "Figtree",
+      cssVariable: "--font-body",
       weights: [400],
       styles: ["normal"],
       subsets: ["latin"],
-      fallbacks: ["system-ui", "sans-serif"],
-    },
-    {
-      provider: fontProviders.fontsource(),
-      name: "IBM Plex Mono",
-      cssVariable: "--font-mono",
-      weights: [400],
-      styles: ["normal"],
-      subsets: ["latin"],
-      fallbacks: ["ui-monospace", "Menlo", "monospace"],
+      fallbacks: ["Avenir Next", "Segoe UI", "system-ui", "sans-serif"],
     },
   ],
   // Page CSS is a few kilobytes; inlining it removes the one render-blocking request.

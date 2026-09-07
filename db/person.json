@@ -1,0 +1,76 @@
+{
+  "name": "Marton Paulo",
+  "givenName": "Marton",
+  "role": "Full-stack developer",
+  "location": "Spain",
+  "bio": [
+    "I'm a full-stack developer who never stopped caring most about the front end. I've spent the last several years building web products with React, Next.js and TypeScript, with Java and Spring Boot on the other side of the API, and lately I've been shipping native macOS apps in Swift.",
+    "I like the part of the work where a screen stops being a spec and starts feeling right: the spacing, the empty states nobody asked for, the refactor that makes the next feature cheap. Most of what I build on my own is small, local-first and free.",
+    "I'm Brazilian, living in Spain, and open to remote work or relocation. I speak English, Portuguese, Spanish and Esperanto, and I'm learning Mandarin."
+  ],
+  "now": [
+    "Building small native macOS utilities in Swift: a window switcher, a Gmail notifier and a world clock, all living in the menu bar.",
+    "Making browser tools that keep your data on your machine, like a table editor and an SVG atlas.",
+    "Studying Mandarin Chinese, slowly and stubbornly."
+  ],
+  "languages": [
+    {
+      "name": "Portuguese",
+      "level": "native"
+    },
+    {
+      "name": "English",
+      "level": "fluent"
+    },
+    {
+      "name": "Spanish",
+      "level": "fluent"
+    },
+    {
+      "name": "Esperanto",
+      "level": "fluent"
+    },
+    {
+      "name": "Mandarin",
+      "level": "learning"
+    }
+  ],
+  "stack": [
+    {
+      "group": "Front-end",
+      "items": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS",
+        "Styled Components",
+        "Astro"
+      ]
+    },
+    {
+      "group": "Back-end",
+      "items": ["Node.js", "Express", "Java", "Spring Boot", "PostgreSQL", "MongoDB", "MySQL"]
+    },
+    {
+      "group": "Native",
+      "items": ["Swift", "SwiftUI", "AppKit", "React Native", "Expo"]
+    },
+    {
+      "group": "Practice",
+      "items": [
+        "Accessibility",
+        "Testing (Jest, Cypress, Playwright)",
+        "GitHub Actions",
+        "Local-first design"
+      ]
+    }
+  ],
+  "interests": [
+    "Hitchhiking across two continents and finding places most people never hear about. I sometimes work while travelling, and every now and then I go on a ten-day hike for fun.",
+    "Learning languages. Besides the ones I speak, I've picked up bits of French, Russian, Arabic, Brazilian Sign Language (Libras) and Toki Pona. Talking to people in their own language is the whole point.",
+    "Tinkering with my tools: a VS Code setup tuned past reason, an old Linux machine kept alive because I can, and a growing pile of scripts for macOS."
+  ],
+  "tagline": "Small software, made with care.",
+  "intro": "I make web products with React and TypeScript, and lately native apps for the Mac and iPhone in Swift. What I build on my own is local-first, free, and does one thing well."
+}

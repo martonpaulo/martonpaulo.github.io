@@ -1,0 +1,30 @@
+[
+  {
+    "id": "email",
+    "label": "Email",
+    "url": "mailto:info@martonpaulo.com",
+    "handle": "info@martonpaulo.com",
+    "primary": true
+  },
+  {
+    "id": "github",
+    "label": "GitHub",
+    "url": "https://github.com/martonpaulo",
+    "handle": "@martonpaulo",
+    "primary": true
+  },
+  {
+    "id": "linkedin",
+    "label": "LinkedIn",
+    "url": "https://www.linkedin.com/in/martonpaulo/",
+    "handle": "in/martonpaulo",
+    "primary": true
+  },
+  {
+    "id": "cv",
+    "label": "CV",
+    "url": "https://app.enhancv.com/share/31dd891e/",
+    "handle": "Read online",
+    "primary": false
+  }
+]

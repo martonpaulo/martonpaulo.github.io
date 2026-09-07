@@ -1,0 +1,103 @@
+{
+  "nav": {
+    "label": "Main",
+    "home": "{siteName}, home",
+    "work": "Work",
+    "about": "About",
+    "contact": "Contact",
+    "skip": "Skip to content"
+  },
+  "home": {
+    "greeting": "Small software,<br />made with care.",
+    "featuredHeading": "Things I've made",
+    "allWork": "See everything",
+    "nowHeading": "Lately",
+    "moreAbout": "More about me",
+    "eyebrow": "{name} · {role}"
+  },
+  "work": {
+    "title": "Work",
+    "lede": "The things I'm proudest of first, then everything else by year. Study projects and archived ones stay because they show where the rest came from.",
+    "description": "Everything Marton Paulo has built and published: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
+    "featuredHeading": "Things I've made",
+    "archiveHeading": "Everything else",
+    "filterLabel": "Filter by kind",
+    "filterAll": "Everything",
+    "kindTitle": "{kind}",
+    "kindLede": "Only the {kind}. Newest first.",
+    "kindDescription": "The {kind} Marton Paulo has built and published, with live demos and source code.",
+    "kindFeaturedHeading": "Selected {kind}",
+    "kindArchiveHeading": "All {kind}"
+  },
+  "project": {
+    "description": "{name}: {tagline} Built with {stack}.",
+    "builtWith": "Built with",
+    "year": "Year",
+    "status": "Status",
+    "maintained": "Maintained",
+    "archived": "Archived: it still runs, but I no longer maintain it.",
+    "open": "Open",
+    "download": "Download",
+    "source": "Source",
+    "package": "Package",
+    "siblingsLabel": "Other projects",
+    "newer": "Newer",
+    "older": "Older"
+  },
+  "about": {
+    "title": "About {givenName}",
+    "description": "About {name}: {role}, based in {location}. What he builds, what he works with, the languages he speaks, and what he does off the keyboard.",
+    "biographyLabel": "Biography",
+    "nowHeading": "Lately",
+    "stackHeading": "What I work with",
+    "languagesHeading": "Languages",
+    "interestsHeading": "Off the keyboard"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "lede": "Email is the fastest way to reach {givenName}. LinkedIn works too, and the code is on GitHub.",
+    "colophon": "© {year} {name}. Set in Gabarito and Figtree. Built with Astro from a few JSON files;",
+    "sourceLink": "source"
+  },
+  "notFound": {
+    "title": "Nothing here",
+    "lede": "The page you wanted moved, or never existed. Try the home page or the list of work, or say hi and tell me what you were looking for.",
+    "description": "This page does not exist on martonpaulo.com.",
+    "home": "Home",
+    "work": "Work",
+    "contact": "Get in touch"
+  },
+  "kinds": {
+    "web": {
+      "one": "Web app",
+      "many": "Web apps"
+    },
+    "macos": {
+      "one": "macOS app",
+      "many": "macOS apps"
+    },
+    "ios": {
+      "one": "iOS app",
+      "many": "iOS apps"
+    },
+    "typeface": {
+      "one": "Typeface",
+      "many": "Typefaces"
+    },
+    "library": {
+      "one": "Library",
+      "many": "Libraries"
+    },
+    "game": {
+      "one": "Game",
+      "many": "Games"
+    },
+    "experiment": {
+      "one": "Experiment",
+      "many": "Experiments"
+    }
+  },
+  "og": {
+    "workSubtitle": "{count} projects, newest first · {host}"
+  }
+}
