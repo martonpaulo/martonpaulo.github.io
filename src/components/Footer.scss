@@ -1,0 +1,10 @@
+.footer {
+  padding-block: var(--space-6) var(--space-4);
+}
+
+.footer__colophon {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}

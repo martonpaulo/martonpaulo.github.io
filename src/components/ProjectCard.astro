@@ -1,0 +1,48 @@
+---
+import "./ProjectCard.scss";
+
+import { Image } from "astro:assets";
+
+import { getCopy } from "../lib/db";
+import { cardImageSizes, cardImageWidths, isEagerCard } from "../lib/images";
+import { projectPath, tileFor, type Project } from "../lib/projects";
+import Eyebrow from "./Eyebrow.astro";
+
+/**
+ * A project as a pastel tile: kind, name, one line, and its artwork bleeding
+ * out of the bottom. The whole tile is one link with the project name as its
+ * accessible name; the artwork is decorative because the text already says it.
+ */
+interface Props {
+  project: Project;
+  index: number;
+  headingLevel?: "h2" | "h3";
+}
+
+const { project, index, headingLevel: Heading = "h3" } = Astro.props;
+const { kinds } = await getCopy();
+const tile = tileFor(project, index);
+const art = project.image;
+---
+
+<a class="project-card" href={projectPath(project)} style={`--tile: var(--tile-${tile})`}>
+  <div class="project-card__info">
+    <Eyebrow class="project-card__kind">{kinds[project.kind].one}</Eyebrow>
+    <Heading class="project-card__title">{project.name}</Heading>
+    <p class="project-card__tagline">{project.tagline}</p>
+  </div>
+  {
+    art && (
+      <div class:list={["project-card__art", `project-card__art--${art.fit}`]}>
+        <Image
+          src={art.src}
+          alt=""
+          widths={cardImageWidths}
+          sizes={cardImageSizes}
+          loading={isEagerCard(index) ? "eager" : "lazy"}
+          decoding="async"
+        />
+      </div>
+    )
+  }
+</a>

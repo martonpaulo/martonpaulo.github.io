@@ -2,7 +2,7 @@
   "name": "martonpaulo.com",
   "version": "0.0.0",
   "private": true,
-  "description": "Marton Paulo's personal site: a static portfolio built with Astro from a single db.json and published to GitHub Pages.",
+  "description": "Marton Paulo's personal site: a static portfolio built with Astro from a few JSON files and published to GitHub Pages.",
   "author": {
     "name": "Marton Paulo",
     "email": "info@martonpaulo.com",
@@ -27,8 +27,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@fontsource/newsreader": "^5.3.0",
+    "@fontsource/figtree": "^5.3.0",
+    "@fontsource/gabarito": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^7.3.1",
     "satori": "^0.33.4",
@@ -43,6 +43,7 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
+    "sass": "^1.104.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0"
   }

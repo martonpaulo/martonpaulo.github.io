@@ -1,89 +1,17 @@
 ---
-import type { Project } from "../lib/db";
+import "./ProjectList.scss";
+
+import type { Project } from "../lib/projects";
+import ProjectRow from "./ProjectRow.astro";
 
 interface Props {
   projects: Project[];
-  /** Show the year in the row. Off when the list is already grouped by year. */
-  showYear?: boolean;
   headingLevel?: "h2" | "h3";
 }
 
-const { projects, showYear = true, headingLevel = "h3" } = Astro.props;
-const Heading = headingLevel;
+const { projects, headingLevel = "h3" } = Astro.props;
 ---
 
-<ul class="list">
-  {
-    projects.map((project) => (
-      <li class="row">
-        <Heading class="name">
-          <a href={`/work/${project.slug}/`}>{project.name}</a>
-        </Heading>
-        <p class="tagline">{project.tagline}</p>
-        {showYear && (
-          <span class="year" aria-label={`Year ${project.year}`}>
-            {project.year}
-          </span>
-        )}
-      </li>
-    ))
-  }
-</ul>
-
-<style>
-  .list {
-    list-style: none;
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "name year"
-      "tagline year";
-    column-gap: var(--space-4);
-    align-items: baseline;
-  }
-
-  .name {
-    grid-area: name;
-    font-size: var(--text-lg);
-  }
-
-  .name a {
-    text-decoration: none;
-  }
-
-  .row:hover .name a {
-    color: var(--accent);
-  }
-
-  .tagline {
-    grid-area: tagline;
-    color: var(--ink-2);
-    font-size: var(--text-sm);
-    margin-top: var(--space-1);
-  }
-
-  .year {
-    grid-area: year;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--ink-3);
-    transition: color var(--duration) var(--ease);
-  }
-
-  .year::before {
-    content: "[ ";
-  }
-
-  .year::after {
-    content: " ]";
-  }
-
-  .row:hover .year {
-    color: var(--accent);
-  }
-</style>
+<div class="project-list">
+  {projects.map((project) => <ProjectRow project={project} headingLevel={headingLevel} />)}
+</div>

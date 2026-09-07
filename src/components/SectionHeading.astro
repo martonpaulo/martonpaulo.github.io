@@ -1,0 +1,17 @@
+---
+import "./SectionHeading.scss";
+
+/** A section opener: display heading and an optional lede, centered like the hero. */
+interface Props {
+  id: string;
+  title: string;
+  lede?: string | undefined;
+}
+
+const { id, title, lede } = Astro.props;
+---
+
+<div class="section-heading stack-center">
+  <h2 id={id}>{title}</h2>
+  {lede && <p class="lede">{lede}</p>}
+</div>

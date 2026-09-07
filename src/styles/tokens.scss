@@ -1,0 +1,112 @@
+@use "./breakpoints" as bp;
+
+/*
+  Design tokens. The reasoning is in docs/design.md; change a value there
+  first, then here. Components use only these variables: no colour, font,
+  radius or spacing is written anywhere else.
+  Breakpoints cannot be variables: tablet is 48rem and ultrawide is 112rem, everywhere.
+*/
+:root {
+  color-scheme: dark;
+
+  /* Surfaces and text */
+  --bg: #1f302b;
+  --bg-glow: #3e7d5c;
+  --bg-glow-warm: #8a7a3a;
+  --surface: rgb(255 255 255 / 6%);
+  --surface-strong: rgb(255 255 255 / 12%);
+  --border: rgb(242 207 114 / 22%);
+  --text: #e9efe9;
+  --text-muted: #b2c3b8;
+  --primary: #f2cf72;
+  --primary-strong: #ffe08f;
+  --focus: #ffffff;
+
+  /* Card tiles: a pastel background and the ink that reads on all of them */
+  --tile-ink: #26332f;
+  --tile-ink-muted: #2e3a36;
+  --tile-lilac: #d094e5;
+  --tile-mint: #9ddcc6;
+  --tile-salmon: #e6a58c;
+  --tile-sky: #b8d6f2;
+  --tile-cream: #f3e9d2;
+  --tile-sage: #a6c8b8;
+  --tile-peach: #f2c4b0;
+  --tile-lavender: #c9c3f0;
+
+  /* Type */
+  --font-display: "Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+
+  // Only these two weights are loaded; anything else would be synthesised by the browser.
+  --weight-body: 400;
+  --weight-display: 700;
+
+  --text-sm: 0.875rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem);
+  --text-2xl: clamp(2.5rem, 1.5rem + 3.5vw, 4rem);
+  --text-3xl: clamp(3rem, 1.25rem + 6.5vw, 6.5rem);
+
+  --leading-tight: 0.95;
+  --leading-snug: 1.2;
+  --leading-relaxed: 1.4;
+  --leading-body: 1.6;
+  --tracking-body: -0.01em;
+  --tracking-display: -0.03em;
+  --tracking-eyebrow: 0.18em;
+
+  /* Space: a doubling scale on a 0.25rem base */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 2rem;
+  --space-5: 4rem;
+  --space-6: 8rem;
+
+  /* Shape */
+  --hairline: 0.0625rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-pill: 999rem;
+  --shadow-card:
+    0 var(--space-3) var(--space-4) rgb(0 0 0 / 25%),
+    0 var(--space-1) var(--space-2) rgb(0 0 0 / 15%);
+  --shadow-panel: 0 var(--space-2) var(--space-3) rgb(0 0 0 / 30%);
+  --shadow-icon: drop-shadow(0 var(--space-2) var(--space-3) rgb(0 0 0 / 25%));
+
+  /* Layout */
+  --container: 64rem;
+  --container-wide: 96rem;
+  --measure: 40rem;
+  --measure-wide: 44rem;
+  --measure-title: 16ch;
+  --card-min-height: 22rem;
+  --card-min-height-wide: 24rem;
+  --card-art-height: 11rem;
+  --card-art-height-wide: 13rem;
+  --card-icon-size: clamp(var(--space-5), 30%, calc(2 * var(--space-5)));
+  --touch-target: 2.5rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --glow-size: calc(6 * var(--space-6));
+  --glow-blur: var(--space-6);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration: 300ms;
+  --duration-slow: 500ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --lift: calc(-1 * var(--space-1));
+  --drift-duration: 40s;
+  --enter-duration: 700ms;
+  --enter-stagger: 90ms;
+}
+
+@include bp.up("ultrawide") {
+  :root {
+    --container: var(--container-wide);
+  }
+}

@@ -1,0 +1,41 @@
+---
+import "./Nav.scss";
+
+import { fill } from "../lib/copy";
+import { getCopy, getSite } from "../lib/db";
+import { isHomePath, navigationItems } from "../lib/navigation";
+import Mark from "./Mark.astro";
+
+/**
+ * The floating pill navigation. Sticky at the top on every page; the current
+ * section is marked for assistive technology and highlighted for everyone.
+ */
+const site = await getSite();
+const { nav } = await getCopy();
+const path = Astro.url.pathname;
+const items = navigationItems(nav, path);
+---
+
+<div class="nav-bar">
+  <nav class="nav" aria-label={nav.label}>
+    <a
+      class="nav__home"
+      href="/"
+      aria-label={fill(nav.home, { siteName: site.name })}
+      aria-current={isHomePath(path) ? "page" : undefined}
+    >
+      <Mark />
+    </a>
+    <ul class="nav__list" role="list">
+      {
+        items.map((item) => (
+          <li>
+            <a class="nav__link" href={item.href} aria-current={item.current ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>

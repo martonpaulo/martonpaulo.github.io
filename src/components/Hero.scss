@@ -1,0 +1,19 @@
+@use "../styles/breakpoints" as bp;
+
+.hero {
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+}
+
+// `ch` is measured in the heading's own font, so the limit sits on the h1.
+.hero__title {
+  width: 100%;
+  max-width: var(--measure-title);
+  margin-inline: auto;
+}
+
+@include bp.up("tablet") {
+  .hero {
+    padding-block: var(--space-6) var(--space-5);
+  }
+}

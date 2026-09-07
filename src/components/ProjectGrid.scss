@@ -1,0 +1,26 @@
+@use "../styles/breakpoints" as bp;
+
+.project-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.project-grid__item {
+  display: grid;
+}
+
+@include bp.up("tablet") {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+// Eight featured projects fill two rows of four on ultrawide screens.
+@include bp.up("ultrawide") {
+  .project-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

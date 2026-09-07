@@ -1,83 +1,45 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import "./Footer.scss";
 
-interface Props {
-  person: { givenName: string; name: string };
-  links: CollectionEntry<"links">[];
-  repository: string;
-}
+import { fill } from "../lib/copy";
+import { getCopy, getLinks, getPerson, getSite } from "../lib/db";
+import { isEmailLink, isExternalLink } from "../lib/links";
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
 
-const { person, links, repository } = Astro.props;
+/** The contact block every page ends with, plus the colophon. */
+const site = await getSite();
+const person = await getPerson();
+const links = await getLinks();
+const { contact } = await getCopy();
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer" id="contact">
-  <p class="eyebrow">say hi</p>
-  <p class="lede">
-    The fastest way to reach {person.givenName} is email. LinkedIn works too, and the code is on GitHub.
-  </p>
-  <ul class="links">
-    {
-      links.map((link) => (
-        <li>
-          <a
-            href={link.data.url}
-            rel={link.data.url.startsWith("mailto:") ? undefined : "me noopener"}
-          >
-            {link.data.label}
-          </a>
-          <span class="handle">{link.data.handle}</span>
-        </li>
-      ))
-    }
-  </ul>
-  <p class="colophon">
-    {
-      `© ${year} ${person.name}. Set in Newsreader and IBM Plex. Built with Astro from one JSON file; `
-    }
-    <a href={repository} rel="noopener">source</a>.
+<footer class="footer">
+  <section class="container stack-center" id="contact" aria-labelledby="contact-heading">
+    <SectionHeading
+      id="contact-heading"
+      title={contact.title}
+      lede={fill(contact.lede, { givenName: person.givenName })}
+    />
+    <ul class="actions" role="list">
+      {
+        links.map((link) => (
+          <li>
+            <Button
+              href={link.url}
+              variant={isEmailLink(link) ? "primary" : "quiet"}
+              external={isExternalLink(link)}
+            >
+              {link.label}
+            </Button>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <p class="footer__colophon container">
+    {fill(contact.colophon, { year, name: person.name })}
+    <a href={site.repository} rel="noopener">{contact.sourceLink}</a>.
   </p>
 </footer>
-
-<style>
-  .footer {
-    margin-top: auto;
-    padding: var(--space-7) 0 var(--space-5);
-    border-top: 1px solid var(--rule);
-  }
-
-  .lede {
-    margin-top: var(--space-2);
-    max-width: 34rem;
-  }
-
-  .links {
-    list-style: none;
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    column-gap: var(--space-4);
-    row-gap: var(--space-1);
-    margin-top: var(--space-4);
-  }
-
-  .links li {
-    display: contents;
-  }
-
-  .links a {
-    text-decoration: none;
-  }
-
-  .handle {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--ink-3);
-    align-self: center;
-  }
-
-  .colophon {
-    margin-top: var(--space-6);
-    font-size: var(--text-xs);
-    color: var(--ink-3);
-  }
-</style>

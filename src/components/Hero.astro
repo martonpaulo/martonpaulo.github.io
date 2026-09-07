@@ -1,0 +1,24 @@
+---
+import "./Hero.scss";
+
+import Eyebrow from "./Eyebrow.astro";
+
+/**
+ * The opening of a page: an optional eyebrow, a big display heading and an
+ * optional lede, centered, rising into place on load.
+ */
+interface Props {
+  title: string;
+  eyebrow?: string | undefined;
+  lede?: string | undefined;
+}
+
+const { title, eyebrow, lede } = Astro.props;
+---
+
+<header class="hero stack-center enter">
+  {eyebrow && <Eyebrow as="p">{eyebrow}</Eyebrow>}
+  <h1 class="hero__title" set:html={title} />
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</header>

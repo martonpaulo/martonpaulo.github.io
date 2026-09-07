@@ -1,0 +1,56 @@
+/* Cross-document view transitions: a short fade between pages. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration);
+  animation-timing-function: var(--ease);
+}
+
+// Content rises into place on load; each child of an entering group follows the last.
+.enter > * {
+  animation: enter var(--enter-duration) var(--ease) both;
+}
+
+$enter-steps: 6;
+
+@for $i from 1 through $enter-steps {
+  .enter > :nth-child(#{$i}) {
+    animation-delay: calc(#{$i - 1} * var(--enter-stagger));
+  }
+}
+
+// Anything past the staggered steps arrives together with the last one.
+.enter > :nth-child(n + #{$enter-steps + 1}) {
+  animation-delay: calc(#{$enter-steps} * var(--enter-stagger));
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

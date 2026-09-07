@@ -5,14 +5,15 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute, GetStaticPaths } from "astro";
 import satori from "satori";
 
-import { getPerson, getProjects, getSite, kindLabels } from "../../lib/db";
+import { fill } from "../../lib/copy";
+import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
 
-// Colours mirror the light tokens in src/styles/global.css; share previews
-// are rendered once, so they cannot follow the viewer's colour scheme.
-const PAPER = "#f4f1ea";
-const INK = "#171a26";
-const INK_3 = "#5f6374";
-const ACCENT = "#1f3bd6";
+// Colours mirror the tokens in src/styles/global.css.
+const BG = "#1f302b";
+const TEXT = "#e9efe9";
+const MUTED = "#b2c3b8";
+const PRIMARY = "#f2cf72";
+const MARK_SHADOW = "#3e7d5c";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -30,29 +31,30 @@ const fontFile = (pkg: string, file: string) =>
 
 // Read once for the whole build rather than once per image.
 const fonts = Promise.all([
-  fontFile("@fontsource/newsreader", "newsreader-latin-400-normal.woff"),
-  fontFile("@fontsource/ibm-plex-mono", "ibm-plex-mono-latin-400-normal.woff"),
+  fontFile("@fontsource/gabarito", "gabarito-latin-700-normal.woff"),
+  fontFile("@fontsource/figtree", "figtree-latin-400-normal.woff"),
 ]);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const site = await getSite();
   const person = await getPerson();
   const projects = await getProjects();
+  const { kinds, nav, work, about, og } = await getCopy();
 
   const fixed: Record<string, Card> = {
     site: {
-      eyebrow: `${person.location} · ${person.availability}`.toLowerCase(),
+      eyebrow: person.role,
       title: person.name,
-      subtitle: person.role,
+      subtitle: person.tagline,
     },
     work: {
-      eyebrow: "work",
-      title: "Everything I've made",
-      subtitle: `${projects.length} projects, newest first · ${site.url.replace("https://", "")}`,
+      eyebrow: nav.work,
+      title: work.archiveHeading,
+      subtitle: fill(og.workSubtitle, { count: projects.length, host: new URL(site.url).host }),
     },
     about: {
-      eyebrow: "about",
-      title: `${person.givenName}, in a few paragraphs`,
+      eyebrow: nav.about,
+      title: fill(about.title, { givenName: person.givenName }),
       subtitle: person.role,
     },
   };
@@ -62,7 +64,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ...projects.map((project) => ({
       params: { id: project.slug },
       props: {
-        eyebrow: `${project.year} · ${kindLabels[project.kind]}`,
+        eyebrow: `${kinds[project.kind].one} · ${project.year}`,
         title: project.name,
         subtitle: project.tagline,
       } satisfies Card,
@@ -79,7 +81,7 @@ export const GET: APIRoute = async ({ props }) => {
   const { eyebrow, title, subtitle } = props as Card;
   const site = await getSite();
 
-  const [serif, mono] = await fonts;
+  const [display, body] = await fonts;
 
   const svg = await satori(
     {
@@ -92,15 +94,15 @@ export const GET: APIRoute = async ({ props }) => {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background: PAPER,
-          color: INK,
-          fontFamily: "IBM Plex Mono",
+          background: BG,
+          color: TEXT,
+          fontFamily: "Figtree",
         },
         children: [
           {
             type: "div",
             props: {
-              style: { display: "flex", alignItems: "center", gap: 18, fontSize: 26, color: INK_3 },
+              style: { display: "flex", alignItems: "center", gap: 18, fontSize: 26, color: MUTED },
               children: [
                 {
                   type: "svg",
@@ -114,7 +116,7 @@ export const GET: APIRoute = async ({ props }) => {
                         type: "path",
                         props: {
                           d: "M10.5 4.5h-5v17h5M15.5 4.5h5v17h-5",
-                          stroke: "#c4cbf3",
+                          stroke: MARK_SHADOW,
                           strokeWidth: 2.4,
                           strokeLinecap: "square",
                         },
@@ -123,7 +125,7 @@ export const GET: APIRoute = async ({ props }) => {
                         type: "path",
                         props: {
                           d: "M9 3H4v17h5M16 3h5v17h-5",
-                          stroke: ACCENT,
+                          stroke: PRIMARY,
                           strokeWidth: 2.4,
                           strokeLinecap: "square",
                         },
@@ -140,14 +142,20 @@ export const GET: APIRoute = async ({ props }) => {
             props: {
               style: { display: "flex", flexDirection: "column", gap: 28 },
               children: [
-                text(`[ ${eyebrow} ]`, { fontSize: 26, color: ACCENT }),
-                text(title, {
-                  fontFamily: "Newsreader",
-                  fontSize: title.length > 26 ? 76 : 96,
-                  lineHeight: 1.05,
-                  letterSpacing: "-0.02em",
+                text(eyebrow.toUpperCase(), {
+                  fontSize: 24,
+                  letterSpacing: "0.18em",
+                  color: MUTED,
                 }),
-                text(subtitle, { fontSize: 30, color: INK_3, lineHeight: 1.4, maxWidth: 960 }),
+                text(title, {
+                  fontFamily: "Gabarito",
+                  fontWeight: 700,
+                  fontSize: title.length > 26 ? 80 : 104,
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                  color: PRIMARY,
+                }),
+                text(subtitle, { fontSize: 30, color: TEXT, lineHeight: 1.4, maxWidth: 960 }),
               ],
             },
           },
@@ -158,8 +166,8 @@ export const GET: APIRoute = async ({ props }) => {
       width: WIDTH,
       height: HEIGHT,
       fonts: [
-        { name: "Newsreader", data: serif, weight: 400, style: "normal" },
-        { name: "IBM Plex Mono", data: mono, weight: 400, style: "normal" },
+        { name: "Gabarito", data: display, weight: 700, style: "normal" },
+        { name: "Figtree", data: body, weight: 400, style: "normal" },
       ],
     },
   );

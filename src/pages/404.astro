@@ -1,29 +1,18 @@
 ---
+import Button from "../components/Button.astro";
+import Hero from "../components/Hero.astro";
 import Base from "../layouts/Base.astro";
+import { getCopy } from "../lib/db";
 
-const description = "This page does not exist on martonpaulo.com.";
+const { notFound } = await getCopy();
 ---
 
-<Base title="Not found" description={description}>
-  <p class="eyebrow">404</p>
-  <h1>Nothing here.</h1>
-  <p class="lede">
-    The page you wanted moved, or never existed. Try the <a href="/">home page</a>, the
-    <a href="/work/">list of work</a>, or <a href="#contact">say hi</a> and tell me what you were looking
-    for.
-  </p>
+<Base title={notFound.title} description={notFound.description}>
+  <Hero title={notFound.title} lede={notFound.lede}>
+    <div class="actions">
+      <Button href="/" variant="primary">{notFound.home}</Button>
+      <Button href="/work/">{notFound.work}</Button>
+      <Button href="#contact">{notFound.contact}</Button>
+    </div>
+  </Hero>
 </Base>
-
-<style>
-  h1 {
-    margin-top: var(--space-3);
-  }
-
-  .lede {
-    margin-top: var(--space-4);
-    font-size: var(--text-lg);
-    line-height: 1.45;
-    max-width: 32rem;
-    color: var(--ink-2);
-  }
-</style>

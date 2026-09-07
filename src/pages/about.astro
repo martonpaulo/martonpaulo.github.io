@@ -1,143 +1,54 @@
 ---
+import "../styles/pages/about.scss";
+
+import DefinitionList from "../components/DefinitionList.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import Base from "../layouts/Base.astro";
-import { getPerson } from "../lib/db";
+import { fill } from "../lib/copy";
+import { getCopy, getPerson } from "../lib/db";
+import { shareImageFor } from "../lib/pages";
+import { languageRows, stackRows } from "../lib/person";
 
 const person = await getPerson();
+const { about } = await getCopy();
 const [lead, ...rest] = person.bio;
-const description = `About ${person.name}: ${person.role.toLowerCase()}, based in ${person.location}. What he builds, what he works with, the languages he speaks, and what he does off the keyboard.`;
+const title = fill(about.title, { givenName: person.givenName });
+const description = fill(about.description, {
+  name: person.name,
+  role: person.role.toLowerCase(),
+  location: person.location,
+});
 ---
 
-<Base title="About" description={description} ogImage="/og/about.png">
-  <p class="eyebrow">about</p>
-  <h1>{person.givenName}, in a few paragraphs</h1>
+<Base title={title} description={description} ogImage={shareImageFor("about")}>
+  <Hero title={title} lede={lead} />
 
-  <div class="bio">
-    <p class="lede">{lead}</p>
-    {rest.map((paragraph) => <p>{paragraph}</p>)}
-  </div>
+  <div class="about">
+    <section class="section prose" aria-label={about.biographyLabel}>
+      {rest.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
 
-  <section class="section" aria-labelledby="now">
-    <h2 id="now" class="eyebrow">now</h2>
-    <ul class="dashes">
-      {person.now.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
+    <section class="section" aria-labelledby="now-heading">
+      <SectionHeading id="now-heading" title={about.nowHeading} />
+      <ul class="about__list" role="list">
+        {person.now.map((item) => <li class="about__item">{item}</li>)}
+      </ul>
+    </section>
 
-  <section class="section" aria-labelledby="stack">
-    <h2 id="stack" class="eyebrow">what I work with</h2>
-    <dl class="stack">
-      {
-        person.stack.map((group) => (
-          <div>
-            <dt>{group.group}</dt>
-            <dd>{group.items.join(", ")}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </section>
+    <section class="section" aria-labelledby="stack-heading">
+      <SectionHeading id="stack-heading" title={about.stackHeading} />
+      <DefinitionList rows={stackRows(person)} />
+    </section>
 
-  <section class="section" aria-labelledby="languages">
-    <h2 id="languages" class="eyebrow">languages</h2>
-    <ul class="inline">
-      {
-        person.languages.map((language) => (
-          <li>
-            {language.name} <span class="mono muted">{language.level}</span>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+    <section class="section" aria-labelledby="languages-heading">
+      <SectionHeading id="languages-heading" title={about.languagesHeading} />
+      <DefinitionList rows={languageRows(person)} />
+    </section>
 
-  <section class="section" aria-labelledby="off">
-    <h2 id="off" class="eyebrow">off the keyboard</h2>
-    <div class="bio">
+    <section class="section prose" aria-labelledby="interests-heading">
+      <SectionHeading id="interests-heading" title={about.interestsHeading} />
       {person.interests.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-  </section>
+    </section>
+  </div>
 </Base>
-
-<style>
-  h1 {
-    margin-top: var(--space-3);
-  }
-
-  .bio {
-    margin-top: var(--space-5);
-    max-width: 34rem;
-  }
-
-  .lede {
-    font-size: var(--text-lg);
-    line-height: 1.45;
-  }
-
-  .section {
-    margin-top: var(--space-6);
-  }
-
-  .section > .eyebrow {
-    margin-bottom: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 400;
-  }
-
-  .dashes {
-    list-style: none;
-    display: grid;
-    gap: var(--space-3);
-    color: var(--ink-2);
-    max-width: 34rem;
-  }
-
-  .dashes li {
-    padding-left: var(--space-4);
-    position: relative;
-  }
-
-  .dashes li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--ink-3);
-  }
-
-  .stack {
-    margin: 0;
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  .stack > div {
-    display: grid;
-    grid-template-columns: 6.5rem 1fr;
-    column-gap: var(--space-4);
-    align-items: baseline;
-  }
-
-  .stack dt {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--ink-3);
-  }
-
-  .stack dd {
-    margin: 0;
-    color: var(--ink-2);
-  }
-
-  .inline {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-4);
-  }
-
-  @media (max-width: 30rem) {
-    .stack > div {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

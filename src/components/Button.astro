@@ -1,0 +1,31 @@
+---
+import "./Button.scss";
+
+/**
+ * A pill link. `primary` fills with mint; the default is a quiet outline.
+ * Renders an anchor: every action on this site is a navigation.
+ */
+interface Props {
+  href: string;
+  variant?: "primary" | "quiet";
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = "quiet", external = false, class: className } = Astro.props;
+---
+
+<a
+  class:list={["button", `button--${variant}`, className]}
+  href={href}
+  rel={external ? "noopener" : undefined}
+>
+  <span class="button__label"><slot /></span>
+  {
+    external && (
+      <span class="button__arrow" aria-hidden="true">
+        ↗
+      </span>
+    )
+  }
+</a>

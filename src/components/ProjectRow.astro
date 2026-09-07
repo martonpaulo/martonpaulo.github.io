@@ -1,0 +1,27 @@
+---
+import "./ProjectRow.scss";
+
+import { getCopy } from "../lib/db";
+import { projectPath, type Project } from "../lib/projects";
+
+/** A project as one line in the archive: name, what it does, kind and year. */
+interface Props {
+  project: Project;
+  headingLevel?: "h2" | "h3";
+}
+
+const { project, headingLevel: Heading = "h3" } = Astro.props;
+const { kinds } = await getCopy();
+---
+
+<article class="project-row">
+  <div class="project-row__text">
+    <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading>
+    <p class="project-row__tagline">{project.tagline}</p>
+  </div>
+  <p class="project-row__meta">
+    <span>{kinds[project.kind].one}</span>
+    <span aria-hidden="true">·</span>
+    <span>{project.year}</span>
+  </p>
+</article>

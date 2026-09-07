@@ -1,0 +1,15 @@
+// The only Sass in the project: named breakpoints, so no width is repeated by hand.
+// Tokens stay CSS custom properties because they are read at runtime.
+@use "sass:map";
+
+$breakpoints: (
+  "tablet": 48rem,
+  "desktop": 64rem,
+  "ultrawide": 112rem,
+);
+
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}

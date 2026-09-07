@@ -1,0 +1,21 @@
+---
+import "./DefinitionList.scss";
+
+/** Label and value pairs, stacked on phones and side by side from tablets up. */
+interface Props {
+  rows: { term: string; value: string }[];
+}
+
+const { rows } = Astro.props;
+---
+
+<dl class="definitions">
+  {
+    rows.map((row) => (
+      <div class="definitions__row">
+        <dt class="definitions__term">{row.term}</dt>
+        <dd class="definitions__value">{row.value}</dd>
+      </div>
+    ))
+  }
+</dl>

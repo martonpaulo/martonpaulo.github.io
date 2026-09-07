@@ -1,0 +1,13 @@
+---
+import "./Eyebrow.scss";
+
+/** A small, tracked, uppercase label. Pass `as="p"` when it stands alone. */
+interface Props {
+  as?: "span" | "p";
+  class?: string;
+}
+
+const { as: Tag = "span", class: className }: Props = Astro.props;
+---
+
+<Tag class:list={["eyebrow", className]}><slot /></Tag>

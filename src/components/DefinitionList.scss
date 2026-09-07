@@ -1,0 +1,33 @@
+@use "../styles/breakpoints" as bp;
+
+.definitions {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.definitions__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-1);
+  align-items: baseline;
+}
+
+.definitions__term {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-body);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.definitions__value {
+  margin: 0;
+}
+
+@include bp.up("tablet") {
+  .definitions__row {
+    grid-template-columns: var(--space-6) 1fr;
+    gap: var(--space-4);
+  }
+}

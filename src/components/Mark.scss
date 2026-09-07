@@ -1,0 +1,23 @@
+.mark {
+  flex: none;
+  overflow: visible;
+}
+
+.mark__shadow,
+.mark__ink {
+  stroke-width: 2.4;
+  stroke-linecap: square;
+}
+
+.mark__shadow {
+  stroke: color-mix(in srgb, currentColor 30%, transparent);
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.mark__ink {
+  stroke: currentColor;
+}
+
+a:hover .mark__shadow {
+  transform: translate(var(--hairline), var(--hairline));
+}

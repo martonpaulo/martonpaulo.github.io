@@ -1,0 +1,104 @@
+@use "../styles/breakpoints" as bp;
+
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: var(--card-min-height);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--tile);
+  color: var(--tile-ink);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform var(--duration-slow) var(--ease-bounce),
+    box-shadow var(--duration) var(--ease),
+    filter var(--duration) var(--ease);
+}
+
+.project-card:hover {
+  transform: translateY(var(--lift));
+  box-shadow: var(--shadow-card);
+  filter: saturate(1.15);
+}
+
+.project-card:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.project-card:focus-visible {
+  outline-color: var(--tile-ink);
+}
+
+.project-card__info {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-1);
+  max-width: var(--measure);
+}
+
+// Doubled selector: it must outrank the eyebrow's own colour, which is loaded later.
+.project-card .project-card__kind {
+  color: var(--tile-ink-muted);
+}
+
+.project-card__title {
+  font-size: var(--text-xl);
+  color: var(--tile-ink);
+}
+
+.project-card__tagline {
+  color: var(--tile-ink-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.project-card__art {
+  position: relative;
+  height: var(--card-art-height);
+  margin-top: var(--space-3);
+  transition: transform var(--duration-slow) var(--ease-bounce);
+}
+
+.project-card:hover .project-card__art {
+  transform: translateY(var(--space-2));
+}
+
+/* Panels start at the left edge and run off the bottom-right of the tile. */
+.project-card__art--cover {
+  margin-inline: 0 calc(-1 * var(--space-4));
+  margin-bottom: calc(-1 * var(--space-4));
+}
+
+.project-card__art--cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  border-top-left-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Icons float in the middle of the lower half. */
+.project-card__art--contain {
+  display: grid;
+  place-items: center;
+}
+
+.project-card__art--contain img {
+  width: var(--card-icon-size);
+  filter: var(--shadow-icon);
+}
+
+@include bp.up("tablet") {
+  .project-card {
+    min-height: var(--card-min-height-wide);
+  }
+
+  .project-card__art {
+    height: var(--card-art-height-wide);
+  }
+}

@@ -1,0 +1,24 @@
+---
+import "./ProjectGrid.scss";
+
+import type { Project } from "../lib/projects";
+import ProjectCard from "./ProjectCard.astro";
+
+/** One column on phones, two from tablets up, three on ultrawide screens. */
+interface Props {
+  projects: Project[];
+  headingLevel?: "h2" | "h3";
+}
+
+const { projects, headingLevel = "h3" } = Astro.props;
+---
+
+<ul class="project-grid enter" role="list">
+  {
+    projects.map((project, index) => (
+      <li class="project-grid__item">
+        <ProjectCard project={project} index={index} headingLevel={headingLevel} />
+      </li>
+    ))
+  }
+</ul>

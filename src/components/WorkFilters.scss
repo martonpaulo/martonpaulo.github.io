@@ -1,0 +1,31 @@
+.work-filters {
+  margin-bottom: var(--space-4);
+}
+
+.work-filters__chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  border: var(--hairline) solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-body);
+  text-decoration: none;
+  transition:
+    background var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
+}
+
+.work-filters__chip:hover {
+  background: var(--surface-strong);
+  color: var(--primary-strong);
+}
+
+.work-filters__chip[aria-current="page"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg);
+}

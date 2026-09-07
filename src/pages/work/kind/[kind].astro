@@ -1,43 +1,58 @@
 ---
+import Hero from "../../../components/Hero.astro";
+import ProjectGrid from "../../../components/ProjectGrid.astro";
 import ProjectList from "../../../components/ProjectList.astro";
 import WorkFilters from "../../../components/WorkFilters.astro";
 import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
-import { getProjects, kindLabelsPlural, type Project } from "../../../lib/db";
+import { byYear, getCopy, getProjects } from "../../../lib/db";
+import { fill } from "../../../lib/copy";
+import { shareImageFor } from "../../../lib/pages";
+import { countByKind, type ProjectKind } from "../../../lib/projects";
 
-export function getStaticPaths() {
-  return projectKinds.map((kind) => ({ params: { kind } }));
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projectKinds
+    .filter((kind) => projects.some((project) => project.kind === kind))
+    .map((kind) => ({ params: { kind } }));
 }
 
-const kind = Astro.params.kind as Project["kind"];
-const label = kindLabelsPlural[kind];
-const projects = (await getProjects()).filter((project) => project.kind === kind);
-const description = `The ${label} Marton Paulo has built and published, newest first, with live demos and source code.`;
+const kind = Astro.params.kind as ProjectKind;
+const projects = await getProjects();
+const { work, kinds } = await getCopy();
+const counts = countByKind(projects, projectKinds);
+
+const ofKind = projects.filter((project) => project.kind === kind);
+const featured = ofKind.filter((project) => project.featured);
+const rest = byYear(ofKind.filter((project) => !project.featured));
+const label = kinds[kind].many;
+const vars = { kind: label.toLowerCase() };
 ---
 
-<Base title={`Work: ${label}`} description={description} ogImage="/og/work.png">
-  <h1>Work</h1>
-  <p class="lede">
-    Only the {label}. <a href="/work/">See everything</a> for the full list by year.
-  </p>
+<Base title={label} description={fill(work.kindDescription, vars)} ogImage={shareImageFor("work")}>
+  <Hero title={fill(work.kindTitle, { kind: label })} lede={fill(work.kindLede, vars)} />
 
-  <WorkFilters current={kind} />
+  <WorkFilters current={kind} counts={counts} />
 
-  <section class="group">
-    <ProjectList projects={projects} />
-  </section>
+  {
+    featured.length > 0 && (
+      <section class="section" aria-labelledby="featured-heading">
+        <h2 id="featured-heading" class="visually-hidden">
+          {fill(work.kindFeaturedHeading, vars)}
+        </h2>
+        <ProjectGrid projects={featured} />
+      </section>
+    )
+  }
+
+  {
+    rest.length > 0 && (
+      <section class="section" aria-labelledby="archive-heading">
+        <h2 id="archive-heading" class="visually-hidden">
+          {fill(work.kindArchiveHeading, vars)}
+        </h2>
+        <ProjectList projects={rest} />
+      </section>
+    )
+  }
 </Base>
-
-<style>
-  .lede {
-    margin-top: var(--space-4);
-    font-size: var(--text-lg);
-    line-height: 1.45;
-    max-width: 32rem;
-    color: var(--ink-2);
-  }
-
-  .group {
-    margin-top: var(--space-6);
-  }
-</style>
