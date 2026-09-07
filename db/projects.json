@@ -14,7 +14,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "lilac",
+    "tile": "sage",
     "image": {
       "src": "../src/assets/projects/tabelo.png",
       "alt": "Tabelo showing the same table as Markdown text on the left and as an editable grid on the right",
@@ -35,7 +35,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "sky",
+    "tile": "salmon",
     "image": {
       "src": "../src/assets/projects/moon-uniform.png",
       "alt": "The words Moon Uniform set in the Moon tactile alphabet, green on cream",
@@ -57,7 +57,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "cream",
+    "tile": "lavender",
     "image": {
       "src": "../src/assets/projects/windowhop.png",
       "alt": "WindowHop's switcher with a grid of window previews and their app icons",
@@ -79,7 +79,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "mint",
+    "tile": "cream",
     "image": {
       "src": "../src/assets/projects/issues-graph.png",
       "alt": "A dependency graph of GitHub issues drawn as connected cards",
@@ -101,7 +101,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "peach",
+    "tile": "sky",
     "image": {
       "src": "../src/assets/projects/mailbell.png",
       "alt": "Mailbell's app icon, a white bell on a yellow rounded square",
@@ -123,7 +123,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "salmon",
+    "tile": "mint",
     "image": {
       "src": "../src/assets/projects/small-lights.png",
       "alt": "Small points of light drifting across a dark field",
@@ -145,7 +145,7 @@
     },
     "featured": true,
     "status": "active",
-    "tile": "sage",
+    "tile": "peach",
     "image": {
       "src": "../src/assets/projects/meantime.png",
       "alt": "Meantime's menu bar panel with two city clocks and a calendar",
@@ -165,7 +165,7 @@
     "note": "Personal app, not published.",
     "featured": true,
     "status": "active",
-    "tile": "lavender",
+    "tile": "lilac",
     "image": {
       "src": "../src/assets/projects/orbit.png",
       "alt": "Orbit's app icon, two overlapping white circles on green",

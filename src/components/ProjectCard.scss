@@ -1,5 +1,7 @@
 @use "../styles/breakpoints" as bp;
 
+// Modelled on an App Store story card: text at the top, artwork filling the
+// bottom, one soft surface that grows a little under the pointer.
 .project-card {
   position: relative;
   display: grid;
@@ -12,23 +14,25 @@
   text-decoration: none;
   overflow: hidden;
   isolation: isolate;
+  box-shadow: var(--shadow-card);
+  will-change: transform;
   transition:
     transform var(--duration) var(--ease-out),
     box-shadow var(--duration) var(--ease-out);
-}
 
-.project-card:hover {
-  transform: translateY(var(--lift));
-  box-shadow: var(--shadow-card);
-}
+  &:hover {
+    transform: scale(var(--grow));
+    box-shadow: var(--shadow-card-raised);
+  }
 
-.project-card:active {
-  transform: scale(var(--press));
-  transition-duration: var(--duration-fast);
-}
+  &:active {
+    transform: scale(var(--press));
+    transition-duration: var(--duration-fast);
+  }
 
-.project-card:focus-visible {
-  outline-color: var(--tile-ink);
+  &:focus-visible {
+    outline-color: var(--tile-ink);
+  }
 }
 
 .project-card__info {
@@ -42,6 +46,7 @@
 // Doubled selector: it must outrank the eyebrow's own colour, which is loaded later.
 .project-card .project-card__kind {
   color: var(--tile-ink-muted);
+  font-size: var(--text-xs);
 }
 
 .project-card__title {
@@ -58,38 +63,38 @@
   position: relative;
   height: var(--card-art-height);
   margin-top: var(--space-3);
+  transform-origin: center bottom;
   transition: transform var(--duration-slow) var(--ease-out);
-  transform-origin: top left;
+
+  .project-card:hover & {
+    transform: scale(var(--grow-art));
+  }
 }
 
-.project-card:hover .project-card__art {
-  transform: scale(1.02);
-}
-
-/* Panels start at the left edge and run off the bottom-right of the tile. */
+// Panels start at the left edge and run off the bottom-right of the tile.
 .project-card__art--cover {
   margin-inline: 0 calc(-1 * var(--space-4));
   margin-bottom: calc(-1 * var(--space-4));
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    border-top-left-radius: var(--radius-md);
+    box-shadow: var(--shadow-panel);
+  }
 }
 
-.project-card__art--cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top left;
-  border-top-left-radius: var(--radius-md);
-  box-shadow: var(--shadow-panel);
-}
-
-/* Icons float in the middle of the lower half. */
+// Icons float in the middle of the lower half.
 .project-card__art--contain {
   display: grid;
   place-items: center;
-}
 
-.project-card__art--contain img {
-  width: var(--card-icon-size);
-  filter: var(--shadow-icon);
+  img {
+    width: var(--card-icon-size);
+    filter: var(--shadow-icon);
+  }
 }
 
 @include bp.up("tablet") {

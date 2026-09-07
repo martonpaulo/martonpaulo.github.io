@@ -30,20 +30,22 @@ not switch to light, because the tiles are the light.
 colour of every heading, every link and the brackets. It appears on nothing decorative, so when it appears it is
 Marton speaking. Body text is a neutral off-white so the yellow stays the only warm note.
 
-**The bracket, at every scale.** The site's signature is `[ ]`: the mark in the navigation, the
-brackets around every label, and `[ ]` as the bullet of every list. Never around a title; the
-owner tried it and it read as decoration. It is the previous site's identity, kept.
+**The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
+brackets around every label. Never around a title and never as a bullet; the owner tried both and
+they read as decoration. Lists use a small accent dot.
 
 **Light that moves, quietly.** Two faint blurred discs, one green and one warm, drift behind every
-page on a slow cycle so the room never feels static. They are ambience, not the signature: they
+page on a cycle short enough to notice within a few seconds, so the room never feels static. They are ambience, not the signature: they
 stay below the threshold where a visitor would call them an effect, and they stop under reduced
 motion.
 
-**Pastel tiles for the work.** Eight tile colours, one per featured project, chosen so the
-project's own screenshot reads on it: lilac under Tabelo's dark editor, cream under WindowHop's
-dark switcher, sky under Moon Uniform's cream specimen. The tile's dark ink (`--tile-ink`) reads on
-all of them at AA or better. A project without a screenshot shows its app icon instead; the tile
-does not pretend.
+**Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
+a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
+faint resting shadow, and a whole-card grow of two and a half percent under the pointer with the
+artwork growing a touch more. Eight tile colours, one per featured project, assigned so the
+project's own screenshot reads on it and in an order that is this site's own. The tile's dark ink
+(`--tile-ink`) reads on all of them at AA or better. A project without a screenshot shows its app
+icon instead; the tile does not pretend.
 
 **Real screenshots, framed.** Every featured image is the product itself, captured from the live
 app and cut into a rounded panel that runs off the bottom-right of its tile. Nothing is a mock-up.
@@ -69,9 +71,9 @@ projects carry that.
 
 Three kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`). Ambience: the two lights behind the page drift
-on a slow loop. Response: a tile lifts an eighth of a rem and gains a shadow on hover while its artwork
-grows by two percent; buttons change tint on hover and press to 98% on click. Every curve is an
-ease-out, never a bounce, so nothing overshoots. Pages cross-fade through Astro's client router,
+on a slow loop. Response: a tile grows by two and a half percent and its shadow deepens over 450 ms while its
+artwork grows a touch more over 700 ms; buttons grow the same amount; everything presses to 98.5%
+on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages cross-fade through Astro's client router,
 and the background is kept alive across the change so the light never restarts. Under `prefers-reduced-motion` all of it stops, and the site is
 exactly as usable.
 
@@ -116,7 +118,7 @@ Breakpoints are the one thing that cannot be a custom property, so they live onc
   names are block__element--modifier, prefixed with the component's name, because component styles
   are global.
 - A new component starts from the shared utilities (`.container`, `.stack-center`, `.actions`,
-  `.bracket-list`, `.lede`, `.prose`, `.section`) before adding its own rules.
+  `.dot-list`, `.lede`, `.prose`, `.section`) before adding its own rules.
 - Every interactive element is at least `--touch-target` tall, has a visible focus ring, and works
   without a pointer.
 - The share image in `src/pages/og/[id].png.ts` mirrors the tokens as constants; when a token

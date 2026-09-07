@@ -55,7 +55,7 @@
   },
   "contact": {
     "title": "Get in touch",
-    "lede": "Email is the fastest way to reach {givenName}. LinkedIn works too, and the code is on GitHub.",
+    "lede": "Email is the fastest way to reach {givenName}. LinkedIn works too, and all the code is on GitHub.",
     "colophon": "© {year} {name}. Set in Gabarito and Figtree. Built with Astro from a few JSON files.",
     "sourceLink": "Source on GitHub"
   },

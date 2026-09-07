@@ -9,14 +9,14 @@ export type TileColor = (typeof tileColors)[number];
 
 /** Tiles cycle through the palette when a project declares none. */
 const tileCycle: TileColor[] = [
-  "lilac",
-  "mint",
-  "salmon",
-  "sky",
-  "cream",
   "sage",
-  "peach",
+  "salmon",
   "lavender",
+  "cream",
+  "sky",
+  "mint",
+  "peach",
+  "lilac",
 ];
 
 export function tileFor(project: Project, index: number): TileColor {

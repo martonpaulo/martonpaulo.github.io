@@ -23,6 +23,7 @@
 .button:hover {
   background: var(--surface-strong);
   color: var(--primary-strong);
+  transform: scale(var(--grow));
 }
 
 .button:active {

@@ -19,12 +19,5 @@
     "url": "https://www.linkedin.com/in/martonpaulo/",
     "handle": "in/martonpaulo",
     "primary": true
-  },
-  {
-    "id": "cv",
-    "label": "CV",
-    "url": "https://app.enhancv.com/share/31dd891e/",
-    "handle": "Read online",
-    "primary": false
   }
 ]

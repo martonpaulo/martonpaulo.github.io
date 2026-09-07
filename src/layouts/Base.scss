@@ -52,12 +52,12 @@
 
 @keyframes glow-drift {
   from {
-    transform: translate3d(calc(-0.15 * var(--glow-size)), 0, 0) scale(1);
+    transform: translate3d(calc(-0.3 * var(--glow-size)), 0, 0) scale(1);
   }
 
   to {
-    transform: translate3d(calc(0.15 * var(--glow-size)), calc(0.2 * var(--glow-size)), 0)
-      scale(1.15);
+    transform: translate3d(calc(0.3 * var(--glow-size)), calc(0.25 * var(--glow-size)), 0)
+      scale(1.2);
   }
 }
 
