@@ -54,6 +54,12 @@ $enter-steps: 6;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  // Shortening durations cannot reach an animated scroll: `scroll-behavior` is
+  // its own property, so an anchor keeps gliding until it is set back to `auto`.
+  html {
+    scroll-behavior: auto;
+  }
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
