@@ -7,7 +7,8 @@
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
-- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. DNS lives at Hostinger and is owner-managed; nothing in this repository touches it.
+- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. The domain is registered at Hostinger and its DNS is delegated to Cloudflare nameservers; both are owner-managed and nothing in this repository touches them.
+- HTTPS is terminated by the Cloudflare proxy in front of GitHub Pages, so `http://martonpaulo.com/` already answers `301` to the HTTPS canonical. Because the apex `A` records resolve to Cloudflare rather than to the GitHub Pages addresses, GitHub cannot issue its own certificate: `PUT /repos/martonpaulo/martonpaulo.github.io/pages` with `https_enforced: true` fails with `404 The certificate does not exist yet`, and the Pages metadata keeps `https_enforced: false` and an `http://` `html_url`. That mismatch is expected, affects no visitor, and is not a defect to fix from this repository.
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
 - Development language: English.
