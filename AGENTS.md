@@ -451,7 +451,14 @@ unblocking action, and the observable condition for resumption.
   Pages site exists, the latest `github-pages` deployment succeeded, and both GitHub URL surfaces
   agree with that recorded URL. When the value differs, preview and confirm the exact change, then
   read `homepage` back through the API. Otherwise leave it unchanged and report the evidence gap;
-  do not enable or deploy Pages as setup work.
+  do not enable or deploy Pages as setup work. The two surfaces will never agree here: `homepage`
+  is `https://martonpaulo.com` while the Pages API's `html_url` is `http://martonpaulo.com/`, for
+  the certificate reason recorded under Landing page above. That is the settled state; `homepage`
+  is already correct, so do not "fix" either value and do not reopen it as a finding.
+- The Dependabot tab (`/network/updates`) answers `404` because `dependabot_security_updates` is
+  disabled, which is what manual dependency updates mean. The dependency graph itself is enabled
+  and populated: `/network/dependencies` and the SBOM API both answer `200`. A `404` on the
+  updates tab is not a broken dependency viewer.
 - Keep secrets in the platform or provider's secure store, never in versioned files.
 
 ## Tests and validation
