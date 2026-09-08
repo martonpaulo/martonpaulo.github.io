@@ -68,8 +68,11 @@ supports 7.
 | `npm run build`    | The whole site, sitemap, redirects and share images into `dist/`                                               |
 | `npm run validate` | All of the above, in that order                                                                                |
 
-CI runs `validate` on every push and pull request, and deploys only when a file the build reads
-changed.
+CI runs the cheap checks on every push and pull request, because linting and formatting read
+files the site never serves. The build, the artifact upload and the deploy are conditional: they
+run only when the change touches something the build reads (`db/`, `src/`, `public/`, the Astro or
+TypeScript configuration, the dependencies, or the workflow itself). A change to this README
+is checked and not built.
 
 <br />
 
@@ -86,7 +89,10 @@ and no environment variables; the build succeeds from a clean clone.
 - Content is one JSON file by design. See `docs/product.md` for what the site will never do and
   why: no CMS, no translations, no blog, no forms.
 - Share images render once at build time in the site's dark colour scheme.
-- The custom domain's DNS lives at Hostinger and is managed outside this repository.
+- The custom domain is registered at Hostinger and its DNS is served by Cloudflare, both managed
+  outside this repository. Because the apex resolves to Cloudflare rather than to GitHub, GitHub
+  cannot issue its own certificate: Cloudflare terminates HTTPS and redirects `http://`, while the
+  Pages metadata keeps `https_enforced: false` and an `http://` URL. That mismatch is expected.
 
 <br />
 
