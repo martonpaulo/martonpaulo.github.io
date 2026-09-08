@@ -1,26 +1,31 @@
 @use "../styles/breakpoints" as bp;
 
+// Flex rather than grid so a short last row centers instead of hugging the
+// left. One column on phones, two from tablets, four on ultrawide screens.
 .project-grid {
+  --columns: 1;
+  --gap: var(--space-3);
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
 }
 
 .project-grid__item {
   display: grid;
+  flex: 0 1 calc((100% - (var(--columns) - 1) * var(--gap)) / var(--columns));
 }
 
 @include bp.up("tablet") {
   .project-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
+    --columns: 2;
+    --gap: var(--space-4);
   }
 }
 
-// Eight featured projects fill two rows of four on ultrawide screens.
 @include bp.up("ultrawide") {
   .project-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    --columns: 4;
   }
 }

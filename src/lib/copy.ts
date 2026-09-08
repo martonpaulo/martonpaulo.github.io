@@ -8,3 +8,8 @@ export function fill(template: string, values: Record<string, string | number>):
     key in values ? String(values[key]) : match,
   );
 }
+
+/** Lowercases only the first letter, so "macOS apps" becomes "macOS apps" mid-sentence and "Web apps" becomes "web apps". */
+export function lowerFirst(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}

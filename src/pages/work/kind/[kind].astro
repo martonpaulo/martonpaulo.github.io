@@ -6,7 +6,7 @@ import WorkFilters from "../../../components/WorkFilters.astro";
 import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
 import { byYear, getCopy, getProjects } from "../../../lib/db";
-import { fill } from "../../../lib/copy";
+import { fill, lowerFirst } from "../../../lib/copy";
 import { shareImageFor } from "../../../lib/pages";
 import { countByKind, type ProjectKind } from "../../../lib/projects";
 
@@ -26,7 +26,7 @@ const ofKind = projects.filter((project) => project.kind === kind);
 const featured = ofKind.filter((project) => project.featured);
 const rest = byYear(ofKind.filter((project) => !project.featured));
 const label = kinds[kind].many;
-const vars = { kind: label.toLowerCase() };
+const vars = { kind: lowerFirst(label) };
 ---
 
 <Base title={label} description={fill(work.kindDescription, vars)} ogImage={shareImageFor("work")}>
