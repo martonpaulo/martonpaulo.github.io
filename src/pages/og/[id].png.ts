@@ -9,12 +9,12 @@ import { fill } from "../../lib/copy";
 import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
 
 // Colours mirror the tokens in src/styles/global.css.
-const BG = "#1b1f2a";
+const BG = "#172630";
 const TEXT = "#e9ebf0";
 const MUTED = "#b3b9c6";
-const PRIMARY = "#ff9b7b";
+const PRIMARY = "#7fd0e6";
 const HEADING = "#f6f7f9";
-const MARK_SHADOW = "#3d4d8a";
+const MARK_SHADOW = "#2a6f8f";
 
 const WIDTH = 1200;
 const HEIGHT = 630;

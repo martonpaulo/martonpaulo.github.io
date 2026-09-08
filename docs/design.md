@@ -6,7 +6,7 @@ colour, font or measure of its own.
 
 ## What the site should signify
 
-The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a dark neutral room with a lamp on,
+The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a dark blue-green room with a light on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
 | Quality | What it says about Marton                                                              | Carried by                                                                                                          |
@@ -21,21 +21,21 @@ result must not be mistaken for the reference.
 
 ## The signs
 
-**A charcoal room.** `#1b1f2a`, a near-neutral dark with a blue undertone, the way Apple's dark
-surfaces are dark without being black. A neutral room lets the pastel tiles be the colour, instead
+**A deep blue-green room.** `#172630`, a dark with a clear blue-green undertone, the way Apple's
+dark surfaces are dark without being black. A neutral room lets the pastel tiles be the colour, instead
 of competing with them. It is the only scheme: the site does not switch to light, because the
 tiles are the light.
 
-**White headings, one coral accent.** Headings are a warm white (`--heading`), so hierarchy comes
-from size and weight rather than colour. The accent, `#ff9b7b`, a soft coral, is spent only on
-what can be acted on or what names a thing: links, the primary button, the mark, the eyebrows'
-brackets and list bullets. It is the one warm note in a cool room.
+**White headings, one aqua accent.** Headings are a warm white (`--heading`), so hierarchy comes
+from size and weight rather than colour. The accent, `#7fd0e6`, a light aqua between the room's
+blue and its green, is spent only on what can be acted on or what names a thing: links, the
+primary button, the mark, the eyebrows' brackets and list bullets.
 
 **The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
 brackets around every label. Never around a title and never as a bullet; the owner tried both and
 they read as decoration. Lists use a small accent dot.
 
-**Light that moves.** Two blurred discs, one indigo and one teal, drift across the top of every
+**Light that moves.** Two blurred discs, one blue and one teal, drift across the top of every
 page on a six-second cycle, plainly visible, so the room never feels static. They are ambience,
 not the signature, and they stop under reduced motion.
 
@@ -62,7 +62,8 @@ two font files load, both free, from the site's own origin. No monospace: the pr
 brackets survive only as the mark.
 
 **The bracket mark.** Two brackets with an offset shadow, carried over from the previous site. It
-lives in the navigation pill, the favicon and the share images, in the accent on green.
+lives in the navigation pill, the favicon and the share images, in the accent. The favicon has a
+transparent background and a dark halo, so it reads on a white, black or coloured tab bar.
 
 **A floating pill for navigation.** Three destinations and the mark, translucent over the page,
 sticky at the top. It never grows a menu because there is nothing to hide in it.
@@ -129,7 +130,8 @@ verified with Lighthouse on every page before a push:
 - Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
   page, landmarks and a skip link on every page.
 - Motion answers the pointer, stays under a second, uses ease-out, and disappears under
-  `prefers-reduced-motion`. Nothing animates on scroll.
+  `prefers-reduced-motion`, including the drifting light. Nothing animates on scroll. A machine
+  with "Reduce motion" on sees a still site by design; check that setting before judging motion.
 - Images are the product at two or three times pixel density, cut to the box that shows them, so
   nothing is upscaled or cropped by the browser.
 - No layout shift: every image has intrinsic dimensions, fonts preload, and the page keeps
