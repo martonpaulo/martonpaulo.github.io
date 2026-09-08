@@ -12,14 +12,14 @@
   /* Surfaces and text */
   --bg: #1f302b;
   --bg-glow: #3e7d5c;
-  --bg-glow-warm: #8a7a3a;
+  --bg-glow-cool: #2f6f9a;
   --surface: rgb(255 255 255 / 6%);
   --surface-strong: rgb(255 255 255 / 12%);
-  --border: rgb(242 207 114 / 22%);
+  --border: rgb(154 205 255 / 24%);
   --text: #e9efe9;
   --text-muted: #b2c3b8;
-  --primary: #f2cf72;
-  --primary-strong: #ffe08f;
+  --primary: #9acdff;
+  --primary-strong: #c4e2ff;
   --focus: #ffffff;
 
   /* Card tiles: a pastel background and the ink that reads on all of them */
@@ -85,13 +85,13 @@
   --measure-wide: 44rem;
   --measure-title: 16ch;
   --card-art-ratio: 16 / 10;
-  --card-icon-size: clamp(var(--space-5), 30%, calc(2 * var(--space-5)));
+  --card-icon-size: clamp(var(--space-6), 45%, calc(1.75 * var(--space-6)));
   --touch-target: 2.5rem;
   --gutter: clamp(1rem, 4vw, 2rem);
   --glow-size: calc(6 * var(--space-6));
   --glow-blur: var(--space-6);
-  --glow-strength: 34%;
-  --glow-strength-warm: 16%;
+  --glow-strength: 50%;
+  --glow-strength-cool: 30%;
 
   /* Motion */
   --duration-fast: 200ms;
@@ -102,7 +102,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --grow: 1.025;
   --press: 0.985;
-  --drift-duration: 9s;
+  --drift-duration: 6s;
   --enter-duration: 700ms;
   --enter-stagger: 90ms;
 }

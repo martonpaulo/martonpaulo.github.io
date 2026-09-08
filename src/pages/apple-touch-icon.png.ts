@@ -10,7 +10,7 @@ const svg = `
   <rect width="24" height="24" fill="#1f302b"/>
   <g fill="none" stroke-width="2.2" stroke-linecap="square" transform="translate(0 0.5) scale(0.96) translate(0.5 0)">
     <path d="M10.5 4.5h-5v17h5M15.5 4.5h5v17h-5" stroke="#3e7d5c"/>
-    <path d="M9 3H4v17h5M16 3h5v17h-5" stroke="#f2cf72"/>
+    <path d="M9 3H4v17h5M16 3h5v17h-5" stroke="#9acdff"/>
   </g>
 </svg>`;
 

@@ -36,15 +36,15 @@
   }
 
   &::before {
-    top: calc(-0.5 * var(--glow-size));
-    left: calc(50% - 0.6 * var(--glow-size));
+    top: calc(-0.4 * var(--glow-size));
+    left: calc(50% - 0.8 * var(--glow-size));
     background: color-mix(in srgb, var(--bg-glow) var(--glow-strength), transparent);
   }
 
   &::after {
-    top: calc(-0.35 * var(--glow-size));
-    left: calc(50% - 0.1 * var(--glow-size));
-    background: color-mix(in srgb, var(--bg-glow-warm) var(--glow-strength-warm), transparent);
+    top: calc(-0.2 * var(--glow-size));
+    left: calc(50% + 0.1 * var(--glow-size));
+    background: color-mix(in srgb, var(--bg-glow-cool) var(--glow-strength-cool), transparent);
     animation-direction: alternate-reverse;
     animation-duration: calc(var(--drift-duration) * 1.35);
   }
@@ -52,12 +52,12 @@
 
 @keyframes glow-drift {
   from {
-    transform: translate3d(calc(-0.3 * var(--glow-size)), 0, 0) scale(1);
+    transform: translate3d(calc(-0.5 * var(--glow-size)), 0, 0) scale(1);
   }
 
   to {
-    transform: translate3d(calc(0.3 * var(--glow-size)), calc(0.25 * var(--glow-size)), 0)
-      scale(1.2);
+    transform: translate3d(calc(0.5 * var(--glow-size)), calc(0.4 * var(--glow-size)), 0)
+      scale(1.25);
   }
 }
 

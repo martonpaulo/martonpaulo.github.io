@@ -12,7 +12,7 @@ import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
 const BG = "#1f302b";
 const TEXT = "#e9efe9";
 const MUTED = "#b2c3b8";
-const PRIMARY = "#f2cf72";
+const PRIMARY = "#9acdff";
 const MARK_SHADOW = "#3e7d5c";
 
 const WIDTH = 1200;

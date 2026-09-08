@@ -67,11 +67,11 @@
   margin-top: var(--space-3);
 }
 
-// Edge-anchored screenshot: inset on the left with one rounded corner, flush
-// with the card's right and bottom edges, so the card's own corner finishes it.
+// Edge-anchored screenshot: flush with the card's left, right and bottom edges
+// so the card's own corners finish it; only the top-left corner is its own.
 .project-card__art--cover {
   width: auto;
-  margin-inline: 0 calc(-1 * var(--space-4));
+  margin-inline: calc(-1 * var(--space-4));
   margin-bottom: calc(-1 * var(--space-4));
 
   img {

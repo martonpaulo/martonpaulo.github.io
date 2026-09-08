@@ -6,7 +6,7 @@ colour, font or measure of its own.
 
 ## What the site should signify
 
-The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep green room with a lamp on,
+The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep green room with a light on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
 | Quality | What it says about Marton                                                              | Carried by                                                                                                          |
@@ -25,18 +25,17 @@ result must not be mistaken for the reference.
 developer terminal; green signifies a room somebody chose. It is the only scheme: the site does
 not switch to light, because the tiles are the light.
 
-**A lamp, not a highlighter.** The accent is `#f2cf72`, the yellow of a warm bulb, and it is the
-colour of every heading, every link and the brackets. It appears on nothing decorative, so when it appears it is
-Marton speaking. Body text is a neutral off-white so the yellow stays the only warm note.
+**One cool accent.** The accent is `#9acdff`, a light sky blue, and it is the colour of every
+heading, every link and the brackets. It appears on nothing decorative, so when it appears it is
+Marton speaking. Body text is a neutral off-white so the blue stays the only strong note.
 
 **The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
 brackets around every label. Never around a title and never as a bullet; the owner tried both and
 they read as decoration. Lists use a small accent dot.
 
-**Light that moves, quietly.** Two faint blurred discs, one green and one warm, drift behind every
-page on a cycle short enough to notice within a few seconds, so the room never feels static. They are ambience, not the signature: they
-stay below the threshold where a visitor would call them an effect, and they stop under reduced
-motion.
+**Light that moves.** Two blurred discs, one green and one blue, drift across the top of every
+page on a six-second cycle, plainly visible, so the room never feels static. They are ambience,
+not the signature, and they stop under reduced motion.
 
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
@@ -49,8 +48,8 @@ icon instead; the tile does not pretend.
 **Real screenshots, anchored to the edge.** Every featured image is the product itself, captured
 from the live app at two or three times pixel density. A screenshot is cut to the art box's own
 16:10 ratio and stored square-cornered, so the browser never crops it and the whole file width
-renders; the card rounds the one corner that shows and the screenshot runs flush to the card's
-right and bottom edges. A panel with its own shape (WindowHop's switcher) is shown whole on the
+renders; the screenshot runs flush to the card's left, right and bottom edges and keeps only its
+top-left corner rounded. A panel with its own shape (WindowHop's switcher) is shown whole on the
 tile, and an app without an interface to capture shows its icon. Nothing is a mock-up.
 An app that has no interface to capture (a menu bar utility, a personal iPhone app) shows its icon.
 
