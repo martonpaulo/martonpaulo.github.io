@@ -40,7 +40,7 @@ const ogImageUrl = new URL(shareImage(ogImage), Astro.site);
 const graph = jsonLdGraph([personNode(site, person, links), websiteNode(site), ...jsonLd]);
 ---
 
-<html lang={site.locale}>
+<html lang={site.locale} transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -84,7 +84,7 @@ const graph = jsonLdGraph([personNode(site, person, links), websiteNode(site), .
     <a class="skip-link" href="#main">{nav.skip}</a>
     <div class="page-glow" aria-hidden="true" transition:persist="glow"></div>
     <Nav />
-    <main id="main" class="page-main container" transition:animate="fade">
+    <main id="main" class="page-main container">
       <slot />
     </main>
     <Footer />

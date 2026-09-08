@@ -73,9 +73,10 @@ projects carry that.
 Three kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`). Ambience: the two lights behind the page drift
 on a slow loop. Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
-450 ms; buttons grow the same amount; everything presses to 98.5%
-on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages cross-fade through Astro's client router,
-and the background is kept alive across the change so the light never restarts. Under `prefers-reduced-motion` all of it stops, and the site is
+800 ms; buttons grow the same amount; everything presses to 98.5%
+on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through Astro's client router with its
+cross-fade switched off: the background is kept alive, the new content is swapped in at once and
+then arrives, so a page change never flashes. Under `prefers-reduced-motion` all of it stops, and the site is
 exactly as usable.
 
 ## What is deliberately absent
