@@ -79,8 +79,9 @@ load, each child a beat after the last (`.enter`). Response: a tile grows by two
 800 ms; buttons grow the same amount; everything presses to 98.5%
 on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through Astro's client router with its
 cross-fade switched off: the background is kept alive, the new content is swapped in at once and
-then arrives, so a page change never flashes. Under `prefers-reduced-motion` all of it stops, and the site is
-exactly as usable.
+then arrives, so a page change never flashes. Under `prefers-reduced-motion` everything that moves stops; the arrival keeps a
+short fade of opacity alone, because a fade is not motion and a hard cut between pages reads as a
+flash.
 
 ## What is deliberately absent
 
@@ -128,8 +129,9 @@ verified with Lighthouse on every page before a push:
 - Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
   page, landmarks and a skip link on every page.
 - Motion answers the pointer, stays under a second, uses ease-out, and disappears under
-  `prefers-reduced-motion`. Nothing animates on scroll. A machine
-  with "Reduce motion" on sees a still site by design; check that setting before judging motion.
+  `prefers-reduced-motion`, where only an opacity fade remains. Nothing animates on scroll. A
+  machine with "Reduce motion" on sees no movement by design; check that setting before judging
+  motion.
 - Images are the product at two or three times pixel density, cut to the box that shows them, so
   nothing is upscaled or cropped by the browser.
 - No layout shift: every image has intrinsic dimensions, fonts preload, and the page keeps
