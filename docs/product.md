@@ -3,7 +3,7 @@
 ## What it is
 
 Marton Paulo's personal website: a static portfolio that shows who he is, what he has built, and
-how to reach him, published at <https://www.martonpaulo.com>.
+how to reach him, published at <https://martonpaulo.com>.
 
 ## Who it is for
 
@@ -59,7 +59,7 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 ## Constraints
 
 - Static output only, hosted on GitHub Pages from the `main` branch, at the custom domain
-  `www.martonpaulo.com`. DNS lives at Hostinger and stays owner-managed.
+  `martonpaulo.com`. DNS lives at Hostinger and stays owner-managed.
 - No secrets, no environment variables, no runtime services: the build must succeed from a clean
   clone with `npm ci && npm run build`.
 - One content source, the `db/` folder, with a schema enforced at build time. A malformed entry fails the

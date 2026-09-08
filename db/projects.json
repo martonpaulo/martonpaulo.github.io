@@ -9,7 +9,7 @@
     "stack": ["React", "TypeScript", "Vite", "Tailwind CSS"],
     "tags": ["local-first", "tools", "pwa"],
     "links": {
-      "live": "https://www.martonpaulo.com/tabelo/",
+      "live": "https://martonpaulo.com/tabelo/",
       "source": "https://github.com/martonpaulo/tabelo"
     },
     "featured": true,
@@ -31,7 +31,7 @@
     "stack": ["Python", "fontTools", "HarfBuzz", "OpenType"],
     "tags": ["accessibility", "typography", "open-source"],
     "links": {
-      "live": "https://www.martonpaulo.com/moon-uniform/"
+      "live": "https://martonpaulo.com/moon-uniform/"
     },
     "featured": true,
     "status": "active",
@@ -52,7 +52,7 @@
     "stack": ["Swift", "AppKit", "Sparkle"],
     "tags": ["macos", "productivity", "open-source"],
     "links": {
-      "live": "https://www.martonpaulo.com/windowhop/",
+      "live": "https://martonpaulo.com/windowhop/",
       "source": "https://github.com/martonpaulo/windowhop"
     },
     "featured": true,
@@ -74,7 +74,7 @@
     "stack": ["React", "TypeScript", "React Flow", "ELK", "GitHub API"],
     "tags": ["developer-tools", "data-visualization"],
     "links": {
-      "live": "https://www.martonpaulo.com/issues-graph/",
+      "live": "https://martonpaulo.com/issues-graph/",
       "source": "https://github.com/martonpaulo/issues-graph"
     },
     "featured": true,
@@ -96,7 +96,7 @@
     "stack": ["Swift", "SwiftUI", "IMAP", "OAuth 2.0"],
     "tags": ["macos", "productivity", "email"],
     "links": {
-      "live": "https://www.martonpaulo.com/mailbell/",
+      "live": "https://martonpaulo.com/mailbell/",
       "source": "https://github.com/martonpaulo/mailbell"
     },
     "featured": true,
@@ -118,7 +118,7 @@
     "stack": ["JavaScript", "Canvas", "Web Audio API"],
     "tags": ["creative-coding", "generative-art"],
     "links": {
-      "live": "https://www.martonpaulo.com/small-lights/",
+      "live": "https://martonpaulo.com/small-lights/",
       "source": "https://github.com/martonpaulo/small-lights"
     },
     "featured": true,
@@ -140,7 +140,7 @@
     "stack": ["Swift", "SwiftUI", "Sparkle"],
     "tags": ["macos", "productivity", "time"],
     "links": {
-      "live": "https://www.martonpaulo.com/meantime/",
+      "live": "https://martonpaulo.com/meantime/",
       "source": "https://github.com/martonpaulo/meantime"
     },
     "featured": true,
@@ -182,7 +182,7 @@
     "stack": ["React", "TypeScript", "D3", "TopoJSON", "TanStack Router"],
     "tags": ["local-first", "maps", "data-visualization", "accessibility"],
     "links": {
-      "live": "https://www.martonpaulo.com/atlas-tint/",
+      "live": "https://martonpaulo.com/atlas-tint/",
       "source": "https://github.com/martonpaulo/atlas-tint"
     },
     "featured": false,
@@ -198,7 +198,7 @@
     "stack": ["React", "TypeScript", "Vite"],
     "tags": ["local-first", "tools", "print"],
     "links": {
-      "live": "https://www.martonpaulo.com/todo-print-editor/",
+      "live": "https://martonpaulo.com/todo-print-editor/",
       "source": "https://github.com/martonpaulo/todo-print-editor"
     },
     "featured": false,
@@ -214,7 +214,7 @@
     "stack": ["JavaScript", "SVG", "Playwright"],
     "tags": ["tools", "svg"],
     "links": {
-      "live": "https://www.martonpaulo.com/country-badge-generator/",
+      "live": "https://martonpaulo.com/country-badge-generator/",
       "source": "https://github.com/martonpaulo/country-badge-generator"
     },
     "featured": false,
@@ -230,7 +230,7 @@
     "stack": ["React", "TypeScript", "Vite", "GitHub API"],
     "tags": ["study", "markdown"],
     "links": {
-      "live": "https://www.martonpaulo.com/github-blog/",
+      "live": "https://martonpaulo.com/github-blog/",
       "source": "https://github.com/martonpaulo/github-blog"
     },
     "featured": false,
@@ -246,7 +246,7 @@
     "stack": ["React", "TypeScript", "Vite"],
     "tags": ["study", "finance"],
     "links": {
-      "live": "https://www.martonpaulo.com/budget-control/",
+      "live": "https://martonpaulo.com/budget-control/",
       "source": "https://github.com/martonpaulo/budget-control"
     },
     "featured": false,
@@ -262,7 +262,7 @@
     "stack": ["React", "TypeScript", "Styled Components"],
     "tags": ["study", "e-commerce"],
     "links": {
-      "live": "https://www.martonpaulo.com/coffee-delivery/",
+      "live": "https://martonpaulo.com/coffee-delivery/",
       "source": "https://github.com/martonpaulo/coffee-delivery"
     },
     "featured": false,
@@ -294,7 +294,7 @@
     "stack": ["React", "TypeScript", "Styled Components", "Zod"],
     "tags": ["study", "productivity"],
     "links": {
-      "live": "https://www.martonpaulo.com/pomodoro-timer/",
+      "live": "https://martonpaulo.com/pomodoro-timer/",
       "source": "https://github.com/martonpaulo/pomodoro-timer"
     },
     "featured": false,
@@ -310,7 +310,7 @@
     "stack": ["React", "TypeScript"],
     "tags": ["study"],
     "links": {
-      "live": "https://www.martonpaulo.com/react-todo-list/",
+      "live": "https://martonpaulo.com/react-todo-list/",
       "source": "https://github.com/martonpaulo/react-todo-list"
     },
     "featured": false,
@@ -326,7 +326,7 @@
     "stack": ["React", "TypeScript", "Jest"],
     "tags": ["study"],
     "links": {
-      "live": "https://www.martonpaulo.com/community-feed/",
+      "live": "https://martonpaulo.com/community-feed/",
       "source": "https://github.com/martonpaulo/community-feed"
     },
     "featured": false,
@@ -468,7 +468,7 @@
     "stack": ["JavaScript", "jQuery", "p5.js"],
     "tags": ["game", "study"],
     "links": {
-      "live": "https://www.martonpaulo.com/simple-javascript-games/",
+      "live": "https://martonpaulo.com/simple-javascript-games/",
       "source": "https://github.com/martonpaulo/simple-javascript-games"
     },
     "featured": false,

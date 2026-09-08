@@ -6,8 +6,8 @@
 - Public name: `martonpaulo.com`
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
-- Public identifiers: the domain `www.martonpaulo.com`. The npm package name is private and never published.
-- Landing page: the site itself, canonical URL `https://www.martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. DNS lives at Hostinger and is owner-managed; nothing in this repository touches it.
+- Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
+- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. DNS lives at Hostinger and is owner-managed; nothing in this repository touches it.
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
 - Development language: English.
@@ -121,7 +121,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 - **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL; the list is
   derived from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
   Sibling projects deployed from other repositories are served by GitHub under
-  `www.martonpaulo.com/<repo>/`, so their `live` links point there.
+  `martonpaulo.com/<repo>/`, so their `live` links point there.
 
 ## Instruction hierarchy and sources of truth
 

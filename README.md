@@ -3,7 +3,7 @@
 ![Validate and deploy](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml/badge.svg)
 ![License](https://img.shields.io/github/license/martonpaulo/martonpaulo.github.io)
 
-Marton Paulo's personal site, live at [www.martonpaulo.com](https://www.martonpaulo.com). A static
+Marton Paulo's personal site, live at [martonpaulo.com](https://martonpaulo.com). A static
 portfolio built with [Astro](https://astro.build) from a few JSON files, published to GitHub Pages
 on every push to `main`. No backend, no database, no cookies, no client-side JavaScript.
 

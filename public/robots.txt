@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /p/
 
-Sitemap: https://www.martonpaulo.com/sitemap-index.xml
+Sitemap: https://martonpaulo.com/sitemap-index.xml
