@@ -9,7 +9,7 @@ import Eyebrow from "../../components/Eyebrow.astro";
 import Base from "../../layouts/Base.astro";
 import { fill } from "../../lib/copy";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
-import { heroImageSizes, heroImageWidths } from "../../lib/images";
+import { heroImageSizes, heroImageWidths, imageQuality } from "../../lib/images";
 import { shareImageFor } from "../../lib/pages";
 import {
   projectLinks,
@@ -77,6 +77,7 @@ const description = fill(copy.description, {
             alt={project.image.alt}
             widths={heroImageWidths}
             sizes={heroImageSizes}
+            quality={imageQuality}
             loading="eager"
           />
         </figure>

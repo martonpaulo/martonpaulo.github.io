@@ -46,8 +46,10 @@ project's own screenshot reads on it and in an order that is this site's own. Th
 (`--tile-ink`) reads on all of them at AA or better. A project without a screenshot shows its app
 icon instead; the tile does not pretend.
 
-**Real screenshots, framed.** Every featured image is the product itself, captured from the live
-app and cut into a rounded panel that runs off the bottom-right of its tile. Nothing is a mock-up.
+**Real screenshots, anchored to the edge.** Every featured image is the product itself, captured
+from the live app at two or three times pixel density and stored square-cornered; the card rounds
+the one corner that shows, and the screenshot runs flush to the card's right and bottom edges so it
+fills the tile instead of floating in it. Nothing is a mock-up.
 An app that has no interface to capture (a menu bar utility, a personal iPhone app) shows its icon.
 
 **A rounded bold display face against a plain body.** Gabarito at 700 for headings and buttons,

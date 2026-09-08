@@ -4,7 +4,7 @@ import "./ProjectCard.scss";
 import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
-import { cardImageSizes, cardImageWidths, isEagerCard } from "../lib/images";
+import { cardImageSizes, cardImageWidths, imageQuality, isEagerCard } from "../lib/images";
 import { projectPath, tileFor, type Project } from "../lib/projects";
 import Eyebrow from "./Eyebrow.astro";
 
@@ -39,6 +39,7 @@ const art = project.image;
           alt=""
           widths={cardImageWidths}
           sizes={cardImageSizes}
+          quality={imageQuality}
           loading={isEagerCard(index) ? "eager" : "lazy"}
           decoding="async"
         />

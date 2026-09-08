@@ -45,7 +45,7 @@
     "older": "Older"
   },
   "about": {
-    "title": "About {givenName}",
+    "title": "About",
     "description": "About {name}: {role} living in {location}. What he builds, what he works with, the languages he speaks, and what he does off the keyboard.",
     "biographyLabel": "Biography",
     "nowHeading": "Lately",
