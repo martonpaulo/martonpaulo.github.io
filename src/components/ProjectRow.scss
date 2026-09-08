@@ -8,7 +8,12 @@
   border-top: var(--hairline) solid var(--border);
 }
 
+// inline-flex rather than block: the target grows to the tappable minimum
+// without the link claiming the full width of the row it sits in.
 .project-row__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
   text-decoration: none;
 }
 

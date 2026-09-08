@@ -40,6 +40,10 @@ const year = new Date().getFullYear();
   </section>
   <div class="footer__colophon container">
     <p>{fill(contact.colophon, { year, name: person.name })}</p>
-    <p><a href={site.repository} {...externalLinkAttributes}>{contact.sourceLink}</a></p>
+    <p>
+      <a class="footer__source" href={site.repository} {...externalLinkAttributes}>
+        {contact.sourceLink}
+      </a>
+    </p>
   </div>
 </footer>

@@ -2,6 +2,14 @@
   padding-block: var(--space-6) var(--space-4);
 }
 
+// The one link in the colophon, sized to the tappable minimum like every
+// other control; inline-flex keeps its width the width of its own text.
+.footer__source {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+}
+
 .footer__colophon {
   display: grid;
   gap: var(--space-2);
