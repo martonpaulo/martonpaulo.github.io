@@ -1,12 +1,9 @@
-@use "../styles/breakpoints" as bp;
-
 // Modelled on an App Store story card: text at the top, artwork filling the
 // bottom, one soft surface that grows a little under the pointer.
 .project-card {
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
-  min-height: var(--card-min-height);
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--tile);
@@ -59,17 +56,21 @@
   line-height: var(--leading-relaxed);
 }
 
-// The artwork grows with the card, never on its own, and stretches to the
-// card's base: the grid row it sits in takes whatever height the text leaves.
+// The art box keeps one aspect ratio and every asset is cut to it, so the
+// browser never crops and the full file width is what renders (sharp on 3x).
+// Leftover height in the row goes above the art, never below it.
 .project-card__art {
   position: relative;
-  min-height: var(--card-art-height);
+  align-self: end;
+  width: 100%;
+  aspect-ratio: var(--card-art-ratio);
   margin-top: var(--space-3);
 }
 
-// Edge-anchored artwork: inset on the left with one rounded corner, flush
+// Edge-anchored screenshot: inset on the left with one rounded corner, flush
 // with the card's right and bottom edges, so the card's own corner finishes it.
 .project-card__art--cover {
+  width: auto;
   margin-inline: 0 calc(-1 * var(--space-4));
   margin-bottom: calc(-1 * var(--space-4));
 
@@ -83,6 +84,19 @@
   }
 }
 
+// A whole panel shown as an object on the tile, its own corners and shadow kept.
+.project-card__art--object {
+  display: grid;
+  place-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: var(--shadow-icon);
+  }
+}
+
 // Icons float in the middle of the lower half.
 .project-card__art--contain {
   display: grid;
@@ -91,15 +105,5 @@
   img {
     width: var(--card-icon-size);
     filter: var(--shadow-icon);
-  }
-}
-
-@include bp.up("tablet") {
-  .project-card {
-    min-height: var(--card-min-height-wide);
-  }
-
-  .project-card__art {
-    min-height: var(--card-art-height-wide);
   }
 }

@@ -47,9 +47,11 @@ project's own screenshot reads on it and in an order that is this site's own. Th
 icon instead; the tile does not pretend.
 
 **Real screenshots, anchored to the edge.** Every featured image is the product itself, captured
-from the live app at two or three times pixel density and stored square-cornered; the card rounds
-the one corner that shows, and the screenshot runs flush to the card's right and bottom edges so it
-fills the tile instead of floating in it. Nothing is a mock-up.
+from the live app at two or three times pixel density. A screenshot is cut to the art box's own
+16:10 ratio and stored square-cornered, so the browser never crops it and the whole file width
+renders; the card rounds the one corner that shows and the screenshot runs flush to the card's
+right and bottom edges. A panel with its own shape (WindowHop's switcher) is shown whole on the
+tile, and an app without an interface to capture shows its icon. Nothing is a mock-up.
 An app that has no interface to capture (a menu bar utility, a personal iPhone app) shows its icon.
 
 **A rounded bold display face against a plain body.** Gabarito at 700 for headings and buttons,

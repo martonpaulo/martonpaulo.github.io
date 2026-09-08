@@ -200,7 +200,8 @@ const projects = defineCollection({
         .object({
           src: image(),
           alt: z.string(),
-          fit: z.enum(["cover", "contain"]),
+          /** cover: a 16:10 screenshot filling the box; object: a whole panel on the tile; contain: an app icon. */
+          fit: z.enum(["cover", "object", "contain"]),
         })
         .optional(),
     }),

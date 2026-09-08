@@ -1,16 +1,18 @@
 @use "../styles/breakpoints" as bp;
 
+// One grid for every row, so labels share a column and values another. The
+// block shrinks to its content and centers as one piece.
 .definitions {
-  margin: 0;
   display: grid;
   gap: var(--space-3);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .definitions__row {
   display: grid;
-  grid-template-columns: 1fr;
   gap: var(--space-1);
-  align-items: baseline;
   text-align: center;
 }
 
@@ -26,11 +28,14 @@
   margin: 0;
 }
 
-// From tablets up the label sits to the left of the centre line and the value to the right.
 @include bp.up("tablet") {
+  .definitions {
+    grid-template-columns: auto minmax(0, var(--measure));
+    column-gap: var(--space-4);
+  }
+
   .definitions__row {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+    display: contents;
     text-align: left;
   }
 

@@ -84,10 +84,7 @@
   --measure: 40rem;
   --measure-wide: 44rem;
   --measure-title: 16ch;
-  --card-min-height: 24rem;
-  --card-min-height-wide: 26rem;
-  --card-art-height: 12rem;
-  --card-art-height-wide: 14rem;
+  --card-art-ratio: 16 / 10;
   --card-icon-size: clamp(var(--space-5), 30%, calc(2 * var(--space-5)));
   --touch-target: 2.5rem;
   --gutter: clamp(1rem, 4vw, 2rem);

@@ -25,6 +25,11 @@
     box-shadow: var(--shadow-panel);
   }
 
+  &--object img {
+    width: 100%;
+    filter: var(--shadow-icon);
+  }
+
   &--contain img {
     width: clamp(var(--space-6), 30%, calc(1.75 * var(--space-6)));
     margin-block: var(--space-4);

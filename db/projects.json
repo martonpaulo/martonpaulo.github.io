@@ -61,7 +61,7 @@
     "image": {
       "src": "../src/assets/projects/windowhop.png",
       "alt": "WindowHop's switcher with a grid of window previews and their app icons",
-      "fit": "cover"
+      "fit": "object"
     }
   },
   {
