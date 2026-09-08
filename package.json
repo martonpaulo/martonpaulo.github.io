@@ -6,10 +6,10 @@
   "author": {
     "name": "Marton Paulo",
     "email": "info@martonpaulo.com",
-    "url": "https://www.martonpaulo.com"
+    "url": "https://martonpaulo.com"
   },
   "license": "MIT",
-  "homepage": "https://www.martonpaulo.com",
+  "homepage": "https://martonpaulo.com",
   "repository": "github:martonpaulo/martonpaulo.github.io",
   "type": "module",
   "engines": {
