@@ -21,6 +21,12 @@ const MARK_SHADOW = "#2a6f8f";
 const WIDTH = 1200;
 const HEIGHT = 630;
 
+const EYEBROW_SIZE = 24;
+const EYEBROW_TRACKING = "0.18em";
+// One tracking step plus the space the font would have drawn, so a word gap
+// always reads wider than the gap between two letters of the same word.
+const EYEBROW_WORD_GAP = 20;
+
 type Card = {
   eyebrow: string;
   title: string;
@@ -80,6 +86,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const text = (content: string, style: Record<string, unknown>) => ({
   type: "div",
   props: { style: { display: "flex", ...style }, children: content },
+});
+
+// satori puts letter-spacing between letters but not around the space glyph,
+// so a tracked line ends up with word gaps narrower than its letter gaps —
+// "FULL-STACK DEVELOPER" came out as one word. Laying the words out as flex
+// children with a gap of their own keeps the tracking and the reading.
+const trackedWords = (content: string, gap: number, style: Record<string, unknown>) => ({
+  type: "div",
+  props: {
+    style: { display: "flex", gap, ...style },
+    children: content.split(" ").map((word) => text(word, {})),
+  },
 });
 
 export const GET: APIRoute = async ({ props }) => {
@@ -147,9 +165,9 @@ export const GET: APIRoute = async ({ props }) => {
             props: {
               style: { display: "flex", flexDirection: "column", gap: 28 },
               children: [
-                text(eyebrow.toUpperCase(), {
-                  fontSize: 24,
-                  letterSpacing: "0.18em",
+                trackedWords(eyebrow.toUpperCase(), EYEBROW_WORD_GAP, {
+                  fontSize: EYEBROW_SIZE,
+                  letterSpacing: EYEBROW_TRACKING,
                   color: PRIMARY,
                 }),
                 text(title, {
