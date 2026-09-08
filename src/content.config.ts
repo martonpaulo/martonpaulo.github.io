@@ -120,7 +120,6 @@ const copy = defineCollection({
       maintained: z.string(),
       archived: z.string(),
       open: z.string(),
-      download: z.string(),
       source: z.string(),
       package: z.string(),
       siblingsLabel: z.string(),

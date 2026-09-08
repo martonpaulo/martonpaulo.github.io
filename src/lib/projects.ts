@@ -28,12 +28,15 @@ export interface ProjectLink {
   url: string;
 }
 
-/** The outbound links of a project, labelled for what the visitor will find there. */
+/**
+ * The outbound links of a project, labelled for what the visitor will find
+ * there. A project's live link is always its own page, never a file, so an app
+ * opens like everything else instead of promising a download.
+ */
 export function projectLinks(project: Project, copy: Copy["project"]): ProjectLink[] {
   const { live, source, package: pkg } = project.links;
-  const isApp = project.kind === "macos" || project.kind === "ios";
   return [
-    live && { label: isApp ? copy.download : copy.open, url: live },
+    live && { label: copy.open, url: live },
     source && { label: copy.source, url: source },
     pkg && { label: copy.package, url: pkg },
   ].filter((link): link is ProjectLink => Boolean(link));
