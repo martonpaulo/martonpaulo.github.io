@@ -20,6 +20,7 @@
 - Merge policy: pull requests are the exception. When one is used, it is squash-merged with `gh pr merge <number> --squash --delete-branch`, and the repository allows no other method.
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
+- Default branch review policy: no required approving review or required pull request; delivery is directly to `main` after `npm run validate`. Existing optional pull requests do not change this policy.
 - Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `npm ci && npm run build`.
 - Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
 - Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
@@ -95,16 +96,18 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   every page repeats. A component reaches for them first.
 - **Accessibility is part of the markup, not a pass afterwards.** Landmarks and skip link in the
   layout, `aria-current` on the active navigation and filter, one link per card with the project
-  name as its accessible name and decorative images with empty `alt`, headings in order with hidden
+  name alone as its required accessible name and decorative images with empty `alt`, headings in order with hidden
   ones where a section has no visible title, every control at least `--touch-target` tall, a
   visible focus ring in `--focus`, and every animation off under `prefers-reduced-motion`.
+  Current implementation gap: `ProjectCard.astro` still exposes the category, name and tagline as
+  its link name. The name-only requirement remains unmet; documenting this gap does not fix it.
 - **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
   phones, two from `tablet`, four on `ultrawide`; the container widens on ultrawide instead of
   stretching the cards.
 - **One script, and it is Astro's.** The only client JavaScript is Astro's `<ClientRouter />`,
-  there because the background light must keep drifting across navigations (`transition:persist`
-  on `.page-glow`) instead of restarting on every page. Nothing else ships a script; a feature that
-  needs one must say what it does that HTML and CSS cannot.
+  there to preserve the stationary background across navigations (`transition:persist` on
+  `.page-glow`) while content changes as described in [Design: Motion](docs/design.md#motion).
+  Nothing else ships a script; a feature that needs one must say what it does that HTML and CSS cannot.
 - **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
   Open Graph, Twitter, JSON-LD (built in `src/lib/seo.ts`) and font preloads. A page passes
   `description`, an `ogImage` path from `shareImageFor()` and optional extra JSON-LD; it never

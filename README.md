@@ -5,7 +5,8 @@
 
 Marton Paulo's personal site, live at [martonpaulo.com](https://martonpaulo.com). A static
 portfolio built with [Astro](https://astro.build) from a few JSON files, published to GitHub Pages
-on every push to `main`. No backend, no database, no cookies, no client-side JavaScript.
+when a build input changes on `main`. No backend, no database, no cookies. Astro's `ClientRouter`
+is the only client-side JavaScript.
 
 <br />
 
@@ -84,7 +85,7 @@ and no environment variables; the build succeeds from a clean clone.
 
 - Content is one JSON file by design. See `docs/product.md` for what the site will never do and
   why: no CMS, no translations, no blog, no forms.
-- Share images render once at build time in the light colour scheme.
+- Share images render once at build time in the site's dark colour scheme.
 - The custom domain's DNS lives at Hostinger and is managed outside this repository.
 
 <br />

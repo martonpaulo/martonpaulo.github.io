@@ -99,8 +99,8 @@ and can be inspected in the browser. Their meaning:
 | `--bg`, `--bg-glow`                                                                 | The room and the light at the top of it                                                           |
 | `--surface`, `--surface-strong`, `--border`                                         | Translucent layers for the pill, chips and buttons                                                |
 | `--text`, `--text-muted`                                                            | Body text at two levels of emphasis; both pass AA on `--bg`                                       |
-| `--primary`, `--primary-strong`                                                     | Mint for headings and links, and its hover                                                        |
-| `--focus`                                                                           | The one warm colour, reserved for keyboard focus so it is never mistaken for decoration           |
+| `--heading`, `--primary`, `--primary-strong`                                        | Warm white headings; aqua links and controls, and their hover                                     |
+| `--focus`                                                                           | White keyboard-focus indicator, distinct from the aqua interactive accent                         |
 | `--tile-*`, `--tile-ink`, `--tile-ink-muted`                                        | The eight pastel tiles and the ink that reads on all of them                                      |
 | `--font-display`, `--font-body`                                                     | The two voices                                                                                    |
 | `--text-*`                                                                          | The type scale; the three largest steps are fluid                                                 |
@@ -109,7 +109,7 @@ and can be inspected in the browser. Their meaning:
 | `--shadow-*`                                                                        | The card lift, the panel edge, the icon drop                                                      |
 | `--container`, `--container-wide`, `--measure`, `--measure-wide`, `--measure-title` | Column and reading widths; the container widens on ultrawide screens                              |
 | `--card-*`, `--touch-target`                                                        | Tile geometry and the minimum size of anything tappable                                           |
-| `--duration-*`, `--ease`, `--ease-bounce`, `--lift`                                 | The motion vocabulary                                                                             |
+| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`            | Response timing, easing, transforms and entrance motion                                           |
 
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,
@@ -124,8 +124,8 @@ verified with Lighthouse on every page before a push:
   tile. `--text-muted` and `--tile-ink-muted` are the floors.
 - Every interactive element at least `--touch-target` (2.75 rem, 44 px) tall, with a visible
   focus ring in `--focus` that is never the accent.
-- One accent, used only for voice (headings, links, the mark); pastels for surfaces; nothing else
-  carries colour. A palette of about three roles, not a rainbow.
+- One aqua accent for links, controls, the mark and small ornaments; warm white headings and pastel
+  tile surfaces preserve the existing visual roles.
 - Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
   page, landmarks and a skip link on every page.
 - Motion answers the pointer, stays under a second, uses ease-out, and disappears under
