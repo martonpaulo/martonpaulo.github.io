@@ -116,7 +116,8 @@ and can be inspected in the browser. Their meaning:
 
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,
-`ultrawide` at 112 rem. Cards go from one column to two at `tablet` and to four at `ultrawide`.
+`ultrawide` at 112 rem. Cards go from one column to two at `tablet` and to three at `ultrawide`;
+three is the ceiling, because a wider row turns a shelf of objects into a table of rows.
 
 ## Checks every change passes
 

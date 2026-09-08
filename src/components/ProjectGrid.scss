@@ -1,7 +1,8 @@
 @use "../styles/breakpoints" as bp;
 
 // Flex rather than grid so a short last row centers instead of hugging the
-// left. One column on phones, two from tablets, four on ultrawide screens.
+// left. One column on phones, two from tablets, three on ultrawide screens:
+// past three the cards stop reading as objects and start reading as a table.
 .project-grid {
   --columns: 1;
   --gap: var(--space-3);
@@ -26,6 +27,6 @@
 
 @include bp.up("ultrawide") {
   .project-grid {
-    --columns: 4;
+    --columns: 3;
   }
 }

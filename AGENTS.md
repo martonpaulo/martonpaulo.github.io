@@ -103,8 +103,8 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   Current implementation gap: `ProjectCard.astro` still exposes the category, name and tagline as
   its link name. The name-only requirement remains unmet; documenting this gap does not fix it.
 - **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
-  phones, two from `tablet`, four on `ultrawide`; the container widens on ultrawide instead of
-  stretching the cards.
+  phones, two from `tablet`, three on `ultrawide` (three is the maximum by decision); the
+  container widens on ultrawide instead of stretching the cards.
 - **One script, and it is Astro's.** The only client JavaScript is Astro's `<ClientRouter />`,
   there to preserve the stationary background across navigations (`transition:persist` on
   `.page-glow`) while content changes as described in [Design: Motion](docs/design.md#motion).
