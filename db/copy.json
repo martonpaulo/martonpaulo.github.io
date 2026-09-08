@@ -46,7 +46,7 @@
   },
   "about": {
     "title": "About {givenName}",
-    "description": "About {name}: {role}, based in {location}. What he builds, what he works with, the languages he speaks, and what he does off the keyboard.",
+    "description": "About {name}: {role} living in {location}. What he builds, what he works with, the languages he speaks, and what he does off the keyboard.",
     "biographyLabel": "Biography",
     "nowHeading": "Lately",
     "stackHeading": "What I work with",

@@ -6,8 +6,7 @@ colour, font or measure of its own.
 
 ## What the site should signify
 
-The visitor is a recruiter, hiring manager or developer with a few minutes, deciding whether to
-reach out. The site should feel like a well-lit workshop at night: a deep green room with a lamp on,
+The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep green room with a lamp on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
 | Quality | What it says about Marton                                                              | Carried by                                                                                                          |
@@ -42,7 +41,7 @@ motion.
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
 faint resting shadow, and a whole-card grow of two and a half percent under the pointer with the
-artwork growing a touch more. Eight tile colours, one per featured project, assigned so the
+artwork growing with it, never on its own. Eight tile colours, one per featured project, assigned so the
 project's own screenshot reads on it and in an order that is this site's own. The tile's dark ink
 (`--tile-ink`) reads on all of them at AA or better. A project without a screenshot shows its app
 icon instead; the tile does not pretend.
@@ -71,8 +70,8 @@ projects carry that.
 
 Three kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`). Ambience: the two lights behind the page drift
-on a slow loop. Response: a tile grows by two and a half percent and its shadow deepens over 450 ms while its
-artwork grows a touch more over 700 ms; buttons grow the same amount; everything presses to 98.5%
+on a slow loop. Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
+450 ms; buttons grow the same amount; everything presses to 98.5%
 on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages cross-fade through Astro's client router,
 and the background is kept alive across the change so the light never restarts. Under `prefers-reduced-motion` all of it stops, and the site is
 exactly as usable.

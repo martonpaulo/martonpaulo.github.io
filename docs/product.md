@@ -7,13 +7,14 @@ how to reach him, published at <https://www.martonpaulo.com>.
 
 ## Who it is for
 
-A recruiter, hiring manager, or developer who arrived from a CV, LinkedIn, GitHub, or a search
-result, has a few minutes, and is deciding whether Marton is worth contacting.
+Someone who met one of Marton's tools, his GitHub or his LinkedIn and wants to see what else he
+has made and who is behind it. Not a hiring funnel: the site shows the work and offers a way to
+say hi, and it never pitches Marton as available.
 
 ## The job
 
-Form a trustworthy picture of Marton's work fast, without digging through LinkedIn's clutter or
-GitHub's raw repository list. Today that reader copes with the GitHub profile, which shows every
+See Marton's work as he would show it, without digging through LinkedIn's clutter or GitHub's raw
+repository list. Today that reader copes with the GitHub profile, which shows every
 repository with equal weight, and with LinkedIn, which is generic by design. Neither is curated.
 
 ## What it does
@@ -21,7 +22,7 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 - Presents a curated list of projects, each with what it is, what it was built with, when, and
   where to try it or read the code.
 - Tells who Marton is in his own voice: bio, current focus, stack, languages spoken, and interests.
-- Makes contact one action away: email, LinkedIn, GitHub, and CV from every page.
+- Makes contact one action away: email, LinkedIn and GitHub from every page.
 - Is found by search engines and previews well when shared: canonical URLs, titles, descriptions,
   Open Graph and Twitter cards, sitemap, robots, and structured data for a person.
 - Loads instantly on any connection and reads well on any screen, from a phone to an ultrawide
@@ -41,6 +42,8 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 - **Collect feedback or run forms.** There is no server to receive them. Email is the channel.
 - **Set cookies or show a cookie banner.** The site sets none. Analytics, if added later, must be
   cookieless so this stays true.
+- **Read as a job application.** No availability line, no CV download, no "open to work". If
+  someone wants to hire Marton, the projects make the case and the email is right there.
 - **Serve as a playground for the stack.** Every dependency must earn its place through a visible
   benefit to the reader. The site is the product; the code is a quiet demonstration of care.
 

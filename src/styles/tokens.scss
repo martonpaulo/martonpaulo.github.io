@@ -23,16 +23,16 @@
   --focus: #ffffff;
 
   /* Card tiles: a pastel background and the ink that reads on all of them */
-  --tile-ink: #26332f;
-  --tile-ink-muted: #2e3a36;
-  --tile-lilac: #d094e5;
-  --tile-mint: #9ddcc6;
-  --tile-salmon: #e6a58c;
-  --tile-sky: #b8d6f2;
-  --tile-cream: #f3e9d2;
-  --tile-sage: #a6c8b8;
-  --tile-peach: #f2c4b0;
-  --tile-lavender: #c9c3f0;
+  --tile-ink: #172420;
+  --tile-ink-muted: #35423e;
+  --tile-lilac: #d8aee8;
+  --tile-mint: #a9e3cd;
+  --tile-salmon: #ecb39c;
+  --tile-sky: #bfdbf4;
+  --tile-cream: #f4ead6;
+  --tile-sage: #b4d1c2;
+  --tile-peach: #f4cbb8;
+  --tile-lavender: #cfcaf3;
 
   /* Type */
   --font-display: "Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
@@ -103,7 +103,6 @@
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --grow: 1.025;
-  --grow-art: 1.04;
   --press: 0.985;
   --drift-duration: 24s;
   --enter-duration: 700ms;

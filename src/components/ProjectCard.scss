@@ -15,7 +15,7 @@
   overflow: hidden;
   isolation: isolate;
   box-shadow: var(--shadow-card);
-  will-change: transform;
+  // No will-change on purpose: a pre-rasterised layer stays blurry once scaled.
   transition:
     transform var(--duration) var(--ease-out),
     box-shadow var(--duration) var(--ease-out);
@@ -59,16 +59,11 @@
   line-height: var(--leading-relaxed);
 }
 
+// The artwork grows with the card, never on its own.
 .project-card__art {
   position: relative;
   height: var(--card-art-height);
   margin-top: var(--space-3);
-  transform-origin: center bottom;
-  transition: transform var(--duration-slow) var(--ease-out);
-
-  .project-card:hover & {
-    transform: scale(var(--grow-art));
-  }
 }
 
 // Panels start at the left edge and run off the bottom-right of the tile.
