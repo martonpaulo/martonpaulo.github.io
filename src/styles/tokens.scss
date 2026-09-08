@@ -76,6 +76,11 @@
   --shadow-card:
     0 var(--space-3) var(--space-4) rgb(0 0 0 / 25%),
     0 var(--space-1) var(--space-2) rgb(0 0 0 / 15%);
+  // The same two layers one step further from the page, so a hovered card
+  // reads as lifted rather than merely larger.
+  --shadow-card-raised:
+    0 var(--space-4) var(--space-5) rgb(0 0 0 / 30%),
+    0 var(--space-2) var(--space-3) rgb(0 0 0 / 20%);
   --shadow-panel: 0 var(--space-2) var(--space-3) rgb(0 0 0 / 30%);
   // The relief of a macOS app icon: a hairline of light on top, a tight
   // contact shadow underneath and a soft ambient one further down.

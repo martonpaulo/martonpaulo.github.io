@@ -108,7 +108,8 @@ and can be inspected in the browser. Their meaning:
 | `--text-*`                                                                          | The type scale; the three largest steps are fluid                                                 |
 | `--space-1` … `--space-6`                                                           | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps |
 | `--radius-*`, `--hairline`                                                          | Corners and the one line weight                                                                   |
-| `--shadow-*`                                                                        | The card lift, the panel edge, the icon drop                                                      |
+| `--shadow-card`, `--shadow-card-raised`                                             | A card at rest and the deeper lift it reaches under the pointer                                   |
+| `--shadow-panel`, `--shadow-relief`                                                 | The panel edge and the icon drop                                                                  |
 | `--container`, `--container-wide`, `--measure`, `--measure-wide`, `--measure-title` | Column and reading widths; the container widens on ultrawide screens                              |
 | `--card-*`, `--touch-target`                                                        | Tile geometry and the minimum size of anything tappable                                           |
 | `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`            | Response timing, easing, transforms and entrance motion                                           |
