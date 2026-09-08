@@ -10,8 +10,9 @@ import Eyebrow from "./Eyebrow.astro";
 
 /**
  * A project as a pastel tile: kind, name, one line, and its artwork bleeding
- * out of the bottom. The whole tile is one link with the project name as its
- * accessible name; the artwork is decorative because the text already says it.
+ * out of the bottom. The whole tile is one link named by the project name
+ * alone, so listing the page's links reads as a list of projects rather than
+ * of paragraphs; the artwork is decorative because the text already says it.
  *
  * Two layers, because one element cannot both clip its contents and paint
  * outside itself: the link paints the focus ring and the shadow, and the
@@ -27,13 +28,21 @@ const { project, index, headingLevel: Heading = "h3" } = Astro.props;
 const { kinds } = await getCopy();
 const tile = tileFor(project, index);
 const art = project.image;
+// The link points at its own heading rather than repeating the name, so the
+// copy keeps one owner and the accessible name is the visible one.
+const titleId = `project-card-title-${project.slug}`;
 ---
 
-<a class="project-card" href={projectPath(project)} style={`--tile: var(--tile-${tile})`}>
+<a
+  class="project-card"
+  href={projectPath(project)}
+  aria-labelledby={titleId}
+  style={`--tile: var(--tile-${tile})`}
+>
   <div class="project-card__surface">
     <div class="project-card__info">
       <Eyebrow class="project-card__kind">{kinds[project.kind].one}</Eyebrow>
-      <Heading class="project-card__title">{project.name}</Heading>
+      <Heading class="project-card__title" id={titleId}>{project.name}</Heading>
       <p class="project-card__tagline">{project.tagline}</p>
     </div>
     {

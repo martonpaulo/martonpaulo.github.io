@@ -100,8 +100,8 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   name alone as its required accessible name and decorative images with empty `alt`, headings in order with hidden
   ones where a section has no visible title, every control at least `--touch-target` tall, a
   visible focus ring in `--focus`, and every animation off under `prefers-reduced-motion`.
-  Current implementation gap: `ProjectCard.astro` still exposes the category, name and tagline as
-  its link name. The name-only requirement remains unmet; documenting this gap does not fix it.
+  A whole-card link is named by `aria-labelledby` pointing at its own heading, so the name is the
+  visible one and the copy is not duplicated.
 - **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
   phones, two from `tablet`, three on `ultrawide` (three is the maximum by decision); the
   container widens on ultrawide instead of stretching the cards.
