@@ -11,6 +11,7 @@
   grid-template-columns: 1fr;
   gap: var(--space-1);
   align-items: baseline;
+  text-align: center;
 }
 
 .definitions__term {
@@ -25,9 +26,15 @@
   margin: 0;
 }
 
+// From tablets up the label sits to the left of the centre line and the value to the right.
 @include bp.up("tablet") {
   .definitions__row {
-    grid-template-columns: var(--space-6) 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
+    text-align: left;
+  }
+
+  .definitions__term {
+    text-align: right;
   }
 }

@@ -4,7 +4,7 @@
   "role": "Full-stack developer",
   "location": "Spain",
   "bio": [
-    "I'm a full-stack developer who never stopped caring most about the front end: the part of the work where a screen stops being a spec and starts feeling right. I've spent the last several years building web products with React, Next.js and TypeScript, with Java and Spring Boot on the other side of the API, and lately I've been shipping native apps for macOS and iOS in Swift.",
+    "I'm a full-stack developer who never stopped caring most about the front end: the part of the work where a screen stops being a plan and starts feeling right. I've spent the last several years building web products with React, Next.js and TypeScript, with Java and Spring Boot on the other side of the API, and lately I've been shipping native apps for macOS and iOS in Swift.",
     "What I make on my own is small on purpose. A window switcher because Command-Tab switches apps. A table editor that never sends your table anywhere. A font for an alphabet that blind readers used before braille. Each one does one thing, keeps your data with you, and is free.",
     "I'm Brazilian and I live in Spain. I speak English, Portuguese, Spanish and Esperanto, and I'm learning Mandarin."
   ],
@@ -12,7 +12,7 @@
     "Building native macOS utilities in Swift, all living in the menu bar: a window switcher, a Gmail notifier and a world clock.",
     "Making browser tools that keep your data on your machine, like a table editor and an SVG atlas.",
     "Drawing and documenting Moon Uniform, an open typeface for the Moon tactile alphabet.",
-    "Studying Mandarin, slowly and stubbornly."
+    "Studying Mandarin, slowly but steadily."
   ],
   "languages": [
     {
@@ -68,9 +68,9 @@
     }
   ],
   "interests": [
-    "Going places the hard way. I've hitchhiked across two continents and found towns most people never hear about. I sometimes work while travelling, and every now and then I set off on a ten-day hike just to see if I can.",
+    "Going places the hard way. I've hitchhiked across two continents and found towns most people never hear about. I sometimes work while travelling, and every now and then I set off on a ten-day hike.",
     "Languages, for their own sake. Besides the ones I speak, I've picked up bits of French, Russian, Arabic, Brazilian Sign Language (Libras) and Toki Pona. Talking to people in their own language is the whole point.",
-    "Tinkering with my tools: a VS Code setup tuned past reason, an old Linux machine kept alive because I can, and a growing pile of scripts that make my Mac behave."
+    "Tinkering with my tools: a VS Code setup with more customisation than it needs, an old Linux machine I keep running for fun, and a growing pile of scripts that automate my Mac."
   ],
   "tagline": "Small software, made with care",
   "intro": "I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift. The tools I make on my own are small, free and local-first: your data stays on your machine."

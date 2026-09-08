@@ -59,10 +59,11 @@
   line-height: var(--leading-relaxed);
 }
 
-// The artwork grows with the card, never on its own.
+// The artwork grows with the card, never on its own, and stretches to the
+// card's base: the grid row it sits in takes whatever height the text leaves.
 .project-card__art {
   position: relative;
-  height: var(--card-art-height);
+  min-height: var(--card-art-height);
   margin-top: var(--space-3);
 }
 
@@ -99,6 +100,6 @@
   }
 
   .project-card__art {
-    height: var(--card-art-height-wide);
+    min-height: var(--card-art-height-wide);
   }
 }

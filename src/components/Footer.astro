@@ -3,7 +3,7 @@ import "./Footer.scss";
 
 import { fill } from "../lib/copy";
 import { getCopy, getLinks, getPerson, getSite } from "../lib/db";
-import { isEmailLink, isExternalLink } from "../lib/links";
+import { externalLinkAttributes, isEmailLink, isExternalLink } from "../lib/links";
 import Button from "./Button.astro";
 import SectionHeading from "./SectionHeading.astro";
 
@@ -40,6 +40,6 @@ const year = new Date().getFullYear();
   </section>
   <div class="footer__colophon container">
     <p>{fill(contact.colophon, { year, name: person.name })}</p>
-    <p><a href={site.repository} rel="noopener">{contact.sourceLink}</a></p>
+    <p><a href={site.repository} {...externalLinkAttributes}>{contact.sourceLink}</a></p>
   </div>
 </footer>

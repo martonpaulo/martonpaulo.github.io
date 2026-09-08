@@ -1,6 +1,8 @@
 ---
 import "./Button.scss";
 
+import { externalLinkAttributes } from "../lib/links";
+
 /**
  * A pill link. `primary` fills with mint; the default is a quiet outline.
  * Renders an anchor: every action on this site is a navigation.
@@ -18,7 +20,7 @@ const { href, variant = "quiet", external = false, class: className } = Astro.pr
 <a
   class:list={["button", `button--${variant}`, className]}
   href={href}
-  rel={external ? "noopener" : undefined}
+  {...external ? externalLinkAttributes : {}}
 >
   <span class="button__label"><slot /></span>
   {
