@@ -39,12 +39,14 @@ export function projectLinks(project: Project, copy: Copy["project"]): ProjectLi
   ].filter((link): link is ProjectLink => Boolean(link));
 }
 
+export const projectsPath = "/projects/";
+
 export function projectPath(project: Pick<Project, "slug">): string {
-  return `/work/${project.slug}/`;
+  return `/projects/${project.slug}/`;
 }
 
 export function kindPath(kind: ProjectKind): string {
-  return `/work/kind/${kind}/`;
+  return `/projects/kind/${kind}/`;
 }
 
 export type KindCounts = Record<ProjectKind, number>;
@@ -63,7 +65,7 @@ export function filterOptions(
 ): FilterOption[] {
   const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
   return [
-    { key: "all", label: allLabel, href: "/work/" },
+    { key: "all", label: allLabel, href: projectsPath },
     ...present.map((kind) => ({ key: kind, label: kinds[kind].many, href: kindPath(kind) })),
   ];
 }

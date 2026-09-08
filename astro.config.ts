@@ -15,7 +15,13 @@ const projectRedirects = Object.fromEntries(
 export default defineConfig({
   site: site.url,
   trailingSlash: "always",
-  redirects: projectRedirects,
+  // The section was called "work" for its first days; keep those links alive.
+  redirects: {
+    "/work/": "/projects/",
+    "/work/[slug]": "/projects/[slug]",
+    "/work/kind/[kind]": "/projects/kind/[kind]",
+    ...projectRedirects,
+  },
   integrations: [sitemap({ filter: (page) => !page.includes("/p/") })],
   fonts: [
     {

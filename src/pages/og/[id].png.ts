@@ -9,11 +9,11 @@ import { fill } from "../../lib/copy";
 import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
 
 // Colours mirror the tokens in src/styles/global.css.
-const BG = "#1f302b";
-const TEXT = "#e9efe9";
-const MUTED = "#b2c3b8";
-const PRIMARY = "#9acdff";
-const MARK_SHADOW = "#3e7d5c";
+const BG = "#1b2a3c";
+const TEXT = "#e8eef5";
+const MUTED = "#b4c2d2";
+const PRIMARY = "#f2cf72";
+const MARK_SHADOW = "#2f6db3";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const site = await getSite();
   const person = await getPerson();
   const projects = await getProjects();
-  const { kinds, nav, work, about, og } = await getCopy();
+  const { kinds, nav, projects: projectsCopy, about, og } = await getCopy();
 
   const fixed: Record<string, Card> = {
     site: {
@@ -47,9 +47,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
       title: person.name,
       subtitle: person.tagline,
     },
-    work: {
+    projects: {
       eyebrow: nav.work,
-      title: work.archiveHeading,
+      title: projectsCopy.title,
       subtitle: fill(og.workSubtitle, { count: projects.length, host: new URL(site.url).host }),
     },
     about: {

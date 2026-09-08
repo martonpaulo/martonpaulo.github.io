@@ -7,6 +7,7 @@ import ProjectGrid from "../components/ProjectGrid.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Base from "../layouts/Base.astro";
 import { fill } from "../lib/copy";
+import { projectsPath } from "../lib/projects";
 import { getCopy, getFeaturedProjects, getPerson, getSite } from "../lib/db";
 
 const site = await getSite();
@@ -23,7 +24,7 @@ const eyebrow = fill(home.eyebrow, { name: person.name, role: person.role });
     <h2 id="featured-heading" class="visually-hidden">{home.featuredHeading}</h2>
     <ProjectGrid projects={featured} />
     <p class="home__more actions">
-      <Button href="/work/">{home.allWork}</Button>
+      <Button href={projectsPath}>{home.allWork}</Button>
     </p>
   </section>
 

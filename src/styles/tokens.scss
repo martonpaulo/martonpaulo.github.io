@@ -10,29 +10,29 @@
   color-scheme: dark;
 
   /* Surfaces and text */
-  --bg: #1f302b;
-  --bg-glow: #3e7d5c;
-  --bg-glow-cool: #2f6f9a;
+  --bg: #1b2a3c;
+  --bg-glow: #2f6db3;
+  --bg-glow-cool: #2a8f8c;
   --surface: rgb(255 255 255 / 6%);
   --surface-strong: rgb(255 255 255 / 12%);
-  --border: rgb(154 205 255 / 24%);
-  --text: #e9efe9;
-  --text-muted: #b2c3b8;
-  --primary: #9acdff;
-  --primary-strong: #c4e2ff;
+  --border: rgb(242 207 114 / 22%);
+  --text: #e8eef5;
+  --text-muted: #b4c2d2;
+  --primary: #f2cf72;
+  --primary-strong: #ffe08f;
   --focus: #ffffff;
 
   /* Card tiles: a pastel background and the ink that reads on all of them */
-  --tile-ink: #172420;
-  --tile-ink-muted: #35423e;
-  --tile-lilac: #d8aee8;
-  --tile-mint: #a9e3cd;
-  --tile-salmon: #ecb39c;
-  --tile-sky: #bfdbf4;
-  --tile-cream: #f4ead6;
-  --tile-sage: #b4d1c2;
-  --tile-peach: #f4cbb8;
-  --tile-lavender: #cfcaf3;
+  --tile-ink: #16212c;
+  --tile-ink-muted: #34414f;
+  --tile-lilac: #d5b8ea;
+  --tile-mint: #b3e0d0;
+  --tile-salmon: #efb9a6;
+  --tile-sky: #bdd8f5;
+  --tile-cream: #f3e8d0;
+  --tile-sage: #bfd4c8;
+  --tile-peach: #f3cfbc;
+  --tile-lavender: #cbcbf3;
 
   /* Type */
   --font-display: "Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
@@ -86,7 +86,7 @@
   --measure-title: 16ch;
   --card-art-ratio: 16 / 10;
   --card-icon-size: clamp(var(--space-6), 45%, calc(1.75 * var(--space-6)));
-  --touch-target: 2.5rem;
+  --touch-target: 2.75rem;
   --gutter: clamp(1rem, 4vw, 2rem);
   --glow-size: calc(6 * var(--space-6));
   --glow-blur: var(--space-6);

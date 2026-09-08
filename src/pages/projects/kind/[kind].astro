@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 
 const kind = Astro.params.kind as ProjectKind;
 const projects = await getProjects();
-const { work, kinds } = await getCopy();
+const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
 const ofKind = projects.filter((project) => project.kind === kind);
@@ -29,8 +29,12 @@ const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---
 
-<Base title={label} description={fill(work.kindDescription, vars)} ogImage={shareImageFor("work")}>
-  <Hero title={fill(work.kindTitle, { kind: label })} lede={fill(work.kindLede, vars)} />
+<Base
+  title={label}
+  description={fill(copy.kindDescription, vars)}
+  ogImage={shareImageFor("projects")}
+>
+  <Hero title={fill(copy.kindTitle, { kind: label })} lede={fill(copy.kindLede, vars)} />
 
   <WorkFilters current={kind} counts={counts} />
 
@@ -38,7 +42,7 @@ const vars = { kind: lowerFirst(label) };
     featured.length > 0 && (
       <section class="section" aria-labelledby="featured-heading">
         <h2 id="featured-heading" class="visually-hidden">
-          {fill(work.kindFeaturedHeading, vars)}
+          {fill(copy.kindFeaturedHeading, vars)}
         </h2>
         <ProjectGrid projects={featured} />
       </section>
@@ -49,7 +53,7 @@ const vars = { kind: lowerFirst(label) };
     rest.length > 0 && (
       <section class="section" aria-labelledby="archive-heading">
         <h2 id="archive-heading" class="visually-hidden">
-          {fill(work.kindArchiveHeading, vars)}
+          {fill(copy.kindArchiveHeading, vars)}
         </h2>
         <ProjectList projects={rest} />
       </section>

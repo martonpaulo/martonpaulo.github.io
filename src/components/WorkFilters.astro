@@ -11,11 +11,11 @@ interface Props {
 }
 
 const { current, counts } = Astro.props;
-const { work, kinds } = await getCopy();
-const options = filterOptions(counts, work.filterAll, kinds);
+const { projects: copy, kinds } = await getCopy();
+const options = filterOptions(counts, copy.filterAll, kinds);
 ---
 
-<nav class="work-filters" aria-label={work.filterLabel}>
+<nav class="work-filters" aria-label={copy.filterLabel}>
   <ul class="actions" role="list">
     {
       options.map((option) => (

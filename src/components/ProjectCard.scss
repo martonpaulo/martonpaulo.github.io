@@ -10,6 +10,9 @@
   color: var(--tile-ink);
   text-decoration: none;
   overflow: hidden;
+  // overflow alone stops clipping to the radius while the card is transformed
+  // in Chromium, so the artwork could poke past the corners; clip-path does not.
+  clip-path: inset(0 round var(--radius-lg));
   isolation: isolate;
   box-shadow: var(--shadow-card);
   // No will-change on purpose: a pre-rasterised layer stays blurry once scaled.
@@ -67,11 +70,11 @@
   margin-top: var(--space-3);
 }
 
-// Edge-anchored screenshot: flush with the card's left, right and bottom edges
-// so the card's own corners finish it; only the top-left corner is its own.
+// Edge-anchored screenshot: inset on the left with one rounded corner, flush
+// with the card's right and bottom edges, so the card's own corner finishes it.
 .project-card__art--cover {
   width: auto;
-  margin-inline: calc(-1 * var(--space-4));
+  margin-inline: 0 calc(-1 * var(--space-4));
   margin-bottom: calc(-1 * var(--space-4));
 
   img {

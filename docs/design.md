@@ -6,7 +6,7 @@ colour, font or measure of its own.
 
 ## What the site should signify
 
-The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep green room with a light on,
+The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep blue room with a lamp on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
 | Quality | What it says about Marton                                                              | Carried by                                                                                                          |
@@ -21,19 +21,19 @@ result must not be mistaken for the reference.
 
 ## The signs
 
-**Deep green, not black.** `#1f302b`, a green with a little blue in it. Black signifies a
-developer terminal; green signifies a room somebody chose. It is the only scheme: the site does
+**Deep blue, not black.** `#1b2a3c`, a blue with a little green in it. Black signifies a
+developer terminal; a colour signifies a room somebody chose. It is the only scheme: the site does
 not switch to light, because the tiles are the light.
 
-**One cool accent.** The accent is `#9acdff`, a light sky blue, and it is the colour of every
-heading, every link and the brackets. It appears on nothing decorative, so when it appears it is
-Marton speaking. Body text is a neutral off-white so the blue stays the only strong note.
+**A lamp, not a highlighter.** The accent is `#f2cf72`, the yellow of a warm bulb, the one warm
+note in a cool room, and it is the colour of every heading, every link and the brackets. It appears
+on nothing decorative, so when it appears it is Marton speaking. Body text is a neutral off-white.
 
 **The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
 brackets around every label. Never around a title and never as a bullet; the owner tried both and
 they read as decoration. Lists use a small accent dot.
 
-**Light that moves.** Two blurred discs, one green and one blue, drift across the top of every
+**Light that moves.** Two blurred discs, one blue and one teal, drift across the top of every
 page on a six-second cycle, plainly visible, so the room never feels static. They are ambience,
 not the signature, and they stop under reduced motion.
 
@@ -48,8 +48,9 @@ icon instead; the tile does not pretend.
 **Real screenshots, anchored to the edge.** Every featured image is the product itself, captured
 from the live app at two or three times pixel density. A screenshot is cut to the art box's own
 16:10 ratio and stored square-cornered, so the browser never crops it and the whole file width
-renders; the screenshot runs flush to the card's left, right and bottom edges and keeps only its
-top-left corner rounded. A panel with its own shape (WindowHop's switcher) is shown whole on the
+renders; the screenshot is inset on the left with its top-left corner rounded and runs flush to the
+card's right and bottom edges, where the card's own corner finishes it (the card clips with
+`clip-path`, because `overflow: hidden` alone lets a transformed child poke past a radius). A panel with its own shape (WindowHop's switcher) is shown whole on the
 tile, and an app without an interface to capture shows its icon. Nothing is a mock-up.
 An app that has no interface to capture (a menu bar utility, a personal iPhone app) shows its icon.
 
@@ -111,6 +112,26 @@ and can be inspected in the browser. Their meaning:
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,
 `ultrawide` at 112 rem. Cards go from one column to two at `tablet` and to four at `ultrawide`.
+
+## Checks every change passes
+
+Drawn from WCAG 2.2, Apple's Human Interface Guidelines and the usual practice of restraint, and
+verified with Lighthouse on every page before a push:
+
+- Text contrast at least 4.5:1, large text and controls at least 3:1, on the room and on every
+  tile. `--text-muted` and `--tile-ink-muted` are the floors.
+- Every interactive element at least `--touch-target` (2.75 rem, 44 px) tall, with a visible
+  focus ring in `--focus` that is never the accent.
+- One accent, used only for voice (headings, links, the mark); pastels for surfaces; nothing else
+  carries colour. A palette of about three roles, not a rainbow.
+- Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
+  page, landmarks and a skip link on every page.
+- Motion answers the pointer, stays under a second, uses ease-out, and disappears under
+  `prefers-reduced-motion`. Nothing animates on scroll.
+- Images are the product at two or three times pixel density, cut to the box that shows them, so
+  nothing is upscaled or cropped by the browser.
+- No layout shift: every image has intrinsic dimensions, fonts preload, and the page keeps
+  Lighthouse at 100 in performance, accessibility, best practices and SEO.
 
 ## Rules for changes
 

@@ -96,7 +96,7 @@ const copy = defineCollection({
       nowHeading: z.string(),
       moreAbout: z.string(),
     }),
-    work: z.object({
+    projects: z.object({
       title: z.string(),
       lede: z.string(),
       description: z.string(),

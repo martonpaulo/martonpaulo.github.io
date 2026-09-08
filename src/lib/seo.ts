@@ -40,10 +40,10 @@ export function websiteNode(site: Site): JsonLdNode {
 export function softwareNode(site: Site, project: Project): JsonLdNode {
   return {
     "@type": "SoftwareSourceCode",
-    "@id": `${site.url}/work/${project.slug}/#software`,
+    "@id": `${site.url}/projects/${project.slug}/#software`,
     name: project.name,
     description: project.description,
-    url: `${site.url}/work/${project.slug}/`,
+    url: `${site.url}/projects/${project.slug}/`,
     codeRepository: project.links.source,
     programmingLanguage: project.stack,
     dateCreated: String(project.year),

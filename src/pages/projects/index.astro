@@ -1,5 +1,5 @@
 ---
-import "../../styles/pages/work.scss";
+import "../../styles/pages/projects.scss";
 
 import Hero from "../../components/Hero.astro";
 import ProjectGrid from "../../components/ProjectGrid.astro";
@@ -12,24 +12,24 @@ import { shareImageFor } from "../../lib/pages";
 import { countByKind } from "../../lib/projects";
 
 const projects = await getProjects();
-const { work } = await getCopy();
+const { projects: copy } = await getCopy();
 const featured = projects.filter((project) => project.featured);
 const archive = byYear(projects.filter((project) => !project.featured));
 const counts = countByKind(projects, projectKinds);
 ---
 
-<Base title={work.title} description={work.description} ogImage={shareImageFor("work")}>
-  <Hero title={work.title} lede={work.lede} />
+<Base title={copy.title} description={copy.description} ogImage={shareImageFor("projects")}>
+  <Hero title={copy.title} lede={copy.lede} />
 
   <WorkFilters current="all" counts={counts} />
 
   <section class="section" aria-labelledby="featured-heading">
-    <h2 id="featured-heading" class="visually-hidden">{work.featuredHeading}</h2>
+    <h2 id="featured-heading" class="visually-hidden">{copy.featuredHeading}</h2>
     <ProjectGrid projects={featured} />
   </section>
 
   <section class="section" aria-labelledby="archive-heading">
-    <h2 id="archive-heading" class="work__archive-heading">{work.archiveHeading}</h2>
+    <h2 id="archive-heading" class="projects__archive-heading">{copy.archiveHeading}</h2>
     <ProjectList projects={archive} />
   </section>
 </Base>

@@ -2,7 +2,7 @@
   "nav": {
     "label": "Main",
     "home": "{siteName}, home",
-    "work": "Work",
+    "work": "Projects",
     "about": "About",
     "contact": "Contact",
     "skip": "Skip to content"
@@ -10,16 +10,16 @@
   "home": {
     "greeting": "Small software,<br />made with care",
     "featuredHeading": "Things I've made",
-    "allWork": "See everything",
+    "allWork": "All projects",
     "nowHeading": "Lately",
     "moreAbout": "More about me",
     "eyebrow": "{name} · {role}"
   },
-  "work": {
-    "title": "Work",
+  "projects": {
+    "title": "Projects",
     "lede": "The things I'm proudest of first, then everything else by year. Study projects and archived ones stay because they show where the rest came from.",
     "description": "Everything Marton Paulo has built and published: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
-    "featuredHeading": "Things I've made",
+    "featuredHeading": "Selected projects",
     "archiveHeading": "Everything else",
     "filterLabel": "Filter by kind",
     "filterAll": "Everything",
@@ -61,11 +61,14 @@
   },
   "notFound": {
     "title": "Nothing here",
-    "lede": "The page you wanted moved, or never existed. Try the home page or the list of work, or say hi and tell me what you were looking for.",
+    "lede": "The page you wanted moved, or never existed. Try the home page or the projects, or get in touch and tell me what you were looking for.",
     "description": "This page does not exist on martonpaulo.com.",
     "home": "Home",
-    "work": "Work",
+    "work": "Projects",
     "contact": "Get in touch"
+  },
+  "og": {
+    "workSubtitle": "{count} projects, newest first · {host}"
   },
   "kinds": {
     "web": {
@@ -96,8 +99,5 @@
       "one": "Experiment",
       "many": "Experiments"
     }
-  },
-  "og": {
-    "workSubtitle": "{count} projects, newest first · {host}"
   }
 }

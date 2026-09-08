@@ -45,7 +45,7 @@ src/lib/                   typed readers and the logic pages call (projects, nav
 src/layouts/Base.astro     <head>: title, description, canonical, Open Graph, JSON-LD, fonts
 src/components/            one .astro (markup) beside one .scss (style) per component
 src/styles/                tokens, element defaults, utilities, motion, the breakpoint mixin, page styles
-src/pages/                 index, work/, work/[slug], work/kind/[kind], about, 404
+src/pages/                 index, projects/, projects/[slug], projects/kind/[kind], about, 404
 src/pages/og/[id].png.ts   one share image per page, rendered with satori and resvg
 src/assets/projects/       the featured projects' artwork: real captures on rounded panels, or app icons
 docs/product.md            what the site is for and what it will never do

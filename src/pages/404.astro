@@ -2,6 +2,7 @@
 import Button from "../components/Button.astro";
 import Hero from "../components/Hero.astro";
 import Base from "../layouts/Base.astro";
+import { projectsPath } from "../lib/projects";
 import { getCopy } from "../lib/db";
 
 const { notFound } = await getCopy();
@@ -11,7 +12,7 @@ const { notFound } = await getCopy();
   <Hero title={notFound.title} lede={notFound.lede}>
     <div class="actions">
       <Button href="/" variant="primary">{notFound.home}</Button>
-      <Button href="/work/">{notFound.work}</Button>
+      <Button href={projectsPath}>{notFound.work}</Button>
       <Button href="#contact">{notFound.contact}</Button>
     </div>
   </Hero>
