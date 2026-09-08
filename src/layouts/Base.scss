@@ -14,8 +14,8 @@
   }
 }
 
-// Ambient light only: two faint discs drift behind the page so it never feels
-// static. It stays quiet on purpose; the site's signature is the bracket mark.
+// Ambient light: two blurred discs, one blue and one teal, sit still at the
+// top of every page. They are ambience, not the signature.
 .page-glow {
   position: fixed;
   inset: 0;
@@ -31,8 +31,6 @@
     height: var(--glow-size);
     border-radius: 50%;
     filter: blur(var(--glow-blur));
-    will-change: transform;
-    animation: glow-drift var(--drift-duration) ease-in-out infinite alternate;
   }
 
   &::before {
@@ -45,19 +43,6 @@
     top: calc(-0.2 * var(--glow-size));
     left: calc(50% + 0.1 * var(--glow-size));
     background: color-mix(in srgb, var(--bg-glow-cool) var(--glow-strength-cool), transparent);
-    animation-direction: alternate-reverse;
-    animation-duration: calc(var(--drift-duration) * 1.35);
-  }
-}
-
-@keyframes glow-drift {
-  from {
-    transform: translate3d(calc(-0.5 * var(--glow-size)), 0, 0) scale(1);
-  }
-
-  to {
-    transform: translate3d(calc(0.5 * var(--glow-size)), calc(0.4 * var(--glow-size)), 0)
-      scale(1.25);
   }
 }
 

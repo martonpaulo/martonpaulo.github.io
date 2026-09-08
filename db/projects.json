@@ -475,16 +475,91 @@
     "status": "archived"
   },
   {
-    "slug": "course-exercises",
-    "name": "Course exercises",
-    "tagline": "Clones, to-do lists and API demos from front-end courses.",
-    "description": "Exercises from Digital House, Digital Innovation One and PUC Minas: a Twitter login clone, a Netflix home page, a CEP search, a Snake game, a movie search, an iFood clone in React Native, and more. Kept here as a record.",
+    "slug": "digital-house-exercises",
+    "name": "Digital House exercises",
+    "tagline": "Clones, to-do lists and API demos from a front-end course.",
+    "description": "Exercises from the Digital House front-end course: a Twitter login clone, a CEP search, a to-do list with local storage, a movie search in React, and more. Kept here as a record.",
     "year": 2020,
     "kind": "web",
-    "stack": ["HTML", "CSS", "JavaScript", "React", "React Native"],
+    "stack": ["HTML", "CSS", "JavaScript", "React"],
     "tags": ["study"],
     "links": {
       "source": "https://github.com/martonpaulo/digital-house-exercises"
+    },
+    "featured": false,
+    "status": "archived"
+  },
+  {
+    "slug": "digital-innovation-one-exercises",
+    "name": "Digital Innovation One exercises",
+    "tagline": "Games, clones and API pages from a full-stack course.",
+    "description": "Exercises from Digital Innovation One's full-stack courses: a Snake game, a Simon memory game, a Chrome dino, tic-tac-toe, a Netflix home page, a coin market page and an iFood clone in React Native.",
+    "year": 2020,
+    "kind": "web",
+    "stack": ["HTML", "CSS", "JavaScript", "React Native"],
+    "tags": ["study"],
+    "links": {
+      "source": "https://github.com/martonpaulo/digital-innovation-one-exercises"
+    },
+    "featured": false,
+    "status": "archived"
+  },
+  {
+    "slug": "puc-minas-exercises",
+    "name": "PUC Minas exercises",
+    "tagline": "A to-do list and a movie list from a full-stack specialisation.",
+    "description": "Exercises from the specialisation in full-stack development at PUC Minas: a React to-do list with filters and bulk delete, and a movie list with favourites using Redux and Bootstrap.",
+    "year": 2023,
+    "kind": "web",
+    "stack": ["React", "Redux", "Bootstrap"],
+    "tags": ["study"],
+    "links": {
+      "source": "https://github.com/martonpaulo/puc-minas-excercises"
+    },
+    "featured": false,
+    "status": "archived"
+  },
+  {
+    "slug": "processing-exercises",
+    "name": "Processing exercises",
+    "tagline": "Sketches from a computer graphics course.",
+    "description": "Exercises in Processing for the computer graphics course at CIn-UFPE: transformations, curves and interactive sketches.",
+    "year": 2021,
+    "kind": "experiment",
+    "stack": ["Processing", "Java"],
+    "tags": ["university", "creative-coding"],
+    "links": {
+      "source": "https://github.com/martonpaulo/processing-exercises"
+    },
+    "featured": false,
+    "status": "archived"
+  },
+  {
+    "slug": "analytic-tableaux",
+    "name": "Analytic Tableaux",
+    "tagline": "A propositional logic prover using the tableau method.",
+    "description": "Reads a formula, builds its analytic tableau and decides whether it is satisfiable. Written in C++ for the logic course at CIn-UFPE.",
+    "year": 2019,
+    "kind": "experiment",
+    "stack": ["C++"],
+    "tags": ["university", "logic"],
+    "links": {
+      "source": "https://github.com/martonpaulo/analytic-tableaux"
+    },
+    "featured": false,
+    "status": "archived"
+  },
+  {
+    "slug": "speaker-recognition",
+    "name": "Speaker Recognition",
+    "tagline": "Telling voices apart with signal processing.",
+    "description": "Extracts features from recorded speech and identifies the speaker, built in Python for the signals and systems course at CIn-UFPE.",
+    "year": 2019,
+    "kind": "experiment",
+    "stack": ["Python"],
+    "tags": ["university", "signal-processing"],
+    "links": {
+      "source": "https://github.com/martonpaulo/speaker-recognition"
     },
     "featured": false,
     "status": "archived"

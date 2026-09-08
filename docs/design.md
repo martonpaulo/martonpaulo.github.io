@@ -35,9 +35,8 @@ primary button, the mark, the eyebrows' brackets and list bullets.
 brackets around every label. Never around a title and never as a bullet; the owner tried both and
 they read as decoration. Lists use a small accent dot.
 
-**Light that moves.** Two blurred discs, one blue and one teal, drift across the top of every
-page on a six-second cycle, plainly visible, so the room never feels static. They are ambience,
-not the signature, and they stop under reduced motion.
+**A still light.** Two blurred discs, one blue and one teal, sit at the top of every page. They
+do not move: the owner tried a drifting light and preferred the room quiet.
 
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
@@ -75,9 +74,8 @@ projects carry that.
 
 ## Motion
 
-Three kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
-load, each child a beat after the last (`.enter`). Ambience: the two lights behind the page drift
-on a slow loop. Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
+Two kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
+load, each child a beat after the last (`.enter`). Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
 800 ms; buttons grow the same amount; everything presses to 98.5%
 on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through Astro's client router with its
 cross-fade switched off: the background is kept alive, the new content is swapped in at once and
@@ -130,7 +128,7 @@ verified with Lighthouse on every page before a push:
 - Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
   page, landmarks and a skip link on every page.
 - Motion answers the pointer, stays under a second, uses ease-out, and disappears under
-  `prefers-reduced-motion`, including the drifting light. Nothing animates on scroll. A machine
+  `prefers-reduced-motion`. Nothing animates on scroll. A machine
   with "Reduce motion" on sees a still site by design; check that setting before judging motion.
 - Images are the product at two or three times pixel density, cut to the box that shows them, so
   nothing is upscaled or cropped by the browser.
