@@ -51,7 +51,9 @@ from the live app at two or three times pixel density. A screenshot is cut to th
 16:10 ratio and stored square-cornered, so the browser never crops it and the whole file width
 renders; the screenshot is inset on the left with its top-left corner rounded and runs flush to the
 card's right and bottom edges, where the card's own corner finishes it (the card clips with
-`clip-path`, because `overflow: hidden` alone lets a transformed child poke past a radius). A panel with its own shape (WindowHop's switcher) is shown whole on the
+`clip-path`, because `overflow: hidden` alone lets a transformed child poke past a radius; the
+clipping surface sits inside the link rather than on it, because the same clip would otherwise
+erase the focus ring and the shadow the link paints outside its own shape). A panel with its own shape (WindowHop's switcher) is shown whole on the
 tile, and an app without an interface to capture shows its icon. Nothing is a mock-up.
 An app that has no interface to capture (a menu bar utility, a personal iPhone app) shows its icon.
 

@@ -1,19 +1,15 @@
 // Modelled on an App Store story card: text at the top, artwork filling the
 // bottom, one soft surface that grows a little under the pointer.
+//
+// The link and the tile are two elements on purpose. Clipping the artwork to
+// the corner also clips everything the card paints outside itself, so a single
+// element could keep either its rounded artwork or its focus ring and shadow,
+// never both. The link keeps what belongs outside the shape; the surface below
+// keeps the shape.
 .project-card {
-  position: relative;
   display: grid;
-  grid-template-rows: auto 1fr;
-  padding: var(--space-4);
   border-radius: var(--radius-lg);
-  background: var(--tile);
-  color: var(--tile-ink);
   text-decoration: none;
-  overflow: hidden;
-  // overflow alone stops clipping to the radius while the card is transformed
-  // in Chromium, so the artwork could poke past the corners; clip-path does not.
-  clip-path: inset(0 round var(--radius-lg));
-  isolation: isolate;
   box-shadow: var(--shadow-card);
   // No will-change on purpose: a pre-rasterised layer stays blurry once scaled.
   transition:
@@ -29,10 +25,21 @@
     transform: scale(var(--press));
     transition-duration: var(--duration-fast);
   }
+}
 
-  &:focus-visible {
-    outline-color: var(--tile-ink);
-  }
+.project-card__surface {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--tile);
+  color: var(--tile-ink);
+  overflow: hidden;
+  // overflow alone stops clipping to the radius while the card is transformed
+  // in Chromium, so the artwork could poke past the corners; clip-path does not.
+  clip-path: inset(0 round var(--radius-lg));
+  isolation: isolate;
 }
 
 .project-card__info {
