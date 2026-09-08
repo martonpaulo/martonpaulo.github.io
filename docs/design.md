@@ -6,7 +6,7 @@ colour, font or measure of its own.
 
 ## What the site should signify
 
-The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a deep blue room with a lamp on,
+The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a dark neutral room with a lamp on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
 | Quality | What it says about Marton                                                              | Carried by                                                                                                          |
@@ -21,19 +21,21 @@ result must not be mistaken for the reference.
 
 ## The signs
 
-**Deep blue, not black.** `#1b2a3c`, a blue with a little green in it. Black signifies a
-developer terminal; a colour signifies a room somebody chose. It is the only scheme: the site does
-not switch to light, because the tiles are the light.
+**A charcoal room.** `#1b1f2a`, a near-neutral dark with a blue undertone, the way Apple's dark
+surfaces are dark without being black. A neutral room lets the pastel tiles be the colour, instead
+of competing with them. It is the only scheme: the site does not switch to light, because the
+tiles are the light.
 
-**A lamp, not a highlighter.** The accent is `#f2cf72`, the yellow of a warm bulb, the one warm
-note in a cool room, and it is the colour of every heading, every link and the brackets. It appears
-on nothing decorative, so when it appears it is Marton speaking. Body text is a neutral off-white.
+**White headings, one coral accent.** Headings are a warm white (`--heading`), so hierarchy comes
+from size and weight rather than colour. The accent, `#ff9b7b`, a soft coral, is spent only on
+what can be acted on or what names a thing: links, the primary button, the mark, the eyebrows'
+brackets and list bullets. It is the one warm note in a cool room.
 
 **The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
 brackets around every label. Never around a title and never as a bullet; the owner tried both and
 they read as decoration. Lists use a small accent dot.
 
-**Light that moves.** Two blurred discs, one blue and one teal, drift across the top of every
+**Light that moves.** Two blurred discs, one indigo and one teal, drift across the top of every
 page on a six-second cycle, plainly visible, so the room never feels static. They are ambience,
 not the signature, and they stop under reduced motion.
 

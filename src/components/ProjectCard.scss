@@ -83,7 +83,7 @@
     object-fit: cover;
     object-position: top left;
     border-top-left-radius: var(--radius-md);
-    box-shadow: var(--shadow-panel);
+    filter: var(--shadow-relief);
   }
 }
 
@@ -96,7 +96,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: var(--shadow-icon);
+    filter: var(--shadow-relief);
   }
 }
 
@@ -107,6 +107,6 @@
 
   img {
     width: var(--card-icon-size);
-    filter: var(--shadow-icon);
+    filter: var(--shadow-relief);
   }
 }

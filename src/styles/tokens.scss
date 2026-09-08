@@ -10,21 +10,22 @@
   color-scheme: dark;
 
   /* Surfaces and text */
-  --bg: #1b2a3c;
-  --bg-glow: #2f6db3;
-  --bg-glow-cool: #2a8f8c;
+  --bg: #1b1f2a;
+  --bg-glow: #3d4d8a;
+  --bg-glow-cool: #2b6f6a;
   --surface: rgb(255 255 255 / 6%);
   --surface-strong: rgb(255 255 255 / 12%);
-  --border: rgb(242 207 114 / 22%);
-  --text: #e8eef5;
-  --text-muted: #b4c2d2;
-  --primary: #f2cf72;
-  --primary-strong: #ffe08f;
+  --border: rgb(255 255 255 / 14%);
+  --text: #e9ebf0;
+  --text-muted: #b3b9c6;
+  --heading: #f6f7f9;
+  --primary: #ff9b7b;
+  --primary-strong: #ffb59c;
   --focus: #ffffff;
 
   /* Card tiles: a pastel background and the ink that reads on all of them */
-  --tile-ink: #16212c;
-  --tile-ink-muted: #34414f;
+  --tile-ink: #171a22;
+  --tile-ink-muted: #363b47;
   --tile-lilac: #d5b8ea;
   --tile-mint: #b3e0d0;
   --tile-salmon: #efb9a6;
@@ -76,7 +77,11 @@
     0 var(--space-3) var(--space-4) rgb(0 0 0 / 25%),
     0 var(--space-1) var(--space-2) rgb(0 0 0 / 15%);
   --shadow-panel: 0 var(--space-2) var(--space-3) rgb(0 0 0 / 30%);
-  --shadow-icon: drop-shadow(0 var(--space-2) var(--space-3) rgb(0 0 0 / 25%));
+  // The relief of a macOS app icon: a hairline of light on top, a tight
+  // contact shadow underneath and a soft ambient one further down.
+  --shadow-relief: drop-shadow(0 var(--hairline) 0 rgb(255 255 255 / 35%))
+    drop-shadow(0 var(--space-1) var(--space-1) rgb(0 0 0 / 22%))
+    drop-shadow(0 var(--space-3) var(--space-4) rgb(0 0 0 / 28%));
 
   /* Layout */
   --container: 64rem;

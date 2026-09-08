@@ -22,18 +22,18 @@
   &--cover img {
     width: 100%;
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-panel);
+    filter: var(--shadow-relief);
   }
 
   &--object img {
     width: 100%;
-    filter: var(--shadow-icon);
+    filter: var(--shadow-relief);
   }
 
   &--contain img {
     width: clamp(var(--space-6), 30%, calc(1.75 * var(--space-6)));
     margin-block: var(--space-4);
-    filter: var(--shadow-icon);
+    filter: var(--shadow-relief);
   }
 }
 

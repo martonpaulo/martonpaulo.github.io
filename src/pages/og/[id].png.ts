@@ -9,11 +9,12 @@ import { fill } from "../../lib/copy";
 import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
 
 // Colours mirror the tokens in src/styles/global.css.
-const BG = "#1b2a3c";
-const TEXT = "#e8eef5";
-const MUTED = "#b4c2d2";
-const PRIMARY = "#f2cf72";
-const MARK_SHADOW = "#2f6db3";
+const BG = "#1b1f2a";
+const TEXT = "#e9ebf0";
+const MUTED = "#b3b9c6";
+const PRIMARY = "#ff9b7b";
+const HEADING = "#f6f7f9";
+const MARK_SHADOW = "#3d4d8a";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -145,7 +146,7 @@ export const GET: APIRoute = async ({ props }) => {
                 text(eyebrow.toUpperCase(), {
                   fontSize: 24,
                   letterSpacing: "0.18em",
-                  color: MUTED,
+                  color: PRIMARY,
                 }),
                 text(title, {
                   fontFamily: "Gabarito",
@@ -153,7 +154,7 @@ export const GET: APIRoute = async ({ props }) => {
                   fontSize: title.length > 26 ? 80 : 104,
                   lineHeight: 1,
                   letterSpacing: "-0.03em",
-                  color: PRIMARY,
+                  color: HEADING,
                 }),
                 text(subtitle, { fontSize: 30, color: TEXT, lineHeight: 1.4, maxWidth: 960 }),
               ],
