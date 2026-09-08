@@ -14,3 +14,12 @@ export const shareImage = (path?: string) => path ?? DEFAULT_SHARE_IMAGE;
 
 /** The share-image path for a page id rendered by src/pages/og/[id].png.ts. */
 export const shareImageFor = (id: string) => `/og/${id}.png`;
+
+/**
+ * Share images for fixed pages and for projects share one namespace, so these
+ * ids are the ones a project slug may not take. The generator builds exactly
+ * these cards and the project schema rejects exactly these slugs.
+ */
+export const fixedShareImageIds = ["site", "projects", "about"] as const;
+
+export type FixedShareImageId = (typeof fixedShareImageIds)[number];

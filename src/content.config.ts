@@ -2,6 +2,8 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
+import { fixedShareImageIds } from "./lib/pages";
+
 // The db/ folder is the only content source: one JSON file per collection.
 // Each becomes a typed collection so a malformed entry fails the build.
 const dbFile = (name: string) => `db/${name}.json`;
@@ -177,7 +179,12 @@ const projects = defineCollection({
   loader: listFromDb("projects", "slug"),
   schema: ({ image }) =>
     z.object({
-      slug: z.string().regex(/^[a-z0-9-]+$/),
+      slug: z
+        .string()
+        .regex(/^[a-z0-9-]+$/)
+        .refine((slug) => !(fixedShareImageIds as readonly string[]).includes(slug), {
+          message: `reserved for a fixed share image: ${fixedShareImageIds.join(", ")}`,
+        }),
       order: z.number().int(),
       name: z.string(),
       tagline: z.string().max(90),

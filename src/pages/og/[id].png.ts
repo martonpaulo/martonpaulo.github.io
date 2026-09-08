@@ -7,6 +7,7 @@ import satori from "satori";
 
 import { fill } from "../../lib/copy";
 import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
+import type { FixedShareImageId } from "../../lib/pages";
 
 // Colours mirror the tokens in src/styles/tokens.scss. Satori cannot read a
 // stylesheet, so these are copies by hand: when a token moves, its copy moves.
@@ -43,7 +44,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const projects = await getProjects();
   const { kinds, nav, projects: projectsCopy, about, og } = await getCopy();
 
-  const fixed: Record<string, Card> = {
+  // Typed by the shared id list, so a card added here without reserving its
+  // slug, or reserved without a card, stops type-checking.
+  const fixed: Record<FixedShareImageId, Card> = {
     site: {
       eyebrow: person.role,
       title: person.name,
