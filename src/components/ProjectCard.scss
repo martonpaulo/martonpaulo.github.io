@@ -79,10 +79,18 @@
 
 // Edge-anchored screenshot: inset on the left with one rounded corner, flush
 // with the card's right and bottom edges, so the card's own corner finishes it.
+//
+// It runs one hairline past those edges rather than stopping exactly on them.
+// A card's height comes from its text, so its edge often lands on a fraction
+// of a device pixel; the clip then antialiases, and a screenshot that ended
+// exactly there would blend with the pastel tile and leave a pale seam along
+// the bottom and around the corner. Overshooting means the clip blends
+// screenshot with screenshot, and the hairline it eats is never missed.
 .project-card__art--cover {
+  --art-bleed: calc(-1 * var(--space-4) - var(--hairline));
   width: auto;
-  margin-inline: 0 calc(-1 * var(--space-4));
-  margin-bottom: calc(-1 * var(--space-4));
+  margin-inline: 0 var(--art-bleed);
+  margin-bottom: var(--art-bleed);
 
   img {
     width: 100%;
