@@ -35,7 +35,14 @@ const person = await getPerson();
 const links = await getLinks();
 const { nav } = await getCopy();
 
-const { title, description, ogImage, ogType = "website", jsonLd = [], noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  ogType = "website",
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
 
 const fullTitle = pageTitle(site, title);
 const canonical = new URL(Astro.url.pathname, Astro.site);
