@@ -122,8 +122,10 @@
     "kind": "ios",
     "stack": ["Swift", "SwiftUI", "Core Data", "CloudKit", "EventKit"],
     "tags": ["ios", "macos", "productivity", "local-first"],
-    "links": {},
-    "note": "Personal app, not published.",
+    "links": {
+      "live": "https://smartdesk.martonpaulo.com/"
+    },
+    "note": "Personal app, not released. The page says what it will do.",
     "featured": false,
     "status": "active"
   },
@@ -136,8 +138,10 @@
     "kind": "ios",
     "stack": ["Swift", "SwiftUI", "Google People API"],
     "tags": ["ios", "contacts", "local-first"],
-    "links": {},
-    "note": "Personal app, not published.",
+    "links": {
+      "live": "https://orbit.martonpaulo.com/"
+    },
+    "note": "Personal app, not released. The page says what it will do.",
     "featured": true,
     "status": "active",
     "tile": "lilac",
@@ -149,7 +153,7 @@
   },
   {
     "slug": "country-badge",
-    "name": "Country Badge",
+    "name": "Country Badge Generator",
     "tagline": "Downloadable SVG, PNG and JPG country badges from flag colours.",
     "description": "Pick a country, get a badge with one of three deterministic, flag-inspired backgrounds, and download it in the format you need. Plain JavaScript, no build step, tested end to end with Playwright.",
     "year": 2026,
