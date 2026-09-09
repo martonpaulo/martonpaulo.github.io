@@ -201,8 +201,8 @@
     }
   },
   {
-    "slug": "small-lights",
-    "name": "Small Lights",
+    "slug": "lights",
+    "name": "Lights",
     "tagline": "Forty points of light drift, bond, age and speak in a dark field.",
     "description": "An ambient agent-based simulation on a canvas: the lights move, form bonds, grow old and occasionally say something through the Web Speech API. No build, no dependencies, one HTML file.",
     "year": 2026,
@@ -211,13 +211,13 @@
     "tags": ["creative-coding", "generative-art"],
     "links": {
       "live": "https://lights.martonpaulo.com/",
-      "source": "https://github.com/martonpaulo/small-lights"
+      "source": "https://github.com/martonpaulo/lights"
     },
     "featured": true,
     "status": "active",
     "tile": "mint",
     "image": {
-      "src": "../src/assets/projects/small-lights.png",
+      "src": "../src/assets/projects/lights.png",
       "alt": "Small points of light drifting across a dark field",
       "fit": "cover"
     }
