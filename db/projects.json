@@ -9,7 +9,7 @@
     "stack": ["React", "TypeScript", "Vite", "Tailwind CSS"],
     "tags": ["local-first", "tools", "pwa"],
     "links": {
-      "live": "https://martonpaulo.com/tabelo/",
+      "live": "https://tabelo.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/tabelo"
     },
     "featured": true,
@@ -31,7 +31,7 @@
     "stack": ["Swift", "SwiftUI", "IMAP", "OAuth 2.0"],
     "tags": ["macos", "productivity", "email"],
     "links": {
-      "live": "https://martonpaulo.com/mailbell/",
+      "live": "https://mailbell.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/mailbell"
     },
     "featured": false,
@@ -47,7 +47,7 @@
     "stack": ["Swift", "SwiftUI", "Sparkle"],
     "tags": ["macos", "productivity", "time"],
     "links": {
-      "live": "https://martonpaulo.com/meantime/",
+      "live": "https://meantime.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/meantime"
     },
     "featured": true,
@@ -69,7 +69,7 @@
     "stack": ["React", "TypeScript", "D3", "TopoJSON", "TanStack Router"],
     "tags": ["local-first", "maps", "data-visualization", "accessibility"],
     "links": {
-      "live": "https://martonpaulo.com/atlas-tint/",
+      "live": "https://atlas.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/atlas-tint"
     },
     "featured": false,
@@ -85,7 +85,7 @@
     "stack": ["React", "TypeScript", "Vite"],
     "tags": ["local-first", "tools", "print"],
     "links": {
-      "live": "https://martonpaulo.com/todo-print-editor/",
+      "live": "https://todo-print.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/todo-print-editor"
     },
     "featured": false,
@@ -101,7 +101,7 @@
     "stack": ["Swift", "AppKit", "Sparkle"],
     "tags": ["macos", "productivity", "open-source"],
     "links": {
-      "live": "https://martonpaulo.com/windowhop/",
+      "live": "https://windowhop.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/windowhop"
     },
     "featured": true,
@@ -157,7 +157,7 @@
     "stack": ["JavaScript", "SVG", "Playwright"],
     "tags": ["tools", "svg"],
     "links": {
-      "live": "https://martonpaulo.com/country-badge-generator/",
+      "live": "https://country-badge.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/country-badge-generator"
     },
     "featured": false,
@@ -173,7 +173,7 @@
     "stack": ["React", "TypeScript", "React Flow", "ELK", "GitHub API"],
     "tags": ["developer-tools", "data-visualization"],
     "links": {
-      "live": "https://martonpaulo.com/issues-graph/",
+      "live": "https://issues.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/issues-graph"
     },
     "featured": false,
@@ -189,7 +189,7 @@
     "stack": ["Python", "fontTools", "HarfBuzz", "OpenType"],
     "tags": ["accessibility", "typography", "open-source"],
     "links": {
-      "live": "https://martonpaulo.com/moon-uniform/"
+      "live": "https://moon.martonpaulo.com/"
     },
     "featured": true,
     "status": "active",
@@ -210,7 +210,7 @@
     "stack": ["JavaScript", "Canvas", "Web Audio API"],
     "tags": ["creative-coding", "generative-art"],
     "links": {
-      "live": "https://martonpaulo.com/small-lights/",
+      "live": "https://small-lights.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/small-lights"
     },
     "featured": true,
@@ -232,7 +232,7 @@
     "stack": ["React", "TypeScript", "Airtable"],
     "tags": ["languages", "data"],
     "links": {
-      "live": "https://catalogue-of-languages.vercel.app",
+      "live": "https://linguae.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/catalogue-of-languages"
     },
     "featured": false,

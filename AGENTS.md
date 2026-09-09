@@ -124,8 +124,9 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   `directory` builds. Internal links end with `/`.
 - **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL; the list is
   derived from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
-  Sibling projects deployed from other repositories are served by GitHub under
-  `martonpaulo.com/<repo>/`, so their `live` links point there.
+  Since 2026-09-09 each sibling project is served on its own subdomain
+  (`https://<product>.martonpaulo.com/`, one GitHub Pages custom domain per repository), so `live`
+  links point there; `martonpaulo.com/<repo>/` paths are gone and are not redirected.
 
 ## Instruction hierarchy and sources of truth
 
