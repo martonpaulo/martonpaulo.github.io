@@ -223,8 +223,8 @@
     }
   },
   {
-    "slug": "catalogue-of-languages",
-    "name": "Catalogue of Languages",
+    "slug": "linguae",
+    "name": "Linguae",
     "tagline": "Every documented language in the Wikitongues database, in one table.",
     "description": "An interactive table for exploring the world's linguistic diversity, fed by the Wikitongues Airtable base. A side project born from a hobby.",
     "year": 2025,
@@ -233,7 +233,7 @@
     "tags": ["languages", "data"],
     "links": {
       "live": "https://linguae.martonpaulo.com/",
-      "source": "https://github.com/martonpaulo/catalogue-of-languages"
+      "source": "https://github.com/martonpaulo/linguae"
     },
     "featured": false,
     "status": "active"
