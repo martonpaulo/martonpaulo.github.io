@@ -61,7 +61,7 @@
   },
   {
     "slug": "atlas-tint",
-    "name": "Atlas Tint",
+    "name": "AtlasTint",
     "tagline": "An interactive SVG atlas for colouring and tracking regions of the world.",
     "description": "Select countries and regions, give them colours, and keep the result locally. Built on D3 and TopoJSON with keyboard navigation for every region, because a map you can only use with a mouse is only half a map.",
     "year": 2026,
@@ -76,8 +76,8 @@
     "status": "active"
   },
   {
-    "slug": "todo-print-editor",
-    "name": "Todo Print Editor",
+    "slug": "todo-print",
+    "name": "Todo Print",
     "tagline": "Design and print to-do lists as exact-size A4 layouts.",
     "description": "A visual or Markdown editor for structured checklists that prints exactly as laid out, offline, with the layout stored on your machine. For people who still like paper.",
     "year": 2026,
@@ -86,7 +86,7 @@
     "tags": ["local-first", "tools", "print"],
     "links": {
       "live": "https://todoprint.martonpaulo.com/",
-      "source": "https://github.com/martonpaulo/todo-print-editor"
+      "source": "https://github.com/martonpaulo/todo-print"
     },
     "featured": false,
     "status": "active"
@@ -148,8 +148,8 @@
     }
   },
   {
-    "slug": "country-badge-generator",
-    "name": "Country Badge Generator",
+    "slug": "country-badge",
+    "name": "Country Badge",
     "tagline": "Downloadable SVG, PNG and JPG country badges from flag colours.",
     "description": "Pick a country, get a badge with one of three deterministic, flag-inspired backgrounds, and download it in the format you need. Plain JavaScript, no build step, tested end to end with Playwright.",
     "year": 2026,
@@ -157,8 +157,8 @@
     "stack": ["JavaScript", "SVG", "Playwright"],
     "tags": ["tools", "svg"],
     "links": {
-      "live": "https://badges.martonpaulo.com/",
-      "source": "https://github.com/martonpaulo/country-badge-generator"
+      "live": "https://countrybadge.martonpaulo.com/",
+      "source": "https://github.com/martonpaulo/country-badge"
     },
     "featured": false,
     "status": "active"

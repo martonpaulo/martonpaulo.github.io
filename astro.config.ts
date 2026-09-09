@@ -20,6 +20,12 @@ export default defineConfig({
     "/work/": "/projects/",
     "/work/[slug]": "/projects/[slug]",
     "/work/kind/[kind]": "/projects/kind/[kind]",
+    // Two projects took their product's short name in September 2026, when
+    // each moved to its own subdomain; the pages under the old slug stay alive.
+    "/projects/country-badge-generator/": "/projects/country-badge/",
+    "/projects/todo-print-editor/": "/projects/todo-print/",
+    "/p/country-badge-generator/": "/p/country-badge/",
+    "/p/todo-print-editor/": "/p/todo-print/",
     ...projectRedirects,
   },
   integrations: [sitemap({ filter: (page) => !page.includes("/p/") })],

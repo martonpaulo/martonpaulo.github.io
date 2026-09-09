@@ -8,7 +8,7 @@ import { getCopy } from "../lib/db";
 const { notFound } = await getCopy();
 ---
 
-<Base title={notFound.title} description={notFound.description}>
+<Base title={notFound.title} description={notFound.description} noindex>
   <Hero title={notFound.title} lede={notFound.lede}>
     <div class="actions">
       <Button href="/" variant="primary">{notFound.home}</Button>

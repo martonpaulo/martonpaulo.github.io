@@ -25,6 +25,9 @@ interface Props {
   ogType?: "website" | "article";
   /** Extra JSON-LD nodes. The Person and WebSite nodes are always emitted. */
   jsonLd?: JsonLdNode[];
+  /** Keeps the page out of search results. GitHub Pages serves /404.html with a
+   * 200 when it is requested by name, so that page asks for noindex itself. */
+  noindex?: boolean;
 }
 
 const site = await getSite();
@@ -32,7 +35,7 @@ const person = await getPerson();
 const links = await getLinks();
 const { nav } = await getCopy();
 
-const { title, description, ogImage, ogType = "website", jsonLd = [] } = Astro.props;
+const { title, description, ogImage, ogType = "website", jsonLd = [], noindex = false } = Astro.props;
 
 const fullTitle = pageTitle(site, title);
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -51,6 +54,7 @@ const graph = jsonLdGraph([personNode(site, person, links), websiteNode(site), .
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#172630" />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
