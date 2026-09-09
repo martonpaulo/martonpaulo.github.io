@@ -69,7 +69,7 @@
     "stack": ["React", "TypeScript", "D3", "TopoJSON", "TanStack Router"],
     "tags": ["local-first", "maps", "data-visualization", "accessibility"],
     "links": {
-      "live": "https://atlas.martonpaulo.com/",
+      "live": "https://atlastint.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/atlas-tint"
     },
     "featured": false,
@@ -85,7 +85,7 @@
     "stack": ["React", "TypeScript", "Vite"],
     "tags": ["local-first", "tools", "print"],
     "links": {
-      "live": "https://todo-print.martonpaulo.com/",
+      "live": "https://todoprint.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/todo-print-editor"
     },
     "featured": false,
@@ -157,7 +157,7 @@
     "stack": ["JavaScript", "SVG", "Playwright"],
     "tags": ["tools", "svg"],
     "links": {
-      "live": "https://country-badge.martonpaulo.com/",
+      "live": "https://badges.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/country-badge-generator"
     },
     "featured": false,
@@ -210,7 +210,7 @@
     "stack": ["JavaScript", "Canvas", "Web Audio API"],
     "tags": ["creative-coding", "generative-art"],
     "links": {
-      "live": "https://small-lights.martonpaulo.com/",
+      "live": "https://lights.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/small-lights"
     },
     "featured": true,
