@@ -1,14 +1,16 @@
-name: Validate and deploy
+name: Deploy
 
 on:
-  push:
-    branches: [main]
-  pull_request:
+  # Deploy never revalidates: it waits for Validate to pass on the default
+  # branch and publishes that commit.
+  workflow_run:
+    workflows: [Validate]
+    types: [completed]
   workflow_dispatch:
   # The site states facts that age without a commit: the years worked in the
   # bio (counted from careerStart in db/person.json) and the footer's year.
-  # A monthly rebuild keeps both current; a schedule has no base commit, so
-  # the change filter below always builds it.
+  # A monthly rebuild keeps both current, and has no prior Validate to wait
+  # for, so it is a direct trigger; the change filter below always builds it.
   schedule:
     - cron: "23 4 1 * *"
 
@@ -17,38 +19,36 @@ permissions:
   pages: write
   id-token: write
 
-# Validation is per-ref and disposable: a newer push makes an in-flight run
-# pointless, so it is cancelled. Pages is the exception and keeps its own
-# serial queue on the deploy job, because GitHub allows one deployment at a
-# time and cancelling one mid-flight can leave the site on an older build.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
-  validate:
+  build:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     outputs:
       build_needed: ${{ steps.changes.outputs.build_needed }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # The commit Validate approved; empty (the default branch) for the
+          # schedule and the manual dispatch.
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
-      # First, so the cheap checks below never wait on a decision they inform.
-      # The paths are the build's own inputs: content, source, static files,
-      # the Astro and TypeScript configuration, dependencies, and this
-      # workflow. Markdown outside the build (README, docs, AGENTS.md) is
-      # excluded because nothing the build reads ever opens it. A run with no
-      # usable base (first push, force-push, manual dispatch) builds, because
-      # an unknown change set must not be read as an empty one.
+      # First, so the setup below never waits on a decision it informs. The
+      # paths are the build's own inputs: content, source, static files, the
+      # Astro and TypeScript configuration, dependencies, and this workflow.
+      # Markdown outside the build (README, docs, AGENTS.md) is excluded
+      # because nothing the build reads ever opens it. A run with no usable
+      # base (the schedule, a manual dispatch, a first or force-push) builds,
+      # because an unknown change set must not be read as an empty one.
       - id: changes
         env:
-          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
-          HEAD: ${{ github.sha }}
-          EVENT: ${{ github.event_name }}
+          BASE: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push') && format('{0}^', github.event.workflow_run.head_sha) || '' }}
+          HEAD: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
-          if [ "$EVENT" = "workflow_dispatch" ] || [ "$EVENT" = "schedule" ] || [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             echo "reason=no comparable base" >> "$GITHUB_OUTPUT"
             echo "build_needed=true" >> "$GITHUB_OUTPUT"
             exit 0
@@ -61,22 +61,19 @@ jobs:
             echo "build_needed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - if: steps.changes.outputs.build_needed == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
 
-      - run: npm ci
+      - if: steps.changes.outputs.build_needed == 'true'
+        run: npm ci
 
-      # Cheap and unconditional: these read files the path filter ignores, so a
-      # documentation-only change is still type-checked, linted and formatted.
-      - run: npm run check
-      - run: npm run lint
-      - run: npm test
-
-      # Expensive and conditional: the build renders one share image per page
-      # with satori and resvg, and only a change to a build input can alter its
-      # output. Its artifact is the only thing the deploy job consumes.
+      # Expensive: the build renders one share image per page with satori and
+      # resvg. Its artifact is the only thing the deploy job consumes, and
+      # actions/deploy-pages can only read an artifact from its own run, which
+      # is why the build lives here rather than in Validate.
       - if: steps.changes.outputs.build_needed == 'true'
         run: npm run build
 
@@ -86,8 +83,8 @@ jobs:
           path: dist
 
   deploy:
-    needs: validate
-    if: github.event_name != 'pull_request' && needs.validate.outputs.build_needed == 'true'
+    needs: build
+    if: needs.build.outputs.build_needed == 'true'
     runs-on: ubuntu-latest
     # GitHub deploys one Pages build at a time; queue rather than cancel, so
     # the site never settles on an older build than the newest green commit.

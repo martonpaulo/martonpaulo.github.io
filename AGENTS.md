@@ -7,7 +7,7 @@
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
-- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Validate and deploy` workflow. The domain is registered at Hostinger and its DNS is delegated to Cloudflare nameservers; both are owner-managed and nothing in this repository touches them.
+- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Deploy` workflow. The domain is registered at Hostinger and its DNS is delegated to Cloudflare nameservers; both are owner-managed and nothing in this repository touches them.
 - HTTPS is terminated by the Cloudflare proxy in front of GitHub Pages, so `http://martonpaulo.com/` already answers `301` to the HTTPS canonical. Because the apex `A` records resolve to Cloudflare rather than to the GitHub Pages addresses, GitHub cannot issue its own certificate: `PUT /repos/martonpaulo/martonpaulo.github.io/pages` with `https_enforced: true` fails with `404 The certificate does not exist yet`, and the Pages metadata keeps `https_enforced: false` and an `http://` `html_url`. That mismatch is expected, affects no visitor, and is not a defect to fix from this repository.
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
@@ -56,7 +56,7 @@ answer is in that file, not in this one.
 | `npm run format`   | Prettier in write mode                                                                        |
 | `npm test`         | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
 | `npm run build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
-| `npm run validate` | `check`, `lint`, `test`, `build`, in that order; what CI runs                                 |
+| `npm run validate` | `check`, `lint`, `test`, `build`, in that order; the superset of CI                           |
 | `npm run preview`  | Serves `dist/` locally                                                                        |
 
 Node 22.12 or newer, even versions only. TypeScript stays on major 6 until `astro check` supports
@@ -467,7 +467,7 @@ unblocking action, and the observable condition for resumption.
 
 ## Tests and validation
 
-- `npm run validate` is the gate before every commit. It is what CI runs on every push and pull request; the deploy job runs only after it passes and only when a build input changed, or on the monthly schedule that keeps the bio's `{years}` and the footer year current.
+- `npm run validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and only when a build input changed, or on the monthly schedule that keeps the bio's `{years}` and the footer year current.
 - Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
 - Run the smallest relevant check during iteration (`npm run check` for content and types, `npm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.
