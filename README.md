@@ -31,10 +31,15 @@ npm ci
 npm run dev
 ```
 
-Then open `http://localhost:4321`.
+Then open [http://localhost:4321](http://localhost:4321).
 
-The daily routine is smaller than that: edit a file in `db/`, run `npm run validate`, commit, push.
-The deploy workflow does the rest.
+The daily routine is smaller than that: edit a file in `db/`, then validate before committing.
+
+```bash
+npm run validate
+```
+
+Commit, push, and the deploy workflow does the rest.
 
 Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on major 6 until
 `astro check` supports 7.
