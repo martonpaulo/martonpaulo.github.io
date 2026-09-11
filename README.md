@@ -6,7 +6,9 @@
 
 Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files.
 
-[![Validate](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/validate.yml/badge.svg)](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/validate.yml) [![Deploy](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml) [![Astro 7](https://img.shields.io/badge/Astro-7-bc52ee)](https://astro.build) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/) [![Node 22.12](https://img.shields.io/badge/Node-22.12-5fa04e)](https://nodejs.org/)
+[![Validate](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/validate.yml/badge.svg)](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/validate.yml) [![Deploy](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml)
+
+[![Astro 7](https://img.shields.io/badge/Astro-7-bc52ee)](https://astro.build) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/) [![Node 22.12](https://img.shields.io/badge/Node-22.12-5fa04e)](https://nodejs.org/)
 
 </div>
 
@@ -115,12 +117,10 @@ uses the repository's own `GITHUB_TOKEN`, which GitHub Actions provides automati
 
 `Validate` runs the cheap checks — `check`, `lint`, `test` — on every push and pull request,
 because linting and formatting read files the site never serves. `Deploy` waits for `Validate` to
-succeed on `main` and never repeats those checks; it builds, uploads the Pages artifact and deploys,
-and does so only when the change touches something the build reads (`db/`, `src/`, `public/`, the
-Astro or TypeScript configuration, the dependencies, or the deploy workflow itself). A change to
-this README is checked and not built. A monthly scheduled run goes straight to `Deploy` and always
-builds, because two facts on the site age without a commit: the years worked in the bio, counted
-from `careerStart` in `db/person.json`, and the year in the footer.
+succeed on `main` and never repeats those checks; it builds, uploads the Pages artifact and
+deploys, on every successful run. A monthly scheduled run goes straight to `Deploy`, because two
+facts on the site age without a commit: the years worked in the bio, counted from `careerStart` in
+`db/person.json`, and the year in the footer.
 
 [CONTRIBUTING.md](CONTRIBUTING.md) has the rest: how to report a bug, and the branch and commit
 conventions.
