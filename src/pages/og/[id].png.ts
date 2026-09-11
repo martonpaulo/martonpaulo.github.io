@@ -334,7 +334,7 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
       // The tagline on one line in tracked capitals; the role, the information that matters most
       // after the name, sits under it at reading size.
       trackedWords(tagline.toUpperCase(), 10, {
-        fontSize: 17,
+        fontSize: 20,
         fontWeight: 500,
         letterSpacing: "0.16em",
         color: "#a8e2f2",
@@ -344,23 +344,23 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
       text(name, {
         fontFamily: "Gabarito",
         fontWeight: 700,
-        fontSize: 118,
+        fontSize: 132,
         lineHeight: 0.95,
         letterSpacing: "-0.035em",
         color: HEADING,
         marginTop: 22,
-        maxWidth: 430,
+        maxWidth: 470,
       }),
       // Two lines, broken after the title ("Senior full-stack developer / and vibe coder").
       text(role, {
-        fontSize: 32,
+        fontSize: 36,
         fontWeight: 500,
         lineHeight: 1.25,
         color: TEXT,
         marginTop: 20,
-        maxWidth: 420,
+        maxWidth: 480,
       }),
-      text(host, { fontSize: 22, color: MUTED, marginTop: 30 }),
+      text(host, { fontSize: 25, color: MUTED, marginTop: 30 }),
     ],
   );
 
