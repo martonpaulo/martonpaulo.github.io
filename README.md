@@ -26,8 +26,7 @@ images are rendered once per build with satori and resvg.
 
 <br />
 
-## Quick Start
-
+## 🌱 Quick Start
 ```bash
 npm ci
 npm run dev
@@ -48,8 +47,7 @@ Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on
 
 <br />
 
-## Commands
-
+## 🛠 Commands
 | Command                | What it does                                                           |
 | :--------------------- | :--------------------------------------------------------------------- |
 | `npm run dev`          | Astro dev server at `http://localhost:4321`                            |
