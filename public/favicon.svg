@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-  <!-- Transparent background. A dark halo under the aqua brackets keeps the
-       mark readable on a white, black or coloured tab bar alike. -->
-  <path d="M9 3H4v17h5M16 3h5v17h-5" stroke="#16222a" stroke-width="5" stroke-linecap="square" stroke-linejoin="round" stroke-opacity="0.9"/>
-  <path d="M9 3H4v17h5M16 3h5v17h-5" stroke="#7fd0e6" stroke-width="2.4" stroke-linecap="square"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Its own ground, like the touch icon (src/pages/apple-touch-icon.png.ts): a transparent mark
+       turned muddy wherever a surface drew it on a plate of its own (Google's white disc, dark tabs). -->
+  <rect width="24" height="24" rx="5.5" fill="#7fd0e6"/>
+  <g fill="none" stroke-width="2.4" stroke-linecap="square">
+    <path d="M10 6.5H6.5v11H10M14 6.5h3.5v11H14" stroke="#172630"/>
+  </g>
 </svg>
