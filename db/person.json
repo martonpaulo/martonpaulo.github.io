@@ -19,19 +19,25 @@
   "languages": [
     {
       "name": "Portuguese",
-      "level": "native"
+      "level": "Native",
+      "cefr": "C2"
     },
     {
       "name": "English",
-      "level": "fluent"
+      "level": "Fluent",
+      "cefr": "C1",
+      "certificate": "Cambridge Advanced, 2025"
     },
     {
       "name": "Spanish",
-      "level": "fluent"
+      "level": "Fluent",
+      "cefr": "C1"
     },
     {
       "name": "Esperanto",
-      "level": "fluent"
+      "level": "Fluent",
+      "cefr": "C1",
+      "certificate": "KER-Ekzameno, 2018"
     }
   ],
   "stack": [

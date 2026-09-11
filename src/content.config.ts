@@ -70,7 +70,15 @@ const person = defineCollection({
     careerStart: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
     bio: z.array(z.string()).min(1),
     now: z.array(z.string()),
-    languages: z.array(z.object({ name: z.string(), level: z.string() })),
+    languages: z.array(
+      z.object({
+        name: z.string(),
+        level: z.string(),
+        // The Common European Framework band, and the exam that certifies it when one was sat.
+        cefr: z.string().regex(/^[ABC][12]$/),
+        certificate: z.string().optional(),
+      }),
+    ),
     stack: z.array(z.object({ group: z.string(), items: z.array(z.string()).min(1) })),
     interests: z.array(z.string()),
   }),

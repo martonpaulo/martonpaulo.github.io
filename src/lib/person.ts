@@ -26,7 +26,14 @@ export function stackRows(person: Person) {
   return person.stack.map((group) => ({ term: group.group, value: group.items.join(", ") }));
 }
 
-/** The languages as label/value rows for a definition list. */
+/**
+ * The languages as label/value rows: how well it is spoken, the CEFR band that
+ * says the same thing in a scale anyone can compare, and the exam that
+ * certifies it when one was sat.
+ */
 export function languageRows(person: Person) {
-  return person.languages.map((language) => ({ term: language.name, value: language.level }));
+  return person.languages.map((language) => ({
+    term: language.name,
+    value: [language.level, language.cefr, language.certificate].filter(Boolean).join(" · "),
+  }));
 }
