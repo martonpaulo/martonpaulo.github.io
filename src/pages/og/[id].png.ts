@@ -413,7 +413,15 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
         marginTop: 22,
         maxWidth: 430,
       }),
-      text(role, { fontSize: 32, fontWeight: 500, color: TEXT, marginTop: 20 }),
+      // Two lines, broken after the title ("Senior full-stack developer / and vibe coder").
+      text(role, {
+        fontSize: 32,
+        fontWeight: 500,
+        lineHeight: 1.25,
+        color: TEXT,
+        marginTop: 20,
+        maxWidth: 420,
+      }),
       text(host, { fontSize: 22, color: MUTED, marginTop: 30 }),
     ],
   );
