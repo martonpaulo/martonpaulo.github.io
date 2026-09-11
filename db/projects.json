@@ -207,7 +207,7 @@
   {
     "slug": "lights",
     "name": "Lights",
-    "tagline": "Forty points of light drift, bond, age and speak in a dark field.",
+    "tagline": "A small society of lights that drift together, fall out and fade in the dark.",
     "description": "An ambient agent-based simulation on a canvas: the lights move, form bonds, grow old and occasionally say something through the Web Speech API. No build, no dependencies, one HTML file.",
     "year": 2026,
     "kind": "experiment",
