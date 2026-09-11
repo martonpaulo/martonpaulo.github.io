@@ -70,7 +70,7 @@ transparent background and a dark halo, so it reads on a white, black or coloure
 sticky at the top. It never grows a menu because there is nothing to hide in it.
 
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
-eyebrow and one claim as the heading: "Small software, made with care". Section headings are
+eyebrow and one claim as the heading: "Software made with care". Section headings are
 nouns ("Work", "Lately", "Get in touch"), not greetings, and no heading ends in a full stop. No adjectives about passion; the
 projects carry that.
 
