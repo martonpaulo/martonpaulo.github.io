@@ -1,18 +1,19 @@
 {
   "name": "Marton Paulo",
   "givenName": "Marton",
-  "role": "Full-stack developer",
+  "role": "Senior full-stack developer and vibe coder",
   "location": "Spain",
   "bio": [
-    "I'm a full-stack developer who never stopped caring most about the front end: the part of the work where a screen stops being a plan and starts feeling right. I've spent the last several years building web products with React, Next.js and TypeScript, with Java and Spring Boot on the other side of the API, and lately I've been shipping native apps for macOS and iOS in Swift.",
+    "I'm a senior full-stack developer and a vibe coder. I've been building web products since 2019, with React, Next.js and TypeScript on the front and Node.js, Java and Spring Boot behind the API, and I never stopped caring most about the front end: the part of the work where a screen stops being a plan and starts feeling right.",
+    "These days most of my code is written by AI agents that I direct. I describe the change, they draft it, and I review, test and ship it. The craft didn't disappear, it moved: I spend as much care on the guardrails, the specs, tests and checks an agent can't talk its way past, as on the product itself. It's how one person ends up shipping native apps for macOS and iOS in Swift, a typeface and a handful of browser tools.",
     "What I make on my own is small on purpose. A window switcher because Command-Tab switches apps. A table editor that never sends your table anywhere. A font for an alphabet that blind readers used before braille. Each one does one thing, keeps your data with you, and is free.",
-    "I'm Brazilian and I live in Spain. I speak English, Portuguese, Spanish and Esperanto, and I'm learning Mandarin."
+    "I'm Brazilian and I live in Spain. I speak Portuguese, English, Spanish and Esperanto. I have a degree in systems analysis and development and a specialisation in full-stack development from PUC Minas."
   ],
   "now": [
     "Building native macOS utilities in Swift, all living in the menu bar: a window switcher, a Gmail notifier and a world clock.",
     "Making browser tools that keep your data on your machine, like a table editor and an SVG atlas.",
     "Drawing and documenting Moon Uniform, an open typeface for the Moon tactile alphabet.",
-    "Studying Mandarin, slowly but steadily."
+    "Writing the workflows my coding agents follow: how they plan, test, review and ask before anything they can't undo."
   ],
   "languages": [
     {
@@ -30,10 +31,6 @@
     {
       "name": "Esperanto",
       "level": "fluent"
-    },
-    {
-      "name": "Mandarin",
-      "level": "learning"
     }
   ],
   "stack": [
@@ -43,10 +40,11 @@
         "React",
         "Next.js",
         "TypeScript",
+        "Angular",
+        "Astro",
         "Vite",
         "Tailwind CSS",
-        "Styled Components",
-        "Astro"
+        "Material UI"
       ]
     },
     {
@@ -58,20 +56,24 @@
       "items": ["Swift", "SwiftUI", "AppKit", "React Native", "Expo"]
     },
     {
+      "group": "AI",
+      "items": ["Claude Code", "Gemini", "Agent Orchestrator", "Agent Skills"]
+    },
+    {
       "group": "Practice",
       "items": [
         "Accessibility",
-        "Testing (Jest, Cypress, Playwright)",
+        "Testing (Jest, Cypress, Playwright, Storybook)",
         "GitHub Actions",
         "Local-first design"
       ]
     }
   ],
   "interests": [
-    "Going places the hard way. I've hitchhiked across two continents and found towns most people never hear about. I sometimes work while travelling, and every now and then I set off on a ten-day hike.",
-    "Languages, for their own sake. Besides the ones I speak, I've picked up bits of French, Russian, Arabic, Brazilian Sign Language (Libras) and Toki Pona. Talking to people in their own language is the whole point.",
-    "Tinkering with my tools: a VS Code setup with more customisation than it needs, an old Linux machine I keep running for fun, and a growing pile of scripts that automate my Mac."
+    "Languages and the cultures that come with them. Besides the four I speak, I've studied Chinese, French, Russian and Brazilian Sign Language (Libras). Talking to people in their own language is the whole point.",
+    "Anything uncommon enough to make me curious: an alphabet blind readers used before braille, a word with no translation, a town most people never hear about. If it's rare, I want to know how it works.",
+    "Tinkering with my tools: Hammerspoon and Raycast scripts that automate my Mac, a VS Code setup with more customisation than it needs, and an old Linux machine I keep running for fun."
   ],
   "tagline": "Small software, made with care",
-  "intro": "I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift. The tools I make on my own are small, free and local-first: your data stays on your machine."
+  "intro": "I'm a senior full-stack developer and a vibe coder: I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift, mostly by directing AI coding agents. The tools I make on my own are small, free and local-first: your data stays on your machine."
 }
