@@ -1,13 +1,13 @@
 @use "../styles/breakpoints" as bp;
 
-// Icon, then name and line, then kind and year. On a phone the kind and year drop under the
-// text column, never under the icon, so every line of a row starts at the same edge.
+// Icon, then the name with its kind and year on the same line, then the line under both.
+// Every line of a row starts at the same edge, beside the icon.
 .project-row {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   grid-template-areas:
-    "icon text"
-    ". meta";
+    "icon title meta"
+    ". tagline tagline";
   column-gap: var(--space-3);
   align-items: start;
   padding: var(--space-3) var(--space-2);
@@ -16,13 +16,7 @@
 
 @include bp.up("tablet") {
   .project-row {
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: "icon text meta";
     column-gap: var(--space-4);
-  }
-
-  .project-row__meta {
-    min-height: var(--touch-target);
   }
 }
 
@@ -36,7 +30,11 @@
 }
 
 .project-row__text {
-  grid-area: text;
+  display: contents;
+}
+
+.project-row__title {
+  grid-area: title;
 }
 
 // inline-flex rather than block: the target grows to the tappable minimum
@@ -53,16 +51,18 @@
 }
 
 .project-row__tagline {
+  grid-area: tagline;
   color: var(--text-muted);
   max-width: var(--measure);
 }
 
-// On wide screens it lines up with the name, inside the same touch-target box height.
+// Level with the name: the same touch-target box height, centred.
 .project-row__meta {
   grid-area: meta;
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  min-height: var(--touch-target);
   font-size: var(--text-sm);
   color: var(--text-muted);
   white-space: nowrap;
