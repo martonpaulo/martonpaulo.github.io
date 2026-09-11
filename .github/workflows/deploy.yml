@@ -10,7 +10,7 @@ on:
   # The site states facts that age without a commit: the years worked in the
   # bio (counted from careerStart in db/person.json) and the footer's year.
   # A monthly rebuild keeps both current, and has no prior Validate to wait
-  # for, so it is a direct trigger; the change filter below always builds it.
+  # for, so it is a direct trigger.
   schedule:
     - cron: "23 4 1 * *"
 
@@ -26,65 +26,32 @@ jobs:
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
-    outputs:
-      build_needed: ${{ steps.changes.outputs.build_needed }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # The commit Validate approved; empty (the default branch) for the
           # schedule and the manual dispatch.
           ref: ${{ github.event.workflow_run.head_sha }}
-          fetch-depth: 0
 
-      # First, so the setup below never waits on a decision it informs. The
-      # paths are the build's own inputs: content, source, static files, the
-      # Astro and TypeScript configuration, dependencies, and this workflow.
-      # Markdown outside the build (README, docs, AGENTS.md) is excluded
-      # because nothing the build reads ever opens it. A run with no usable
-      # base (the schedule, a manual dispatch, a first or force-push) builds,
-      # because an unknown change set must not be read as an empty one.
-      - id: changes
-        env:
-          BASE: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push') && format('{0}^', github.event.workflow_run.head_sha) || '' }}
-          HEAD: ${{ github.event.workflow_run.head_sha || github.sha }}
-        run: |
-          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
-            echo "reason=no comparable base" >> "$GITHUB_OUTPUT"
-            echo "build_needed=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          changed=$(git diff --name-only "$BASE" "$HEAD")
-          echo "Changed files:"; echo "$changed" | sed 's/^/  /'
-          if echo "$changed" | grep -E -q '^(db/|src/|public/|astro\.config\.ts|tsconfig\.json|package\.json|package-lock\.json|\.github/workflows/deploy\.yml)'; then
-            echo "build_needed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "build_needed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - if: steps.changes.outputs.build_needed == 'true'
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
 
-      - if: steps.changes.outputs.build_needed == 'true'
-        run: npm ci
+      - run: npm ci
 
       # Expensive: the build renders one share image per page with satori and
       # resvg. Its artifact is the only thing the deploy job consumes, and
       # actions/deploy-pages can only read an artifact from its own run, which
       # is why the build lives here rather than in Validate.
-      - if: steps.changes.outputs.build_needed == 'true'
-        run: npm run build
+      - run: npm run build
 
-      - if: steps.changes.outputs.build_needed == 'true'
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
 
   deploy:
     needs: build
-    if: needs.build.outputs.build_needed == 'true'
     runs-on: ubuntu-latest
     # GitHub deploys one Pages build at a time; queue rather than cancel, so
     # the site never settles on an older build than the newest green commit.

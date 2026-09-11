@@ -16,7 +16,7 @@
 - Branch policy: `main`-only. Work is committed directly to `main`; a branch is an occasional convenience for an experiment, never a requirement, and no pull request is needed to deliver.
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
-- Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0` and is not a product version. Every push to `main` that changes a build input deploys.
+- Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0` and is not a product version. Every push to `main` whose validation passes deploys.
 - Agent automation: `disabled`
 - Merge policy: pull requests are the exception. When one is used, it is squash-merged with `gh pr merge <number> --squash --delete-branch`, and the repository allows no other method.
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
@@ -467,7 +467,7 @@ unblocking action, and the observable condition for resumption.
 
 ## Tests and validation
 
-- `npm run validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and only when a build input changed, or on the monthly schedule that keeps the bio's `{years}` and the footer year current.
+- `npm run validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and publishes on every such run, plus the monthly schedule that keeps the bio's `{years}` and the footer year current.
 - Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
 - Run the smallest relevant check during iteration (`npm run check` for content and types, `npm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.
