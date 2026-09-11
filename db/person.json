@@ -57,7 +57,7 @@
     },
     {
       "group": "AI",
-      "items": ["Claude Code", "Gemini", "Agent Orchestrator", "Agent Skills"]
+      "items": ["Claude Code", "Codex", "ChatGPT", "Gemini", "Agent Orchestrator", "Agent Skills"]
     },
     {
       "group": "Practice",
