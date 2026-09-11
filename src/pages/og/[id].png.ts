@@ -7,6 +7,7 @@ import satori from "satori";
 
 import { fill } from "../../lib/copy";
 import { getCopy, getPerson, getProjects, getSite } from "../../lib/db";
+import { woffToSfnt } from "../../lib/fonts";
 import type { FixedShareImageId } from "../../lib/pages";
 
 // Colours mirror the tokens in src/styles/tokens.scss. Satori cannot read a
@@ -33,10 +34,11 @@ type Card = {
   subtitle: string;
 };
 
-// Fontsource ships static WOFF files satori can read; the site itself loads
-// the same families through Astro's font provider.
-const fontFile = (pkg: string, file: string) =>
-  readFile(path.join(process.cwd(), "node_modules", pkg, "files", file));
+// Fontsource ships static WOFF files; the site itself loads the same families
+// through Astro's font provider. They are unpacked before satori sees them:
+// woffToSfnt says why.
+const fontFile = async (pkg: string, file: string) =>
+  woffToSfnt(await readFile(path.join(process.cwd(), "node_modules", pkg, "files", file)));
 
 // Read once for the whole build rather than once per image.
 const fonts = Promise.all([
