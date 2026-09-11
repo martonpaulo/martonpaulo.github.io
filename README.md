@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="src/assets/share/home-ground.png" width="100%" alt="The ground of the site's share image: a dark teal glow with every product's icon on a wall in perspective">
+<img src="design/social-card/social-card.jpg" width="100%" alt="Marton Paulo, senior full-stack developer and vibe coder: the share card, with every product's icon on a wall in perspective">
 
-# Marton Paulo
+# Personal Website
 
 Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files.
 
