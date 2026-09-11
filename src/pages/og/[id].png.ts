@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -60,6 +61,8 @@ type Card = {
   art?: Art | undefined;
   /** The fixed pages show the featured tiles, as the home page does. */
   mosaic?: MosaicTile[];
+  /** The home card: every product's icon, the body of work around the name. */
+  hub?: string[];
 };
 
 // Fontsource ships static WOFF files; the site itself loads the same families
@@ -72,7 +75,12 @@ const fontFile = async (pkg: string, file: string) =>
 const fonts = Promise.all([
   fontFile("@fontsource/gabarito", "gabarito-latin-700-normal.woff"),
   fontFile("@fontsource/figtree", "figtree-latin-400-normal.woff"),
+  fontFile("@fontsource/figtree", "figtree-latin-500-normal.woff"),
 ]);
+
+// Each product's own icon, a 208 px rounded tile (twice the size it is drawn), for the home card.
+const iconFile = (slug: string) =>
+  path.join(process.cwd(), "src", "assets", "share", `${slug}.png`);
 
 // Project artwork lives at src/assets/projects/<slug>.png. It is scaled down once per card
 // before satori embeds it: the source files are up to 2,268 pixels wide.
@@ -116,7 +124,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
       eyebrow: person.role,
       title: person.name,
       subtitle: person.tagline,
-      mosaic,
+      // In the order the projects are authored; a project without an icon file is left out.
+      hub: projects.map((project) => project.slug).filter((slug) => existsSync(iconFile(slug))),
     },
     projects: {
       eyebrow: nav.work,
@@ -309,12 +318,102 @@ const mosaicTiles = async (tiles: MosaicTile[]) => {
   );
 };
 
+// The home card's visual: every product's icon on a tilted wall, in rows of three and four so
+// the rows interlock, each icon once.
+// Larger than the space allows, so the wall runs off the edges: there is more beside it.
+const ICON = 136;
+const ICON_GAP = 34;
+const hubWall = async (slugs: string[]) => {
+  const rows: string[][] = [];
+  for (let index = 0, size = 3; index < slugs.length; index += size, size = size === 3 ? 4 : 3) {
+    rows.push(slugs.slice(index, index + size));
+  }
+  const step = ICON + ICON_GAP;
+  const width = 4 * ICON + 3 * ICON_GAP;
+  const height = rows.length * ICON + (rows.length - 1) * ICON_GAP;
+  const icons = await Promise.all(
+    rows.flatMap((row, rowIndex) =>
+      row.map(async (slug, column) => {
+        const png = await readFile(iconFile(slug));
+        return box(
+          {
+            position: "absolute",
+            left: (row.length === 3 ? step / 2 : 0) + column * step,
+            top: rowIndex * step,
+            width: ICON,
+            height: ICON,
+            borderRadius: 23,
+            boxShadow: "0 16px 32px rgba(5, 12, 18, 0.45)",
+          },
+          [image(`data:image/png;base64,${png.toString("base64")}`, { width: ICON, height: ICON })],
+        );
+      }),
+    ),
+  );
+  return box(
+    {
+      position: "absolute",
+      left: 1040 - width / 2,
+      top: HEIGHT / 2 - height / 2,
+      width,
+      height,
+      transform: "rotate(-12deg)",
+    },
+    icons,
+  );
+};
+
+const homeCopy = (role: string, name: string, tagline: string, host: string) =>
+  box(
+    {
+      position: "absolute",
+      left: COPY_LEFT,
+      top: 0,
+      width: 560,
+      height: HEIGHT,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "flex-start",
+    },
+    [
+      // The role on one line after a short aqua rule, in tracked capitals.
+      box({ alignItems: "center", gap: 14 }, [
+        box({ width: 36, height: 2, borderRadius: 1, backgroundColor: PRIMARY }),
+        trackedWords(role.toUpperCase(), 10, {
+          fontSize: 15,
+          fontWeight: 500,
+          letterSpacing: "0.16em",
+          color: "#a8e2f2",
+          flexWrap: "nowrap",
+        }),
+      ]),
+      text(name, {
+        fontFamily: "Gabarito",
+        fontWeight: 700,
+        fontSize: 80,
+        lineHeight: 1,
+        letterSpacing: "-0.03em",
+        color: HEADING,
+        marginTop: 20,
+      }),
+      text(tagline, { fontSize: 32, fontWeight: 500, color: TEXT, marginTop: 20 }),
+      text(host, { fontSize: 22, color: MUTED, marginTop: 30 }),
+    ],
+  );
+
 export const GET: APIRoute = async ({ props }) => {
-  const { eyebrow, title, subtitle, art, mosaic } = props as Card;
+  const { eyebrow, title, subtitle, art, mosaic, hub } = props as Card;
   const site = await getSite();
 
-  const [display, body] = await fonts;
-  const visual = art ? await projectTile(art) : mosaic?.length ? await mosaicTiles(mosaic) : null;
+  const [display, body, bodyMedium] = await fonts;
+  const host = site.url.replace("https://", "");
+  const visual = hub?.length
+    ? await hubWall(hub)
+    : art
+      ? await projectTile(art)
+      : mosaic?.length
+        ? await mosaicTiles(mosaic)
+        : null;
   // Without a visual the copy has the whole card; with one, it keeps to its column.
   const copyWidth = visual ? COPY_WIDTH : WIDTH - COPY_LEFT * 2;
   const titleSize = visual ? (title.length > 13 ? 76 : 88) : title.length > 26 ? 88 : 112;
@@ -335,32 +434,34 @@ export const GET: APIRoute = async ({ props }) => {
       },
       [
         ...(visual ? [visual] : []),
-        box(
-          {
-            position: "absolute",
-            left: COPY_LEFT,
-            top: 0,
-            width: copyWidth,
-            height: HEIGHT,
-            flexDirection: "column",
-            justifyContent: "center",
-          },
-          [
-            box({ marginBottom: 30 }, [mark]),
-            eyebrowLine(eyebrow, PRIMARY, EYEBROW_SIZE),
-            text(title, {
-              fontFamily: "Gabarito",
-              fontWeight: 700,
-              fontSize: titleSize,
-              lineHeight: 1,
-              letterSpacing: "-0.03em",
-              color: HEADING,
-              marginTop: 20,
-            }),
-            text(subtitle, { fontSize: 32, color: TEXT, lineHeight: 1.3, marginTop: 20 }),
-            text(site.url.replace("https://", ""), { fontSize: 22, color: MUTED, marginTop: 30 }),
-          ],
-        ),
+        hub?.length
+          ? homeCopy(eyebrow, title, subtitle, host)
+          : box(
+              {
+                position: "absolute",
+                left: COPY_LEFT,
+                top: 0,
+                width: copyWidth,
+                height: HEIGHT,
+                flexDirection: "column",
+                justifyContent: "center",
+              },
+              [
+                box({ marginBottom: 30 }, [mark]),
+                eyebrowLine(eyebrow, PRIMARY, EYEBROW_SIZE),
+                text(title, {
+                  fontFamily: "Gabarito",
+                  fontWeight: 700,
+                  fontSize: titleSize,
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                  color: HEADING,
+                  marginTop: 20,
+                }),
+                text(subtitle, { fontSize: 32, color: TEXT, lineHeight: 1.3, marginTop: 20 }),
+                text(host, { fontSize: 22, color: MUTED, marginTop: 30 }),
+              ],
+            ),
       ],
     ),
     {
@@ -369,6 +470,7 @@ export const GET: APIRoute = async ({ props }) => {
       fonts: [
         { name: "Gabarito", data: display, weight: 700, style: "normal" },
         { name: "Figtree", data: body, weight: 400, style: "normal" },
+        { name: "Figtree", data: bodyMedium, weight: 500, style: "normal" },
       ],
     },
   );
