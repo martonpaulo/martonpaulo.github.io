@@ -30,7 +30,9 @@ export function websiteNode(site: Site): JsonLdNode {
     "@type": "WebSite",
     "@id": `${site.url}/#website`,
     url: site.url,
-    name: site.title,
+    // The entity's name, not the home page's title: the title carries a role
+    // after the separator, which is not part of the site's name.
+    name: site.name,
     description: site.description,
     inLanguage: site.locale,
     author: { "@id": `${site.url}/#person` },

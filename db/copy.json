@@ -60,6 +60,7 @@
   },
   "notFound": {
     "title": "Nothing here",
+    "documentTitle": "Page not found",
     "lede": "The page you wanted moved, or never existed. Try the home page or the projects, or get in touch and tell me what you were looking for.",
     "description": "This page does not exist on martonpaulo.com.",
     "home": "Home",

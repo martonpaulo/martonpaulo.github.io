@@ -145,6 +145,8 @@ const copy = defineCollection({
     }),
     notFound: z.object({
       title: z.string(),
+      /** The tab and search title; the visible heading above keeps its own voice. */
+      documentTitle: z.string(),
       lede: z.string(),
       description: z.string(),
       home: z.string(),
