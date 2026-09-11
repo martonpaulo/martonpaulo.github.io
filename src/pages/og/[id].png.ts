@@ -61,8 +61,8 @@ type Card = {
   art?: Art | undefined;
   /** The fixed pages show the featured tiles, as the home page does. */
   mosaic?: MosaicTile[];
-  /** The home card: every product's icon, the body of work around the name. */
-  hub?: string[];
+  /** The home card: every product's icon, the body of work around the name, row by row. */
+  hub?: (string | null)[][];
 };
 
 // Fontsource ships static WOFF files; the site itself loads the same families
@@ -124,8 +124,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
       eyebrow: person.role,
       title: person.name,
       subtitle: person.tagline,
-      // In the order the projects are authored; a project without an icon file is left out.
-      hub: projects.map((project) => project.slug).filter((slug) => existsSync(iconFile(slug))),
+      // A slot whose icon file is missing stays empty, so the others keep their places.
+      hub: HUB_ROWS.map((row) =>
+        row.map((slug) => (slug && existsSync(iconFile(slug)) ? slug : null)),
+      ),
     },
     projects: {
       eyebrow: nav.work,
@@ -323,31 +325,43 @@ const mosaicTiles = async (tiles: MosaicTile[]) => {
 // Larger than the space allows, so the wall runs off the edges: there is more beside it.
 const ICON = 136;
 const ICON_GAP = 34;
-const hubWall = async (slugs: string[]) => {
-  const rows: string[][] = [];
-  for (let index = 0, size = 3; index < slugs.length; index += size, size = size === 3 ? 4 : 3) {
-    rows.push(slugs.slice(index, index + size));
-  }
+// The arrangement is the owner's (2026-09-11): rows of three and four interlock, and a null keeps
+// a four-slot row's place empty. A project added later joins by adding its slug here.
+const HUB_ROWS: (string | null)[][] = [
+  ["tabelo", "mailbell", "meantime"],
+  ["atlas-tint", "todo-print", "windowhop", null],
+  ["orbit", "country-badge", "issues-graph"],
+  ["smart-desk", "linguae", "lights", "moon-uniform"],
+];
+
+const hubWall = async (rows: (string | null)[][]) => {
   const step = ICON + ICON_GAP;
   const width = 4 * ICON + 3 * ICON_GAP;
   const height = rows.length * ICON + (rows.length - 1) * ICON_GAP;
   const icons = await Promise.all(
     rows.flatMap((row, rowIndex) =>
-      row.map(async (slug, column) => {
-        const png = await readFile(iconFile(slug));
-        return box(
-          {
-            position: "absolute",
-            left: (row.length === 3 ? step / 2 : 0) + column * step,
-            top: rowIndex * step,
-            width: ICON,
-            height: ICON,
-            borderRadius: 23,
-            boxShadow: "0 16px 32px rgba(5, 12, 18, 0.45)",
-          },
-          [image(`data:image/png;base64,${png.toString("base64")}`, { width: ICON, height: ICON })],
-        );
-      }),
+      row
+        .flatMap((slug, column) => (slug ? [{ slug, column }] : []))
+        .map(async ({ slug, column }) => {
+          const png = await readFile(iconFile(slug));
+          return box(
+            {
+              position: "absolute",
+              left: (row.length === 3 ? step / 2 : 0) + column * step,
+              top: rowIndex * step,
+              width: ICON,
+              height: ICON,
+              borderRadius: 23,
+              boxShadow: "0 16px 32px rgba(5, 12, 18, 0.45)",
+            },
+            [
+              image(`data:image/png;base64,${png.toString("base64")}`, {
+                width: ICON,
+                height: ICON,
+              }),
+            ],
+          );
+        }),
     ),
   );
   return box(
