@@ -185,7 +185,7 @@ const projects = defineCollection({
       tagline: z.string().max(90),
       description: z.string(),
       year: z.number().int().min(2015).max(2100),
-      kind: z.enum(projectKinds),
+      kinds: z.array(z.enum(projectKinds)).min(1),
       stack: z.array(z.string()).min(1),
       tags: z.array(z.string().regex(/^[a-z0-9-]+$/)),
       links: z.object({

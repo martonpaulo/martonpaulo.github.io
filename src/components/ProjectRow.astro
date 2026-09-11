@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
 import { projectIcon, ROW_ICON_SIZE } from "../lib/images";
-import { projectPath, type Project } from "../lib/projects";
+import { kindLabel, projectPath, type Project } from "../lib/projects";
 
 /** A project as one line in the list: its icon, name, what it does, kind and year. */
 interface Props {
@@ -38,7 +38,7 @@ const icon = projectIcon(project.slug);
     <p class="project-row__tagline">{project.tagline}</p>
   </div>
   <p class="project-row__meta">
-    <span>{kinds[project.kind].one}</span>
+    <span>{kindLabel(project, kinds)}</span>
     <span aria-hidden="true">·</span>
     <span>{project.year}</span>
   </p>

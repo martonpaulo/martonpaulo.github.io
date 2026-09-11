@@ -5,7 +5,6 @@
     "tagline": "Edit one table visually or as text, entirely in your browser.",
     "description": "A table editor where the grid and the text formats stay in sync: Markdown, CSV, TSV, JSON, HTML and Jira. Everything runs locally as a PWA, so no table you paste ever leaves your machine.",
     "year": 2026,
-    "kind": "web",
     "stack": ["React", "TypeScript", "Vite", "Tailwind CSS"],
     "tags": ["local-first", "tools", "pwa"],
     "links": {
@@ -19,7 +18,8 @@
       "src": "../src/assets/projects/tabelo.png",
       "alt": "Tabelo showing the same table as Markdown text on the left and as an editable grid on the right",
       "fit": "cover"
-    }
+    },
+    "kinds": ["web"]
   },
   {
     "slug": "mailbell",
@@ -27,7 +27,6 @@
     "tagline": "Gmail notifications in the macOS menu bar, with no server in between.",
     "description": "Instant IMAP IDLE alerts for Gmail, a review queue you can clear in one click, and OAuth with PKCE stored in the Keychain. The app talks to Gmail directly; nothing of yours passes through anyone else's machine.",
     "year": 2026,
-    "kind": "macos",
     "stack": ["Swift", "SwiftUI", "IMAP", "OAuth 2.0"],
     "tags": ["macos", "productivity", "email"],
     "links": {
@@ -35,7 +34,8 @@
       "source": "https://github.com/martonpaulo/mailbell"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["macos"]
   },
   {
     "slug": "meantime",
@@ -43,7 +43,6 @@
     "tagline": "World clocks in the macOS menu bar, with time travel.",
     "description": "Scheduled clocks, a quick calendar, and a slider that moves every clock at once so you can find a meeting time across time zones without arithmetic. Native, fast and private.",
     "year": 2026,
-    "kind": "macos",
     "stack": ["Swift", "SwiftUI", "Sparkle"],
     "tags": ["macos", "productivity", "time"],
     "links": {
@@ -57,7 +56,8 @@
       "src": "../src/assets/projects/meantime.png",
       "alt": "Meantime's menu bar panel with two city clocks and a calendar",
       "fit": "cover"
-    }
+    },
+    "kinds": ["macos"]
   },
   {
     "slug": "atlas-tint",
@@ -65,7 +65,6 @@
     "tagline": "An interactive SVG atlas for colouring and tracking regions of the world.",
     "description": "Select countries and regions, give them colours, and keep the result locally. Built on D3 and TopoJSON with keyboard navigation for every region, because a map you can only use with a mouse is only half a map.",
     "year": 2026,
-    "kind": "web",
     "stack": ["React", "TypeScript", "D3", "TopoJSON", "TanStack Router"],
     "tags": ["local-first", "maps", "data-visualization", "accessibility"],
     "links": {
@@ -73,7 +72,8 @@
       "source": "https://github.com/martonpaulo/atlas-tint"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["web"]
   },
   {
     "slug": "todo-print",
@@ -81,7 +81,6 @@
     "tagline": "Design and print to-do lists as exact-size A4 layouts.",
     "description": "A visual or Markdown editor for structured checklists that prints exactly as laid out, offline, with the layout stored on your machine. For people who still like paper.",
     "year": 2026,
-    "kind": "web",
     "stack": ["React", "TypeScript", "Vite"],
     "tags": ["local-first", "tools", "print"],
     "links": {
@@ -89,7 +88,8 @@
       "source": "https://github.com/martonpaulo/todo-print"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["web"]
   },
   {
     "slug": "windowhop",
@@ -97,7 +97,6 @@
     "tagline": "Switch between windows, not just apps, on macOS.",
     "description": "A native macOS window switcher with large app icons or live previews, bound to a keyboard shortcut. Free, GPL-licensed, no telemetry. Built because Command-Tab switches apps and I wanted to switch windows.",
     "year": 2026,
-    "kind": "macos",
     "stack": ["Swift", "AppKit", "Sparkle"],
     "tags": ["macos", "productivity", "open-source"],
     "links": {
@@ -111,7 +110,8 @@
       "src": "../src/assets/projects/windowhop.png",
       "alt": "WindowHop's switcher with a grid of window previews and their app icons",
       "fit": "object"
-    }
+    },
+    "kinds": ["macos"]
   },
   {
     "slug": "smart-desk",
@@ -119,7 +119,6 @@
     "tagline": "Today's tasks and calendar in one native Apple app.",
     "description": "A day-focused planner for iPhone and Mac: app-owned tasks in Core Data synced through CloudKit, alongside Apple Calendar events read from EventKit and cached for offline use. Local-first, offline-first, and built for my own day.",
     "year": 2026,
-    "kind": "ios",
     "stack": ["Swift", "SwiftUI", "Core Data", "CloudKit", "EventKit"],
     "tags": ["ios", "macos", "productivity", "local-first"],
     "links": {
@@ -127,7 +126,8 @@
     },
     "note": "Personal app, not released. The page says what it will do.",
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["ios", "macos"]
   },
   {
     "slug": "orbit",
@@ -135,7 +135,6 @@
     "tagline": "Google Contacts, grouped by place, on the iPhone.",
     "description": "A personal iOS app for managing Google Contacts: import Apple Contacts into Google, group people by city and country, and search a fast local-first cache of everyone you know. Built for my own address book and not published.",
     "year": 2026,
-    "kind": "ios",
     "stack": ["Swift", "SwiftUI", "Google People API"],
     "tags": ["ios", "contacts", "local-first"],
     "links": {
@@ -149,7 +148,8 @@
       "src": "../src/assets/projects/orbit.png",
       "alt": "Orbit's app icon, two overlapping white circles on green",
       "fit": "contain"
-    }
+    },
+    "kinds": ["ios"]
   },
   {
     "slug": "country-badge",
@@ -157,7 +157,6 @@
     "tagline": "Downloadable SVG, PNG and JPG country badges from flag colours.",
     "description": "Pick a country, get a badge with one of three deterministic, flag-inspired backgrounds, and download it in the format you need. Plain JavaScript, no build step, tested end to end with Playwright.",
     "year": 2026,
-    "kind": "web",
     "stack": ["JavaScript", "SVG", "Playwright"],
     "tags": ["tools", "svg"],
     "links": {
@@ -165,7 +164,8 @@
       "source": "https://github.com/martonpaulo/country-badge"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["web"]
   },
   {
     "slug": "issues-graph",
@@ -173,7 +173,6 @@
     "tagline": "See the blocking order of a GitHub backlog as a graph.",
     "description": "Reads issue dependencies through the GitHub API and lays them out as a directed graph in the browser, with nothing installed in the repository being read. Useful for finding what to unblock first.",
     "year": 2026,
-    "kind": "web",
     "stack": ["React", "TypeScript", "React Flow", "ELK", "GitHub API"],
     "tags": ["developer-tools", "data-visualization"],
     "links": {
@@ -181,7 +180,8 @@
       "source": "https://github.com/martonpaulo/issues-graph"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["web"]
   },
   {
     "slug": "moon-uniform",
@@ -189,7 +189,6 @@
     "tagline": "An open font family for the Moon tactile alphabet.",
     "description": "Moon is the raised alphabet William Moon published in 1845 for people who lose their sight later in life. This font draws the script, applies the historical short-form rules to plain English through OpenType features, and cites a source for every sign. Three weights, a dot-matrix variant for embossers, and a specimen with a type tester.",
     "year": 2026,
-    "kind": "typeface",
     "stack": ["Python", "fontTools", "HarfBuzz", "OpenType"],
     "tags": ["accessibility", "typography", "open-source"],
     "links": {
@@ -202,7 +201,8 @@
       "src": "../src/assets/projects/moon-uniform.png",
       "alt": "The words Moon Uniform set in the Moon tactile alphabet, green on cream",
       "fit": "cover"
-    }
+    },
+    "kinds": ["typeface"]
   },
   {
     "slug": "lights",
@@ -210,7 +210,6 @@
     "tagline": "A small society of lights that drift together, fall out and fade in the dark.",
     "description": "An ambient agent-based simulation on a canvas: the lights move, form bonds, grow old and occasionally say something through the Web Speech API. No build, no dependencies, one HTML file.",
     "year": 2026,
-    "kind": "experiment",
     "stack": ["JavaScript", "Canvas", "Web Audio API"],
     "tags": ["creative-coding", "generative-art"],
     "links": {
@@ -224,7 +223,8 @@
       "src": "../src/assets/projects/lights.png",
       "alt": "Small points of light drifting across a dark field",
       "fit": "cover"
-    }
+    },
+    "kinds": ["experiment"]
   },
   {
     "slug": "linguae",
@@ -232,7 +232,6 @@
     "tagline": "Every documented language in the Wikitongues database, in one table.",
     "description": "An interactive table for exploring the world's linguistic diversity, fed by the Wikitongues Airtable base. A side project born from a hobby.",
     "year": 2025,
-    "kind": "web",
     "stack": ["React", "TypeScript", "Airtable"],
     "tags": ["languages", "data"],
     "links": {
@@ -240,6 +239,7 @@
       "source": "https://github.com/martonpaulo/linguae"
     },
     "featured": false,
-    "status": "active"
+    "status": "active",
+    "kinds": ["web"]
   }
 ]

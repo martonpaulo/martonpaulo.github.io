@@ -10,6 +10,7 @@ import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
 import { heroImageSizes, heroImageWidths, imageQuality } from "../../lib/images";
 import {
+  kindLabel,
   projectDescription,
   projectLinks,
   projectMetaRows,
@@ -30,7 +31,7 @@ export async function getStaticPaths() {
 const { project, newer, older } = Astro.props;
 const site = await getSite();
 const copy = (await getCopy()).project;
-const kindLabel = (await getCopy()).kinds[project.kind].one;
+const label = kindLabel(project, (await getCopy()).kinds);
 const links = projectLinks(project, copy);
 const description = projectDescription(project, copy, site.name);
 ---
@@ -43,7 +44,7 @@ const description = projectDescription(project, copy, site.name);
 >
   <article class="project">
     <header class="project__header stack-center">
-      <Eyebrow as="p">{kindLabel}</Eyebrow>
+      <Eyebrow as="p">{label}</Eyebrow>
       <h1 class="project__title">{project.name}</h1>
       <p class="lede">{project.tagline}</p>
       {

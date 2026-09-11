@@ -11,7 +11,7 @@ import { countByKind, type ProjectKind } from "../../../lib/projects";
 export async function getStaticPaths() {
   const projects = await getProjects();
   return projectKinds
-    .filter((kind) => projects.some((project) => project.kind === kind))
+    .filter((kind) => projects.some((project) => project.kinds.includes(kind)))
     .map((kind) => ({ params: { kind } }));
 }
 
@@ -20,7 +20,7 @@ const projects = await getProjects();
 const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
-const ofKind = projects.filter((project) => project.kind === kind);
+const ofKind = projects.filter((project) => project.kinds.includes(kind));
 // One list, as on the projects page: the selected ones first, then the rest by year.
 const listed = [
   ...ofKind.filter((project) => project.featured),

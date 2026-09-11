@@ -42,6 +42,23 @@ export function projectLinks(project: Project, copy: Copy["project"]): ProjectLi
   ].filter((link): link is ProjectLink => Boolean(link));
 }
 
+/**
+ * What a project is, in words. A project can belong to more than one kind —
+ * Smart Desk ships for iPhone and for Mac — and reading "iOS app · macOS app"
+ * beside the year, which is also separated by "·", parses as three facts
+ * rather than two. When the labels end in the same noun, it is written once:
+ * "iOS and macOS app".
+ */
+export function kindLabel(project: Project, labels: Copy["kinds"]): string {
+  const words = project.kinds.map((kind) => labels[kind].one);
+  if (words.length === 1) return words[0]!;
+  const tails = words.map((word) => word.split(" ").at(-1));
+  const shared = tails.every((tail) => tail === tails[0]);
+  const heads = shared ? words.map((word) => word.split(" ").slice(0, -1).join(" ")) : words;
+  const last = shared ? `${heads.at(-1)} ${tails[0]}` : words.at(-1);
+  return [...heads.slice(0, -1), last].join(" and ");
+}
+
 export const projectsPath = "/projects/";
 
 export function projectPath(project: Pick<Project, "slug">): string {
@@ -89,7 +106,7 @@ export function siblingsOf<T>(items: T[], index: number): { newer: T | null; old
 
 export function countByKind(projects: Project[], kinds: readonly ProjectKind[]): KindCounts {
   return Object.fromEntries(
-    kinds.map((kind) => [kind, projects.filter((project) => project.kind === kind).length]),
+    kinds.map((kind) => [kind, projects.filter((project) => project.kinds.includes(kind)).length]),
   ) as KindCounts;
 }
 

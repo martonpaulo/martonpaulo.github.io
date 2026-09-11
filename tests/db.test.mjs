@@ -41,7 +41,10 @@ test("featured projects are few enough for the home page and each has artwork", 
 
 test("every project kind has a label in the copy", () => {
   for (const project of projects) {
-    assert.ok(copy.kinds[project.kind], `${project.slug} has kind ${project.kind} without a label`);
+    assert.ok(project.kinds.length > 0, `${project.slug} declares no kind`);
+    for (const kind of project.kinds) {
+      assert.ok(copy.kinds[kind], `${project.slug} has kind ${kind} without a label`);
+    }
   }
 });
 
