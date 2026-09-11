@@ -23,7 +23,8 @@
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "test": "node --test",
-    "validate": "npm run check && npm run lint && npm test && npm run build"
+    "validate": "npm run check && npm run lint && npm test && npm run build",
+    "share-ground": "npx --yes playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/scripts/share-home/ground.html\" src/assets/share/home-ground.png"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

@@ -115,8 +115,10 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   writes `<head>` tags.
 - **Share images are generated, never drawn by hand.** `src/pages/og/[id].png.ts` renders one PNG
   per page from the same content with satori and resvg. A new page that deserves its own card adds
-  an entry there. The home card draws every product's icon from `src/assets/share/<slug>.png`
-  (a 208 px rounded tile); a project without that file is simply left off the wall.
+  an entry there. The home card writes its copy over `src/assets/share/home-ground.png`,
+  rendered by `npm run share-ground` from `scripts/share-home/ground.html` (the page glow and every
+  product's icon, `src/assets/share/<slug>.png`, on a wall in perspective), because satori cannot
+  draw 3D transforms or blur. Re-render it when a product or its icon changes.
 - **Project artwork is a real capture.** `src/assets/projects/<slug>.png` is a transparent PNG of
   the product's own interface cut into a rounded panel, or its app icon when there is no interface
   to capture. It is referenced from the project's `image` field in `db/projects.json` with an `alt` and a

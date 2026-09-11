@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -61,8 +60,8 @@ type Card = {
   art?: Art | undefined;
   /** The fixed pages show the featured tiles, as the home page does. */
   mosaic?: MosaicTile[];
-  /** The home card: every product's icon, the body of work around the name, row by row. */
-  hub?: (string | null)[][];
+  /** The home card: the copy over its own rendered ground (scripts/share-home/ground.html). */
+  home?: boolean;
 };
 
 // Fontsource ships static WOFF files; the site itself loads the same families
@@ -78,9 +77,11 @@ const fonts = Promise.all([
   fontFile("@fontsource/figtree", "figtree-latin-500-normal.woff"),
 ]);
 
-// Each product's own icon, a 208 px rounded tile (twice the size it is drawn), for the home card.
-const iconFile = (slug: string) =>
-  path.join(process.cwd(), "src", "assets", "share", `${slug}.png`);
+// The home card's ground: the page glow and the products' icon wall, rendered by
+// `npm run share-ground` because satori cannot draw perspective or blur.
+const homeGround = readFile(
+  path.join(process.cwd(), "src", "assets", "share", "home-ground.png"),
+).then((png) => `data:image/png;base64,${png.toString("base64")}`);
 
 // Project artwork lives at src/assets/projects/<slug>.png. It is scaled down once per card
 // before satori embeds it: the source files are up to 2,268 pixels wide.
@@ -124,10 +125,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       eyebrow: person.role,
       title: person.name,
       subtitle: person.tagline,
-      // A slot whose icon file is missing stays empty, so the others keep their places.
-      hub: HUB_ROWS.map((row) =>
-        row.map((slug) => (slug && existsSync(iconFile(slug)) ? slug : null)),
-      ),
+      home: true,
     },
     projects: {
       eyebrow: nav.work,
@@ -320,63 +318,6 @@ const mosaicTiles = async (tiles: MosaicTile[]) => {
   );
 };
 
-// The home card's visual: every product's icon on a tilted wall, in rows of three and four so
-// the rows interlock, each icon once.
-// Larger than the space allows, so the wall runs off the edges: there is more beside it.
-const ICON = 136;
-const ICON_GAP = 34;
-// The arrangement is the owner's (2026-09-11): rows of three and four interlock, and a null keeps
-// a four-slot row's place empty. A project added later joins by adding its slug here.
-const HUB_ROWS: (string | null)[][] = [
-  ["tabelo", "mailbell", "meantime"],
-  ["atlas-tint", "todo-print", "windowhop", null],
-  ["orbit", "country-badge", "issues-graph"],
-  ["smart-desk", "linguae", "lights", "moon-uniform"],
-];
-
-const hubWall = async (rows: (string | null)[][]) => {
-  const step = ICON + ICON_GAP;
-  const width = 4 * ICON + 3 * ICON_GAP;
-  const height = rows.length * ICON + (rows.length - 1) * ICON_GAP;
-  const icons = await Promise.all(
-    rows.flatMap((row, rowIndex) =>
-      row
-        .flatMap((slug, column) => (slug ? [{ slug, column }] : []))
-        .map(async ({ slug, column }) => {
-          const png = await readFile(iconFile(slug));
-          return box(
-            {
-              position: "absolute",
-              left: (row.length === 3 ? step / 2 : 0) + column * step,
-              top: rowIndex * step,
-              width: ICON,
-              height: ICON,
-              borderRadius: 23,
-              boxShadow: "0 16px 32px rgba(5, 12, 18, 0.45)",
-            },
-            [
-              image(`data:image/png;base64,${png.toString("base64")}`, {
-                width: ICON,
-                height: ICON,
-              }),
-            ],
-          );
-        }),
-    ),
-  );
-  return box(
-    {
-      position: "absolute",
-      left: 1040 - width / 2,
-      top: HEIGHT / 2 - height / 2,
-      width,
-      height,
-      transform: "rotate(-12deg)",
-    },
-    icons,
-  );
-};
-
 const homeCopy = (role: string, name: string, tagline: string, host: string) =>
   box(
     {
@@ -424,13 +365,19 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
   );
 
 export const GET: APIRoute = async ({ props }) => {
-  const { eyebrow, title, subtitle, art, mosaic, hub } = props as Card;
+  const { eyebrow, title, subtitle, art, mosaic, home } = props as Card;
   const site = await getSite();
 
   const [display, body, bodyMedium] = await fonts;
   const host = site.url.replace("https://", "");
-  const visual = hub?.length
-    ? await hubWall(hub)
+  const visual = home
+    ? image(await homeGround, {
+        position: "absolute",
+        left: 0,
+        top: 0,
+        width: WIDTH,
+        height: HEIGHT,
+      })
     : art
       ? await projectTile(art)
       : mosaic?.length
@@ -456,7 +403,7 @@ export const GET: APIRoute = async ({ props }) => {
       },
       [
         ...(visual ? [visual] : []),
-        hub?.length
+        home
           ? homeCopy(eyebrow, title, subtitle, host)
           : box(
               {
