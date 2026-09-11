@@ -1,8 +1,5 @@
 ---
-import "../../styles/pages/projects.scss";
-
 import Hero from "../../components/Hero.astro";
-import ProjectGrid from "../../components/ProjectGrid.astro";
 import ProjectList from "../../components/ProjectList.astro";
 import WorkFilters from "../../components/WorkFilters.astro";
 import { projectKinds } from "../../content.config";
@@ -12,8 +9,11 @@ import { countByKind } from "../../lib/projects";
 
 const projects = await getProjects();
 const { projects: copy } = await getCopy();
-const featured = projects.filter((project) => project.featured);
-const archive = byYear(projects.filter((project) => !project.featured));
+// One list: the selected projects first, in their authored order, then everything else by year.
+const listed = [
+  ...projects.filter((project) => project.featured),
+  ...byYear(projects.filter((project) => !project.featured)),
+];
 const counts = countByKind(projects, projectKinds);
 ---
 
@@ -22,13 +22,8 @@ const counts = countByKind(projects, projectKinds);
 
   <WorkFilters current="all" counts={counts} />
 
-  <section class="section" aria-labelledby="featured-heading">
-    <h2 id="featured-heading" class="visually-hidden">{copy.featuredHeading}</h2>
-    <ProjectGrid projects={featured} />
-  </section>
-
-  <section class="section" aria-labelledby="archive-heading">
-    <h2 id="archive-heading" class="projects__archive-heading">{copy.archiveHeading}</h2>
-    <ProjectList projects={archive} />
+  <section class="section" aria-labelledby="list-heading">
+    <h2 id="list-heading" class="visually-hidden">{copy.listHeading}</h2>
+    <ProjectList projects={listed} />
   </section>
 </Base>

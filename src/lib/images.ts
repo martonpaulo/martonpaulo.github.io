@@ -55,3 +55,16 @@ export const imageQuality = 92;
 
 export const heroImageWidths = [640, 960, 1280, 1600];
 export const heroImageSizes = "(min-width: 64rem) 60rem, 92vw";
+
+// Every product's own icon, a 208 px rounded tile (src/assets/share/<slug>.png). The project
+// list shows it beside each row; the home share image draws the same files on its wall.
+const icons = import.meta.glob<{ default: ImageMetadata }>("../assets/share/*.png", {
+  eager: true,
+});
+
+/** A project's icon, or undefined when it has none yet (the row then shows no icon). */
+export const projectIcon = (slug: string): ImageMetadata | undefined =>
+  icons[`../assets/share/${slug}.png`]?.default;
+
+/** The icon beside a list row: 44 CSS px, drawn from the file at 1x and 2x. */
+export const ROW_ICON_SIZE = 44;

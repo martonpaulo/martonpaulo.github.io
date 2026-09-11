@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-1) var(--space-4);
   padding-block: var(--space-3);
   border-top: var(--hairline) solid var(--border);
@@ -32,4 +32,18 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
   white-space: nowrap;
+}
+
+// The icon sits beside the name and line, never above them, so the row keeps one reading line.
+.project-row__main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+// Decorative: the link is named by the project name.
+.project-row__icon {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
 }

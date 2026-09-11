@@ -19,15 +19,13 @@
     "title": "Projects",
     "lede": "The things I'm proudest of first, then everything else by year. Study projects and archived ones stay because they show where the rest came from.",
     "description": "Everything Marton Paulo has built: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
-    "featuredHeading": "Selected projects",
-    "archiveHeading": "Everything else",
+    "listHeading": "All projects",
     "filterLabel": "Filter by kind",
     "filterAll": "Everything",
     "kindTitle": "{kind}",
     "kindLede": "Only the {kind}. Newest first.",
     "kindDescription": "All the {kind} Marton Paulo has built, newest first: what each one does, the stack behind it, a live demo where there is one, and the source code.",
-    "kindFeaturedHeading": "Selected {kind}",
-    "kindArchiveHeading": "All {kind}"
+    "kindListHeading": "All {kind}"
   },
   "project": {
     "description": "{tagline} Built by {author} with {stack}.",

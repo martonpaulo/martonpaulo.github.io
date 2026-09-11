@@ -1,10 +1,13 @@
 ---
 import "./ProjectRow.scss";
 
+import { Image } from "astro:assets";
+
 import { getCopy } from "../lib/db";
+import { projectIcon, ROW_ICON_SIZE } from "../lib/images";
 import { projectPath, type Project } from "../lib/projects";
 
-/** A project as one line in the archive: name, what it does, kind and year. */
+/** A project as one line in the list: its icon, name, what it does, kind and year. */
 interface Props {
   project: Project;
   headingLevel?: "h2" | "h3";
@@ -12,12 +15,30 @@ interface Props {
 
 const { project, headingLevel: Heading = "h3" } = Astro.props;
 const { kinds } = await getCopy();
+const icon = projectIcon(project.slug);
 ---
 
 <article class="project-row">
-  <div class="project-row__text">
-    <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading>
-    <p class="project-row__tagline">{project.tagline}</p>
+  <div class="project-row__main">
+    {
+      icon && (
+        <Image
+          class="project-row__icon"
+          src={icon}
+          alt=""
+          width={ROW_ICON_SIZE}
+          height={ROW_ICON_SIZE}
+          densities={[1, 2]}
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+    <div class="project-row__text">
+      <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading
+      >
+      <p class="project-row__tagline">{project.tagline}</p>
+    </div>
   </div>
   <p class="project-row__meta">
     <span>{kinds[project.kind].one}</span>

@@ -1,6 +1,5 @@
 ---
 import Hero from "../../../components/Hero.astro";
-import ProjectGrid from "../../../components/ProjectGrid.astro";
 import ProjectList from "../../../components/ProjectList.astro";
 import WorkFilters from "../../../components/WorkFilters.astro";
 import { projectKinds } from "../../../content.config";
@@ -22,8 +21,11 @@ const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
 const ofKind = projects.filter((project) => project.kind === kind);
-const featured = ofKind.filter((project) => project.featured);
-const rest = byYear(ofKind.filter((project) => !project.featured));
+// One list, as on the projects page: the selected ones first, then the rest by year.
+const listed = [
+  ...ofKind.filter((project) => project.featured),
+  ...byYear(ofKind.filter((project) => !project.featured)),
+];
 const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---
@@ -33,25 +35,8 @@ const vars = { kind: lowerFirst(label) };
 
   <WorkFilters current={kind} counts={counts} />
 
-  {
-    featured.length > 0 && (
-      <section class="section" aria-labelledby="featured-heading">
-        <h2 id="featured-heading" class="visually-hidden">
-          {fill(copy.kindFeaturedHeading, vars)}
-        </h2>
-        <ProjectGrid projects={featured} />
-      </section>
-    )
-  }
-
-  {
-    rest.length > 0 && (
-      <section class="section" aria-labelledby="archive-heading">
-        <h2 id="archive-heading" class="visually-hidden">
-          {fill(copy.kindArchiveHeading, vars)}
-        </h2>
-        <ProjectList projects={rest} />
-      </section>
-    )
-  }
+  <section class="section" aria-labelledby="list-heading">
+    <h2 id="list-heading" class="visually-hidden">{fill(copy.kindListHeading, vars)}</h2>
+    <ProjectList projects={listed} />
+  </section>
 </Base>
