@@ -145,7 +145,7 @@ origin, and makes no request to a third party from the visitor's browser.
 
 <br />
 
-## License and credits
+## License and attribution
 
 [MIT](LICENSE) © 2026 Marton Paulo.
 
