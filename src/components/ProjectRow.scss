@@ -1,11 +1,42 @@
+@use "../styles/breakpoints" as bp;
+
+// Icon, then name and line, then kind and year. On a phone the kind and year drop under the
+// text column, never under the icon, so every line of a row starts at the same edge.
 .project-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-1) var(--space-4);
-  padding-block: var(--space-3);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icon text"
+    ". meta";
+  column-gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3) var(--space-2);
   border-top: var(--hairline) solid var(--border);
+}
+
+@include bp.up("tablet") {
+  .project-row {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "icon text meta";
+    column-gap: var(--space-4);
+  }
+
+  .project-row__meta {
+    min-height: var(--touch-target);
+  }
+}
+
+// Decorative: the link is named by the project name. Its top meets the top of the name's
+// line, which sits centred in the link's touch-target box.
+.project-row__icon {
+  grid-area: icon;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: calc((var(--touch-target) - var(--text-lg) * var(--leading-snug)) / 2);
+}
+
+.project-row__text {
+  grid-area: text;
 }
 
 // inline-flex rather than block: the target grows to the tappable minimum
@@ -26,24 +57,13 @@
   max-width: var(--measure);
 }
 
+// On wide screens it lines up with the name, inside the same touch-target box height.
 .project-row__meta {
+  grid-area: meta;
   display: flex;
+  align-items: center;
   gap: var(--space-2);
   font-size: var(--text-sm);
   color: var(--text-muted);
   white-space: nowrap;
-}
-
-// The icon sits beside the name and line, never above them, so the row keeps one reading line.
-.project-row__main {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-// Decorative: the link is named by the project name.
-.project-row__icon {
-  flex: none;
-  width: 2.75rem;
-  height: 2.75rem;
 }

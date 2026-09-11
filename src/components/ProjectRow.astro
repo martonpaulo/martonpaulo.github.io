@@ -19,26 +19,23 @@ const icon = projectIcon(project.slug);
 ---
 
 <article class="project-row">
-  <div class="project-row__main">
-    {
-      icon && (
-        <Image
-          class="project-row__icon"
-          src={icon}
-          alt=""
-          width={ROW_ICON_SIZE}
-          height={ROW_ICON_SIZE}
-          densities={[1, 2]}
-          loading="lazy"
-          decoding="async"
-        />
-      )
-    }
-    <div class="project-row__text">
-      <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading
-      >
-      <p class="project-row__tagline">{project.tagline}</p>
-    </div>
+  {
+    icon && (
+      <Image
+        class="project-row__icon"
+        src={icon}
+        alt=""
+        width={ROW_ICON_SIZE}
+        height={ROW_ICON_SIZE}
+        densities={[1, 2]}
+        loading="lazy"
+        decoding="async"
+      />
+    )
+  }
+  <div class="project-row__text">
+    <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading>
+    <p class="project-row__tagline">{project.tagline}</p>
   </div>
   <p class="project-row__meta">
     <span>{kinds[project.kind].one}</span>
