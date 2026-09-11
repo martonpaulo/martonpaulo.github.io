@@ -104,17 +104,21 @@
   --glow-strength-cool: 30%;
 
   /* Motion */
-  --duration-fast: 200ms;
-  --duration: 450ms;
-  --duration-slow: 700ms;
-  --duration-card: 800ms;
+  /* Short on purpose. A page that arrives over 700 ms with a 90 ms stagger
+     reads as a slow site, not as a considered one: the content is there, the
+     reader is just not allowed to see it yet. Everything settles within about
+     half a second now. Same scale on moon and andreo-docs. */
+  --duration-fast: 150ms;
+  --duration: 250ms;
+  --duration-slow: 400ms;
+  --duration-card: 400ms;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --grow: 1.025;
   --press: 0.985;
-  --enter-duration: 700ms;
-  --enter-duration-reduced: 350ms;
-  --enter-stagger: 90ms;
+  --enter-duration: 300ms;
+  --enter-duration-reduced: 200ms;
+  --enter-stagger: 40ms;
 }
 
 @include bp.up("ultrawide") {
