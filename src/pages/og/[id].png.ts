@@ -383,17 +383,18 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
       position: "absolute",
       left: COPY_LEFT,
       top: 0,
-      width: 560,
+      width: 640,
       height: HEIGHT,
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "flex-start",
     },
     [
-      // The role on one line after a short aqua rule, in tracked capitals.
+      // The tagline on one line after a short aqua rule, in tracked capitals; the role, the
+      // information that matters most after the name, sits under it at reading size.
       box({ alignItems: "center", gap: 14 }, [
         box({ width: 36, height: 2, borderRadius: 1, backgroundColor: PRIMARY }),
-        trackedWords(role.toUpperCase(), 10, {
+        trackedWords(tagline.toUpperCase(), 10, {
           fontSize: 15,
           fontWeight: 500,
           letterSpacing: "0.16em",
@@ -412,7 +413,7 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
         marginTop: 22,
         maxWidth: 430,
       }),
-      text(tagline, { fontSize: 32, fontWeight: 500, color: TEXT, marginTop: 20 }),
+      text(role, { fontSize: 32, fontWeight: 500, color: TEXT, marginTop: 20 }),
       text(host, { fontSize: 22, color: MUTED, marginTop: 30 }),
     ],
   );
