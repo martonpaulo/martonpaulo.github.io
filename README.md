@@ -26,7 +26,7 @@ images are rendered once per build with satori and resvg.
 
 <br />
 
-## 🌱 Quick Start
+## Quick Start
 
 ```bash
 npm ci
@@ -48,7 +48,7 @@ Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on
 
 <br />
 
-## 🛠 Commands
+## Commands
 
 | Command                | What it does                                                           |
 | :--------------------- | :--------------------------------------------------------------------- |
@@ -61,14 +61,6 @@ Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on
 | `npm run validate`     | `check`, `lint`, `test`, `build`, in that order; the superset of CI    |
 | `npm run preview`      | Serves `dist/` locally                                                 |
 | `npm run share-ground` | Re-renders the share image's ground after a product or icon changes    |
-
-<br />
-
-## 🔐 Secrets and variables
-
-**There are none.** The site reads no environment variable, holds no secret and has no
-`.env.example`; the build succeeds from a clean clone with `npm ci && npm run build`. Deployment
-uses the repository's own `GITHUB_TOKEN`, which GitHub Actions provides automatically.
 
 ---
 
