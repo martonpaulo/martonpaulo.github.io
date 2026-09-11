@@ -9,10 +9,10 @@ colour, font or measure of its own.
 The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a dark blue-green room with a light on,
 where each thing Marton made sits on its own bright shelf. Two qualities have to come through at once:
 
-| Quality | What it says about Marton                                                              | Carried by                                                                                                          |
-| :------ | :------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ |
-| Craft   | Builds carefully: local-first, no telemetry, keyboard-navigable, exact spacing         | Real product screenshots on the tiles, generous whitespace, a strict rhythm of spacing, hover that answers the hand |
-| Play    | Curious and warm: hitchhiking, five languages, small free tools made for the joy of it | Pastel tiles, a rounded bold display face, sparkles around the greeting, first-person copy                          |
+| Quality | What it says about Marton                                                           | Carried by                                                                                                          |
+| :------ | :---------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| Craft   | Builds carefully: local-first, no telemetry, keyboard-navigable, exact spacing      | Real product screenshots on the tiles, generous whitespace, a strict rhythm of spacing, hover that answers the hand |
+| Play    | Curious and warm: hitchhiking, five languages, free software made for the joy of it | Pastel tiles, a rounded bold display face, sparkles around the greeting, first-person copy                          |
 
 The starting reference was [seanhalpin.xyz](https://www.seanhalpin.xyz): a dark green field, a
 floating pill navigation and pastel product tiles. What is borrowed is the structure. The palette,

@@ -7,7 +7,7 @@
   "bio": [
     "I'm a senior full-stack developer and a vibe coder with {years} years of experience. I build web products with React, Next.js and TypeScript on the front and Node.js, Java and Spring Boot behind the API, and I never stopped caring most about the front end: the part of the work where a screen stops being a plan and starts feeling right.",
     "These days most of my code is written by AI agents that I direct. I describe the change, they draft it, and I review, test and ship it. The craft didn't disappear, it moved: I spend as much care on the guardrails, the specs, tests and checks an agent can't talk its way past, as on the product itself. It's how one person ends up shipping native apps for macOS and iOS in Swift, a typeface and a handful of browser tools.",
-    "What I make on my own is small on purpose. A window switcher because Command-Tab switches apps. A table editor that never sends your table anywhere. A font for an alphabet that blind readers used before braille. Each one does one thing, keeps your data with you, and is free.",
+    "What I make on my own starts from something missing. A window switcher because Command-Tab switches apps. A table editor that never sends your table anywhere. A font for an alphabet that blind readers used before braille. Each one does one thing, keeps your data with you, and is free.",
     "I'm Brazilian and I live in Spain. I speak Portuguese, English, Spanish and Esperanto. I have a degree in systems analysis and development and a specialisation in full-stack development from PUC Minas."
   ],
   "now": [
@@ -76,5 +76,5 @@
     "Tinkering with my tools: Hammerspoon and Raycast scripts that automate my Mac, a VS Code setup with more customisation than it needs, and an old Linux machine I keep running for fun."
   ],
   "tagline": "Software made with care",
-  "intro": "I'm a senior full-stack developer and a vibe coder: I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift, mostly by directing AI coding agents. The tools I make on my own are small, free and local-first: your data stays on your machine."
+  "intro": "I'm a senior full-stack developer and a vibe coder: I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift, mostly by directing AI coding agents. The tools I make on my own are free and local-first: your data stays on your machine."
 }
