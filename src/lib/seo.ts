@@ -29,7 +29,9 @@ export function websiteNode(site: Site): JsonLdNode {
   return {
     "@type": "WebSite",
     "@id": `${site.url}/#website`,
-    url: site.url,
+    // Google names a site from this node and wants the home page's own URL, which the canonical
+    // writes with a trailing slash: https://developers.google.com/search/docs/appearance/site-names
+    url: `${site.url}/`,
     // The entity's name, not the home page's title: the title carries a role
     // after the separator, which is not part of the site's name.
     name: site.name,
