@@ -4,30 +4,6 @@ import { fill } from "./copy";
 
 type Person = CollectionEntry<"person">["data"];
 
-const NUMBER_WORDS = [
-  "zero",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-  "eleven",
-  "twelve",
-  "thirteen",
-  "fourteen",
-  "fifteen",
-  "sixteen",
-  "seventeen",
-  "eighteen",
-  "nineteen",
-  "twenty",
-];
-
 /**
  * Whole years worked since `careerStart`, counted on the date of the build.
  * The site is static, so the number moves only when it is rebuilt: the deploy
@@ -39,12 +15,10 @@ export function yearsWorked(person: Person, today = new Date()): number {
   return Math.floor(months / 12);
 }
 
-/** The bio with `{years}` filled in, spelled out the way the prose reads ("six years"). */
+/** The bio with `{years}` filled in as a numeral ("6 years"), by the owner's preference. */
 export function bioParagraphs(person: Person, today = new Date()): string[] {
   const years = yearsWorked(person, today);
-  return person.bio.map((paragraph) =>
-    fill(paragraph, { years: NUMBER_WORDS[years] ?? String(years) }),
-  );
+  return person.bio.map((paragraph) => fill(paragraph, { years }));
 }
 
 /** The stack groups as label/value rows for a definition list. */
