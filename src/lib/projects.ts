@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
 import type { projectKinds, tileColors } from "../content.config";
-import type { Copy } from "./copy";
+import { type Copy, fill, listOf } from "./copy";
 
 export type Project = CollectionEntry<"projects">["data"];
 export type ProjectKind = (typeof projectKinds)[number];
@@ -91,4 +91,22 @@ export function countByKind(projects: Project[], kinds: readonly ProjectKind[]):
   return Object.fromEntries(
     kinds.map((kind) => [kind, projects.filter((project) => project.kind === kind).length]),
   ) as KindCounts;
+}
+
+/**
+ * The search description of a project page: its tagline, who built it with what,
+ * and a pointer to the source when there is one. Private projects have no source
+ * link, so they never promise one.
+ */
+export function projectDescription(
+  project: Project,
+  copy: Copy["project"],
+  author: string,
+): string {
+  const base = fill(copy.description, {
+    tagline: project.tagline,
+    author,
+    stack: listOf(project.stack),
+  });
+  return project.links.source ? `${base} ${copy.descriptionSource}` : base;
 }

@@ -7,11 +7,11 @@ import Button from "../../components/Button.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import Base from "../../layouts/Base.astro";
-import { fill } from "../../lib/copy";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
 import { heroImageSizes, heroImageWidths, imageQuality } from "../../lib/images";
 import { shareImageFor } from "../../lib/pages";
 import {
+  projectDescription,
   projectLinks,
   projectMetaRows,
   projectPath,
@@ -33,11 +33,7 @@ const site = await getSite();
 const copy = (await getCopy()).project;
 const kindLabel = (await getCopy()).kinds[project.kind].one;
 const links = projectLinks(project, copy);
-const description = fill(copy.description, {
-  name: project.name,
-  tagline: project.tagline,
-  stack: project.stack.join(", "),
-});
+const description = projectDescription(project, copy, site.name);
 ---
 
 <Base

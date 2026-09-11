@@ -116,6 +116,8 @@ const copy = defineCollection({
     }),
     project: z.object({
       description: z.string(),
+      /** Appended to the description when the project links its source. */
+      descriptionSource: z.string(),
       builtWith: z.string(),
       year: z.string(),
       status: z.string(),
