@@ -8,7 +8,6 @@ import WorkFilters from "../../components/WorkFilters.astro";
 import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects } from "../../lib/db";
-import { shareImageFor } from "../../lib/pages";
 import { countByKind } from "../../lib/projects";
 
 const projects = await getProjects();
@@ -18,7 +17,7 @@ const archive = byYear(projects.filter((project) => !project.featured));
 const counts = countByKind(projects, projectKinds);
 ---
 
-<Base title={copy.title} description={copy.description} ogImage={shareImageFor("projects")}>
+<Base title={copy.title} description={copy.description}>
   <Hero title={copy.title} lede={copy.lede} />
 
   <WorkFilters current="all" counts={counts} />

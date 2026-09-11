@@ -111,14 +111,14 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   Nothing else ships a script; a feature that needs one must say what it does that HTML and CSS cannot.
 - **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
   Open Graph, Twitter, JSON-LD (built in `src/lib/seo.ts`) and font preloads. A page passes
-  `description`, an `ogImage` path from `shareImageFor()` and optional extra JSON-LD; it never
-  writes `<head>` tags.
-- **Share images are generated, never drawn by hand.** `src/pages/og/[id].png.ts` renders one PNG
-  per page from the same content with satori and resvg. A new page that deserves its own card adds
-  an entry there. The home card writes its copy over `src/assets/share/home-ground.png`,
-  rendered by `npm run share-ground` from `scripts/share-home/ground.html` (the page glow and every
-  product's icon, `src/assets/share/<slug>.png`, on a wall in perspective), because satori cannot
-  draw 3D transforms or blur. Re-render it when a product or its icon changes.
+  `description` and optional extra JSON-LD; it never writes `<head>` tags. Every page shares one
+  share image, `SHARE_IMAGE` (`/og/site.png`).
+- **The share image is generated, never drawn by hand.** `src/pages/og/site.png.ts` renders the
+  site's one card with satori and resvg, and every page links to it (owner decision, 2026-09-11:
+  no per-page cards for now). It writes the copy over `src/assets/share/home-ground.png`, rendered
+  by `npm run share-ground` from `scripts/share-home/ground.html` (the page glow and every product's
+  icon, `src/assets/share/<slug>.png`, on a wall in perspective), because satori cannot draw 3D
+  transforms or blur. Re-render the ground when a product or its icon changes.
 - **Project artwork is a real capture.** `src/assets/projects/<slug>.png` is a transparent PNG of
   the product's own interface cut into a rounded panel, or its app icon when there is no interface
   to capture. It is referenced from the project's `image` field in `db/projects.json` with an `alt` and a

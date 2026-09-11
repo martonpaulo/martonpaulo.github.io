@@ -153,7 +153,7 @@ verified with Lighthouse on every page before a push:
   `.dot-list`, `.lede`, `.prose`, `.section`) before adding its own rules.
 - Every interactive element is at least `--touch-target` tall, has a visible focus ring, and works
   without a pointer.
-- The share image in `src/pages/og/[id].png.ts` mirrors the tokens as constants; when a token
+- The share image in `src/pages/og/site.png.ts` mirrors the tokens as constants; when a token
   changes, the constants change with it.
 - Anything that would break one of the rules above, or adds a pattern this file does not describe,
   is a decision to raise with the owner before it is written.

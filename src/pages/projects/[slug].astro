@@ -9,7 +9,6 @@ import Eyebrow from "../../components/Eyebrow.astro";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
 import { heroImageSizes, heroImageWidths, imageQuality } from "../../lib/images";
-import { shareImageFor } from "../../lib/pages";
 import {
   projectDescription,
   projectLinks,
@@ -39,7 +38,6 @@ const description = projectDescription(project, copy, site.name);
 <Base
   title={project.name}
   description={description}
-  ogImage={shareImageFor(project.slug)}
   ogType="article"
   jsonLd={[softwareNode(site, project)]}
 >

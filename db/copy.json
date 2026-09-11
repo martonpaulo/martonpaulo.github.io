@@ -68,9 +68,6 @@
     "work": "Projects",
     "contact": "Get in touch"
   },
-  "og": {
-    "workSubtitle": "{count} projects, newest first · {host}"
-  },
   "kinds": {
     "web": {
       "one": "Web app",

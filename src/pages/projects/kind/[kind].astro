@@ -7,7 +7,6 @@ import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
 import { byYear, getCopy, getProjects } from "../../../lib/db";
 import { fill, lowerFirst } from "../../../lib/copy";
-import { shareImageFor } from "../../../lib/pages";
 import { countByKind, type ProjectKind } from "../../../lib/projects";
 
 export async function getStaticPaths() {
@@ -29,11 +28,7 @@ const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---
 
-<Base
-  title={label}
-  description={fill(copy.kindDescription, vars)}
-  ogImage={shareImageFor("projects")}
->
+<Base title={label} description={fill(copy.kindDescription, vars)}>
   <Hero title={fill(copy.kindTitle, { kind: label })} lede={fill(copy.kindLede, vars)} />
 
   <WorkFilters current={kind} counts={counts} />

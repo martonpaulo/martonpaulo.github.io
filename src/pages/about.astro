@@ -7,7 +7,6 @@ import SectionHeading from "../components/SectionHeading.astro";
 import Base from "../layouts/Base.astro";
 import { fill } from "../lib/copy";
 import { getCopy, getPerson } from "../lib/db";
-import { shareImageFor } from "../lib/pages";
 import { bioParagraphs, languageRows, stackRows } from "../lib/person";
 
 const person = await getPerson();
@@ -21,7 +20,7 @@ const description = fill(about.description, {
 });
 ---
 
-<Base title={title} description={description} ogImage={shareImageFor("about")}>
+<Base title={title} description={description}>
   <Hero title={title} lede={lead} />
 
   <div class="about">
