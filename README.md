@@ -19,6 +19,7 @@ It is built with [Astro](https://astro.build) and published to GitHub Pages when
 changes on `main`. There is **no backend, no database and no cookie**; Astro's `ClientRouter` is the
 only client-side JavaScript, and it exists so the background stays still while pages change. Share
 images are rendered once per build with satori and resvg.
+
 <br />
 
 ---
@@ -63,6 +64,7 @@ Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on
 **There are none.** The site reads no environment variable, holds no secret and has no
 `.env.example`; the build succeeds from a clean clone with `npm ci && npm run build`. Deployment
 uses the repository's own `GITHUB_TOKEN`, which GitHub Actions provides automatically.
+
 <br />
 
 ---
@@ -127,6 +129,7 @@ conventions.
 
 The site is static HTML and CSS. It sets no cookies, runs no analytics, loads fonts from its own
 origin, and makes no request to a third party from the visitor's browser.
+
 <br />
 
 ---
