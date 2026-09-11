@@ -1,5 +1,7 @@
 # martonpaulo.com
 
+<img src="https://martonpaulo.com/og/site.png" width="100%" alt="Marton Paulo, senior full-stack developer and vibe coder: software made with care. The site's share image, with every product's icon on a wall." />
+
 ![Validate and deploy](https://github.com/martonpaulo/martonpaulo.github.io/actions/workflows/deploy.yml/badge.svg)
 ![License](https://img.shields.io/github/license/martonpaulo/martonpaulo.github.io)
 
