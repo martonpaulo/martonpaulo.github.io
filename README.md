@@ -27,38 +27,37 @@ images are rendered once per build with satori and resvg.
 <br />
 
 ## 🌱 Quick Start
+
+Requires **Node.js 22.12 or newer** (even majors only) and npm.
+
 ```bash
+git clone https://github.com/martonpaulo/martonpaulo.github.io.git
+cd martonpaulo.github.io
 npm ci
 npm run dev
 ```
 
-Then open [http://localhost:4321](http://localhost:4321).
+[http://localhost:4321](http://localhost:4321)
 
-The daily routine is smaller than that: edit a file in `db/`, then validate before committing.
+Content lives in `db/`: the daily routine is editing one JSON file there, then running `npm run validate` before committing.
 
-```bash
-npm run validate
-```
-
-Commit, push, and the deploy workflow does the rest.
-
-Requirements: **Node.js 22.12 or newer** (even majors only). TypeScript stays on major 6 until
-`astro check` supports 7.
+TypeScript stays on major 6 until `astro check` supports 7.
 
 <br />
 
 ## 🛠 Commands
-| Command                | What it does                                                           |
-| :--------------------- | :--------------------------------------------------------------------- |
-| `npm run dev`          | Astro dev server at `http://localhost:4321`                            |
-| `npm run check`        | `astro check`: types, and every file in `db/` against its schema       |
-| `npm run lint`         | ESLint, then Prettier in check mode                                    |
-| `npm run format`       | Prettier in write mode                                                 |
-| `npm test`             | Node's test runner over `tests/`: invariants the schema cannot express |
-| `npm run build`        | The whole site, sitemap, redirects and share images into `dist/`       |
-| `npm run validate`     | `check`, `lint`, `test`, `build`, in that order; the superset of CI    |
-| `npm run preview`      | Serves `dist/` locally                                                 |
-| `npm run share-ground` | Re-renders the share image's ground after a product or icon changes    |
+
+| Command                | What it does                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| `npm run validate`     | Runs the full gate before a commit: `check`, `lint`, `test`, `build`, in that order.  |
+| `npm run dev`          | Starts the Astro dev server at `http://localhost:4321`.                               |
+| `npm run build`        | Builds the whole site, sitemap, redirects and share images into `dist/`.              |
+| `npm run preview`      | Serves the built `dist/` locally.                                                     |
+| `npm run check`        | Checks types, and every file in `db/` against its schema.                             |
+| `npm run lint`         | Runs ESLint, then Prettier in check mode.                                             |
+| `npm run format`       | Rewrites every file with Prettier.                                                    |
+| `npm test`             | Runs Node's test runner over `tests/`, covering invariants the schema cannot express. |
+| `npm run share-ground` | Re-renders the share image's ground after a product or icon changes.                  |
 
 ---
 
@@ -143,5 +142,7 @@ origin, and makes no request to a third party from the visitor's browser.
 [MIT](LICENSE) © 2026 Marton Paulo.
 
 Type set in [Gabarito](https://github.com/naipefoundry/gabarito) and
-[Figtree](https://github.com/erikdkennedy/figtree), both under the SIL Open Font License, loaded
-through Fontsource. The visual direction is indebted to [Seán Halpin](https://www.seanhalpin.xyz).
+[Figtree](https://github.com/erikdkennedy/figtree), both under the SIL Open Font License and loaded
+through Fontsource.
+
+The visual direction is indebted to [Seán Halpin](https://www.seanhalpin.xyz).
