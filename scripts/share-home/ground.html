@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- The ground of the home share image: the site's page glow and every product's icon on a wall
+<!-- The ground of the home share image: the site's page glow and every product's icon on a panel
      leaning back in perspective, dimmed and softly out of focus so the name leads. satori cannot
      draw 3D transforms or blur, so this is rendered once and committed; og/[id].png.ts writes the
      copy over it. The arrangement is the owner's (2026-09-11): rows of three and four interlock,
@@ -22,14 +22,14 @@
   }
   .wall {
     position: absolute;
-    left: 661px;
-    top: -84px;
-    width: 798px;
-    height: 798px;
-    transform: perspective(1200px) rotateX(38deg) rotateZ(-24deg);
-    transform-origin: 50% 50%;
-    opacity: 0.55;
-    filter: blur(1.2px);
+    left: 700px;
+    top: -30px;
+    width: 710px;
+    height: 710px;
+    /* A real panel in space: turned away to the right, leaning back a little. */
+    transform: perspective(1000px) rotateY(-32deg) rotateX(6deg) rotateZ(-8deg) scale(0.82);
+    transform-origin: 0% 50%;
+    opacity: 0.6;
   }
   .wall img {
     position: absolute;
@@ -37,6 +37,13 @@
     height: 168px;
     box-shadow: 0 18px 36px rgba(5, 12, 18, 0.45);
     border-radius: 38px;
+  }
+  /* Depth of field: the far end of the wall is softer than the near end. */
+  .wall img:nth-child(-n + 3) {
+    filter: blur(0.7px);
+  }
+  .wall img:nth-child(n + 8) {
+    filter: blur(1.4px);
   }
 </style>
 <div class="ground">
