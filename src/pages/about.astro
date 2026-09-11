@@ -6,10 +6,12 @@ import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Base from "../layouts/Base.astro";
 import { fill } from "../lib/copy";
-import { getCopy, getPerson } from "../lib/db";
+import { getCopy, getPerson, getSite } from "../lib/db";
 import { bioParagraphs, languageRows, stackRows } from "../lib/person";
+import { profilePageNode } from "../lib/seo";
 
 const person = await getPerson();
+const site = await getSite();
 const { about } = await getCopy();
 const [lead, ...rest] = bioParagraphs(person);
 const title = fill(about.title, { givenName: person.givenName });
@@ -20,7 +22,11 @@ const description = fill(about.description, {
 });
 ---
 
-<Base title={title} description={description}>
+<Base
+  title={title}
+  description={description}
+  jsonLd={[profilePageNode(site, new URL(Astro.url.pathname, site.url).href)]}
+>
   <Hero title={title} lede={lead} />
 
   <div class="about">

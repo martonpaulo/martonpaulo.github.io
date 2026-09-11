@@ -41,6 +41,17 @@ export function websiteNode(site: Site): JsonLdNode {
   };
 }
 
+/** The about page is the person's profile: Google lists "About me" pages as ProfilePage. */
+export function profilePageNode(site: Site, url: string): JsonLdNode {
+  return {
+    "@type": "ProfilePage",
+    "@id": `${url}#page`,
+    url,
+    mainEntity: { "@id": `${site.url}/#person` },
+    isPartOf: { "@id": `${site.url}/#website` },
+  };
+}
+
 export function softwareNode(site: Site, project: Project): JsonLdNode {
   return {
     "@type": "SoftwareSourceCode",
