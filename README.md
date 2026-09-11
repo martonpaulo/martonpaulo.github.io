@@ -136,6 +136,8 @@ origin, and makes no request to a third party from the visitor's browser.
   cannot issue its own certificate: Cloudflare terminates HTTPS and redirects `http://`, while the
   Pages metadata keeps `https_enforced: false` and an `http://` URL. That mismatch is expected.
 
+<br />
+
 ## License and credits
 
 [MIT](LICENSE) © 2026 Marton Paulo.
