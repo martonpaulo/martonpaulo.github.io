@@ -24,6 +24,8 @@ images are rendered once per build with satori and resvg.
 
 ---
 
+<br />
+
 ## 🌱 Quick Start
 
 ```bash
