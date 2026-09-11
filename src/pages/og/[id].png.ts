@@ -390,18 +390,15 @@ const homeCopy = (role: string, name: string, tagline: string, host: string) =>
       alignItems: "flex-start",
     },
     [
-      // The tagline on one line after a short aqua rule, in tracked capitals; the role, the
-      // information that matters most after the name, sits under it at reading size.
-      box({ alignItems: "center", gap: 14 }, [
-        box({ width: 36, height: 2, borderRadius: 1, backgroundColor: PRIMARY }),
-        trackedWords(tagline.toUpperCase(), 10, {
-          fontSize: 15,
-          fontWeight: 500,
-          letterSpacing: "0.16em",
-          color: "#a8e2f2",
-          flexWrap: "nowrap",
-        }),
-      ]),
+      // The tagline on one line in tracked capitals; the role, the information that matters most
+      // after the name, sits under it at reading size.
+      trackedWords(tagline.toUpperCase(), 10, {
+        fontSize: 17,
+        fontWeight: 500,
+        letterSpacing: "0.16em",
+        color: "#a8e2f2",
+        flexWrap: "nowrap",
+      }),
       // The name is the card's headline: large, on two lines, so it grows without reaching the wall.
       text(name, {
         fontFamily: "Gabarito",
