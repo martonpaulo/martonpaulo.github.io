@@ -72,7 +72,9 @@ CI runs the cheap checks on every push and pull request, because linting and for
 files the site never serves. The build, the artifact upload and the deploy are conditional: they
 run only when the change touches something the build reads (`db/`, `src/`, `public/`, the Astro or
 TypeScript configuration, the dependencies, or the workflow itself). A change to this README
-is checked and not built.
+is checked and not built. A monthly scheduled run always builds and deploys, because two facts on
+the site age without a commit: the years worked in the bio, counted from `careerStart` in
+`db/person.json`, and the year in the footer.
 
 <br />
 

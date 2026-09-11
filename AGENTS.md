@@ -464,7 +464,7 @@ unblocking action, and the observable condition for resumption.
 
 ## Tests and validation
 
-- `npm run validate` is the gate before every commit. It is what CI runs on every push and pull request; the deploy job runs only after it passes and only when a build input changed.
+- `npm run validate` is the gate before every commit. It is what CI runs on every push and pull request; the deploy job runs only after it passes and only when a build input changed, or on the monthly schedule that keeps the bio's `{years}` and the footer year current.
 - Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
 - Run the smallest relevant check during iteration (`npm run check` for content and types, `npm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.

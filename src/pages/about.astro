@@ -8,11 +8,11 @@ import Base from "../layouts/Base.astro";
 import { fill } from "../lib/copy";
 import { getCopy, getPerson } from "../lib/db";
 import { shareImageFor } from "../lib/pages";
-import { languageRows, stackRows } from "../lib/person";
+import { bioParagraphs, languageRows, stackRows } from "../lib/person";
 
 const person = await getPerson();
 const { about } = await getCopy();
-const [lead, ...rest] = person.bio;
+const [lead, ...rest] = bioParagraphs(person);
 const title = fill(about.title, { givenName: person.givenName });
 const description = fill(about.description, {
   name: person.name,

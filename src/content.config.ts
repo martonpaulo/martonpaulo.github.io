@@ -68,6 +68,8 @@ const person = defineCollection({
     tagline: z.string().max(60),
     intro: z.string(),
     location: z.string(),
+    /** The month the first job began, as YYYY-MM. `{years}` in the bio is counted from it at build time. */
+    careerStart: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
     bio: z.array(z.string()).min(1),
     now: z.array(z.string()),
     languages: z.array(z.object({ name: z.string(), level: z.string() })),

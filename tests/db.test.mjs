@@ -54,3 +54,17 @@ test("links have unique ids and one of them is email", () => {
 test("site description fits a search snippet", () => {
   assert.ok(site.description.length <= SEARCH_SNIPPET_MAX, `${site.description.length} characters`);
 });
+
+test("the bio only uses the {years} placeholder, counted from a career start in the past", async () => {
+  const person = await read("person");
+  for (const paragraph of person.bio) {
+    for (const [, key] of paragraph.matchAll(/\{(\w+)\}/g)) {
+      assert.equal(key, "years", `unknown placeholder {${key}} in the bio`);
+    }
+  }
+  const [year, month] = person.careerStart.split("-").map(Number);
+  assert.ok(
+    new Date(Date.UTC(year, month - 1)) <= new Date(),
+    `careerStart ${person.careerStart} is in the future`,
+  );
+});
