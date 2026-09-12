@@ -114,7 +114,7 @@
     "image": {
       "src": "../src/assets/projects/windowhop.png",
       "alt": "WindowHop's switcher with a grid of window previews and their app icons",
-      "fit": "object"
+      "fit": "cover"
     },
     "kinds": ["macos"],
     "cardAlt": "The WindowHop icon and the words Free for Mac, open source, WindowHop, Switch between windows, not just apps, beside a drawing of the switcher panel with eight window previews."
@@ -154,7 +154,7 @@
     "image": {
       "src": "../src/assets/projects/orbit.png",
       "alt": "Orbit's app icon, two overlapping white circles on green",
-      "fit": "contain"
+      "fit": "cover"
     },
     "kinds": ["ios"],
     "cardAlt": "Orbit on a teal card: two iPhone screens, contacts grouped by country and city, and a map with each contact pinned where they live."

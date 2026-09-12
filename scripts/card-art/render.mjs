@@ -76,8 +76,28 @@ for (const [slug, repo] of Object.entries(REPOS)) {
   const raw = path.join(OUT, `${slug}.raw.png`);
   await writeFile(raw, shot);
   // -trim drops the transparent margin the 1200x630 frame leaves around it.
-  await run("magick", [raw, "-trim", "+repage", path.join(OUT, `${slug}.png`)]);
+  const out = path.join(OUT, `${slug}.png`);
+  await run("magick", [raw, "-trim", "+repage", out]);
   await run("rm", [raw]);
+  // The tile crops from the right and the bottom, so the drawing has to end
+  // there. -trim keeps the panel's soft shadow, which on those two sides reads
+  // as an inset instead: cut the canvas at the opaque panel's own edge and let
+  // the shadow survive only on the left and the top.
+  const { stdout } = await run("magick", [
+    out,
+    "-alpha",
+    "extract",
+    "-threshold",
+    "70%",
+    "-format",
+    "%@",
+    "info:",
+  ]);
+  const box = /^(\d+)x(\d+)\+(\d+)\+(\d+)$/.exec(stdout.trim());
+  if (box) {
+    const [, w, h, x, y] = box.map(Number);
+    await run("magick", [out, "-crop", `${x + w}x${y + h}+0+0`, "+repage", out]);
+  }
   process.stdout.write(`${slug}.png written\n`);
 }
 
