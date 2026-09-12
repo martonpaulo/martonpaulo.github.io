@@ -16,7 +16,7 @@ import {
   projectMetaRows,
   projectPath,
   siblingsOf,
-  tileFor,
+  tileValue,
 } from "../../lib/projects";
 import { softwareNode } from "../../lib/seo";
 
@@ -81,7 +81,7 @@ const card = projectCard(project.slug);
         project.image && (
           <figure
             class:list={["project__art", `project__art--${project.image.fit}`]}
-            style={`--tile: var(--tile-${tileFor(project, 0)})`}
+            style={`--tile: ${tileValue(project, 0)}`}
           >
             <Image
               src={project.image.src}

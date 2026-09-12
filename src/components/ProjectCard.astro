@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
 import { cardImageSizes, cardImageWidths, imageQuality, isEagerCard } from "../lib/images";
-import { kindLabel, projectPath, tileFor, type Project } from "../lib/projects";
+import { kindLabel, projectPath, tileValue, type Project } from "../lib/projects";
 import Eyebrow from "./Eyebrow.astro";
 
 /**
@@ -26,7 +26,7 @@ interface Props {
 
 const { project, index, headingLevel: Heading = "h3" } = Astro.props;
 const { kinds } = await getCopy();
-const tile = tileFor(project, index);
+const tile = tileValue(project, index);
 const art = project.image;
 // The link points at its own heading rather than repeating the name, so the
 // copy keeps one owner and the accessible name is the visible one.
@@ -37,7 +37,7 @@ const titleId = `project-card-title-${project.slug}`;
   class="project-card"
   href={projectPath(project)}
   aria-labelledby={titleId}
-  style={`--tile: var(--tile-${tile})`}
+  style={`--tile: ${tile}`}
 >
   <div class="project-card__surface">
     <div class="project-card__info">
