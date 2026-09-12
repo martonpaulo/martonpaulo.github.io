@@ -38,6 +38,19 @@ const STRIP = `
   .copy { display: none !important; }
 `;
 
+// Lights is a dark field, not a window. Cropped as it sits on the card it comes
+// out as a hard-edged rectangle on a pastel tile, so it is given the same
+// rounded panel and shadow every other product's artwork already has.
+const LIGHTS_PANEL = `
+  .field {
+    left: 560px !important; top: 60px !important;
+    width: 580px !important; height: 510px !important;
+    border-radius: 18px !important;
+    -webkit-mask-image: none !important; mask-image: none !important;
+    box-shadow: 0 40px 80px rgba(15,23,42,.30), 0 8px 20px rgba(15,23,42,.12) !important;
+  }
+`;
+
 const browser = await chromium.launch();
 await mkdir(OUT, { recursive: true });
 
@@ -54,7 +67,7 @@ for (const [slug, repo] of Object.entries(REPOS)) {
     await page.close();
     continue;
   }
-  await page.addStyleTag({ content: STRIP });
+  await page.addStyleTag({ content: slug === "lights" ? STRIP + LIGHTS_PANEL : STRIP });
   // The cards animate nothing, but web fonts and the Lights canvas settle late.
   await page.waitForTimeout(600);
   const shot = await page.screenshot({ omitBackground: true });
