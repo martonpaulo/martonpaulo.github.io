@@ -1,0 +1,10 @@
+# esbuild (through Vite) and @parcel/watcher (through the Astro dev server)
+# ship prebuilt binaries; their install scripts must run.
+allowBuilds:
+  esbuild: true
+  "@parcel/watcher": true
+
+# Carried over from the npm "overrides" block. satori still resolves an fflate
+# below 0.8.2; drop this entry once it ships the range itself.
+overrides:
+  fflate: ^0.8.2

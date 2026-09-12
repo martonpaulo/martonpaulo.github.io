@@ -4,7 +4,7 @@
 // alone on transparency. The tile paints its colour behind it.
 //
 // The card sources live in the product repositories, which are checked out
-// beside this one. Run `npm run card-art` after a product's card changes;
+// beside this one. Run `pnpm card-art` after a product's card changes;
 // nothing in the build depends on it.
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";

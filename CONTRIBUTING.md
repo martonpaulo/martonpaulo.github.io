@@ -37,12 +37,12 @@ Two of them matter for almost any change:
 ## Run the validation gate
 
 ```bash
-npm ci
-npm run validate
+pnpm install --frozen-lockfile
+pnpm validate
 ```
 
 That is `check`, `lint`, `test` and `build`, in that order, and it is exactly what CI runs. Run it
-before every commit. `npm run format` fixes what Prettier complains about. After a visual change,
+before every commit. `pnpm format` fixes what Prettier complains about. After a visual change,
 look at the affected page in the dev server in light and dark schemes and at a narrow width.
 
 ## Code of conduct

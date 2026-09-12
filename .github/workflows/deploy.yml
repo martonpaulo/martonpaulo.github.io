@@ -33,18 +33,20 @@ jobs:
           # schedule and the manual dispatch.
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       # Expensive: the build renders one share image per page with satori and
       # resvg. Its artifact is the only thing the deploy job consumes, and
       # actions/deploy-pages can only read an artifact from its own run, which
       # is why the build lives here rather than in Validate.
-      - run: npm run build
+      - run: pnpm build
 
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:

@@ -33,13 +33,13 @@ Requires **Node.js 22.12 or newer** (even majors only) and npm.
 ```bash
 git clone https://github.com/martonpaulo/martonpaulo.github.io.git
 cd martonpaulo.github.io
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 [http://localhost:4321](http://localhost:4321)
 
-Content lives in `db/`: the daily routine is editing one JSON file there, then running `npm run validate` before committing.
+Content lives in `db/`: the daily routine is editing one JSON file there, then running `pnpm validate` before committing.
 
 TypeScript stays on major 6 until `astro check` supports 7.
 
@@ -47,17 +47,17 @@ TypeScript stays on major 6 until `astro check` supports 7.
 
 ## 🛠 Commands
 
-| Command                | What it does                                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------- |
-| `npm run validate`     | Runs the full gate before a commit: `check`, `lint`, `test`, `build`, in that order.  |
-| `npm run dev`          | Starts the Astro dev server at `http://localhost:4321`.                               |
-| `npm run build`        | Builds the whole site, sitemap, redirects and share images into `dist/`.              |
-| `npm run preview`      | Serves the built `dist/` locally.                                                     |
-| `npm run check`        | Checks types, and every file in `db/` against its schema.                             |
-| `npm run lint`         | Runs ESLint, then Prettier in check mode.                                             |
-| `npm run format`       | Rewrites every file with Prettier.                                                    |
-| `npm test`             | Runs Node's test runner over `tests/`, covering invariants the schema cannot express. |
-| `npm run share-ground` | Re-renders the share image's ground after a product or icon changes.                  |
+| Command             | What it does                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `pnpm validate`     | Runs the full gate before a commit: `check`, `lint`, `test`, `build`, in that order.  |
+| `pnpm dev`          | Starts the Astro dev server at `http://localhost:4321`.                               |
+| `pnpm build`        | Builds the whole site, sitemap, redirects and share images into `dist/`.              |
+| `pnpm preview`      | Serves the built `dist/` locally.                                                     |
+| `pnpm check`        | Checks types, and every file in `db/` against its schema.                             |
+| `pnpm lint`         | Runs ESLint, then Prettier in check mode.                                             |
+| `pnpm format`       | Rewrites every file with Prettier.                                                    |
+| `pnpm test`         | Runs Node's test runner over `tests/`, covering invariants the schema cannot express. |
+| `pnpm share-ground` | Re-renders the share image's ground after a product or icon changes.                  |
 
 ---
 
@@ -72,8 +72,8 @@ TypeScript stays on major 6 until `astro check` supports 7.
 | Change the order of projects within a year | Reorder them in `db/projects.json`; the site keeps the file's order.                                                                                                          |
 | Give a project a short link                | Every project with a `live` URL already answers at `/p/<slug>/`.                                                                                                              |
 | Change a colour, font or spacing           | Read `docs/design.md`, then change the token in `src/styles/tokens.scss`.                                                                                                     |
-| Run everything CI runs                     | `npm run validate`                                                                                                                                                            |
-| Check the share images                     | `npm run build`, then look in `dist/og/`.                                                                                                                                     |
+| Run everything CI runs                     | `pnpm validate`                                                                                                                                                               |
+| Check the share images                     | `pnpm build`, then look in `dist/og/`.                                                                                                                                        |
 
 <br />
 
@@ -96,13 +96,13 @@ TypeScript stays on major 6 until `astro check` supports 7.
 
 ## Validation
 
-| Command            | Checks                                                                                                         |
-| :----------------- | :------------------------------------------------------------------------------------------------------------- |
-| `npm run check`    | Types, and every file in `db/` against its schema                                                              |
-| `npm run lint`     | ESLint and Prettier                                                                                            |
-| `npm test`         | Invariants the schema cannot express: unique slugs, a link per project, a sensible number of featured projects |
-| `npm run build`    | The whole site, sitemap, redirects and share images into `dist/`                                               |
-| `npm run validate` | All of the above, in that order                                                                                |
+| Command         | Checks                                                                                                         |
+| :-------------- | :------------------------------------------------------------------------------------------------------------- |
+| `pnpm check`    | Types, and every file in `db/` against its schema                                                              |
+| `pnpm lint`     | ESLint and Prettier                                                                                            |
+| `pnpm test`     | Invariants the schema cannot express: unique slugs, a link per project, a sensible number of featured projects |
+| `pnpm build`    | The whole site, sitemap, redirects and share images into `dist/`                                               |
+| `pnpm validate` | All of the above, in that order                                                                                |
 
 `Validate` runs the cheap checks — `check`, `lint`, `test` — on every push and pull request,
 because linting and formatting read files the site never serves. `Deploy` waits for `Validate` to

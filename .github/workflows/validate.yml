@@ -23,16 +23,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       # Cheap and unconditional: these read files a build-input path filter
       # ignores, so a documentation-only change is still type-checked, linted
       # and formatted.
-      - run: npm run check
-      - run: npm run lint
-      - run: npm test
+      - run: pnpm check
+      - run: pnpm lint
+      - run: pnpm test

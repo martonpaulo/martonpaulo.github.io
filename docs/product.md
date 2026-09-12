@@ -61,7 +61,7 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 - Static output only, hosted on GitHub Pages from the `main` branch, at the custom domain
   `martonpaulo.com`. DNS lives at Hostinger and stays owner-managed.
 - No secrets, no environment variables, no runtime services: the build must succeed from a clean
-  clone with `npm ci && npm run build`.
+  clone with `pnpm install --frozen-lockfile && pnpm build`.
 - One content source, the `db/` folder, with a schema enforced at build time. A malformed entry fails the
   build rather than shipping a broken page.
 - Accessible by default: WCAG 2.2 AA contrast, keyboard navigation, reduced-motion respected,

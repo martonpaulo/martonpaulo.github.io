@@ -4,7 +4,7 @@
 // times area: that finds the gradient on a colourful card and the accent on a
 // near-neutral one. The winner is then softened to the band the tiles live in.
 //
-// Run `npm run card-tints` after a card changes; it rewrites db/projects.json.
+// Run `pnpm card-tints` after a card changes; it rewrites db/projects.json.
 import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { promisify } from "node:util";

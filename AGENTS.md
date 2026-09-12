@@ -21,8 +21,8 @@
 - Merge policy: pull requests are the exception. When one is used, it is squash-merged with `gh pr merge <number> --squash --delete-branch`, and the repository allows no other method.
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
-- Default branch review policy: no required approving review or required pull request; delivery is directly to `main` after `npm run validate`. Existing optional pull requests do not change this policy.
-- Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `npm ci && npm run build`.
+- Default branch review policy: no required approving review or required pull request; delivery is directly to `main` after `pnpm validate`. Existing optional pull requests do not change this policy.
+- Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `pnpm install --frozen-lockfile && pnpm build`.
 - Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
 - Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
 - Skills baseline applied: `2026-09-08`
@@ -48,16 +48,16 @@ answer is in that file, not in this one.
 
 ## Commands
 
-| Command            | What it does                                                                                  |
-| :----------------- | :-------------------------------------------------------------------------------------------- |
-| `npm run dev`      | Astro dev server at `http://localhost:4321`                                                   |
-| `npm run check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema |
-| `npm run lint`     | ESLint, then Prettier in check mode                                                           |
-| `npm run format`   | Prettier in write mode                                                                        |
-| `npm test`         | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
-| `npm run build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
-| `npm run validate` | `check`, `lint`, `test`, `build`, in that order; the superset of CI                           |
-| `npm run preview`  | Serves `dist/` locally                                                                        |
+| Command         | What it does                                                                                  |
+| :-------------- | :-------------------------------------------------------------------------------------------- |
+| `pnpm dev`      | Astro dev server at `http://localhost:4321`                                                   |
+| `pnpm check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema |
+| `pnpm lint`     | ESLint, then Prettier in check mode                                                           |
+| `pnpm format`   | Prettier in write mode                                                                        |
+| `pnpm test`     | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
+| `pnpm build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
+| `pnpm validate` | `check`, `lint`, `test`, `build`, in that order; the superset of CI                           |
+| `pnpm preview`  | Serves `dist/` locally                                                                        |
 
 Node 22.12 or newer, even versions only. TypeScript stays on major 6 until `astro check` supports
 TypeScript 7; do not bump it to make the lockfile look current. Styles are Sass (`.scss`) only for
@@ -116,7 +116,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 - **The share image is generated, never drawn by hand.** `src/pages/og/site.png.ts` renders the
   site's one card with satori and resvg, and every page links to it (owner decision, 2026-09-11:
   no per-page cards for now). It writes the copy over `src/assets/share/home-ground.png`, rendered
-  by `npm run share-ground` from `scripts/share-home/ground.html` (the page glow and every product's
+  by `pnpm share-ground` from `scripts/share-home/ground.html` (the page glow and every product's
   icon, `src/assets/share/<slug>.png`, on a wall in perspective), because satori cannot draw 3D
   transforms or blur. Re-render the ground when a product or its icon changes.
 - **Project artwork is a real capture.** `src/assets/projects/<slug>.png` is a transparent PNG of
@@ -450,7 +450,7 @@ unblocking action, and the observable condition for resumption.
 
 - Ignore secrets, local environments, logs, caches, build output, and generated artifacts appropriate to the actual stack. `.gitignore` covers `node_modules/`, `dist/`, `.astro/`, `.env*` and `.claude/`.
 - There are no local environment variables, so there is no `.env.example`. Add one only with the first real variable.
-- Dependency updates are manual: run `npm outdated`, update, run `npm run validate`, commit. Keep TypeScript on major 6 (see Commands).
+- Dependency updates are manual: run `pnpm outdated`, update, run `pnpm validate`, commit. Keep TypeScript on major 6 (see Commands).
 - Change GitHub's repository `homepage` to the recorded canonical landing-page URL only when the
   Pages site exists, the latest `github-pages` deployment succeeded, and both GitHub URL surfaces
   agree with that recorded URL. When the value differs, preview and confirm the exact change, then
@@ -467,9 +467,9 @@ unblocking action, and the observable condition for resumption.
 
 ## Tests and validation
 
-- `npm run validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and publishes on every such run, plus the monthly schedule that keeps the bio's `{years}` and the footer year current.
+- `pnpm validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and publishes on every such run, plus the monthly schedule that keeps the bio's `{years}` and the footer year current.
 - Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
-- Run the smallest relevant check during iteration (`npm run check` for content and types, `npm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
+- Run the smallest relevant check during iteration (`pnpm check` for content and types, `pnpm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.
 - Never claim a check passed unless it ran successfully. Report exact skips, blockers, residual risk, and manual gaps.
 

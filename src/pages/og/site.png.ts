@@ -29,7 +29,7 @@ const COPY_LEFT = 96;
 const fontFile = async (pkg: string, file: string) =>
   woffToSfnt(await readFile(path.join(process.cwd(), "node_modules", pkg, "files", file)));
 
-// The ground: the page glow and the products' icon wall, rendered by `npm run share-ground`
+// The ground: the page glow and the products' icon wall, rendered by `pnpm share-ground`
 // from scripts/share-home/ground.html because satori cannot draw perspective or blur.
 const groundFile = path.join(process.cwd(), "src", "assets", "share", "home-ground.png");
 
