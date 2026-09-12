@@ -1,0 +1,55 @@
+name: Bug report
+description: Report something on the site that does not work the way it should.
+title: "bug: "
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Layout, contrast, keyboard navigation and screen-reader problems are real bugs here.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the page, and the colour scheme if it only happens in light or dark.
+      placeholder: |
+        1. Open /projects…
+        2. Tab to…
+        3. Observe…
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser, version and window width
+      placeholder: Safari 26 on macOS 26, window about 390px wide
+    validations:
+      required: true
+
+  - type: dropdown
+    id: private-window
+    attributes:
+      label: Does it still happen in a private window?
+      description: A private window rules out an extension or a stale cached page.
+      options:
+        - "Yes"
+        - "No"
+        - Not checked
+    validations:
+      required: true
