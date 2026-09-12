@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
 import { projectIcon, ROW_ICON_SIZE } from "../lib/images";
-import { kindLabel, projectPath, type Project } from "../lib/projects";
+import { kindPath, projectPath, type Project } from "../lib/projects";
 
 /** A project as one line in the list: its icon, name, what it does, kind and year. */
 interface Props {
@@ -16,29 +16,45 @@ interface Props {
 const { project, headingLevel: Heading = "h3" } = Astro.props;
 const { kinds } = await getCopy();
 const icon = projectIcon(project.slug);
+const href = projectPath(project);
 ---
 
 <article class="project-row">
   {
+    /* The icon leads to the same page as the name. It is a second link to one
+       destination, so it is hidden from assistive technology and skipped by the
+       keyboard: the name is the one stop, and the icon is the larger target a
+       pointer finds first. */
     icon && (
-      <Image
-        class="project-row__icon"
-        src={icon}
-        alt=""
-        width={ROW_ICON_SIZE}
-        height={ROW_ICON_SIZE}
-        densities={[1, 2]}
-        loading="lazy"
-        decoding="async"
-      />
+      <a class="project-row__icon-link" href={href} tabindex="-1" aria-hidden="true">
+        <Image
+          class="project-row__icon"
+          src={icon}
+          alt=""
+          width={ROW_ICON_SIZE}
+          height={ROW_ICON_SIZE}
+          densities={[1, 2]}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
     )
   }
   <div class="project-row__text">
-    <Heading class="project-row__title"><a href={projectPath(project)}>{project.name}</a></Heading>
+    <Heading class="project-row__title"><a href={href}>{project.name}</a></Heading>
     <p class="project-row__tagline">{project.tagline}</p>
   </div>
   <p class="project-row__meta">
-    <span>{kindLabel(project, kinds)}</span>
+    {
+      /* Each kind is its own filter, so a project that is both an iOS and a
+         macOS app offers both. */
+      project.kinds.map((kind, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">·</span>}
+          <a href={kindPath(kind)}>{kinds[kind].one}</a>
+        </>
+      ))
+    }
     <span aria-hidden="true">·</span>
     <span>{project.year}</span>
   </p>

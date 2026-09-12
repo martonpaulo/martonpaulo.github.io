@@ -20,13 +20,12 @@
   }
 }
 
-// Decorative: the link is named by the project name. Its top meets the top of the name's
-// line, which sits centred in the link's touch-target box.
+// Decorative: the row is named by the project name. The icon's top meets the top of
+// the name's line, which sits centred in the link's touch-target box.
 .project-row__icon {
-  grid-area: icon;
+  display: block;
   width: 2.75rem;
   height: 2.75rem;
-  margin-top: calc((var(--touch-target) - var(--text-lg) * var(--leading-snug)) / 2);
 }
 
 .project-row__text {
@@ -68,4 +67,24 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
   white-space: nowrap;
+
+  // The kind is a filter, so it reads as a quiet link until it is pointed at.
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--text);
+    text-decoration: underline;
+  }
+}
+
+// The icon is the pointer's target for the same destination as the name.
+.project-row__icon-link {
+  grid-area: icon;
+  display: block;
+  margin-top: calc((var(--touch-target) - var(--text-lg) * var(--leading-snug)) / 2);
+  border-radius: var(--radius-sm);
 }
