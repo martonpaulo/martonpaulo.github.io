@@ -8,7 +8,7 @@ import DefinitionList from "../../components/DefinitionList.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
-import { heroImageSizes, heroImageWidths, imageQuality } from "../../lib/images";
+import { heroImageSizes, heroImageWidths, imageQuality, projectCard } from "../../lib/images";
 import {
   kindLabel,
   projectDescription,
@@ -34,6 +34,10 @@ const copy = (await getCopy()).project;
 const label = kindLabel(project, (await getCopy()).kinds);
 const links = projectLinks(project, copy);
 const description = projectDescription(project, copy, site.name);
+// A project page shows the product's own social card, whole: the same picture
+// the rest of the web sees when the link is shared. The home tiles show the
+// drawing alone, which is a different job.
+const card = projectCard(project.slug);
 ---
 
 <Base
@@ -62,20 +66,33 @@ const description = projectDescription(project, copy, site.name);
     </header>
 
     {
-      project.image && (
-        <figure
-          class:list={["project__art", `project__art--${project.image.fit}`]}
-          style={`--tile: var(--tile-${tileFor(project, 0)})`}
-        >
+      card ? (
+        <figure class="project__card">
           <Image
-            src={project.image.src}
-            alt={project.image.alt}
+            src={card}
+            alt={project.cardAlt ?? project.tagline}
             widths={heroImageWidths}
             sizes={heroImageSizes}
             quality={imageQuality}
             loading="eager"
           />
         </figure>
+      ) : (
+        project.image && (
+          <figure
+            class:list={["project__art", `project__art--${project.image.fit}`]}
+            style={`--tile: var(--tile-${tileFor(project, 0)})`}
+          >
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              widths={heroImageWidths}
+              sizes={heroImageSizes}
+              quality={imageQuality}
+              loading="eager"
+            />
+          </figure>
+        )
       )
     }
 

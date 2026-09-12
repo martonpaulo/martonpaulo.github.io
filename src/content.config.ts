@@ -194,6 +194,9 @@ const projects = defineCollection({
       description: z.string(),
       year: z.number().int().min(2015).max(2100),
       kinds: z.array(z.enum(projectKinds)).min(1),
+      // The alt text of the product's own social card, copied from the og:image:alt
+      // the product serves, so the two never say different things.
+      cardAlt: z.string().optional(),
       stack: z.array(z.string()).min(1),
       tags: z.array(z.string().regex(/^[a-z0-9-]+$/)),
       links: z.object({

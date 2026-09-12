@@ -19,7 +19,8 @@
       "alt": "Tabelo showing the same table as Markdown text on the left and as an editable grid on the right",
       "fit": "cover"
     },
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "Tabelo on a denim card: the Markdown and Table panes of one workspace showing the same table of cities, kept in sync."
   },
   {
     "slug": "mailbell",
@@ -35,7 +36,8 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["macos"]
+    "kinds": ["macos"],
+    "cardAlt": "The Mailbell bell icon and the words Free for Mac, open source, Mailbell, Gmail notifications in your menu bar, beside a drawing of the Mailbell menu: Accounts, three messages awaiting review, All Messages, Check Now, Settings and Quit Mailbell."
   },
   {
     "slug": "meantime",
@@ -57,7 +59,8 @@
       "alt": "Meantime's menu bar panel with two city clocks and a calendar",
       "fit": "cover"
     },
-    "kinds": ["macos"]
+    "kinds": ["macos"],
+    "cardAlt": "The Meantime clock icon and the words Free for Mac, open source, Meantime, World clocks in your menu bar, beside the Meantime panel with two clocks and a month calendar."
   },
   {
     "slug": "atlas-tint",
@@ -73,7 +76,8 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "The AtlasTint mark and the words Free in your browser, AtlasTint, Color and track the regions of the world, beside a drawing of the app: the Regions list and a world map with Canada and Brazil colored in."
   },
   {
     "slug": "todo-print",
@@ -89,7 +93,8 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "Todo Print on a graphite card: an A4 landscape sheet with three panels of to-do lists, headings and checkboxes, ready to print."
   },
   {
     "slug": "windowhop",
@@ -111,7 +116,8 @@
       "alt": "WindowHop's switcher with a grid of window previews and their app icons",
       "fit": "object"
     },
-    "kinds": ["macos"]
+    "kinds": ["macos"],
+    "cardAlt": "The WindowHop icon and the words Free for Mac, open source, WindowHop, Switch between windows, not just apps, beside a drawing of the switcher panel with eight window previews."
   },
   {
     "slug": "smart-desk",
@@ -127,7 +133,8 @@
     "note": "Personal app, not released. The page says what it will do.",
     "featured": false,
     "status": "active",
-    "kinds": ["ios", "macos"]
+    "kinds": ["ios", "macos"],
+    "cardAlt": "Smart Desk on a green card: the Mac window with its sidebar and the day list, calendar events and tasks together under an upcoming-event banner."
   },
   {
     "slug": "orbit",
@@ -149,7 +156,8 @@
       "alt": "Orbit's app icon, two overlapping white circles on green",
       "fit": "contain"
     },
-    "kinds": ["ios"]
+    "kinds": ["ios"],
+    "cardAlt": "Orbit on a teal card: two iPhone screens, contacts grouped by country and city, and a map with each contact pinned where they live."
   },
   {
     "slug": "country-badge",
@@ -165,7 +173,8 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "Country Badge Generator on an emerald card: Brazil selected, three flag-colour backgrounds, SVG, PNG and JPG formats and a large badge preview."
   },
   {
     "slug": "issues-graph",
@@ -181,7 +190,8 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "Issues Graph on a graphite card: a chain of four GitHub issues, one ready, two blocked and one needing attention, joined by blocker-to-dependent arrows."
   },
   {
     "slug": "moon-uniform",
@@ -202,7 +212,8 @@
       "alt": "The words Moon Uniform set in the Moon tactile alphabet, green on cream",
       "fit": "cover"
     },
-    "kinds": ["typeface"]
+    "kinds": ["typeface"],
+    "cardAlt": "Moon Uniform on a forest-green card: a specimen sheet with the word Moon and the letters A to Z set in the Moon alphabet."
   },
   {
     "slug": "lights",
@@ -224,7 +235,8 @@
       "alt": "Small points of light drifting across a dark field",
       "fit": "cover"
     },
-    "kinds": ["experiment"]
+    "kinds": ["experiment"],
+    "cardAlt": "Lights, generative art: a frame of the piece, small white, blue and amber lights and the faint trails of two bonds drifting in the night."
   },
   {
     "slug": "linguae",
@@ -240,6 +252,7 @@
     },
     "featured": false,
     "status": "active",
-    "kinds": ["web"]
+    "kinds": ["web"],
+    "cardAlt": "Linguae on a rose card: the language table with its filters, codes and status chips such as vigorous, threatened and endangered."
   }
 ]

@@ -37,6 +37,21 @@
   }
 }
 
+/* The social card is already a finished composition on its own background, so it
+   needs no tile behind it and no padding around it: it is shown whole, at the
+   width the page gives it. */
+.project__card {
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
 .project__body {
   display: grid;
   gap: var(--space-4);

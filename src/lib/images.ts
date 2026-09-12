@@ -68,3 +68,14 @@ export const projectIcon = (slug: string): ImageMetadata | undefined =>
 
 /** The icon beside a list row: 44 CSS px, drawn from the file at 1x and 2x. */
 export const ROW_ICON_SIZE = 44;
+
+// Every product's own social card, 1200x630 (src/assets/cards/<slug>.jpg), copied
+// from the card the product itself serves. A project page shows it whole, text
+// included: it is the picture of the product the rest of the web already sees.
+const cards = import.meta.glob<{ default: ImageMetadata }>("../assets/cards/*.jpg", {
+  eager: true,
+});
+
+/** A project's social card, or undefined when the product draws none. */
+export const projectCard = (slug: string): ImageMetadata | undefined =>
+  cards[`../assets/cards/${slug}.jpg`]?.default;
