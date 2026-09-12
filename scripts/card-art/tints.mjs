@@ -12,8 +12,14 @@ import path from "node:path";
 
 const run = promisify(execFile);
 
-const TINT_LIGHTNESS = 0.84;
-const TINT_SATURATION = { min: 0.3, max: 0.44 };
+// Clamping every card into one narrow saturation band made thirteen tiles look
+// like four. Each card's own chroma is kept in order instead, spread across a
+// wider range, and the lightness falls slightly as saturation rises so a vivid
+// product reads deeper than a quiet one.
+const NEUTRAL_BELOW = 0.2;
+const NEUTRAL = { s: 0.05, l: 0.86 };
+const CHROMA_FLOOR = 0.22;
+const CHROMA_SPREAD = 0.55;
 
 const hslToHex = (h, l, s) => {
   const f = (n) => {
@@ -77,8 +83,12 @@ for (const project of projects) {
   }
   if (!best) continue;
 
-  const s = Math.min(Math.max(best.s, TINT_SATURATION.min), TINT_SATURATION.max);
-  project.tint = hslToHex(best.h, TINT_LIGHTNESS, s);
+  // A graphite card carries no hue to take. Inventing one turned three of these
+  // into the same pale blue, so a grey tile is the honest answer.
+  const neutral = best.s < NEUTRAL_BELOW;
+  const s = neutral ? NEUTRAL.s : CHROMA_FLOOR + (best.s - NEUTRAL_BELOW) * CHROMA_SPREAD;
+  const l = neutral ? NEUTRAL.l : 0.88 - s * 0.1;
+  project.tint = hslToHex(best.h, l, s);
   process.stdout.write(`${project.slug}: ${project.tint}\n`);
 }
 
