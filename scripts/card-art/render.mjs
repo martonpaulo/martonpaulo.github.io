@@ -96,7 +96,13 @@ for (const [slug, repo] of Object.entries(REPOS)) {
   const box = /^(\d+)x(\d+)\+(\d+)\+(\d+)$/.exec(stdout.trim());
   if (box) {
     const [, w, h, x, y] = box.map(Number);
-    await run("magick", [out, "-crop", `${x + w}x${y + h}+0+0`, "+repage", out]);
+    // WindowHop's switcher is a rounded panel that is wider than it is tall, so
+    // the tile scales it to fit the width and its rounded bottom-left corner
+    // lands inside the card instead of running off it. Cutting the last tenth
+    // of the panel both hides that corner and makes the drawing sit lower and
+    // larger in the tile.
+    const bottom = slug === "windowhop" ? Math.round((y + h) * 0.9) : y + h;
+    await run("magick", [out, "-crop", `${x + w}x${bottom}+0+0`, "+repage", out]);
   }
   process.stdout.write(`${slug}.png written\n`);
 }
