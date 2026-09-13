@@ -18,8 +18,8 @@ comes from **a few JSON files in `db/`**, validated against a schema at build ti
 project is editing data rather than writing markup.
 
 It is built with [Astro](https://astro.build) and published to GitHub Pages when a build input
-changes on `main`. There is **no backend, no database and no cookie**; Astro's `ClientRouter` is the
-only client-side JavaScript, and it exists so the background stays still while pages change. Share
+changes on `main`. There is **no backend, no database and no cookie**; it ships **no client-side
+JavaScript**: pages change through the browser's own view transitions. Share
 images are rendered once per build with satori and resvg.
 
 ---
