@@ -10,6 +10,9 @@
 }
 
 // Content rises into place on load; each child of an entering group follows the last.
+// It moves but never fades in: an element at opacity 0 is not painted, so a fade
+// kept the hero and the first tiles off screen after the first paint and made the
+// largest paint wait for the first screenshot (1996 ms on a throttled phone).
 .enter > * {
   animation: enter var(--enter-duration) var(--ease-out) both;
 }
@@ -29,12 +32,10 @@ $enter-steps: 6;
 
 @keyframes enter {
   from {
-    opacity: 0;
     transform: translateY(var(--space-3));
   }
 
   to {
-    opacity: 1;
     transform: none;
   }
 }

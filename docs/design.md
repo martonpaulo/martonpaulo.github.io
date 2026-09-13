@@ -80,7 +80,8 @@ projects carry that.
 ## Motion
 
 Two kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
-load, each child a beat after the last (`.enter`). Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
+load, each child a beat after the last (`.enter`); they rise without fading in, so the content is
+there from the first paint. Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
 800 ms; buttons grow the same amount; everything presses to 98.5%
 on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through the browser's own
 cross-document view transition, with no script: the background paints the same on both pages, so
