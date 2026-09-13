@@ -4,7 +4,7 @@ import "./ProjectCard.scss";
 import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
-import { cardImageSizes, cardImageWidths, imageQuality, isEagerCard } from "../lib/images";
+import { cardImageSizes, cardImageWidths, imageQuality, isPriorityCard } from "../lib/images";
 import { kindLabel, projectPath, tileValue, type Project } from "../lib/projects";
 import Eyebrow from "./Eyebrow.astro";
 
@@ -55,8 +55,7 @@ const titleId = `project-card-title-${project.slug}`;
             widths={cardImageWidths}
             sizes={cardImageSizes(art.fit)}
             quality={imageQuality}
-            loading={isEagerCard(index) ? "eager" : "lazy"}
-            decoding="async"
+            priority={isPriorityCard(index)}
           />
         </div>
       )

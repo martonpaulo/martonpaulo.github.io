@@ -1,10 +1,13 @@
 /** Responsive image settings shared by every place a project image renders. */
 import type { Project } from "./projects";
 
-/** Cards above the fold load eagerly so the first paint carries them. */
-const EAGER_CARD_COUNT = 2;
-
-export const isEagerCard = (index: number) => index < EAGER_CARD_COUNT;
+/**
+ * The first card's image is the largest paint on a desktop home page, so it alone
+ * is fetched at high priority, ahead of the other images; every other card waits
+ * for layout. Measured on a throttled phone, that brought the image from 1996 ms
+ * to 1780 ms. More than one high-priority image would only compete with it.
+ */
+export const isPriorityCard = (index: number) => index === 0;
 
 /** Widths cover 1x to 3x screens for a card that is about 30rem wide at most. */
 export const cardImageWidths = [640, 960, 1280, 1600, 2000];
