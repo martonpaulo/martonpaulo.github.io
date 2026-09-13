@@ -31,9 +31,12 @@
 }
 
 @include bp.up("tablet") {
+  // The term is smaller and uppercase, so top-aligned rows put its text above
+  // the value's. Aligning each row on the first baseline sets both on one line.
   .definitions {
     grid-template-columns: max-content minmax(0, 1fr);
     column-gap: var(--space-4);
+    align-items: baseline;
   }
 
   .definitions__row {
