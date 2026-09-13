@@ -41,9 +41,12 @@ do not move: the owner tried a drifting light and preferred the room quiet.
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
 faint resting shadow, and a whole-card grow of two and a half percent under the pointer with the
-artwork growing with it, never on its own. Eight tile colours, one per featured project, assigned so the
-project's own screenshot reads on it and in an order that is this site's own. The tile's dark ink
-(`--tile-ink`) reads on all of them at AA or better. A project without a screenshot shows its app
+artwork growing with it, never on its own. A tile is painted with the gradient of its product's own
+social card, copied as CSS by `pnpm card-gradients`, so the tile and the card read as one product.
+The gradient is never lightened or darkened to suit the text: the text takes the ink that reads on
+it instead, the dark `--tile-ink` on a light card and the light `--tile-ink-light` on a dark one,
+each at AA or better. A project without a social card falls back to one of eight pastel tile colours,
+on which the dark ink reads. A project without a screenshot shows its app
 icon instead; the tile does not pretend.
 
 **Real screenshots, anchored to the edge.** Every featured image is the product itself, captured
@@ -96,23 +99,23 @@ template, and a template signifies that the owner did not decide.
 The values live in `src/styles/tokens.scss` as CSS custom properties, so they are read at runtime
 and can be inspected in the browser. Their meaning:
 
-| Token                                                                               | Role                                                                                              |
-| :---------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------ |
-| `--bg`, `--bg-glow`                                                                 | The room and the light at the top of it                                                           |
-| `--surface`, `--surface-strong`, `--border`                                         | Translucent layers for the pill, chips and buttons                                                |
-| `--text`, `--text-muted`                                                            | Body text at two levels of emphasis; both pass AA on `--bg`                                       |
-| `--heading`, `--primary`, `--primary-strong`                                        | Warm white headings; aqua links and controls, and their hover                                     |
-| `--focus`                                                                           | White keyboard-focus indicator, distinct from the aqua interactive accent                         |
-| `--tile-*`, `--tile-ink`, `--tile-ink-muted`                                        | The eight pastel tiles and the ink that reads on all of them                                      |
-| `--font-display`, `--font-body`                                                     | The two voices                                                                                    |
-| `--text-*`                                                                          | The type scale; the three largest steps are fluid                                                 |
-| `--space-1` … `--space-6`                                                           | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps |
-| `--radius-*`, `--hairline`                                                          | Corners and the one line weight                                                                   |
-| `--shadow-card`, `--shadow-card-raised`                                             | A card at rest and the deeper lift it reaches under the pointer                                   |
-| `--shadow-panel`, `--shadow-relief`                                                 | The panel edge and the icon drop                                                                  |
-| `--container`, `--container-wide`, `--measure`, `--measure-wide`, `--measure-title` | Column and reading widths; the container widens on ultrawide screens                              |
-| `--card-*`, `--touch-target`                                                        | Tile geometry and the minimum size of anything tappable                                           |
-| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`            | Response timing, easing, transforms and entrance motion                                           |
+| Token                                                                               | Role                                                                                                 |
+| :---------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
+| `--bg`, `--bg-glow`                                                                 | The room and the light at the top of it                                                              |
+| `--surface`, `--surface-strong`, `--border`                                         | Translucent layers for the pill, chips and buttons                                                   |
+| `--text`, `--text-muted`                                                            | Body text at two levels of emphasis; both pass AA on `--bg`                                          |
+| `--heading`, `--primary`, `--primary-strong`                                        | Warm white headings; aqua links and controls, and their hover                                        |
+| `--focus`                                                                           | White keyboard-focus indicator, distinct from the aqua interactive accent                            |
+| `--tile-*`, `--tile-ink`, `--tile-ink-muted`, `--tile-ink-light*`                   | The eight fallback pastel tiles, the dark ink for them and light cards, the light ink for dark cards |
+| `--font-display`, `--font-body`                                                     | The two voices                                                                                       |
+| `--text-*`                                                                          | The type scale; the three largest steps are fluid                                                    |
+| `--space-1` … `--space-6`                                                           | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps    |
+| `--radius-*`, `--hairline`                                                          | Corners and the one line weight                                                                      |
+| `--shadow-card`, `--shadow-card-raised`                                             | A card at rest and the deeper lift it reaches under the pointer                                      |
+| `--shadow-panel`, `--shadow-relief`                                                 | The panel edge and the icon drop                                                                     |
+| `--container`, `--container-wide`, `--measure`, `--measure-wide`, `--measure-title` | Column and reading widths; the container widens on ultrawide screens                                 |
+| `--card-*`, `--touch-target`                                                        | Tile geometry and the minimum size of anything tappable                                              |
+| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`            | Response timing, easing, transforms and entrance motion                                              |
 
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,

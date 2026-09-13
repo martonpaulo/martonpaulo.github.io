@@ -38,6 +38,8 @@ const artWidth: Record<CardImageFit, (card: string) => string> = {
   // An icon is --card-icon-size: a share of the box, floored and capped.
   contain: (card) =>
     `clamp(${ICON_MIN}, calc((${card} - ${CARD_PADDING_BOTH}) * ${ICON_RATIO}), ${ICON_MAX})`,
+  // A full field runs under the whole tile, edge to edge.
+  full: (card) => card,
 };
 
 /** The `sizes` hint for one card image, which differs by how the art is fitted. */

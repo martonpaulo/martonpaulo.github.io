@@ -23,9 +23,12 @@
   --primary-strong: #a8e2f2;
   --focus: #ffffff;
 
-  /* Card tiles: a pastel background and the ink that reads on all of them */
+  /* Card tiles: a pastel background and the ink that reads on all of them.
+     A tile painted with a dark social-card gradient takes the light ink instead. */
   --tile-ink: #16222a;
   --tile-ink-muted: #344149;
+  --tile-ink-light: #ffffff;
+  --tile-ink-light-muted: rgb(255 255 255 / 92%);
   --tile-lilac: #d5b8ea;
   --tile-mint: #b3e0d0;
   --tile-salmon: #efb9a6;

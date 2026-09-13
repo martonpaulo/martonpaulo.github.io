@@ -27,6 +27,13 @@
   }
 }
 
+// A dark gradient carries the light ink, so the copy never sits on a ground it
+// cannot be read against. The gradient stays as the card drew it.
+.project-card[data-ink="light"] {
+  --tile-ink: var(--tile-ink-light);
+  --tile-ink-muted: var(--tile-ink-light-muted);
+}
+
 .project-card__surface {
   position: relative;
   display: grid;
@@ -113,6 +120,25 @@
     object-fit: contain;
     filter: var(--shadow-relief);
   }
+}
+
+// One field under the whole tile, the copy included, for a product whose card is
+// a single field rather than a drawing on a ground. The box stays in the flow so
+// the tile keeps the height every other tile has; the picture leaves it and
+// covers the surface, anchored to the corner away from the copy. The file is
+// opaque and carries the card's own background, so no edge of it can show.
+.project-card__art--full {
+  position: static;
+}
+
+.project-card__art--full img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right bottom;
 }
 
 // Icons float in the middle of the lower half.

@@ -21,7 +21,8 @@
     },
     "kinds": ["web"],
     "cardAlt": "Tabelo on a denim card: the Markdown and Table panes of one workspace showing the same table of cities, kept in sync.",
-    "tint": "#c5d3e7"
+    "gradient": "linear-gradient(135deg,#122540 0%,#172f52 40%,#1e3c68 70%,#355e96 100%)",
+    "ink": "light"
   },
   {
     "slug": "mailbell",
@@ -39,7 +40,8 @@
     "status": "active",
     "kinds": ["macos"],
     "cardAlt": "The Mailbell bell icon and the words Free for Mac, open source, Mailbell, Gmail notifications in your menu bar, beside a drawing of the Mailbell menu: Accounts, three messages awaiting review, All Messages, Check Now, Settings and Quit Mailbell.",
-    "tint": "#ede1b6"
+    "gradient": "linear-gradient(135deg,#fffbeb 0%,#fef3c7 30%,#fde68a 70%,#fcd663 100%)",
+    "ink": "dark"
   },
   {
     "slug": "meantime",
@@ -63,7 +65,8 @@
     },
     "kinds": ["macos"],
     "cardAlt": "The Meantime clock icon and the words Free for Mac, open source, Meantime, World clocks in your menu bar, beside the Meantime panel with two clocks and a month calendar.",
-    "tint": "#cfcde4"
+    "gradient": "linear-gradient(135deg,#3f3a78 0%,#4b4588 40%,#575197 65%,#7069b0 100%)",
+    "ink": "light"
   },
   {
     "slug": "atlas-tint",
@@ -81,7 +84,8 @@
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "The AtlasTint mark and the words Free in your browser, AtlasTint, Color and track the regions of the world, beside a drawing of the app: the Regions list and a world map with Canada and Brazil colored in.",
-    "tint": "#e5d1c9"
+    "gradient": "linear-gradient(135deg,#6e3a26 0%,#7f4430 40%,#8f4d36 65%,#b8704f 100%)",
+    "ink": "light"
   },
   {
     "slug": "todo-print",
@@ -99,7 +103,8 @@
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "Todo Print on a graphite card: an A4 landscape sheet with three panels of to-do lists, headings and checkboxes, ready to print.",
-    "tint": "#dadadd"
+    "gradient": "linear-gradient(135deg,#18181b 0%,#222226 40%,#2d2d33 70%,#45454d 100%)",
+    "ink": "light"
   },
   {
     "slug": "windowhop",
@@ -123,7 +128,8 @@
     },
     "kinds": ["macos"],
     "cardAlt": "The WindowHop icon and the words Free for Mac, open source, WindowHop, Switch between windows, not just apps, beside a drawing of the switcher panel with eight window previews.",
-    "tint": "#bdc9ea"
+    "gradient": "linear-gradient(135deg,#2563eb 0%,#1d4ed8 50%,#4338ca 100%)",
+    "ink": "light"
   },
   {
     "slug": "smart-desk",
@@ -141,7 +147,8 @@
     "status": "active",
     "kinds": ["ios", "macos"],
     "cardAlt": "Smart Desk on a green card: the Mac window with its sidebar and the day list, calendar events and tasks together under an upcoming-event banner.",
-    "tint": "#c9e6cd"
+    "gradient": "linear-gradient(135deg,#173f1d 0%,#1d5125 40%,#24662f 70%,#3d8a45 100%)",
+    "ink": "light"
   },
   {
     "slug": "orbit",
@@ -165,7 +172,8 @@
     },
     "kinds": ["ios"],
     "cardAlt": "Orbit on a teal card: two iPhone screens, contacts grouped by country and city, and a map with each contact pinned where they live.",
-    "tint": "#bdeae6"
+    "gradient": "linear-gradient(135deg,#0a3f3b 0%,#0c524c 40%,#0f665e 70%,#2a8a80 100%)",
+    "ink": "light"
   },
   {
     "slug": "country-badge",
@@ -183,7 +191,8 @@
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "Country Badge Generator on an emerald card: Brazil selected, three flag-colour backgrounds, SVG, PNG and JPG formats and a large badge preview.",
-    "tint": "#c5e7db"
+    "gradient": "linear-gradient(135deg,#14543f 0%,#1b644b 40%,#227457 65%,#3f9a77 100%)",
+    "ink": "light"
   },
   {
     "slug": "issues-graph",
@@ -201,7 +210,8 @@
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "Issues Graph on a graphite card: a chain of four GitHub issues, one ready, two blocked and one needing attention, joined by blocker-to-dependent arrows.",
-    "tint": "#d2dae3"
+    "gradient": "linear-gradient(135deg,#1e2733 0%,#27323f 40%,#34414f 70%,#51606f 100%)",
+    "ink": "light"
   },
   {
     "slug": "moon-uniform",
@@ -224,7 +234,8 @@
     },
     "kinds": ["typeface"],
     "cardAlt": "Moon Uniform on a forest-green card: a specimen sheet with the word Moon and the letters A to Z set in the Moon alphabet.",
-    "tint": "#c7e6de"
+    "gradient": "linear-gradient(135deg,#123a2d 0%,#17473a 40%,#1f5a48 70%,#3b7d64 100%)",
+    "ink": "light"
   },
   {
     "slug": "lights",
@@ -244,11 +255,12 @@
     "image": {
       "src": "../src/assets/projects/lights.png",
       "alt": "Small points of light drifting across a dark field",
-      "fit": "cover"
+      "fit": "full"
     },
     "kinds": ["experiment"],
     "cardAlt": "Lights, generative art: a frame of the piece, small white, blue and amber lights and the faint trails of two bonds drifting in the night.",
-    "tint": "#dadadd"
+    "gradient": "#05080d radial-gradient(700px 520px at 78% 40%,#16090c 0%,transparent 70%)",
+    "ink": "light"
   },
   {
     "slug": "linguae",
@@ -266,6 +278,7 @@
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "Linguae on a rose card: the language table with its filters, codes and status chips such as vigorous, threatened and endangered.",
-    "tint": "#e9bfcd"
+    "gradient": "linear-gradient(135deg,#6a1030 0%,#86193d 38%,#a52a52 68%,#c64b72 100%)",
+    "ink": "light"
   }
 ]

@@ -24,12 +24,12 @@ export function tileFor(project: Project, index: number): TileColor {
 }
 
 /**
- * What a tile is painted with. A project whose social card exists carries a
- * tint softened from that card, so the tile and the card read as one product;
- * the named palette is the fallback for anything without a card yet.
+ * What a tile is painted with. A project whose social card exists carries that
+ * card's own gradient, so the tile and the card read as one product; the named
+ * palette is the fallback for anything without a card yet.
  */
 export function tileValue(project: Project, index: number): string {
-  return project.tint ?? `var(--tile-${tileFor(project, index)})`;
+  return project.gradient ?? `var(--tile-${tileFor(project, index)})`;
 }
 
 export interface ProjectLink {

@@ -38,16 +38,21 @@ const STRIP = `
   .copy { display: none !important; }
 `;
 
-// Lights is a dark field, not a window. Cropped as it sits on the card it comes
-// out as a hard-edged rectangle on a pastel tile, so it is given the same
-// rounded panel and shadow every other product's artwork already has.
-const LIGHTS_PANEL = `
+// Lights is one field of light, not a drawing on a ground, so its tile is that
+// field edge to edge (fit "full"): the card's own dark and its own drifting
+// lights, rendered with the copy hidden but the background kept, so the tile
+// and the picture are the same pixels and no seam can show. The frame is made
+// square, close to a tile's shape, and the field covers it; its mask clears
+// the top-left corner, where the tile's copy sits, instead of the card's left.
+const LIGHTS_FIELD = `
+  html, body { background: #05080d !important; }
+  .card { width: 1200px !important; height: 1200px !important; }
+  .copy { display: none !important; }
   .field {
-    left: 560px !important; top: 60px !important;
-    width: 580px !important; height: 510px !important;
-    border-radius: 18px !important;
-    -webkit-mask-image: none !important; mask-image: none !important;
-    box-shadow: 0 40px 80px rgba(15,23,42,.30), 0 8px 20px rgba(15,23,42,.12) !important;
+    left: 0 !important; top: 0 !important;
+    width: 1200px !important; height: 1200px !important;
+    -webkit-mask-image: linear-gradient(160deg, transparent 0, transparent 30%, #000 62%) !important;
+    mask-image: linear-gradient(160deg, transparent 0, transparent 30%, #000 62%) !important;
   }
 `;
 
@@ -56,8 +61,9 @@ await mkdir(OUT, { recursive: true });
 
 for (const [slug, repo] of Object.entries(REPOS)) {
   const html = path.join(SIBLINGS, repo, CARD);
+  const full = slug === "lights";
   const page = await browser.newPage({
-    viewport: { width: 1200, height: 630 },
+    viewport: { width: 1200, height: full ? 1200 : 630 },
     deviceScaleFactor: 2,
   });
   try {
@@ -67,11 +73,18 @@ for (const [slug, repo] of Object.entries(REPOS)) {
     await page.close();
     continue;
   }
-  await page.addStyleTag({ content: slug === "lights" ? STRIP + LIGHTS_PANEL : STRIP });
+  await page.addStyleTag({ content: full ? LIGHTS_FIELD : STRIP });
   // The cards animate nothing, but web fonts and the Lights canvas settle late.
   await page.waitForTimeout(600);
-  const shot = await page.screenshot({ omitBackground: true });
+  const shot = await page.screenshot({ omitBackground: !full });
   await page.close();
+
+  if (full) {
+    // Opaque and whole: nothing to trim, and the tile crops it with object-fit.
+    await writeFile(path.join(OUT, `${slug}.png`), shot);
+    process.stdout.write(`${slug}.png written\n`);
+    continue;
+  }
 
   const raw = path.join(OUT, `${slug}.raw.png`);
   await writeFile(raw, shot);
