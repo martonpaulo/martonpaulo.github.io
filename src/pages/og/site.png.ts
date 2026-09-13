@@ -4,6 +4,7 @@ import path from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import type { APIRoute } from "astro";
 import satori from "satori";
+import sharp from "sharp";
 
 import { getPerson, getSite } from "../../lib/db";
 import { woffToSfnt } from "../../lib/fonts";
@@ -146,12 +147,23 @@ export const GET: APIRoute = async () => {
 
   // satori emits glyph outlines, so resvg needs no fonts; scanning the system
   // font database is what made each render take seconds instead of milliseconds.
-  const png = new Resvg(svg, {
+  const rendered = new Resvg(svg, {
     fitTo: { mode: "width", value: WIDTH },
     font: { loadSystemFonts: false },
   })
     .render()
     .asPng();
+
+  // resvg writes a fast, lightly compressed RGBA PNG: 347 KB, over the 300 KB share-image limit
+  // (skill-deck public-pages.md; WhatsApp has a soft limit near it). The card is fully opaque, so
+  // the alpha channel is dropped and the PNG re-encoded at the highest zlib level with adaptive
+  // filtering. Lossless: the pixels are identical, only the bytes shrink (about 218 KB). Do not add
+  // `effort`, `quality`, `colours` or `dither` here: any of them switches sharp to a palette PNG,
+  // which is lossy and bands the gradient glow.
+  const png = await sharp(rendered)
+    .removeAlpha()
+    .png({ compressionLevel: 9, adaptiveFiltering: true })
+    .toBuffer();
 
   return new Response(new Uint8Array(png), {
     headers: { "Content-Type": "image/png" },
