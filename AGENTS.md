@@ -17,7 +17,6 @@
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
 - Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0` and is not a product version. Every push to `main` whose validation passes deploys.
-- Agent automation: `disabled`
 - Merge policy: pull requests are the exception. When one is used, it is merged with a merge commit, `gh pr merge <number> --merge --delete-branch`, so every branch commit reaches `main`, and the repository allows no other method (martonpaulo/skill-deck#277).
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
@@ -28,7 +27,7 @@
 - Skills baseline applied: `2026-09-08`
 - Skills baseline divergence `host-fixed-repository-name` (owner decision, 2026-09-17, martonpaulo/skill-deck#286): the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io`. The project name, the repository, the `~/proj` folder and the npm package name all use it; the public name stays `martonpaulo.com`.
 
-Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, agent-automation decision, or release policy only through an explicit task that describes the migration and downstream effects.
+Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, or release policy only through an explicit task that describes the migration and downstream effects.
 
 ## What the site is
 
@@ -284,13 +283,13 @@ copy.
 ### Raise the card through the question tool
 
 A card written only as Markdown is a message, and a message ends the turn. The agent stops, the
-orchestrator marks the session idle, and a decision that was genuinely blocking looks answered.
+client shows the session as finished, and a decision that was genuinely blocking looks answered.
 The card is the record; it is not the asking.
 
 So whenever the client offers a native structured-question facility — `AskUserQuestion` in Claude
 Code, the equivalent elicitation or form input in other agents — put the question through it. The
-tool call is what actually holds the turn open, and it is what makes an orchestrated session
-report **Blocked** rather than looking finished. Map the card onto it directly: the card's heading becomes the question, each row of the
+tool call is what actually holds the turn open and what puts the session in the _needs you_
+column. Map the card onto it directly: the card's heading becomes the question, each row of the
 options table becomes one option with its tradeoffs as the description, and the recommended option
 goes first, marked as recommended.
 
