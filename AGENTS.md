@@ -2,7 +2,7 @@
 
 ## Project identity and policy
 
-- Project name: `martonpaulo.com`
+- Project name: `martonpaulo.github.io`
 - Public name: `martonpaulo.com`
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
@@ -26,6 +26,7 @@
 - Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
 - Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
 - Skills baseline applied: `2026-09-08`
+- Skills baseline divergence `host-fixed-repository-name` (owner decision, 2026-09-17, martonpaulo/skill-deck#286): the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io`. The project name, the repository, the `~/proj` folder and the npm package name all use it; the public name stays `martonpaulo.com`.
 
 Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, agent-automation decision, or release policy only through an explicit task that describes the migration and downstream effects.
 
