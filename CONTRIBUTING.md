@@ -14,7 +14,7 @@ pass afterwards.
 
 Open an issue first. [`docs/product.md`](docs/product.md) says what the site is for and what it will
 never do, each non-goal with its reason — if a proposal contradicts one, the answer is already in
-that file. [`docs/design.md`](docs/design.md) explains what each design token means; a visual change
+that file. [`docs/design-system.md`](docs/design-system.md) explains what each design token means; a visual change
 that cannot be explained in its terms does not belong. [`AGENTS.md`](AGENTS.md) records the patterns
 the code repeats.
 

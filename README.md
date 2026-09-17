@@ -71,7 +71,7 @@ TypeScript stays on major 6 until `astro check` supports 7.
 | Put a project on the home page             | Set its `featured` to `true` and give it an `image` and a `tile`. Three to nine fit.                                                                                          |
 | Change the order of projects within a year | Reorder them in `db/projects.json`; the site keeps the file's order.                                                                                                          |
 | Give a project a short link                | Every project with a `live` URL already answers at `/p/<slug>/`.                                                                                                              |
-| Change a colour, font or spacing           | Read `docs/design.md`, then change the token in `src/styles/tokens.scss`.                                                                                                     |
+| Change a colour, font or spacing           | Read `docs/design-system.md`, then change the token in `src/styles/tokens.scss`.                                                                                              |
 | Run everything CI runs                     | `pnpm validate`                                                                                                                                                               |
 | Check the share images                     | `pnpm build`, then look in `dist/og/`.                                                                                                                                        |
 
@@ -79,18 +79,18 @@ TypeScript stays on major 6 until `astro check` supports 7.
 
 ## How it is put together
 
-| Where                      | What it owns                                                                                  |
-| :------------------------- | :-------------------------------------------------------------------------------------------- |
-| `db/`                      | Every word of content and interface copy, one JSON file per collection                        |
-| `src/content.config.ts`    | The collections and schemas over `db/`                                                        |
-| `src/lib/`                 | Typed readers and the logic pages call: projects, navigation, seo, copy                       |
-| `src/layouts/Base.astro`   | The `<head>`: title, description, canonical, Open Graph, JSON-LD, fonts                       |
-| `src/components/`          | One `.astro` (markup) beside one `.scss` (style) per component                                |
-| `src/styles/`              | Tokens, element defaults, utilities, motion, the breakpoint mixin, page styles                |
-| `src/pages/`               | index, projects, a page per project and per kind, about, 404                                  |
-| `src/pages/og/site.png.ts` | The one share image, rendered with satori and resvg                                           |
-| `src/assets/`              | Project artwork and the share image's ground                                                  |
-| `docs/`                    | `product.md` (what the site is for and will never do) and `design.md` (what each token means) |
+| Where                      | What it owns                                                                                         |
+| :------------------------- | :--------------------------------------------------------------------------------------------------- |
+| `db/`                      | Every word of content and interface copy, one JSON file per collection                               |
+| `src/content.config.ts`    | The collections and schemas over `db/`                                                               |
+| `src/lib/`                 | Typed readers and the logic pages call: projects, navigation, seo, copy                              |
+| `src/layouts/Base.astro`   | The `<head>`: title, description, canonical, Open Graph, JSON-LD, fonts                              |
+| `src/components/`          | One `.astro` (markup) beside one `.scss` (style) per component                                       |
+| `src/styles/`              | Tokens, element defaults, utilities, motion, the breakpoint mixin, page styles                       |
+| `src/pages/`               | index, projects, a page per project and per kind, about, 404                                         |
+| `src/pages/og/site.png.ts` | The one share image, rendered with satori and resvg                                                  |
+| `src/assets/`              | Project artwork and the share image's ground                                                         |
+| `docs/`                    | `product.md` (what the site is for and will never do) and `design-system.md` (what each token means) |
 
 <br />
 

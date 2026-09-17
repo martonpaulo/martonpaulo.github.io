@@ -1,7 +1,7 @@
 @use "./breakpoints" as bp;
 
 /*
-  Design tokens. The reasoning is in docs/design.md; change a value there
+  Design tokens. The reasoning is in docs/design-system.md; change a value there
   first, then here. Components use only these variables: no colour, font,
   radius or spacing is written anywhere else.
   Breakpoints cannot be variables: tablet is 48rem and ultrawide is 112rem, everywhere.

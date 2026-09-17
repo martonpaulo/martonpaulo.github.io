@@ -40,7 +40,7 @@ answer is in that file, not in this one.
 ## Agent skill paths
 
 - Product definition: `docs/product.md`
-- Design rationale: `docs/design.md`
+- Design rationale: `docs/design-system.md`
 - Domain glossary: `CONTEXT.md` (optional; create only when useful)
 - ADRs: `docs/adr/` (create only with the first decision record)
 - Research notes: `docs/research/` (create only when persisting research)
@@ -88,7 +88,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   `src/styles/pages/`. Anything that computes lives in `src/lib/*.ts` (`projects.ts`,
   `navigation.ts`, `links.ts`, `images.ts`, `pages.ts`, `person.ts`, `seo.ts`, `copy.ts`), so a
   frontmatter block reads data and calls functions and does nothing else.
-- **Visual decisions are tokens.** `docs/design.md` explains them; `src/styles/tokens.scss` holds
+- **Visual decisions are tokens.** `docs/design-system.md` explains them; `src/styles/tokens.scss` holds
   them as CSS custom properties; components use only the variables. Sizes use `rem` on a doubling
   scale (`--space-1` … `--space-6`). Breakpoints are the one Sass mixin, in
   `src/styles/_breakpoints.scss`, so no width is repeated by hand. No utility framework, no inline
@@ -108,7 +108,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   container widens on ultrawide instead of stretching the cards.
 - **No script.** The site ships no client JavaScript. A page change is the browser's own
   cross-document view transition (`@view-transition` in `src/styles/motion.scss`), as described in
-  [Design: Motion](docs/design.md#motion). Astro's `<ClientRouter />` did this until 2026-09-13 and
+  [Design: Motion](docs/design-system.md#motion). Astro's `<ClientRouter />` did this until 2026-09-13 and
   was removed because its module in `<head>` delayed the first paint on a throttled phone by
   176 ms (FCP 956 → 780 ms); a feature that needs a script must say what it does that HTML and CSS cannot.
 - **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
@@ -199,7 +199,7 @@ For any command, process, browser action, integration, or delegated task likely 
 
 ## Product interface and accessibility
 
-- Read `docs/design.md` before any visual change. It says what the site is meant to signify and
+- Read `docs/design-system.md` before any visual change. It says what the site is meant to signify and
   why each token exists; a change that cannot be explained in its terms does not belong. The
   visual reference is seanhalpin.xyz; the owner's taste is minimal, personal and never template-like.
 - Prefer native HTML and established patterns. Custom UI must provide clear product value.
