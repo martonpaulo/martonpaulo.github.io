@@ -26,6 +26,9 @@ export default defineConfig({
     "/projects/todo-print-editor/": "/projects/todo-print/",
     "/p/country-badge-generator/": "/p/country-badge/",
     "/p/todo-print-editor/": "/p/todo-print/",
+    // AtlasTint took the one-word slug of its brand in September 2026.
+    "/projects/atlas-tint/": "/projects/atlastint/",
+    "/p/atlas-tint/": "/p/atlastint/",
     ...projectRedirects,
   },
   integrations: [sitemap({ filter: (page) => !page.includes("/p/") })],

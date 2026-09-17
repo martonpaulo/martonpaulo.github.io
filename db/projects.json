@@ -69,7 +69,7 @@
     "ink": "light"
   },
   {
-    "slug": "atlas-tint",
+    "slug": "atlastint",
     "name": "AtlasTint",
     "tagline": "An interactive SVG atlas for colouring and tracking regions of the world.",
     "description": "Select countries and regions, give them colours, and keep the result locally. Built on D3 and TopoJSON with keyboard navigation for every region, because a map you can only use with a mouse is only half a map.",
