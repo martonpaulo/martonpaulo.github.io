@@ -18,7 +18,7 @@
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
 - Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0` and is not a product version. Every push to `main` whose validation passes deploys.
 - Agent automation: `disabled`
-- Merge policy: pull requests are the exception. When one is used, it is squash-merged with `gh pr merge <number> --squash --delete-branch`, and the repository allows no other method.
+- Merge policy: pull requests are the exception. When one is used, it is merged with a merge commit, `gh pr merge <number> --merge --delete-branch`, so every branch commit reaches `main`, and the repository allows no other method (martonpaulo/skill-deck#277).
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
 - Default branch review policy: no required approving review or required pull request; delivery is directly to `main` after `pnpm validate`. Existing optional pull requests do not change this policy.
@@ -26,7 +26,6 @@
 - Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
 - Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
 - Skills baseline applied: `2026-09-08`
-- Skills baseline divergence `merge-policy` at `7cfc324fcded57145c36cc678977c070ed800692`: the `AGENTS.md` template still prescribes merge commits, while `skd-github-publishing-conventions` changed the collection default to squash on 2026-09-03; this repository follows the conventions.
 
 Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, agent-automation decision, or release policy only through an explicit task that describes the migration and downstream effects.
 
