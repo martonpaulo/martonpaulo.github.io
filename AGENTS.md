@@ -2,8 +2,10 @@
 
 ## Project identity and policy
 
-- Project name: `martonpaulo.github.io`
-- Public name: `martonpaulo.com`
+- Display name: `martonpaulo.com`
+- Code name: `MartonpauloCom`
+- Slug: `martonpaulo.github.io`
+- Identifier name: `martonpaulogithubio`
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
@@ -25,7 +27,7 @@
 - Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
 - Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
 - Skills baseline applied: `2026-09-08`
-- Skills baseline divergence `host-fixed-repository-name` (owner decision, 2026-09-17, martonpaulo/skill-deck#286): the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io`. The project name, the repository, the `~/proj` folder and the npm package name all use it; the public name stays `martonpaulo.com`.
+- Skills baseline divergence `host-fixed-repository-name` (owner decision, 2026-09-17, martonpaulo/skill-deck#286): the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io`. The repository, the `~/proj` folder and the npm package name all use it; the display name stays `martonpaulo.com` and the identifier name drops the dots (`martonpaulogithubio`).
 
 Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, or release policy only through an explicit task that describes the migration and downstream effects.
 
@@ -217,9 +219,9 @@ For any command, process, browser action, integration, or delegated task likely 
 - Durable documentation describes responsibilities, contracts, invariants, commands, and decisions. Audits cite exact evidence. Manuals use exact filenames only when users must act on them and the names are stable contracts.
 - Update the smallest canonical documentation section when a durable contract changes. Do not create empty documentation for possible future use.
 - Keep the README easy to scan. Cover benefit, behavior, requirements, setup, usage, validation, security, privacy, limitations, landing page, and download where applicable.
-- When creating a README or materially updating one, use the recorded `Public name` above as the H1
+- When creating a README or materially updating one, use the recorded `Display name` above as the H1
   and preserve an existing approved H1, including its branding and casing. Humanize the raw
-  repository slug only when the public name is unresolved; never mechanically title-case an
+  repository slug only when the display name is unresolved; never mechanically title-case an
   approved name or sweep unrelated README content.
 - Every fenced code block you create or materially edit has an explicit language identifier. Use
   the real language for code or configuration and `text` for plain commands or output; leave
