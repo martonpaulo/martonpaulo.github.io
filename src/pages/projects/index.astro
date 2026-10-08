@@ -6,14 +6,16 @@ import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects } from "../../lib/db";
 import { countByKind } from "../../lib/projects";
+import { discontinuedLast } from "../../lib/status";
 
 const projects = await getProjects();
 const { projects: copy } = await getCopy();
-// One list: the selected projects first, in their authored order, then everything else by year.
-const listed = [
+// One list: the selected projects first, in their authored order, then everything else by year,
+// and discontinued projects after all of them.
+const listed = discontinuedLast([
   ...projects.filter((project) => project.featured),
   ...byYear(projects.filter((project) => !project.featured)),
-];
+]);
 const counts = countByKind(projects, projectKinds);
 ---
 

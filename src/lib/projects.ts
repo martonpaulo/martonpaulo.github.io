@@ -2,6 +2,7 @@ import type { CollectionEntry } from "astro:content";
 
 import type { projectKinds, tileColors } from "../content.config";
 import { type Copy, fill, listOf } from "./copy";
+import { isDiscontinued, monthYear } from "./status";
 
 export type Project = CollectionEntry<"projects">["data"];
 export type ProjectKind = (typeof projectKinds)[number];
@@ -99,12 +100,36 @@ export function filterOptions(
   ];
 }
 
+const statusLabels = {
+  active: "maintained",
+  archived: "archived",
+  discontinued: "discontinued",
+} as const satisfies Record<Project["status"], keyof Copy["project"]>;
+
+function statusLabel(project: Project, copy: Copy["project"]): string {
+  return copy[statusLabels[project.status]];
+}
+
+/**
+ * "Discontinued in October 2026." and the reason, or null for a project that
+ * still lives.
+ */
+export function discontinuedNotice(
+  project: Project,
+  copy: Copy["project"],
+  locale: string,
+): string | null {
+  if (!isDiscontinued(project) || !project.discontinuedOn) return null;
+  const when = fill(copy.discontinuedOn, { month: monthYear(project.discontinuedOn, locale) });
+  return [when, project.discontinuedReason].filter(Boolean).join(" ");
+}
+
 /** The label/value rows a project page lists under its description. */
 export function projectMetaRows(project: Project, copy: Copy["project"]) {
   return [
     { term: copy.builtWith, value: project.stack.join(", ") },
     { term: copy.year, value: String(project.year) },
-    { term: copy.status, value: project.status === "archived" ? copy.archived : copy.maintained },
+    { term: copy.status, value: statusLabel(project, copy) },
   ];
 }
 

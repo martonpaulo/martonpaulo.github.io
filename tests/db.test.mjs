@@ -71,3 +71,30 @@ test("the bio only uses the {years} placeholder, counted from a career start in 
     `careerStart ${person.careerStart} is in the future`,
   );
 });
+
+test("a discontinued project says when and why it stopped, and no other project does", () => {
+  const fields = ["discontinuedOn", "discontinuedReason", "alternative"];
+  for (const project of projects) {
+    if (project.status !== "discontinued") {
+      for (const field of fields) {
+        assert.equal(
+          project[field],
+          undefined,
+          `${project.slug} is ${project.status} with ${field}`,
+        );
+      }
+      continue;
+    }
+    assert.match(
+      project.discontinuedOn ?? "",
+      /^\d{4}-(0[1-9]|1[0-2])$/,
+      `${project.slug} discontinuedOn`,
+    );
+    const [year, month] = project.discontinuedOn.split("-").map(Number);
+    assert.ok(
+      new Date(Date.UTC(year, month - 1)) <= new Date(),
+      `${project.slug} stops in the future`,
+    );
+    assert.ok(project.discontinuedReason?.trim(), `${project.slug} has no discontinuedReason`);
+  }
+});

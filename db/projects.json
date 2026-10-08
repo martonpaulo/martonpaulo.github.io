@@ -37,7 +37,10 @@
       "source": "https://github.com/martonpaulo/mailbell"
     },
     "featured": false,
-    "status": "active",
+    "status": "discontinued",
+    "discontinuedOn": "2026-10",
+    "discontinuedReason": "Gmail now reaches me through Beeper.",
+    "alternative": "https://www.beeper.com/",
     "kinds": ["macos"],
     "cardAlt": "The Mailbell bell icon and the words Free for Mac, open source, Mailbell, Gmail notifications in your menu bar, beside a drawing of the Mailbell menu: Accounts, three messages awaiting review, All Messages, Check Now, Settings and Quit Mailbell.",
     "gradient": "linear-gradient(135deg,#fffbeb 0%,#fef3c7 30%,#fde68a 70%,#fcd663 100%)",

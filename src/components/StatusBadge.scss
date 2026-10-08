@@ -1,0 +1,18 @@
+// Quiet on purpose: the project is still worth reading about, so the badge
+// informs without alarming. Its ink comes from where it sits: muted text on the
+// page, muted tile ink on a card.
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  border: var(--hairline) solid currentcolor;
+  border-radius: var(--radius-pill);
+  color: var(--status-badge-ink, var(--text-muted));
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-body);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: var(--leading-body);
+  text-transform: uppercase;
+  white-space: nowrap;
+}

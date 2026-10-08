@@ -151,3 +151,9 @@
     filter: var(--shadow-relief);
   }
 }
+
+// On a tile the badge takes the tile's muted ink, and keeps its own width.
+.project-card__status {
+  --status-badge-ink: var(--tile-ink-muted);
+  justify-self: start;
+}

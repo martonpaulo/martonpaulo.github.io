@@ -127,6 +127,10 @@ const copy = defineCollection({
       status: z.string(),
       maintained: z.string(),
       archived: z.string(),
+      /** The badge on a card, a row and a project page, and the Status row's value. */
+      discontinued: z.string(),
+      discontinuedOn: z.string(),
+      alternative: z.string(),
       open: z.string(),
       source: z.string(),
       package: z.string(),
@@ -212,7 +216,19 @@ const projects = defineCollection({
       /** Shown when a project has no public link, so the absence reads as a decision. */
       note: z.string().optional(),
       featured: z.boolean(),
-      status: z.enum(["active", "archived"]),
+      // archived: it still runs, unmaintained. discontinued: the product stopped, and
+      // the three fields below say when, why and where to go instead. They are set
+      // exactly when a project is discontinued, which tests/db.test.mjs checks.
+      status: z.enum(["active", "archived", "discontinued"]),
+      /** The month it stopped, as YYYY-MM. */
+      discontinuedOn: z
+        .string()
+        .regex(/^\d{4}-(0[1-9]|1[0-2])$/)
+        .optional(),
+      /** One short sentence, shown after "Discontinued in <Month YYYY>." */
+      discontinuedReason: z.string().optional(),
+      /** Where to go instead, when a public alternative exists. */
+      alternative: z.url().optional(),
       tile: z.enum(tileColors).optional(),
       image: z
         .object({

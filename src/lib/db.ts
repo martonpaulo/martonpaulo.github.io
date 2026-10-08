@@ -1,6 +1,7 @@
 import { getCollection, getEntry } from "astro:content";
 
 import type { Project } from "./projects";
+import { discontinuedLast } from "./status";
 
 const missing = (name: string) => new Error(`db/${name}.json is missing or empty`);
 
@@ -33,8 +34,9 @@ export async function getProjects(): Promise<Project[]> {
   return entries.map((entry) => entry.data).sort((a, b) => a.order - b.order);
 }
 
+/** The home grid: the featured ones in their written order, discontinued ones last. */
 export async function getFeaturedProjects() {
-  return (await getProjects()).filter((project) => project.featured);
+  return discontinuedLast((await getProjects()).filter((project) => project.featured));
 }
 
 /** Newest first, then the order written in db/projects.json. */

@@ -1,0 +1,29 @@
+---
+import "./StatusBadge.scss";
+
+import { getCopy } from "../lib/db";
+import { isDiscontinued } from "../lib/status";
+import type { Project } from "../lib/projects";
+
+/**
+ * "Discontinued", as a word in a pill: the status is read, never inferred from a
+ * colour. Renders nothing for a project that still lives. The word is the
+ * badge's accessible name; pass `id` when a link names itself from it.
+ */
+interface Props {
+  project: Project;
+  id?: string;
+  class?: string;
+}
+
+const { project, id, class: className } = Astro.props;
+const { project: copy } = await getCopy();
+---
+
+{
+  isDiscontinued(project) && (
+    <span class:list={["status-badge", className]} id={id}>
+      {copy.discontinued}
+    </span>
+  )
+}

@@ -6,7 +6,9 @@ import { Image } from "astro:assets";
 import { getCopy } from "../lib/db";
 import { cardImageSizes, cardImageWidths, imageQuality, isPriorityCard } from "../lib/images";
 import { kindLabel, projectPath, tileValue, type Project } from "../lib/projects";
+import { isDiscontinued } from "../lib/status";
 import Eyebrow from "./Eyebrow.astro";
+import StatusBadge from "./StatusBadge.astro";
 
 /**
  * A project as a pastel tile: kind, name, one line, and its artwork bleeding
@@ -31,12 +33,15 @@ const art = project.image;
 // The link points at its own heading rather than repeating the name, so the
 // copy keeps one owner and the accessible name is the visible one.
 const titleId = `project-card-title-${project.slug}`;
+// A discontinued project's link names its status too, so it is never heard as a live one.
+const badgeId = `project-card-status-${project.slug}`;
+const labelledBy = isDiscontinued(project) ? `${titleId} ${badgeId}` : titleId;
 ---
 
 <a
   class="project-card"
   href={projectPath(project)}
-  aria-labelledby={titleId}
+  aria-labelledby={labelledBy}
   style={`--tile: ${tile}`}
   data-ink={project.ink}
 >
@@ -44,6 +49,7 @@ const titleId = `project-card-title-${project.slug}`;
     <div class="project-card__info">
       <Eyebrow class="project-card__kind">{kindLabel(project, kinds)}</Eyebrow>
       <Heading class="project-card__title" id={titleId}>{project.name}</Heading>
+      <StatusBadge project={project} id={badgeId} class="project-card__status" />
       <p class="project-card__tagline">{project.tagline}</p>
     </div>
     {

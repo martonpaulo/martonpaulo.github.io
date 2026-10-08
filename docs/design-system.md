@@ -72,6 +72,11 @@ transparent background and a dark halo, so it reads on a white, black or coloure
 **A floating pill for navigation.** Three destinations and the mark, translucent over the page,
 sticky at the top. It never grows a menu because there is nothing to hide in it.
 
+**A stopped project says so in words.** A discontinued project keeps its row, card and page, with a
+quiet "Discontinued" pill beside its name, outlined in the surrounding muted ink, never a warning
+colour: the work is still worth reading about. Its page adds when it stopped, why, and where to go
+instead, and every list puts it after the projects that still live (#26).
+
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
 eyebrow and one claim as the heading: "Software made with care". Section headings are
 nouns ("Work", "Lately", "Get in touch"), not greetings, and no heading ends in a full stop. No adjectives about passion; the

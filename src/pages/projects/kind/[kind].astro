@@ -7,6 +7,7 @@ import Base from "../../../layouts/Base.astro";
 import { byYear, getCopy, getProjects } from "../../../lib/db";
 import { fill, lowerFirst } from "../../../lib/copy";
 import { countByKind, type ProjectKind } from "../../../lib/projects";
+import { discontinuedLast } from "../../../lib/status";
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -21,11 +22,12 @@ const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
 const ofKind = projects.filter((project) => project.kinds.includes(kind));
-// One list, as on the projects page: the selected ones first, then the rest by year.
-const listed = [
+// One list, as on the projects page: the selected ones first, then the rest by year,
+// discontinued ones last.
+const listed = discontinuedLast([
   ...ofKind.filter((project) => project.featured),
   ...byYear(ofKind.filter((project) => !project.featured)),
-];
+]);
 const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---

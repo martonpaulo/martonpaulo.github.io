@@ -89,3 +89,9 @@
   font-weight: var(--weight-display);
   font-size: var(--text-lg);
 }
+
+// When and why the project stopped, under its one line, in the same quiet voice.
+.project__notice {
+  max-width: var(--measure);
+  color: var(--text-muted);
+}

@@ -6,10 +6,12 @@ import { Image } from "astro:assets";
 import Button from "../../components/Button.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
 import { heroImageSizes, heroImageWidths, imageQuality, projectCard } from "../../lib/images";
 import {
+  discontinuedNotice,
   kindLabel,
   projectDescription,
   projectLinks,
@@ -19,9 +21,11 @@ import {
   tileValue,
 } from "../../lib/projects";
 import { softwareNode } from "../../lib/seo";
+import { discontinuedLast } from "../../lib/status";
 
 export async function getStaticPaths() {
-  const projects = byYear(await getProjects());
+  // The same order the projects list reads in, so Newer and Older walk it.
+  const projects = discontinuedLast(byYear(await getProjects()));
   return projects.map((project, index) => ({
     params: { slug: project.slug },
     props: { project, ...siblingsOf(projects, index) },
@@ -34,6 +38,7 @@ const copy = (await getCopy()).project;
 const label = kindLabel(project, (await getCopy()).kinds);
 const links = projectLinks(project, copy);
 const description = projectDescription(project, copy, site.name);
+const notice = discontinuedNotice(project, copy, site.locale);
 // A project page shows the product's own social card, whole: the same picture
 // the rest of the web sees when the link is shared. The home tiles show the
 // drawing alone, which is a different job.
@@ -50,7 +55,22 @@ const card = projectCard(project.slug);
     <header class="project__header stack-center">
       <Eyebrow as="p">{label}</Eyebrow>
       <h1 class="project__title">{project.name}</h1>
+      <StatusBadge project={project} />
       <p class="lede">{project.tagline}</p>
+      {
+        notice && (
+          <p class="project__notice">
+            {notice}
+            {project.alternative && (
+              <>
+                {" "}
+                {copy.alternative}{" "}
+                <a href={project.alternative}>{new URL(project.alternative).host}</a>
+              </>
+            )}
+          </p>
+        )
+      }
       {
         (links.length > 0 || project.note) && (
           <div class="project__actions actions">

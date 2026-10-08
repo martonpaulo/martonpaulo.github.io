@@ -88,3 +88,23 @@
   margin-top: calc((var(--touch-target) - var(--text-lg) * var(--leading-snug)) / 2);
   border-radius: var(--radius-sm);
 }
+
+// The name stays the link; the badge follows it on the same line.
+.project-row__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
+}
+
+// On a phone the badge wraps under the name, into the room the tagline rises into,
+// so that room is given back. From tablets up the badge stays on the name's line.
+.project-row__title:has(.status-badge) {
+  padding-bottom: var(--space-2);
+}
+
+@include bp.up("tablet") {
+  .project-row__title:has(.status-badge) {
+    padding-bottom: 0;
+  }
+}

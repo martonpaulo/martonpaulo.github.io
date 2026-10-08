@@ -6,6 +6,7 @@ import { Image } from "astro:assets";
 import { getCopy } from "../lib/db";
 import { projectIcon, ROW_ICON_SIZE } from "../lib/images";
 import { kindPath, projectPath, type Project } from "../lib/projects";
+import StatusBadge from "./StatusBadge.astro";
 
 /** A project as one line in the list: its icon, name, what it does, kind and year. */
 interface Props {
@@ -41,7 +42,13 @@ const href = projectPath(project);
     )
   }
   <div class="project-row__text">
-    <Heading class="project-row__title"><a href={href}>{project.name}</a></Heading>
+    {
+      /* The badge sits in the heading, so the heading reads "Mailbell Discontinued"
+         and the status is heard where the project is named. */
+    }
+    <Heading class="project-row__title">
+      <a href={href}>{project.name}</a>{" "}<StatusBadge project={project} />
+    </Heading>
     <p class="project-row__tagline">{project.tagline}</p>
   </div>
   <p class="project-row__meta">
