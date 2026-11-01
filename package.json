@@ -35,7 +35,7 @@
     "@fontsource/gabarito": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^7.3.1",
-    "satori": "^0.33.4",
+    "satori": "^0.33.5",
     "sharp": "^0.35.4"
   },
   "devDependencies": {
