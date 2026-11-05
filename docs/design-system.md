@@ -129,6 +129,25 @@ Breakpoints are the one thing that cannot be a custom property, so they live onc
 `ultrawide` at 112 rem. Cards go from one column to two at `tablet` and to three at `ultrawide`;
 three is the ceiling, because a wider row turns a shelf of objects into a table of rows.
 
+### Published tokens
+
+The owner's other sites take this look from the build, never from a copy edited by hand. Every
+deploy publishes, built by `src/lib/design.ts`:
+
+| Address                                                                | Content                                                                            |
+| :--------------------------------------------------------------------- | :--------------------------------------------------------------------------------- |
+| `https://martonpaulo.com/design/tokens.css`                            | The `:root` custom properties compiled from `tokens.scss`, ultrawide rule included |
+| `https://martonpaulo.com/design/fonts.css`                             | `@font-face` for the two voices, `font-display: swap`                              |
+| `https://martonpaulo.com/design/fonts/figtree-latin-400-normal.woff2`  | Figtree 400, from `@fontsource/figtree`, beside `figtree-OFL.txt`                  |
+| `https://martonpaulo.com/design/fonts/gabarito-latin-700-normal.woff2` | Gabarito 700, from `@fontsource/gabarito`, beside `gabarito-OFL.txt`               |
+| `https://martonpaulo.com/design/manifest.json`                         | Each file's path, byte size and SHA-256, and the commit the build ran on           |
+
+Only the two weights the site loads are published; a reader uses those two voices and synthesises
+no other. A reader pins the manifest and checks drift on its side.
+
+A token's name is now a contract. Adding a token is free; renaming or removing one is announced to
+the sites that read these files before it ships, because their styles break silently otherwise.
+
 ## Checks every change passes
 
 Drawn from WCAG 2.2, Apple's Human Interface Guidelines and the usual practice of restraint, and

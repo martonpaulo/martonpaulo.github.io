@@ -31,7 +31,10 @@ export default defineConfig({
     "/p/atlas-tint/": "/p/atlastint/",
     ...projectRedirects,
   },
-  integrations: [sitemap({ filter: (page) => !page.includes("/p/") })],
+  // /p/ is redirects; /design/ is files for other sites, not pages.
+  integrations: [
+    sitemap({ filter: (page) => !page.includes("/p/") && !page.includes("/design/") }),
+  ],
   fonts: [
     {
       provider: fontProviders.fontsource(),
