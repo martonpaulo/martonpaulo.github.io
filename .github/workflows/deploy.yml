@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
   # The site states facts that age without a commit: the years worked in the
   # bio (counted from careerStart in db/person.json) and the footer's year.
-  # A monthly rebuild keeps both current, and has no prior Validate to wait
+  # A weekly rebuild (Monday, the fleet's slot, skill-deck#978) keeps both current, and has no prior Validate to wait
   # for, so it is a direct trigger.
   schedule:
-    - cron: "23 4 1 * *"
+    - cron: "17 6 * * 1"
 
 permissions:
   contents: read
