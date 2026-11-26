@@ -21,9 +21,10 @@
     box-shadow var(--state-duration) var(--state-ease);
 }
 
-// A button never moves: hover changes its fill and ink, a press darkens it in place (#45).
+// A button never moves: hover lightens its fill and adds the shared shadow, a press darkens it in
+// place (#45, #58). Primary and secondary differ only in their fill.
 .button {
-  @include states.pill;
+  @include states.button;
 }
 
 .button--primary {
@@ -33,10 +34,9 @@
 }
 
 .button--primary {
-  @include states.pill(
+  @include states.button(
     $hover-fill: var(--state-primary-hover-fill),
-    $hover-ink: var(--state-current-ink),
-    $hover-ring: true
+    $hover-ink: var(--state-current-ink)
   );
 }
 

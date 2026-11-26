@@ -197,3 +197,20 @@ test("only the state mixins style a current control or a hover and press fill or
   }
   assert.deepEqual(wrong, []);
 });
+
+// One hover for every button (#58): the ring belongs to a current pill alone, and the primary and
+// secondary buttons both take the button mixin, so neither can grow a hover of its own again.
+test("only a current pill draws the ring, and both buttons share one hover", async () => {
+  const ringed = [];
+  for (const { path, list } of all) {
+    for (const { selector, value, line } of list) {
+      if (value.includes("--state-hover-ring") && !selector.includes("[aria-current")) {
+        ringed.push(`src/${path}:${line}: ${selector}`);
+      }
+    }
+  }
+  assert.deepEqual(ringed, []);
+  const button = await readFile(join(SRC, "components/Button.scss"), "utf8");
+  const mixins = [...button.matchAll(/@include states\.([\w-]+)/g)].map((match) => match[1]);
+  assert.deepEqual(mixins, ["button", "button"]);
+});

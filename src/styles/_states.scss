@@ -12,14 +12,27 @@ $current: "[aria-current]";
 /// match only this, so they never reach a current or disabled control, whatever comes later.
 $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
 
-/// A pill: secondary button, tab, navigation item, icon button. At rest the component draws its
-/// own fill; hover takes the stronger fill and accent ink, a press darkens it in place. With
-/// `$has-current`, `aria-current` takes the accent fill, and pointing at, focusing or pressing a current
-/// pill only adds the shared ring: its fill and ink never change.
+/// A button, primary or secondary: one hover for both (#58). Its own fill lightens, its ink
+/// follows, and the shared button shadow appears; no ring, no growth. A press darkens it in place.
+@mixin button($hover-fill: var(--state-hover-fill), $hover-ink: var(--state-hover-ink)) {
+  &:where(#{$live}):hover {
+    background-color: $hover-fill;
+    color: $hover-ink;
+    box-shadow: var(--state-button-shadow);
+  }
+
+  &:where(#{$live}):active {
+    box-shadow: var(--state-press-shade), var(--state-button-shadow);
+  }
+}
+
+/// A pill: tab, navigation item, icon button. At rest the component draws its own fill; hover
+/// takes the stronger fill and accent ink, a press darkens it in place. With `$has-current`,
+/// `aria-current` takes the accent fill, and pointing at, focusing or pressing a current pill only
+/// adds the shared ring: its fill and ink never change.
 @mixin pill(
   $hover-fill: var(--state-hover-fill),
   $hover-ink: var(--state-hover-ink),
-  $hover-ring: false,
   $has-current: false,
   $current-fill: var(--state-current-fill),
   $current-ink: var(--state-current-ink)
@@ -27,18 +40,10 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
   &:where(#{$live}):hover {
     background-color: $hover-fill;
     color: $hover-ink;
-
-    @if $hover-ring {
-      box-shadow: var(--state-hover-ring);
-    }
   }
 
   &:where(#{$live}):active {
-    @if $hover-ring {
-      box-shadow: var(--state-press-shade), var(--state-hover-ring);
-    } @else {
-      box-shadow: var(--state-press-shade);
-    }
+    box-shadow: var(--state-press-shade);
   }
 
   @if $has-current {

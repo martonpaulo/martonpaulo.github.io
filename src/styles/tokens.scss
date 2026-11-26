@@ -144,9 +144,10 @@
   --state-hover-text: var(--text);
   --state-hover-opacity: 1;
   --state-primary-hover-fill: var(--primary-strong);
-  // The ring a pointer adds around a filled control: the primary button, and a current pill, whose
-  // fill and ink a hover never changes (#52).
+  // The ring a pointer adds around a current pill, whose fill and ink a hover never changes (#52).
   --state-hover-ring: 0 0 0 var(--space-1) var(--border);
+  // The shadow every button, primary or secondary, takes under the pointer (#58).
+  --state-button-shadow: var(--shadow-panel);
   // Pressed: the control darkens in place, whatever its fill, and never moves.
   --state-press-shade: inset 0 0 0 var(--radius-pill) rgb(0 0 0 / 18%);
   // The current retired tab (Earlier work, #53): the muted text faded as the retired icons are, so
