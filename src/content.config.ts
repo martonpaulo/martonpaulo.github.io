@@ -107,13 +107,15 @@ const copy = defineCollection({
     }),
     projects: z.object({
       title: z.string(),
+      /** Under the one heading every Projects tab shares (#54). */
       lede: z.string(),
+      /** Each tab's own sentence, under the tab row (#54). */
+      note: z.string(),
       description: z.string(),
       listHeading: z.string(),
       filterLabel: z.string(),
       filterAll: z.string(),
-      kindTitle: z.string(),
-      kindLede: z.string(),
+      kindNote: z.string(),
       kindDescription: z.string(),
       kindListHeading: z.string(),
     }),
@@ -156,7 +158,8 @@ const copy = defineCollection({
     earlier: z.object({
       tab: z.string(),
       title: z.string(),
-      lede: z.string(),
+      /** The tab's own sentence, under the tab row (#54). */
+      note: z.string(),
       description: z.string(),
       listHeading: z.string(),
     }),

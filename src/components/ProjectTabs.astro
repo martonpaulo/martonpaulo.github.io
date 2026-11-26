@@ -1,0 +1,48 @@
+---
+import "./ProjectTabs.scss";
+
+import type { FilterKey, KindCounts, RowItem } from "../lib/projects";
+import Hero from "./Hero.astro";
+import ProjectList from "./ProjectList.astro";
+import WorkFilters from "./WorkFilters.astro";
+
+/**
+ * The body of every Projects tab (#54). The tabs are filters of one page, so every tab shares one
+ * heading and one subtitle above the tab row, and nothing above the row changes between tabs.
+ * Each tab's own sentence sits under the row, laid out in one cell with the sentences of every
+ * other tab, invisible, so the cell is as tall as the longest at every width and the list starts
+ * at the same place on every tab.
+ */
+interface Props {
+  title: string;
+  lede: string;
+  current: FilterKey;
+  counts: KindCounts;
+  note: string;
+  notes: string[];
+  listHeading: string;
+  items: RowItem[];
+}
+
+const { title, lede, current, counts, note, notes, listHeading, items } = Astro.props;
+---
+
+<Hero title={title} lede={lede} />
+
+<WorkFilters current={current} counts={counts} />
+
+<div class="project-tabs__notes">
+  <p class="project-tabs__note">{note}</p>
+  {
+    notes.map((other) => (
+      <p class="project-tabs__note project-tabs__ghost" aria-hidden="true">
+        {other}
+      </p>
+    ))
+  }
+</div>
+
+<section class="section" aria-labelledby="list-heading">
+  <h2 id="list-heading" class="visually-hidden">{listHeading}</h2>
+  <ProjectList items={items} />
+</section>

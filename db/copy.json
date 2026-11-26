@@ -18,13 +18,13 @@
   },
   "projects": {
     "title": "Projects",
-    "lede": "The most-starred first, then everything else by year. Retired, older and study projects are under Earlier work.",
+    "lede": "Everything I build and look after today.",
+    "note": "The most-starred first, then everything else by year. Retired, older and study projects are under Earlier work.",
     "description": "Everything Marton Paulo has built: web, macOS and iOS apps, a browser extension, tablet plugins, a typeface and libraries, with live demos and source code.",
     "listHeading": "All projects",
     "filterLabel": "Filter by kind",
     "filterAll": "Everything",
-    "kindTitle": "{kind}",
-    "kindLede": "Only the {kind}: the most-starred first, then everything else by year.",
+    "kindNote": "Only the {kind}: the most-starred first, then everything else by year.",
     "kindDescription": "All the {kind} Marton Paulo has built, the most-starred first: what each one does, the stack behind it, a live demo where there is one, and the source code.",
     "kindListHeading": "All {kind}"
   },
@@ -64,7 +64,7 @@
   "earlier": {
     "tab": "Earlier work",
     "title": "Earlier work",
-    "lede": "Retired products, older projects and course exercises. Each one is dated by the years I worked on it, and most still run in the archive as I left them.",
+    "note": "Retired products, older projects and course exercises. Each one is dated by the years I worked on it, and most still run in the archive as I left them.",
     "description": "Earlier work by Marton Paulo: retired products, older projects and course exercises, each dated by when it was built.",
     "listHeading": "All earlier work"
   },

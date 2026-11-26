@@ -138,39 +138,27 @@ export function filterOptions(
   ];
 }
 
-export interface HeroText {
-  title: string;
-  lede: string;
-}
-
 /** A kind's plural inside a sentence: "web apps", "macOS apps", "Supernote plugins". */
 export function kindInSentence(kind: ProjectKind, kinds: Copy["kinds"]): string {
   return kinds[kind].sentence ?? lowerFirst(kinds[kind].many);
 }
 
-/** The hero of one kind's tab: "Web apps", "Only the web apps. Newest first." */
-export function kindHero(
-  kind: ProjectKind,
-  copy: Copy["projects"],
-  kinds: Copy["kinds"],
-): HeroText {
-  return {
-    title: fill(copy.kindTitle, { kind: kinds[kind].many }),
-    lede: fill(copy.kindLede, { kind: kindInSentence(kind, kinds) }),
-  };
+/** The sentence under one kind's tab: "Only the web apps: the most-starred first, …". */
+export function kindNote(kind: ProjectKind, copy: Copy["projects"], kinds: Copy["kinds"]): string {
+  return fill(copy.kindNote, { kind: kindInSentence(kind, kinds) });
 }
 
 /**
- * The hero of every Projects tab, in the tab row's order: Everything, each kind with a current
- * project, Earlier work. Each tab's hero reserves the room of all of them, so the tab row sits at
- * the same place on every tab (#43).
+ * The sentence of every Projects tab, in the tab row's order: Everything, each kind with a current
+ * project, Earlier work. Each tab reserves the room of all of them under the tab row, so the list
+ * starts at the same place on every tab (#54).
  */
-export function projectHeroes(counts: KindCounts, copy: Copy): HeroText[] {
+export function tabNotes(counts: KindCounts, copy: Copy): string[] {
   const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
   return [
-    { title: copy.projects.title, lede: copy.projects.lede },
-    ...present.map((kind) => kindHero(kind, copy.projects, copy.kinds)),
-    { title: copy.earlier.title, lede: copy.earlier.lede },
+    copy.projects.note,
+    ...present.map((kind) => kindNote(kind, copy.projects, copy.kinds)),
+    copy.earlier.note,
   ];
 }
 

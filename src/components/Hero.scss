@@ -15,29 +15,13 @@
   }
 }
 
-// The visible title and lede and their invisible twins share one grid cell, so the cell is as
-// tall as the tallest pair; each pair sits at its bottom, so a short one leaves its spare room
-// above the title, never between the lede and the tab row (#43).
-.hero__stack {
-  display: grid;
-  align-items: end;
-  width: 100%;
-
-  > * {
-    grid-area: 1 / 1;
-  }
-}
-
 .hero__text {
   display: grid;
+  width: 100%;
   justify-items: center;
   gap: var(--space-4);
 
   > * {
     margin: 0;
   }
-}
-
-.hero__ghost {
-  visibility: hidden;
 }

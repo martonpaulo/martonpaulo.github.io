@@ -1,18 +1,16 @@
 ---
-import Hero from "../../../components/Hero.astro";
-import ProjectList from "../../../components/ProjectList.astro";
-import WorkFilters from "../../../components/WorkFilters.astro";
+import ProjectTabs from "../../../components/ProjectTabs.astro";
 import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
-import { getCopy, getCurrentProjects, homeFirst } from "../../../lib/db";
 import { fill } from "../../../lib/copy";
+import { getCopy, getCurrentProjects, homeFirst } from "../../../lib/db";
 import {
   countByKind,
-  kindHero,
   kindInSentence,
+  kindNote,
   type ProjectKind,
-  projectHeroes,
   projectRow,
+  tabNotes,
 } from "../../../lib/projects";
 
 export async function getStaticPaths() {
@@ -31,18 +29,18 @@ const counts = countByKind(projects, projectKinds);
 const ofKind = projects.filter((project) => project.kinds.includes(kind));
 // One list, as on the projects page: the home page's ones first, then the rest by year.
 const listed = (await homeFirst(ofKind)).map((project) => projectRow(project, kinds));
-const label = kinds[kind].many;
 const vars = { kind: kindInSentence(kind, kinds) };
-const hero = kindHero(kind, copy, kinds);
 ---
 
-<Base title={label} description={fill(copy.kindDescription, vars)}>
-  <Hero title={hero.title} lede={hero.lede} reserve={projectHeroes(counts, allCopy)} />
-
-  <WorkFilters current={kind} counts={counts} />
-
-  <section class="section" aria-labelledby="list-heading">
-    <h2 id="list-heading" class="visually-hidden">{fill(copy.kindListHeading, vars)}</h2>
-    <ProjectList items={listed} />
-  </section>
+<Base title={kinds[kind].many} description={fill(copy.kindDescription, vars)}>
+  <ProjectTabs
+    title={copy.title}
+    lede={copy.lede}
+    current={kind}
+    counts={counts}
+    note={kindNote(kind, copy, kinds)}
+    notes={tabNotes(counts, allCopy)}
+    listHeading={fill(copy.kindListHeading, vars)}
+    items={listed}
+  />
 </Base>

@@ -13,3 +13,9 @@ export async function launchChrome(options = {}) {
     return chromium.launch({ executablePath: process.env.SKD_CHROME, headless: true, ...options });
   }
 }
+
+/** Opens `path` of the build served at `origin` in `page`; throws when it does not answer 200. */
+export async function openBuilt(page, origin, path) {
+  const response = await page.goto(`${origin}${path}`, { waitUntil: "load" });
+  if (!response?.ok()) throw new Error(`${path} answered ${response?.status()}`);
+}

@@ -1,11 +1,9 @@
 ---
-import Hero from "../../components/Hero.astro";
-import ProjectList from "../../components/ProjectList.astro";
-import WorkFilters from "../../components/WorkFilters.astro";
+import ProjectTabs from "../../components/ProjectTabs.astro";
 import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import { getCopy, getCurrentProjects, homeFirst } from "../../lib/db";
-import { countByKind, projectHeroes, projectRow } from "../../lib/projects";
+import { countByKind, projectRow, tabNotes } from "../../lib/projects";
 
 const projects = await getCurrentProjects();
 const allCopy = await getCopy();
@@ -17,12 +15,14 @@ const counts = countByKind(projects, projectKinds);
 ---
 
 <Base title={copy.title} description={copy.description}>
-  <Hero title={copy.title} lede={copy.lede} reserve={projectHeroes(counts, allCopy)} />
-
-  <WorkFilters current="all" counts={counts} />
-
-  <section class="section" aria-labelledby="list-heading">
-    <h2 id="list-heading" class="visually-hidden">{copy.listHeading}</h2>
-    <ProjectList items={listed} />
-  </section>
+  <ProjectTabs
+    title={copy.title}
+    lede={copy.lede}
+    current="all"
+    counts={counts}
+    note={copy.note}
+    notes={tabNotes(counts, allCopy)}
+    listHeading={copy.listHeading}
+    items={listed}
+  />
 </Base>

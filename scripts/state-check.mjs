@@ -26,7 +26,7 @@ import { join, relative, sep } from "node:path";
 
 import sharp from "sharp";
 
-import { launchChrome } from "./lib/browser.mjs";
+import { launchChrome, openBuilt } from "./lib/browser.mjs";
 import { ratio } from "./lib/contrast.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
 
@@ -154,8 +154,7 @@ try {
       () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
     );
   const visit = async (path) => {
-    const response = await page.goto(`${origin}${path}`, { waitUntil: "load" });
-    if (!response?.ok()) throw new Error(`${path} answered ${response?.status()}`);
+    await openBuilt(page, origin, path);
     // The page's arrival fades its content in; a label read mid-fade would measure faint.
     await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
   };

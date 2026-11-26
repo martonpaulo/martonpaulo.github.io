@@ -2,8 +2,8 @@
 //
 // - the content's left edge differs between a short page and a long one, which happens when only
 //   the long one shows a scrollbar and the page's width changes with it;
-// - the tab row's top differs between the Projects tabs, which happens when one tab's title or
-//   lede wraps to more lines than another's.
+// - the tab row's or the list's top differs between the Projects tabs at 390, 768, 1024, 1280 or
+//   1920 px, which happens when one tab's text above them wraps to more lines than another's (#54).
 //
 //   node scripts/layout-check.mjs dist
 //
@@ -15,7 +15,7 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 
-import { launchChrome } from "./lib/browser.mjs";
+import { launchChrome, openBuilt } from "./lib/browser.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
 
 const dist = process.argv[2];
@@ -37,6 +37,13 @@ const PHONE_HEIGHT = 812;
 /** A short page and one far longer, both under the same layout. */
 const SHORT_PAGE = "/projects/kind/typeface/";
 const LONG_PAGE = "/projects/earlier/";
+/** The widths at which every Projects tab must place its tab row and list alike (#54). */
+const TAB_WIDTHS = [390, 768, 1024, 1280, 1920];
+const TAB_HEIGHT = 900;
+/** What must not move between tabs, by the name a failure gives it. */
+const TAB_PARTS = { "tab row": ".work-filters", list: ".project-list" };
+/** The owner's limit between two tabs (#54). */
+const TOLERANCE_TABS = 1;
 /** Layout positions are whole or half pixels; anything above this is a real move. */
 const TOLERANCE = 0.5;
 
@@ -63,10 +70,7 @@ const browser = await launchChrome({
 try {
   for (const viewport of VIEWPORTS) {
     const page = await browser.newPage({ viewport, reducedMotion: "reduce" });
-    const visit = async (path) => {
-      const response = await page.goto(`${origin}${path}`, { waitUntil: "load" });
-      if (!response?.ok()) throw new Error(`${path} answered ${response?.status()}`);
-    };
+    const visit = (path) => openBuilt(page, origin, path);
     const left = async (path) => {
       await visit(path);
       return page.locator("main").evaluate((main) => main.getBoundingClientRect().left);
@@ -88,27 +92,44 @@ try {
       );
     }
 
-    await visit("/projects/");
+    process.stdout.write(`${viewport.name}: content edge ${short}px\n`);
+    await page.close();
+  }
+
+  // The tab row and the list under it start at the same place on every Projects tab, at every
+  // width the owner compared (#54).
+  for (const width of TAB_WIDTHS) {
+    const page = await browser.newPage({
+      viewport: { width, height: TAB_HEIGHT },
+      reducedMotion: "reduce",
+    });
+    await page.goto(`${origin}/projects/`, { waitUntil: "load" });
     const tabs = await page
       .locator(".work-filters a")
       .evaluateAll((links) => links.map((link) => new URL(link.href).pathname));
-    const tops = [];
+    const places = [];
     for (const path of tabs) {
-      await visit(path);
-      const top = await page
-        .locator(".work-filters")
-        .evaluate((row) => row.getBoundingClientRect().top + window.scrollY);
-      tops.push({ path, top });
+      await openBuilt(page, origin, path);
+      const place = await page.evaluate((parts) => {
+        const top = (selector) =>
+          document.querySelector(selector).getBoundingClientRect().top + window.scrollY;
+        return Object.fromEntries(Object.entries(parts).map(([name, at]) => [name, top(at)]));
+      }, TAB_PARTS);
+      places.push({ path, place });
     }
-    const [first] = tops;
-    for (const { path, top } of tops) {
-      if (Math.abs(top - first.top) > TOLERANCE) {
-        failures.push(
-          `${viewport.name}: the tab row is at ${top}px on ${path}, ${first.top}px on ${first.path}`,
-        );
+    const [first] = places;
+    for (const { path, place } of places) {
+      for (const name of Object.keys(TAB_PARTS)) {
+        if (Math.abs(place[name] - first.place[name]) > TOLERANCE_TABS) {
+          failures.push(
+            `${width}px: the ${name} is at ${place[name]}px on ${path}, ${first.place[name]}px on ${first.path}`,
+          );
+        }
       }
     }
-    process.stdout.write(`${viewport.name}: ${tabs.length} tabs, content edge ${short}px\n`);
+    process.stdout.write(
+      `${width}px: ${tabs.length} tabs, tab row at ${first.place["tab row"]}px\n`,
+    );
     await page.close();
   }
 

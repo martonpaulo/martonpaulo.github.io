@@ -1,0 +1,20 @@
+// Every tab's sentence shares one grid cell, so the cell is as tall as the tallest and the list
+// under it starts at the same place on every tab (#54); each sentence sits at the top of the cell.
+.project-tabs__notes {
+  display: grid;
+  margin-bottom: var(--space-4);
+  text-align: center;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.project-tabs__note {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.project-tabs__ghost {
+  visibility: hidden;
+}

@@ -96,8 +96,11 @@ colour back while the row is pointed at or holds focus; each stays a link like a
 
 **The tab row is three groups.** Everything, the whole list, comes first in the display face, bold
 and without a fill, and a divider follows it; then one chip per platform; then a divider and
-Earlier work. The current tab looks the same whichever it is. Every Projects hero reserves the room
-of the tallest one, so the tab row never moves between tabs, and every page reserves the
+Earlier work. The current tab looks the same whichever it is. The tabs are filters of one page, so
+every tab shares one heading and subtitle above the row, and each tab's own sentence sits under the
+row, in one cell that holds every tab's sentence invisibly, so neither the row nor the list moves
+between tabs at any width (`src/components/ProjectTabs.astro`, `pnpm layout-check`,
+[#54](https://github.com/martonpaulo/martonpaulo.github.io/issues/54)). Every page reserves the
 scrollbar's room, so nothing moves sideways between a short page and a long one
 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 
