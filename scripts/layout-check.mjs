@@ -133,6 +133,29 @@ try {
     await page.close();
   }
 
+  // A row's tagline sits the same distance under its name in every row, however many platform
+  // lines its meta has (#55).
+  for (const width of TAB_WIDTHS) {
+    const page = await browser.newPage({ viewport: { width, height: TAB_HEIGHT } });
+    await openBuilt(page, origin, "/projects/");
+    const gaps = await page.locator(".project-row").evaluateAll((rows) =>
+      rows.map((row) => ({
+        name: row.querySelector(".project-row__title a").textContent.trim(),
+        gap:
+          row.querySelector(".project-row__tagline").getBoundingClientRect().top -
+          row.querySelector(".project-row__title").getBoundingClientRect().top,
+      })),
+    );
+    for (const { name, gap } of gaps) {
+      if (Math.abs(gap - gaps[0].gap) > TOLERANCE_TABS) {
+        failures.push(
+          `${width}px: ${name}'s tagline is ${gap}px under its name, not ${gaps[0].gap}px`,
+        );
+      }
+    }
+    await page.close();
+  }
+
   // No page is wider than a phone's window: a wider one scrolls sideways when a link beyond the
   // edge takes focus, even where overflow-x: clip hides it from the pointer.
   const pages = await builtPages(dist);

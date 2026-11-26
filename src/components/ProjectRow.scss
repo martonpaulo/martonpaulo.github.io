@@ -22,17 +22,24 @@
 
 @include bp.up("tablet") {
   .project-row {
-    // The kinds and year take at most half the row and wrap there, so a project of several kinds
-    // never squeezes its name (#43).
-    grid-template-columns: var(--project-row-icon) minmax(0, 1fr) fit-content(50%);
+    grid-template-columns: var(--project-row-icon) minmax(0, 1fr) auto;
+    // A meta taller than the name and tagline grows the second row only, so the tagline stays
+    // right under the name (#55).
+    grid-template-rows: auto 1fr;
     grid-template-areas:
       "icon title meta"
-      ". tagline tagline";
+      ". tagline meta";
     column-gap: var(--space-4);
   }
 
+  // The first line sits on the name's baseline.
+  .project-row__title,
   .project-row__meta {
-    justify-content: flex-end;
+    align-self: baseline;
+  }
+
+  .project-row__meta {
+    justify-items: end;
   }
 }
 
@@ -78,30 +85,22 @@
   color: var(--text-muted);
 }
 
-// Level with the name: the same touch-target box height, centred.
+// One platform per line, then the year on the last, with no divider (#55). On a phone the lines
+// stack under the tagline; from tablets up they sit right-aligned beside the name, the first one
+// level with it, and run down beside the tagline, so the name and tagline never move for them.
 .project-row__meta {
   grid-area: meta;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  column-gap: var(--space-2);
-  min-height: var(--touch-target);
+  display: grid;
+  align-content: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   font-size: var(--text-sm);
+  line-height: var(--leading-snug);
   color: var(--text-muted);
 
-  // The line wraps between kinds, never inside one (#43).
-  > * {
+  > li {
     white-space: nowrap;
-  }
-
-  // The kind is a filter, so it reads as a quiet link until it is pointed at.
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  a {
-    @include states.quiet-link;
   }
 }
 

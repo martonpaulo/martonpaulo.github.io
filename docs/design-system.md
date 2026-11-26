@@ -142,7 +142,7 @@ changes its fill, border or ink under hover, focus or press, or a label falls un
 | Primary button                                     | `--state-primary-hover-fill`, `--state-hover-ring` | `--state-press-shade` | none                                                           |
 | Secondary button, pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`          | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
 | Text link                                          | `--state-hover-ink` and a full underline           | none                  | none                                                           |
-| Quiet link, retired row                            | `--state-hover-text` (muted text comes up)         | none                  | none                                                           |
+| Retired row                                        | `--state-hover-text` (muted text comes up)         | none                  | none                                                           |
 | Card                                               | `--state-lift`, `--state-lift-shadow`              | `--state-press`       | none                                                           |
 | Image link                                         | `--state-lift` on the image                        | none                  | none                                                           |
 

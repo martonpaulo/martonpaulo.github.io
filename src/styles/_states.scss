@@ -65,14 +65,6 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
   }
 }
 
-/// Quiet text (a muted link) comes up to the body text and takes its underline.
-@mixin quiet-link {
-  &:where(#{$live}):is(:hover, :focus-visible) {
-    color: var(--state-hover-text);
-    text-decoration: underline;
-  }
-}
-
 /// A card: it lifts under the pointer with a deeper shadow, and presses back.
 @mixin card {
   &:where(#{$live}):hover {

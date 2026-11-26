@@ -51,6 +51,21 @@ for (const subject of readdirSync(join(dist, "projects/subject"))) {
     problems.push(`NOT IN SITEMAP ${path}`);
 }
 
+// A row's meta is a list: one platform per item, then the year, with no divider (#55).
+for (const path of ["/projects/", "/projects/earlier/"]) {
+  for (const [, meta] of page(path).matchAll(/<ul class="project-row__meta"[^>]*>(.*?)<\/ul>/g)) {
+    if (meta.includes("·")) problems.push(`DIVIDER ${path}: a row's meta has a « · »`);
+  }
+}
+const inkMeta =
+  /href="\/projects\/ink-tools\/".*?<ul class="project-row__meta"[^>]*>(.*?)<\/ul>/s.exec(
+    page("/projects/"),
+  )?.[1];
+const inkLines = (inkMeta ?? "").match(/<li>/g)?.length ?? 0;
+const inkKinds = projects.find((p) => p.slug === "ink-tools")?.kinds.length ?? 0;
+if (inkLines !== inkKinds + 1)
+  problems.push(`META ink-tools: ${inkLines} lines, not its ${inkKinds} platforms and the year`);
+
 const earlierNames = projects
   .filter((p) => p.status === "discontinued")
   .map((p) => `/projects/${p.slug}/`);

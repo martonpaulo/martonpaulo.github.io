@@ -62,17 +62,9 @@ const { nav } = await getCopy();
     </Heading>
     <p class="project-row__tagline">{item.tagline}</p>
   </div>
-  <p class="project-row__meta">
-    {
-      /* The platforms a project runs on, a tag each (#43). */
-      item.kinds.map((kind, index) => (
-        <>
-          {index > 0 && <span aria-hidden="true">·</span>}
-          <span>{kind}</span>
-        </>
-      ))
-    }
-    <span aria-hidden="true">·</span>
-    <span>{item.when}</span>
-  </p>
+  <ul class="project-row__meta" role="list">
+    {/* Each platform the project runs on, then the year, one per line, no divider (#55). */}
+    {item.kinds.map((kind) => <li>{kind}</li>)}
+    <li>{item.when}</li>
+  </ul>
 </article>

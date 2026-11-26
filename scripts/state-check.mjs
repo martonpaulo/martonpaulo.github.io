@@ -65,7 +65,6 @@ const FAMILIES = [
   { name: "icon-button", selector: ".nav__home", label: "svg", min: AA_ICON, current: true },
   { name: "card", selector: ".project-card", label: ".project-card__title" },
   { name: "image-link", selector: ".project-row__icon-link", label: "none", focusable: false },
-  { name: "quiet-link", selector: ".project-row__meta a" },
   { name: "text-link", selector: "a[href]" },
 ];
 /** How much of a control's markup a failure quotes. */
