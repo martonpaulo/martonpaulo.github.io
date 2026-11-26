@@ -94,6 +94,8 @@ const copy = defineCollection({
       about: z.string(),
       contact: z.string(),
       skip: z.string(),
+      /** Read after a link that opens in a new tab, beside its visible arrow. */
+      newTab: z.string(),
     }),
     home: z.object({
       eyebrow: z.string(),

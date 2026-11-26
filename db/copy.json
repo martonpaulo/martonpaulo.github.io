@@ -5,7 +5,8 @@
     "work": "Projects",
     "about": "About",
     "contact": "Contact",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "newTab": "(opens in a new tab)"
   },
   "home": {
     "greeting": "Software<br />made with care",
@@ -23,8 +24,8 @@
     "filterLabel": "Filter by kind",
     "filterAll": "Everything",
     "kindTitle": "{kind}",
-    "kindLede": "Only the {kind}. Newest first.",
-    "kindDescription": "All the {kind} Marton Paulo has built, newest first: what each one does, the stack behind it, a live demo where there is one, and the source code.",
+    "kindLede": "Only the {kind}: the most-starred first, then everything else by year.",
+    "kindDescription": "All the {kind} Marton Paulo has built, the most-starred first: what each one does, the stack behind it, a live demo where there is one, and the source code.",
     "kindListHeading": "All {kind}"
   },
   "project": {

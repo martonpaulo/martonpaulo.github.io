@@ -5,8 +5,9 @@ import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
 import { cardImageSizes, cardImageWidths, imageQuality, isPriorityCard } from "../lib/images";
-import { kindLabel, projectPath, tileValue, type Project } from "../lib/projects";
+import { kindLabels, projectPath, tileValue, type Project } from "../lib/projects";
 import Eyebrow from "./Eyebrow.astro";
+import KindLabels from "./KindLabels.astro";
 
 /**
  * A project as a pastel tile: kind, name, one line, and its artwork bleeding
@@ -42,7 +43,9 @@ const titleId = `project-card-title-${project.slug}`;
 >
   <div class="project-card__surface">
     <div class="project-card__info">
-      <Eyebrow class="project-card__kind">{kindLabel(project, kinds)}</Eyebrow>
+      <Eyebrow class="project-card__kind"
+        ><KindLabels labels={kindLabels(project, kinds)} /></Eyebrow
+      >
       <Heading class="project-card__title" id={titleId}>{project.name}</Heading>
       <p class="project-card__tagline">{project.tagline}</p>
     </div>

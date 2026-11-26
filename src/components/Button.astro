@@ -1,6 +1,7 @@
 ---
 import "./Button.scss";
 
+import { getCopy } from "../lib/db";
 import { externalLinkAttributes } from "../lib/links";
 
 /**
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const { href, variant = "quiet", external = false, class: className } = Astro.props;
+const { nav } = await getCopy();
 ---
 
 <a
@@ -25,9 +27,12 @@ const { href, variant = "quiet", external = false, class: className } = Astro.pr
   <span class="button__label"><slot /></span>
   {
     external && (
-      <span class="button__arrow" aria-hidden="true">
-        ↗
-      </span>
+      <>
+        <span class="button__arrow" aria-hidden="true">
+          ↗
+        </span>
+        <span class="visually-hidden">{nav.newTab}</span>
+      </>
     )
   }
 </a>

@@ -3,6 +3,7 @@ import "./ProjectRow.scss";
 
 import { Image } from "astro:assets";
 
+import { getCopy } from "../lib/db";
 import { ROW_ICON_SIZE } from "../lib/images";
 import { externalLinkAttributes } from "../lib/links";
 import type { RowItem } from "../lib/projects";
@@ -15,6 +16,7 @@ interface Props {
 
 const { item, headingLevel: Heading = "h3" } = Astro.props;
 const linkAttributes = item.external ? externalLinkAttributes : {};
+const { nav } = await getCopy();
 ---
 
 <article class:list={["project-row", { "project-row--retired": item.retired }]}>
@@ -44,7 +46,19 @@ const linkAttributes = item.external ? externalLinkAttributes : {};
   </a>
   <div class="project-row__text">
     <Heading class="project-row__title">
-      <a href={item.href} {...linkAttributes}>{item.name}</a>
+      <a href={item.href} {...linkAttributes}>
+        {item.name}
+        {
+          item.external && (
+            <>
+              <span class="project-row__arrow" aria-hidden="true">
+                ↗
+              </span>
+              <span class="visually-hidden">{nav.newTab}</span>
+            </>
+          )
+        }
+      </a>
     </Heading>
     <p class="project-row__tagline">{item.tagline}</p>
   </div>

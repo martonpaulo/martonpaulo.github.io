@@ -1,0 +1,22 @@
+---
+import "./KindLabels.scss";
+
+/**
+ * A project's kinds, "iOS app · macOS app": a line breaks between two kinds, never inside one,
+ * so "Supernote plugin" never splits (#43).
+ */
+interface Props {
+  labels: string[];
+}
+
+const { labels } = Astro.props;
+---
+
+{
+  labels.map((label, index) => (
+    <>
+      {index > 0 && " · "}
+      <span class="kind-labels__item">{label}</span>
+    </>
+  ))
+}

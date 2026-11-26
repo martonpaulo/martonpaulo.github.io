@@ -21,11 +21,17 @@
 
 @include bp.up("tablet") {
   .project-row {
-    grid-template-columns: var(--project-row-icon) minmax(0, 1fr) auto;
+    // The kinds and year take at most half the row and wrap there, so a project of several kinds
+    // never squeezes its name (#43).
+    grid-template-columns: var(--project-row-icon) minmax(0, 1fr) fit-content(50%);
     grid-template-areas:
       "icon title meta"
       ". tagline tagline";
     column-gap: var(--space-4);
+  }
+
+  .project-row__meta {
+    justify-content: flex-end;
   }
 }
 
@@ -54,6 +60,12 @@
   text-decoration: none;
 }
 
+// The archive opens in a new tab, which the arrow shows and the hidden words say.
+.project-row__arrow {
+  margin-inline-start: var(--space-1);
+  font-size: var(--text-sm);
+}
+
 .project-row__title a:hover {
   text-decoration: underline;
 }
@@ -69,12 +81,17 @@
 .project-row__meta {
   grid-area: meta;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
+  column-gap: var(--space-2);
   min-height: var(--touch-target);
   font-size: var(--text-sm);
   color: var(--text-muted);
-  white-space: nowrap;
+
+  // The line wraps between kinds, never inside one (#43).
+  > * {
+    white-space: nowrap;
+  }
 
   // The kind is a filter, so it reads as a quiet link until it is pointed at.
   a {
@@ -120,8 +137,8 @@
     opacity: var(--retired-opacity);
   }
 
-  &:hover,
-  &:focus-within {
+  // Brightened while one of its links is pointed at or keyboard-focused, not the empty row.
+  &:has(a:hover, a:focus-visible) {
     .project-row__title a {
       color: var(--state-hover-text);
     }

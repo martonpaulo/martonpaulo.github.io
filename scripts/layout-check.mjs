@@ -12,7 +12,8 @@
 // The functions passed to evaluate() run in the page, where these are its globals.
 /* global document, window, innerHeight */
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { readdir, readFile } from "node:fs/promises";
+import { join, relative } from "node:path";
 
 import { chromium } from "playwright-core";
 
@@ -24,16 +25,34 @@ if (!dist || !existsSync(join(dist, "index.html"))) {
   process.exit(2);
 }
 
-/** Desktop and phone, the widths the owner compared. */
+/** Desktop, tablet and phones: the widths the owner compared, and the narrowest one served. */
 const VIEWPORTS = [
   { name: "desktop", width: 1440, height: 900 },
+  { name: "tablet", width: 768, height: 1024 },
   { name: "phone", width: 375, height: 812 },
+  { name: "small phone", width: 320, height: 640 },
 ];
+/** Phone widths at which no page may be wider than the window (#43). */
+const PHONE_WIDTHS = [320, 375, 414];
+const PHONE_HEIGHT = 812;
 /** A short page and one far longer, both under the same layout. */
 const SHORT_PAGE = "/projects/kind/typeface/";
 const LONG_PAGE = "/projects/earlier/";
 /** Layout positions are whole or half pixels; anything above this is a real move. */
 const TOLERANCE = 0.5;
+
+/** Every page of the build, as the path a visitor requests; a redirect page is not a page. */
+async function builtPages(root) {
+  const entries = (await readdir(root, { recursive: true })).filter((e) => e.endsWith(".html"));
+  const isRedirect = async (entry) =>
+    (await readFile(join(root, entry), "utf8")).includes('http-equiv="refresh"');
+  const redirects = new Set();
+  for (const entry of entries) if (await isRedirect(entry)) redirects.add(entry);
+  return entries
+    .filter((entry) => !redirects.has(entry))
+    .map((entry) => `/${relative(".", entry).replace(/index\.html$/, "")}`)
+    .sort();
+}
 
 const { origin, close } = await serveDist(dist);
 
@@ -95,6 +114,27 @@ try {
     process.stdout.write(`${viewport.name}: ${tabs.length} tabs, content edge ${short}px\n`);
     await page.close();
   }
+
+  // No page is wider than a phone's window: a wider one scrolls sideways when a link beyond the
+  // edge takes focus, even where overflow-x: clip hides it from the pointer.
+  const pages = await builtPages(dist);
+  const page = await browser.newPage({
+    viewport: { width: PHONE_WIDTHS[0], height: PHONE_HEIGHT },
+  });
+  for (const width of PHONE_WIDTHS) {
+    await page.setViewportSize({ width, height: PHONE_HEIGHT });
+    for (const path of pages) {
+      await page.goto(`${origin}${path}`, { waitUntil: "load" });
+      const [scroll, client] = await page.evaluate(() => [
+        document.documentElement.scrollWidth,
+        document.documentElement.clientWidth,
+      ]);
+      if (scroll > client)
+        failures.push(`${width}px: ${path} is ${scroll}px wide, the window ${client}px`);
+    }
+  }
+  process.stdout.write(`phones: ${pages.length} pages at ${PHONE_WIDTHS.join(", ")}px\n`);
+  await page.close();
 } finally {
   await browser.close();
   close();

@@ -1,5 +1,30 @@
+@use "../styles/breakpoints" as bp;
+
 .work-filters {
   margin-bottom: var(--space-4);
+}
+
+// On a phone the tab row is one line that scrolls sideways inside itself, so it keeps one height
+// and the list starts at the same place on every tab; the page itself never scrolls sideways. The
+// padding leaves room for the focus ring, which the scrolling box would otherwise clip (#43).
+.work-filters .actions {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding: var(--space-1);
+  scrollbar-width: thin;
+
+  > li {
+    flex: none;
+  }
+}
+
+@include bp.up("tablet") {
+  .work-filters .actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-x: visible;
+  }
 }
 
 .work-filters__chip {

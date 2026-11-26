@@ -8,8 +8,9 @@ import Eyebrow from "./Eyebrow.astro";
  * optional lede, centered, rising into place on load.
  *
  * `reserve` lists the title and lede of every page that shares this hero's place, such as the
- * Projects tabs. Each is laid out invisibly in the same cell as the visible one, so the hero is
- * as tall as the longest of them at every width and the tab row under it never moves (#43).
+ * Projects tabs. Each pair is laid out invisibly in the same cell as the visible one, so the hero
+ * is as tall as the longest of them at every width and the tab row under it never moves (#43).
+ * The text sits at the bottom of the cell, next to what follows it; the spare room goes above.
  */
 interface Props {
   title: string;
@@ -23,25 +24,19 @@ const { title, eyebrow, lede, reserve = [] } = Astro.props;
 
 <header class="hero stack-center enter">
   {eyebrow && <Eyebrow as="p">{eyebrow}</Eyebrow>}
-  <div class="hero__slot">
-    <h1 class="hero__title" set:html={title} />
+  <div class="hero__stack">
+    <div class="hero__text">
+      <h1 class="hero__title" set:html={title} />
+      {lede && <p class="lede hero-summary">{lede}</p>}
+    </div>
     {
       reserve.map((other) => (
-        <p class="hero__title hero__ghost heading-1" aria-hidden="true" set:html={other.title} />
+        <div class="hero__text hero__ghost" aria-hidden="true">
+          <p class="hero__title heading-1" set:html={other.title} />
+          <p class="lede hero-summary">{other.lede}</p>
+        </div>
       ))
     }
   </div>
-  {
-    lede && (
-      <div class="hero__slot">
-        <p class="lede hero-summary">{lede}</p>
-        {reserve.map((other) => (
-          <p class="lede hero-summary hero__ghost" aria-hidden="true">
-            {other.lede}
-          </p>
-        ))}
-      </div>
-    )
-  }
   <slot />
 </header>
