@@ -288,5 +288,30 @@
     "cardAlt": "Linguae on a rose card: the language table with its filters, codes and status chips such as vigorous, threatened and endangered.",
     "gradient": "linear-gradient(135deg,#6a1030 0%,#86193d 38%,#a52a52 68%,#c64b72 100%)",
     "ink": "light"
+  },
+  {
+    "slug": "ink-tools",
+    "name": "Ink Tools",
+    "tagline": "Unofficial plugins and Mac tools for Supernote e-ink tablets.",
+    "description": "Tablet plugins that sync calendars and to-dos, look up a handwritten word, edit pictures and send pages over LocalSend, with a Mac app that opens .note notebooks and a command line that drives the tablet. Unofficial and not made by Ratta: Supernote names only the device it runs on.",
+    "year": 2026,
+    "stack": ["TypeScript", "React Native", "Java", "Swift", "Python"],
+    "tags": ["tools", "productivity", "open-source"],
+    "links": {
+      "live": "https://inktools.martonpaulo.com/",
+      "source": "https://github.com/martonpaulo/ink-tools"
+    },
+    "featured": true,
+    "status": "active",
+    "tile": "sky",
+    "image": {
+      "src": "../src/assets/projects/ink-tools.png",
+      "alt": "The Ink Tools icon: a pen nib writing one stroke on a light page, on an ink-grey tile",
+      "fit": "contain"
+    },
+    "kinds": ["macos"],
+    "cardAlt": "Ink Tools on an ink-blue card: a Supernote page with a lassoed handwritten word, the Lasso Actions buttons and the picture they inserted.",
+    "gradient": "linear-gradient(135deg,#10263f 0%,#1e4670 55%,#2f6aa3 100%)",
+    "ink": "light"
   }
 ]
