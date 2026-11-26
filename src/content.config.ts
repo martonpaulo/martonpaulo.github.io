@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
+import { descriptionLength } from "./lib/descriptions";
 import { projectKinds } from "./lib/kinds";
 import { projectSubjects } from "./lib/subjects";
 
@@ -45,7 +46,7 @@ const site = defineCollection({
     url: z.url(),
     name: z.string(),
     title: z.string(),
-    description: z.string().max(160),
+    description: z.string().min(descriptionLength.min).max(descriptionLength.max),
     locale: z.string(),
     repository: z.url(),
     /** The noindex archive of frozen builds (martonpaulo/archive); an Earlier work entry lives at <archive><slug>/. */
@@ -127,6 +128,8 @@ const copy = defineCollection({
     }),
     project: z.object({
       description: z.string(),
+      /** The description without the stack, for a project whose full one is too long (#59). */
+      descriptionShort: z.string(),
       /** Appended to the description when the project links its source. */
       descriptionSource: z.string(),
       builtWith: z.string(),

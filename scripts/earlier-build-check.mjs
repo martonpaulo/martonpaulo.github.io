@@ -6,10 +6,12 @@
 // sitemap; no page links the archive's root, which serves nothing; no current list names an
 // Earlier work project; the home page and the Projects list follow the score (#43); a
 // project with its own site has no page and every list leads to that site (#57); and no page links
-// the repository of a project that has no public source link.
+// the repository of a project that has no public source link. Every indexed page's meta
+// description keeps the length search engines show whole (#59).
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { descriptionLength } from "../src/lib/descriptions.ts";
 import { homeProjects, rankedProjects } from "../src/lib/status.ts";
 import { hasPage, pagePath, projectTarget } from "../src/lib/targets.ts";
 
@@ -144,6 +146,33 @@ for (const file of walk(dist)) {
     if (html.includes(repo)) problems.push(`PRIVATE ${file}: names ${repo}`);
 }
 
+// Every indexed page's meta description fits the length rule; a noindex page is never shown (#59).
+const DESCRIPTION = /<meta name="description" content="([^"]*)"/;
+const decoded = (text) =>
+  text
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+let described = 0;
+for (const file of walk(dist)) {
+  const html = readFileSync(file, "utf8");
+  if (NOINDEX.test(html)) continue;
+  const content = DESCRIPTION.exec(html)?.[1];
+  if (content === undefined) {
+    problems.push(`NO DESCRIPTION ${file}`);
+    continue;
+  }
+  const { length } = decoded(content);
+  described += 1;
+  if (length < descriptionLength.min || length > descriptionLength.max)
+    problems.push(
+      `DESCRIPTION ${file}: ${length} characters, not ${descriptionLength.min} to ${descriptionLength.max}`,
+    );
+}
+
 for (const line of problems) say(line);
 if (problems.length) process.exit(1);
-say(`earlier build check OK (${unlisted.length} unlisted pages)`);
+say(`earlier build check OK (${unlisted.length} unlisted pages, ${described} descriptions)`);

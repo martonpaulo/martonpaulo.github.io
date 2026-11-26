@@ -2,6 +2,7 @@ import type { CollectionEntry } from "astro:content";
 
 import type { projectKinds, tileColors } from "../content.config";
 import { type Copy, fill, listOf, lowerFirst } from "./copy";
+import { firstThatFits } from "./descriptions";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
 import { projectSubjects } from "./subjects";
@@ -222,17 +223,21 @@ export function countBySubject(projects: Project[]): SubjectCounts {
 /**
  * The search description of a project page: its tagline, who built it with what,
  * and a pointer to the source when there is one. Private projects have no source
- * link, so they never promise one.
+ * link, so they never promise one. Past the length limit it drops the source
+ * sentence, then the stack (#59).
  */
 export function projectDescription(
-  project: Project,
-  copy: Copy["project"],
+  project: Pick<Project, "tagline" | "stack" | "links">,
+  copy: Pick<Copy["project"], "description" | "descriptionShort" | "descriptionSource">,
   author: string,
 ): string {
-  const base = fill(copy.description, {
+  const full = fill(copy.description, {
     tagline: project.tagline,
     author,
     stack: listOf(project.stack),
   });
-  return project.links.source ? `${base} ${copy.descriptionSource}` : base;
+  const short = fill(copy.descriptionShort, { tagline: project.tagline, author });
+  return project.links.source
+    ? firstThatFits([`${full} ${copy.descriptionSource}`, full, short])
+    : firstThatFits([full, short]);
 }

@@ -26,11 +26,12 @@
     "filterLabel": "Filter by subject",
     "filterAll": "Everything",
     "subjectNote": "Only the {subject} projects, ranked by real use, availability and recent work.",
-    "subjectDescription": "Marton Paulo's {subject} projects, ranked by real use: what each one does, the platform it runs on, the stack behind it, a live demo where there is one, and the source code.",
+    "subjectDescription": "Marton Paulo's {subject} projects, ranked by real use: what each one does, the platform it runs on, the stack behind it, live demos and source code.",
     "subjectListHeading": "All {subject} projects"
   },
   "project": {
     "description": "{tagline} Built by {author} with {stack}.",
+    "descriptionShort": "{tagline} Built by {author}.",
     "descriptionSource": "Source code on GitHub.",
     "builtWith": "Built with",
     "year": "Year",
