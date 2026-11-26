@@ -129,23 +129,23 @@ template, and a template signifies that the owner did not decide.
 The values live in `src/styles/tokens.scss` as CSS custom properties, so they are read at runtime
 and can be inspected in the browser. Their meaning:
 
-| Token                                                                               | Role                                                                                                 |
-| :---------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
-| `--bg`, `--bg-glow`                                                                 | The room and the light at the top of it                                                              |
-| `--surface`, `--surface-strong`, `--border`                                         | Translucent layers for the pill, chips and buttons                                                   |
-| `--text`, `--text-muted`                                                            | Body text at two levels of emphasis; both pass AA on `--bg`                                          |
-| `--heading`, `--primary`, `--primary-strong`                                        | Warm white headings; aqua links and controls, and their hover                                        |
-| `--focus`                                                                           | White keyboard-focus indicator, distinct from the aqua interactive accent                            |
-| `--tile-*`, `--tile-ink`, `--tile-ink-muted`, `--tile-ink-light*`                   | The eight fallback pastel tiles, the dark ink for them and light cards, the light ink for dark cards |
-| `--font-display`, `--font-body`                                                     | The two voices                                                                                       |
-| `--text-*`                                                                          | The type scale; the three largest steps are fluid                                                    |
-| `--space-1` … `--space-6`                                                           | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps    |
-| `--radius-*`, `--hairline`                                                          | Corners and the one line weight                                                                      |
-| `--shadow-card`, `--shadow-card-raised`                                             | A card at rest and the deeper lift it reaches under the pointer                                      |
-| `--shadow-panel`, `--shadow-relief`                                                 | The panel edge and the icon drop                                                                     |
-| `--container`, `--container-wide`, `--measure`, `--measure-wide`, `--measure-title` | Column and reading widths; the container widens on ultrawide screens                                 |
-| `--card-*`, `--touch-target`                                                        | Tile geometry and the minimum size of anything tappable                                              |
-| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`            | Response timing, easing, transforms and entrance motion                                              |
+| Token                                                                    | Role                                                                                                                 |
+| :----------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| `--bg`, `--bg-glow`                                                      | The room and the light at the top of it                                                                              |
+| `--surface`, `--surface-strong`, `--border`                              | Translucent layers for the pill, chips and buttons                                                                   |
+| `--text`, `--text-muted`                                                 | Body text at two levels of emphasis; both pass AA on `--bg`                                                          |
+| `--heading`, `--primary`, `--primary-strong`                             | Warm white headings; aqua links and controls, and their hover                                                        |
+| `--focus`                                                                | White keyboard-focus indicator, distinct from the aqua interactive accent                                            |
+| `--tile-*`, `--tile-ink`, `--tile-ink-muted`, `--tile-ink-light*`        | The eight fallback pastel tiles, the dark ink for them and light cards, the light ink for dark cards                 |
+| `--font-display`, `--font-body`                                          | The two voices                                                                                                       |
+| `--text-*`                                                               | The type scale; the three largest steps are fluid                                                                    |
+| `--space-1` … `--space-6`                                                | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps                    |
+| `--radius-*`, `--hairline`                                               | Corners and the one line weight                                                                                      |
+| `--shadow-card`, `--shadow-card-raised`                                  | A card at rest and the deeper lift it reaches under the pointer                                                      |
+| `--shadow-panel`, `--shadow-relief`                                      | The panel edge and the icon drop                                                                                     |
+| `--container`, `--container-wide`, `--width-subtitle`                    | The column, the only width text gets, and the subtitle under a page title; the container widens on ultrawide screens |
+| `--card-*`, `--touch-target`                                             | Tile geometry and the minimum size of anything tappable                                                              |
+| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*` | Response timing, easing, transforms and entrance motion                                                              |
 
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,
@@ -182,7 +182,9 @@ verified with Lighthouse on every page before a push:
   focus ring in `--focus` that is never the accent.
 - One aqua accent for links, controls, the mark and small ornaments; warm white headings and pastel
   tile surfaces preserve the existing visual roles.
-- Reading measure between 45 and 75 characters (`--measure`), headings in order, one `h1` per
+- Text fills its column, with no reading measure of its own; only the subtitle under a page title
+  (`.hero-summary`) takes `--width-subtitle`
+  ([#44](https://github.com/martonpaulo/martonpaulo.github.io/issues/44)); headings in order, one `h1` per
   page, landmarks and a skip link on every page.
 - Motion answers the pointer, stays under a second, uses ease-out, and disappears under
   `prefers-reduced-motion`, where only an opacity fade remains. Nothing animates on scroll. A
@@ -202,7 +204,7 @@ verified with Lighthouse on every page before a push:
   names are block__element--modifier, prefixed with the component's name, because component styles
   are global.
 - A new component starts from the shared utilities (`.container`, `.stack-center`, `.actions`,
-  `.dot-list`, `.lede`, `.prose`, `.section`) before adding its own rules.
+  `.dot-list`, `.lede`, `.hero-summary`, `.centered-text`, `.section`) before adding its own rules.
 - Every interactive element is at least `--touch-target` tall, has a visible focus ring, and works
   without a pointer.
 - The share image in `src/pages/og/site.png.ts` mirrors the tokens as constants; when a token

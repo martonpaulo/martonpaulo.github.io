@@ -6,9 +6,9 @@
   display: grid;
   gap: var(--space-3);
   width: fit-content;
-  // Never wider than a label column plus a reading measure, so long values
-  // wrap and short ones leave the block narrow; either way it stays centered.
-  max-width: min(100%, calc(var(--measure) + var(--space-6) + var(--space-4)));
+  // Never wider than the column, so long values wrap and short ones leave the
+  // block narrow; either way it stays centered.
+  max-width: 100%;
   margin: 0 auto;
 }
 

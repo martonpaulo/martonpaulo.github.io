@@ -34,9 +34,9 @@ const { title, eyebrow, lede, reserve = [] } = Astro.props;
   {
     lede && (
       <div class="hero__slot">
-        <p class="lede">{lede}</p>
+        <p class="lede hero-summary">{lede}</p>
         {reserve.map((other) => (
-          <p class="lede hero__ghost" aria-hidden="true">
+          <p class="lede hero-summary hero__ghost" aria-hidden="true">
             {other.lede}
           </p>
         ))}

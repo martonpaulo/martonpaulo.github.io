@@ -96,9 +96,9 @@
   /* Layout */
   --container: 64rem;
   --container-wide: 96rem;
-  --measure: 40rem;
-  --measure-wide: 44rem;
-  --measure-title: 16ch;
+  // Text fills its column: the container is the only width text gets. The one exception is the
+  // centred subtitle under a page's title, .hero-summary (#44, interface standard rule 17).
+  --width-subtitle: 40rem;
   --card-art-ratio: 16 / 10;
   --card-icon-size: clamp(var(--space-6), 45%, calc(1.75 * var(--space-6)));
   --touch-target: 2.75rem;

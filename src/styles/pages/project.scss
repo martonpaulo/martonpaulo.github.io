@@ -55,7 +55,6 @@
 .project__body {
   display: grid;
   gap: var(--space-4);
-  max-width: var(--measure-wide);
   margin: var(--space-5) auto 0;
 }
 
@@ -92,6 +91,5 @@
 
 // When and why the project stopped, under its one line, in the same quiet voice.
 .project__notice {
-  max-width: var(--measure);
   color: var(--text-muted);
 }

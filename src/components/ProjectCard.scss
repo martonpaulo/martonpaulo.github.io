@@ -54,7 +54,6 @@
   z-index: 1;
   display: grid;
   gap: var(--space-1);
-  max-width: var(--measure);
 }
 
 // Doubled selector: it must outrank the eyebrow's own colour, which is loaded later.

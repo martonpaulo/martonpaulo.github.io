@@ -30,7 +30,7 @@ const description = fill(about.description, {
   <Hero title={title} lede={lead} />
 
   <div class="about">
-    <section class="section prose" aria-label={about.biographyLabel}>
+    <section class="section centered-text" aria-label={about.biographyLabel}>
       {rest.map((paragraph) => <p>{paragraph}</p>)}
     </section>
 
@@ -51,7 +51,7 @@ const description = fill(about.description, {
       <DefinitionList rows={languageRows(person)} />
     </section>
 
-    <section class="section prose" aria-labelledby="interests-heading">
+    <section class="section centered-text" aria-labelledby="interests-heading">
       <SectionHeading id="interests-heading" title={about.interestsHeading} />
       {person.interests.map((paragraph) => <p>{paragraph}</p>)}
     </section>

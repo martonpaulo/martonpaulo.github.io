@@ -41,7 +41,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   `src/styles/_breakpoints.scss`, so no width is repeated by hand. No utility framework, no inline
   colours, no magic numbers.
 - **Shared utilities before new rules.** `.container`, `.stack-center`, `.actions`, `.dot-list`,
-  `.lede`, `.prose`, `.section` and `.visually-hidden` in `src/styles/utilities.scss` cover the layouts
+  `.lede`, `.hero-summary`, `.centered-text`, `.section` and `.visually-hidden` in `src/styles/utilities.scss` cover the layouts
   every page repeats. A component reaches for them first.
 - **Accessibility is part of the markup, not a pass afterwards.** Landmarks and skip link in the
   layout, `aria-current` on the active navigation and filter, one link per card with the project

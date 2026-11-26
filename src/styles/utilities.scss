@@ -8,11 +8,15 @@
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
   color: var(--text-muted);
-  max-width: var(--measure);
 }
 
-.prose {
-  max-width: var(--measure);
+/* The subtitle directly under a page's title: the one text with a width of its own (#44). */
+.hero-summary {
+  max-width: var(--width-subtitle);
+  margin-inline: auto;
+}
+
+.centered-text {
   margin-inline: auto;
   text-align: center;
 }
@@ -27,10 +31,6 @@
   justify-items: center;
   text-align: center;
   gap: var(--space-3);
-}
-
-.stack-center > .lede {
-  margin-inline: auto;
 }
 
 /* A row of pill buttons or chips that wraps and stays centered. */

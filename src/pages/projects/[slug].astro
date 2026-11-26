@@ -59,7 +59,7 @@ const card = projectCard(project.slug);
     <header class="project__header stack-center">
       <Eyebrow as="p">{label}</Eyebrow>
       <h1 class="project__title">{project.name}</h1>
-      <p class="lede">{project.tagline}</p>
+      <p class="lede hero-summary">{project.tagline}</p>
       {
         notice && (
           <p class="project__notice">
@@ -120,7 +120,7 @@ const card = projectCard(project.slug);
     }
 
     <div class="project__body">
-      <p class="prose">{project.description}</p>
+      <p class="centered-text">{project.description}</p>
       <DefinitionList rows={projectMetaRows(project, copy)} />
     </div>
   </article>
