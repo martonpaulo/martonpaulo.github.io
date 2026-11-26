@@ -16,6 +16,20 @@ test("every Earlier work entry has a unique folder", () => {
   assert.equal(new Set(slugs).size, slugs.length, `duplicate slugs in ${slugs.join(", ")}`);
 });
 
+// A name is plain and its own: no course or school in parentheses, and no two alike (#50).
+test("every project name, current or earlier, is plain and unique", () => {
+  const names = [
+    ...projects.map((project) => project.name),
+    ...earlier.filter((entry) => entry.name).map((entry) => entry.name),
+  ];
+  for (const name of names) assert.doesNotMatch(name, /[()]/, `${name} has a parenthesis`);
+  const seen = new Set();
+  for (const name of names) {
+    assert.ok(!seen.has(name), `two projects are named ${name}`);
+    seen.add(name);
+  }
+});
+
 test("an entry names an existing project, and the discontinued projects are exactly those", () => {
   const named = new Set(earlier.map((entry) => entry.project).filter(Boolean));
   for (const slug of named) assert.ok(bySlug.has(slug), `db/earlier.json names unknown ${slug}`);

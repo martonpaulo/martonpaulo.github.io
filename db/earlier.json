@@ -151,7 +151,7 @@
   },
   {
     "slug": "movie-list",
-    "name": "Movie List (PUC Minas)",
+    "name": "TMDB Favourites",
     "tagline": "Browse popular films from The Movie Database and keep favourites. A course exercise.",
     "kinds": ["web"],
     "source": "https://github.com/martonpaulo/puc-minas-excercises",
@@ -174,7 +174,7 @@
   },
   {
     "slug": "puc-minas-todo-list",
-    "name": "Todo List (PUC Minas)",
+    "name": "PUC Minas Todo List",
     "tagline": "A React to-do list from the full stack course at PUC Minas.",
     "kinds": ["web"],
     "source": "https://github.com/martonpaulo/puc-minas-excercises",
@@ -269,7 +269,7 @@
   },
   {
     "slug": "movie-app",
-    "name": "Movie App",
+    "name": "OMDb Movie Search",
     "tagline": "Search films by title in the OMDb database. A Digital House course exercise.",
     "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-house-exercises",
@@ -281,7 +281,7 @@
   },
   {
     "slug": "digital-house-todo-list",
-    "name": "Todo List (Digital House)",
+    "name": "JavaScript Todo List",
     "tagline": "A plain JavaScript to-do list. A Digital House course exercise.",
     "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-house-exercises",
