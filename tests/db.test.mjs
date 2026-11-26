@@ -6,6 +6,7 @@ import { test } from "node:test";
 
 import { projectKinds } from "../src/lib/kinds.ts";
 import { projectSubjects } from "../src/lib/subjects.ts";
+import { hasPage } from "../src/lib/targets.ts";
 import { HOME_COUNT, homeProjects } from "../src/lib/status.ts";
 
 const read = async (name) =>
@@ -181,5 +182,36 @@ test("a discontinued project says when and why it stopped, and no other project 
       `${project.slug} stops in the future`,
     );
     assert.ok(project.discontinuedReason?.trim(), `${project.slug} has no discontinuedReason`);
+  }
+});
+
+// A project page is at /<slug>/ (#57), beside the site's own pages and the paths GitHub serves for
+// each public repository with a site of its own (martonpaulo.com/<repository> redirects to it), so
+// a page's slug may be none of them.
+// shortcut: the repositories are those the data names with a public source and a site (every
+// Earlier work source counts, as most of them had one); a repository the data does not name is not
+// seen. Read the owner's repository list when a session can.
+test("no project page takes a path the site or a public repository already answers", async () => {
+  const { readdir } = await import("node:fs/promises");
+  const site = (await readdir(new URL("../src/pages/", import.meta.url))).map((name) =>
+    name.replace(/\.[a-z.]+$/, ""),
+  );
+  const earlier = JSON.parse(
+    await readFile(new URL("../db/earlier.json", import.meta.url), "utf8"),
+  );
+  const repository = (url) => url && new URL(url).pathname.split("/").filter(Boolean)[1];
+  const taken = new Set([
+    ...site.filter((name) => !name.startsWith("[")),
+    "p",
+    "work",
+    "_astro",
+    // GitHub answers for a repository only once it has a site: a project with a live one.
+    ...projects
+      .filter((project) => project.links.live)
+      .map((project) => repository(project.links.source)),
+    ...earlier.map((entry) => repository(entry.source)),
+  ]);
+  for (const project of projects.filter(hasPage)) {
+    assert.ok(!taken.has(project.slug), `/${project.slug}/ is already answered`);
   }
 });

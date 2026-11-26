@@ -5,15 +5,18 @@ import { Image } from "astro:assets";
 
 import { getCopy } from "../lib/db";
 import { cardImageSizes, cardImageWidths, imageQuality, isPriorityCard } from "../lib/images";
-import { kindLabels, projectPath, tileValue, type Project } from "../lib/projects";
+import { externalLinkAttributes } from "../lib/links";
+import { kindLabels, projectTarget, tileValue, type Project } from "../lib/projects";
 import Eyebrow from "./Eyebrow.astro";
 import KindLabels from "./KindLabels.astro";
 
 /**
  * A project as a pastel tile: kind, name, one line, and its artwork bleeding
- * out of the bottom. The whole tile is one link named by the project name
- * alone, so listing the page's links reads as a list of projects rather than
- * of paragraphs; the artwork is decorative because the text already says it.
+ * out of the bottom. The whole tile is one link named by the project name,
+ * so listing the page's links reads as a list of projects rather than of
+ * paragraphs; the artwork is decorative because the text already says it.
+ * A project with its own site leads there, in a new tab, with ↗ beside the
+ * name and the name followed by the words that say so (#57).
  *
  * Two layers, because one element cannot both clip its contents and paint
  * outside itself: the link paints the focus ring and the shadow, and the
@@ -26,18 +29,21 @@ interface Props {
 }
 
 const { project, index, headingLevel: Heading = "h3" } = Astro.props;
-const { kinds } = await getCopy();
+const { kinds, nav } = await getCopy();
+const target = projectTarget(project);
 const tile = tileValue(project, index);
 const art = project.image;
 // The link points at its own heading rather than repeating the name, so the
 // copy keeps one owner and the accessible name is the visible one.
 const titleId = `project-card-title-${project.slug}`;
+const siteId = `project-card-site-${project.slug}`;
 ---
 
 <a
   class="project-card"
-  href={projectPath(project)}
-  aria-labelledby={titleId}
+  href={target.href}
+  aria-labelledby={target.external ? `${titleId} ${siteId}` : titleId}
+  {...target.external ? externalLinkAttributes : {}}
   style={`--tile: ${tile}`}
   data-ink={project.ink}
 >
@@ -46,7 +52,20 @@ const titleId = `project-card-title-${project.slug}`;
       <Eyebrow class="project-card__kind"
         ><KindLabels labels={kindLabels(project, kinds)} /></Eyebrow
       >
-      <Heading class="project-card__title" id={titleId}>{project.name}</Heading>
+      <Heading class="project-card__title"
+        ><span id={titleId}>{project.name}</span>{
+          target.external && (
+            <>
+              <span class="project-card__arrow" aria-hidden="true">
+                ↗
+              </span>
+              <span class="visually-hidden" id={siteId}>
+                {nav.newTabSite}
+              </span>
+            </>
+          )
+        }</Heading
+      >
       <p class="project-card__tagline">{project.tagline}</p>
     </div>
     {

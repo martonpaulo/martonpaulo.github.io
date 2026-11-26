@@ -4,12 +4,14 @@
 //
 // The Earlier work tab and every project page it lists ask for noindex and are not in the
 // sitemap; no page links the archive's root, which serves nothing; no current list names an
-// Earlier work project; the home page shows the six most-starred projects in order (#43); and
-// no page links the repository of a project that has no public source link.
+// Earlier work project; the home page shows the six most-starred projects in order (#43); a
+// project with its own site has no page and every list leads to that site (#57); and no page links
+// the repository of a project that has no public source link.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { homeProjects } from "../src/lib/status.ts";
+import { hasPage, pagePath, projectTarget } from "../src/lib/targets.ts";
 
 const say = (line) => process.stdout.write(`${line}\n`);
 
@@ -57,12 +59,12 @@ for (const path of ["/projects/", "/projects/earlier/"]) {
     if (meta.includes("·")) problems.push(`DIVIDER ${path}: a row's meta has a « · »`);
   }
 }
-const inkMeta =
-  /href="\/projects\/ink-tools\/".*?<ul class="project-row__meta"[^>]*>(.*?)<\/ul>/s.exec(
-    page("/projects/"),
-  )?.[1];
+const ink = projects.find((p) => p.slug === "ink-tools");
+const list = page("/projects/");
+const inkAt = list.indexOf(`href="${projectTarget(ink).href}"`);
+const inkMeta = /<ul class="project-row__meta"[^>]*>(.*?)<\/ul>/s.exec(list.slice(inkAt))?.[1];
 const inkLines = (inkMeta ?? "").match(/<li>/g)?.length ?? 0;
-const inkKinds = projects.find((p) => p.slug === "ink-tools")?.kinds.length ?? 0;
+const inkKinds = ink.kinds.length;
 if (inkLines !== inkKinds + 1)
   problems.push(`META ink-tools: ${inkLines} lines, not its ${inkKinds} platforms and the year`);
 
@@ -92,13 +94,36 @@ for (const file of walk(dist)) {
     problems.push(`ROOT LINK ${file}: links ${site.archive}`);
 }
 
+// A project with a site of its own has no page here, and every current list leads to that site;
+// only a current project without one has a page, at /<slug>/, and the lists lead there (#57).
+const lists = [
+  "/",
+  "/projects/",
+  ...readdirSync(join(dist, "projects/subject")).map((s) => `/projects/subject/${s}/`),
+];
+for (const project of projects) {
+  const built = existsSync(join(dist, project.slug, "index.html"));
+  if (built !== hasPage(project)) {
+    problems.push(`PAGE ${pagePath(project)}: ${built ? "built" : "missing"} for ${project.slug}`);
+  }
+  if (project.status === "discontinued") continue;
+  const { href } = projectTarget(project);
+  for (const path of lists) {
+    const html = page(path);
+    if (html.includes(`href="/projects/${project.slug}/"`))
+      problems.push(`OLD LINK ${path} links /projects/${project.slug}/`);
+  }
+  if (!list.includes(`href="${href}"`))
+    problems.push(`TARGET /projects/: ${project.slug} does not lead to ${href}`);
+}
+
 // The home page shows the six most-starred current projects, in that order (#43).
 const home = [
   ...page("/").matchAll(
-    /class="project-card"[^>]*href="\/projects\/([^/"]+)\/"|href="\/projects\/([^/"]+)\/"[^>]*class="project-card"/g,
+    /class="project-card"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*class="project-card"/g,
   ),
 ].map((match) => match[1] ?? match[2]);
-const expected = homeProjects(projects).map((project) => project.slug);
+const expected = homeProjects(projects).map((project) => projectTarget(project).href);
 if (home.join() !== expected.join())
   problems.push(`HOME ORDER ${home.join()} is not ${expected.join()}`);
 

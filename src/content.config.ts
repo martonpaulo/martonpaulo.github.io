@@ -100,6 +100,8 @@ const copy = defineCollection({
       skip: z.string(),
       /** Read after a link that opens in a new tab, beside its visible arrow. */
       newTab: z.string(),
+      /** The same, for a link to a project's own site (#57). */
+      newTabSite: z.string(),
     }),
     home: z.object({
       eyebrow: z.string(),

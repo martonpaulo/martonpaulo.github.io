@@ -1,6 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
 import type { Project } from "./projects";
+import { pagePath } from "./targets";
 
 type Site = CollectionEntry<"site">["data"];
 type Person = CollectionEntry<"person">["data"];
@@ -55,10 +56,10 @@ export function profilePageNode(site: Site, url: string): JsonLdNode {
 export function softwareNode(site: Site, project: Project): JsonLdNode {
   return {
     "@type": "SoftwareSourceCode",
-    "@id": `${site.url}/projects/${project.slug}/#software`,
+    "@id": `${site.url}${pagePath(project)}#software`,
     name: project.name,
     description: project.description,
-    url: `${site.url}/projects/${project.slug}/`,
+    url: `${site.url}${pagePath(project)}`,
     codeRepository: project.links.source,
     programmingLanguage: project.stack,
     dateCreated: String(project.year),

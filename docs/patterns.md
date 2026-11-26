@@ -44,8 +44,8 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   `.lede`, `.hero-summary`, `.centered-text`, `.section` and `.visually-hidden` in `src/styles/utilities.scss` cover the layouts
   every page repeats. A component reaches for them first.
 - **Accessibility is part of the markup, not a pass afterwards.** Landmarks and skip link in the
-  layout, `aria-current` on the active navigation and filter, one link per card with the project
-  name alone as its required accessible name and decorative images with empty `alt`, headings in order with hidden
+  layout, `aria-current` on the active navigation and filter, one link per card named by the project
+  name, followed by the words that it opens the project's own site when it does and decorative images with empty `alt`, headings in order with hidden
   ones where a section has no visible title, every control at least `--touch-target` tall, a
   visible focus ring in `--focus`, and every animation off under `prefers-reduced-motion`.
   A whole-card link is named by `aria-labelledby` pointing at its own heading, so the name is the
@@ -74,8 +74,17 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   `fit`, and rendered through `<Image>` with the widths in `src/lib/images.ts`.
 - **Static output, trailing slashes.** `trailingSlash: "always"` matches how GitHub Pages serves
   `directory` builds. Internal links end with `/`.
-- **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL; the list is
-  derived from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
+- **A project leads where it is best seen.** `src/lib/targets.ts` is the one rule, shared by the
+  pages, the redirects and the checks: a current project with its own site links straight to it
+  (↗, in a new tab) from its card and row, and has no page here; a current project without one has
+  a page at `/<slug>/`; a retired one leads to its frozen build. A page's slug may be no path the
+  site or a public repository with a site already answers (`tests/db.test.mjs`), and the build
+  check fails on a page built for a project with its own site or a list linking an old page
+  ([#57](https://github.com/martonpaulo/martonpaulo.github.io/issues/57)).
+- **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL, and each old
+  `/projects/<slug>/` and `/work/<slug>/` page to where the project now leads (a page with
+  `noindex` and a canonical link until the proxy answers them with a 301); the lists are derived
+  from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
   Since 2026-09-09 each sibling project is served on its own subdomain
   (`https://<product>.martonpaulo.com/`, one GitHub Pages custom domain per repository), so `live`
   links point there; `martonpaulo.com/<repo>/` paths are gone and are not redirected.
@@ -125,7 +134,7 @@ Retired products, older projects and course exercises are listed only on the Ear
   `db/projects.json` by `project` (name, tagline, kinds, icon and source come from there), or a
   frozen build with its own `name`, `tagline`, `kinds`, `source` and, inside a repository of
   exercises, `folder`. `slug` is its folder at `archive.martonpaulo.com`; `planned` marks one whose
-  folder does not exist yet, which links to its project page until then. A Project is Earlier work
+  folder does not exist yet, which links to its live site until then. A Project is Earlier work
   exactly when its `status` is `discontinued`; `tests/earlier.test.mjs` checks both directions.
 - **Agreement with the archive.** `pnpm archive-check` (`scripts/archive-check.mjs`) fails when a
   folder of `martonpaulo/archive`'s `site/` has no entry, or an entry has no folder and is
@@ -135,8 +144,8 @@ Retired products, older projects and course exercises are listed only on the Ear
   planned, so no row links to a 404 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
   The archive repository is private and CI holds no token for it, so a folder with no entry shows
   only where the clone works (the Mac, a cloud session).
-- **Not indexed.** The tab and the project pages it lists carry `noindex` and are left out of the
-  sitemap in `astro.config.ts`, so martonpaulo/domain, which lists martonpaulo.com from the sitemap,
+- **Not indexed.** The tab carries `noindex` and is left out of the sitemap in `astro.config.ts`
+  (a retired project has no page of its own since [#57](https://github.com/martonpaulo/martonpaulo.github.io/issues/57)), so martonpaulo/domain, which lists martonpaulo.com from the sitemap,
   does not list them either. `scripts/earlier-build-check.mjs` checks the build for this, and that
   no page links the archive's root, which serves nothing.
 - **The period is the years of real work.** `period` comes from the original repository's history,

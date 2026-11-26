@@ -6,7 +6,8 @@
     "about": "About",
     "contact": "Contact",
     "skip": "Skip to content",
-    "newTab": "(opens in a new tab)"
+    "newTab": "(opens in a new tab)",
+    "newTabSite": "(opens the project's own site in a new tab)"
   },
   "home": {
     "greeting": "Software<br />made with care",

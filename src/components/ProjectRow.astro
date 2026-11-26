@@ -54,7 +54,9 @@ const { nav } = await getCopy();
               <span class="project-row__arrow" aria-hidden="true">
                 ↗
               </span>
-              <span class="visually-hidden">{nav.newTab}</span>
+              <span class="visually-hidden">
+                {item.external === "site" ? nav.newTabSite : nav.newTab}
+              </span>
             </>
           )
         }

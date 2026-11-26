@@ -1,17 +1,18 @@
 ---
-import "../../styles/pages/project.scss";
+import "../styles/pages/project.scss";
 
 import { Image } from "astro:assets";
 
-import Button from "../../components/Button.astro";
-import DefinitionList from "../../components/DefinitionList.astro";
-import Eyebrow from "../../components/Eyebrow.astro";
-import KindLabels from "../../components/KindLabels.astro";
-import Base from "../../layouts/Base.astro";
-import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
-import { heroImageSizes, heroImageWidths, imageQuality, projectCard } from "../../lib/images";
+import Button from "../components/Button.astro";
+import DefinitionList from "../components/DefinitionList.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import KindLabels from "../components/KindLabels.astro";
+import Base from "../layouts/Base.astro";
+import { byYear, getCopy, getProjects, getSite } from "../lib/db";
+import { heroImageSizes, heroImageWidths, imageQuality, projectCard } from "../lib/images";
 import {
   discontinuedNotice,
+  hasPage,
   kindLabels,
   projectDescription,
   projectLinks,
@@ -19,21 +20,18 @@ import {
   projectPath,
   siblingsOf,
   tileValue,
-} from "../../lib/projects";
-import { softwareNode } from "../../lib/seo";
-import { currentOnly, isDiscontinued } from "../../lib/status";
+} from "../lib/projects";
+import { softwareNode } from "../lib/seo";
+import { isDiscontinued } from "../lib/status";
 
 export async function getStaticPaths() {
-  // Newer and Older walk the project's own group: the current projects by year, or the
-  // Earlier work ones by year (#42).
-  const all = byYear(await getProjects());
-  const groups = [currentOnly(all), all.filter(isDiscontinued)];
-  return groups.flatMap((projects) =>
-    projects.map((project, index) => ({
-      params: { slug: project.slug },
-      props: { project, ...siblingsOf(projects, index) },
-    })),
-  );
+  // A page only for a current project with no site of its own (#57), at /<slug>/; every other
+  // project leads to its site or its frozen build. Newer and Older walk these pages by year.
+  const projects = byYear(await getProjects()).filter(hasPage);
+  return projects.map((project, index) => ({
+    params: { slug: project.slug },
+    props: { project, ...siblingsOf(projects, index) },
+  }));
 }
 
 const { project, newer, older } = Astro.props;

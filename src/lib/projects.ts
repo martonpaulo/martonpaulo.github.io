@@ -5,6 +5,7 @@ import { type Copy, fill, listOf, lowerFirst } from "./copy";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
 import { projectSubjects } from "./subjects";
+import { projectTarget } from "./targets";
 
 export type Project = CollectionEntry<"projects">["data"];
 export type ProjectKind = (typeof projectKinds)[number];
@@ -65,9 +66,7 @@ export function kindLabels(project: Project, labels: Copy["kinds"]): string[] {
 
 export const projectsPath = "/projects/";
 
-export function projectPath(project: Pick<Project, "slug">): string {
-  return `/projects/${project.slug}/`;
-}
+export { hasPage, pagePath as projectPath, projectTarget } from "./targets";
 
 /** A subject's tab (#43). */
 export function subjectPath(subject: ProjectSubject): string {
@@ -82,8 +81,8 @@ export interface RowItem {
   key: string;
   name: string;
   href: string;
-  /** The link leaves the site, so it opens in a new tab. */
-  external: boolean;
+  /** Where the link leaves the site for, opening in a new tab: a project's own site, or the archive. */
+  external: false | "site" | "archive";
   tagline: string;
   icon: ImageMetadata;
   /** Each kind: the platform it runs on, a tag (#43). */
@@ -94,13 +93,14 @@ export interface RowItem {
   retired: boolean;
 }
 
-/** A current project as a row: its page, its kinds, its year. */
+/** A current project as a row: its own site or its page (#57), its kinds, its year. */
 export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
+  const target = projectTarget(project);
   return {
     key: project.slug,
     name: project.name,
-    href: projectPath(project),
-    external: false,
+    href: target.href,
+    external: target.external ? "site" : false,
     tagline: project.tagline,
     icon: projectIcon(project.slug),
     kinds: kindLabels(project, labels),

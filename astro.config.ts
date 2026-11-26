@@ -5,6 +5,7 @@ import earlier from "./db/earlier.json" with { type: "json" };
 import projects from "./db/projects.json" with { type: "json" };
 import site from "./db/site.json" with { type: "json" };
 import { projectKinds } from "./src/lib/kinds";
+import { oldPageTarget } from "./src/lib/targets";
 
 // Every live project gets a short redirect (/p/<slug>) that survives the
 // project moving hosts: the target lives in db/projects.json, not in a list here.
@@ -23,12 +24,30 @@ const kindRedirects = Object.fromEntries(
   ]),
 );
 
-// Earlier work is not indexed (#42): its tab and the project pages it lists stay out of the
-// sitemap, and so out of martonpaulo/domain's map, which lists martonpaulo.com from it.
-const unlisted = new Set([
-  "/projects/earlier/",
-  ...earlier.flatMap((entry) => ("project" in entry ? [`/projects/${entry.project}/`] : [])),
-]);
+// Project pages lived at /projects/<slug>/ (and /work/<slug>/ before that) until #57. Each old URL
+// now leads where the project does: its own site, its page at /<slug>/, or its frozen build. Two
+// projects and AtlasTint took shorter slugs in September 2026; their oldest URLs lead there too.
+const EARLIER_PATH = "/projects/earlier/";
+const RENAMED: Record<string, string> = {
+  "country-badge-generator": "country-badge",
+  "todo-print-editor": "todo-print",
+  "atlas-tint": "atlastint",
+};
+const targetOf = (slug: string) => {
+  const project = projects.find((candidate) => candidate.slug === (RENAMED[slug] ?? slug));
+  if (!project) throw new Error(`astro.config.ts: no project ${slug}`);
+  return oldPageTarget(project, earlier, site.archive, EARLIER_PATH);
+};
+const oldPageRedirects = Object.fromEntries(
+  [...projects.map((project) => project.slug), ...Object.keys(RENAMED)].flatMap((slug) => [
+    [`/projects/${slug}/`, targetOf(slug)],
+    [`/work/${slug}/`, targetOf(slug)],
+  ]),
+);
+
+// Earlier work is not indexed (#42): its tab stays out of the sitemap, and so out of
+// martonpaulo/domain's map, which lists martonpaulo.com from it.
+const unlisted = new Set([EARLIER_PATH]);
 
 export default defineConfig({
   site: site.url,
@@ -36,15 +55,9 @@ export default defineConfig({
   // The section was called "work" for its first days; keep those links alive.
   redirects: {
     "/work/": "/projects/",
-    "/work/[slug]": "/projects/[slug]",
-    // Two projects took their product's short name in September 2026, when
-    // each moved to its own subdomain; the pages under the old slug stay alive.
-    "/projects/country-badge-generator/": "/projects/country-badge/",
-    "/projects/todo-print-editor/": "/projects/todo-print/",
+    ...oldPageRedirects,
     "/p/country-badge-generator/": "/p/country-badge/",
     "/p/todo-print-editor/": "/p/todo-print/",
-    // AtlasTint took the one-word slug of its brand in September 2026.
-    "/projects/atlas-tint/": "/projects/atlastint/",
     "/p/atlas-tint/": "/p/atlastint/",
     ...projectRedirects,
     ...kindRedirects,
