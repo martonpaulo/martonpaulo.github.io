@@ -1,7 +1,7 @@
 import { getCollection, getEntry } from "astro:content";
 
 import type { Project } from "./projects";
-import { currentOnly, homeProjects } from "./status";
+import { currentOnly, homeProjects, rankedProjects } from "./status";
 
 const missing = (name: string) => new Error(`db/${name}.json is missing or empty`);
 
@@ -39,19 +39,16 @@ export async function getCurrentProjects(): Promise<Project[]> {
   return currentOnly(await getProjects());
 }
 
-/** The home grid: the six current projects with the most stars (#43). */
+/** The home grid: the six current projects with the highest score (#43). */
 export async function getFeaturedProjects() {
-  return homeProjects(await getProjects());
+  return homeProjects(await getProjects(), (await getSite()).url);
 }
 
-/** A list of current projects: the home page's ones first, in their order, then the rest by year. */
-export async function homeFirst(projects: Project[]): Promise<Project[]> {
-  const home = (await getFeaturedProjects()).map((project) => project.slug);
-  const bySlug = new Map(projects.map((project) => [project.slug, project]));
-  return [
-    ...home.flatMap((slug) => bySlug.get(slug) ?? []),
-    ...byYear(projects.filter((project) => !home.includes(project.slug))),
-  ];
+/** Some current projects in the order of the score over all of them, highest first (#43). */
+export async function byScore(projects: Project[]): Promise<Project[]> {
+  const slugs = new Set(projects.map((project) => project.slug));
+  const ranked = rankedProjects(await getProjects(), (await getSite()).url);
+  return ranked.filter((project) => slugs.has(project.slug));
 }
 
 /** The Earlier work list, in the order written in db/earlier.json (newest first). */

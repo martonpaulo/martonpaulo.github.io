@@ -150,7 +150,7 @@ export function subjectInSentence(subject: ProjectSubject, subjects: Copy["subje
   return subjects[subject].sentence ?? lowerFirst(subjects[subject].tab);
 }
 
-/** The sentence under one subject's tab: "Only the design projects: the most-starred first, …". */
+/** The sentence under one subject's tab: "Only the design projects, ranked by real use, …". */
 export function subjectNote(
   subject: ProjectSubject,
   copy: Copy["projects"],

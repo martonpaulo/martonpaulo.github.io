@@ -28,7 +28,9 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   Invariants zod cannot express (unique slugs, a link or a note per project, artwork on every
   home page project) are Node tests in `tests/`.
 - **Order is authored, not sorted.** The loader records each entry's position in its file as
-  `order`; readers in `src/lib/db.ts` sort by it, and `byYear()` is the only other ordering.
+  `order`; readers in `src/lib/db.ts` sort by it, and `byYear()` and the score (`byScore()`, see
+  [The current projects and the home page](#the-current-projects-and-the-home-page)) are the only
+  other orderings.
 - **Markup, style and logic are separate files.** A component is `Name.astro` (markup and prop
   wiring only) beside `Name.scss` (its styles, global, so every class is prefixed with the
   component's name in block__element--modifier form). Page-level styles live in
@@ -93,11 +95,17 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 
 The current Projects are exactly the owner's list, written in `tests/db.test.mjs`; every other
 Project is Earlier work ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
-The home page shows the six with the most GitHub stars, ties broken by name, and the Projects list
-and each subject tab open with them, then the rest by year (`homeProjects()` in `src/lib/status.ts`).
-`stars` is recorded in `db/projects.json` by `GH_TOKEN=… node scripts/stars.mjs`, which reads each
-Project's `repo`; the build reads only the recorded number, so the same data always gives the same
-order. A Project whose repository is private has no `source` link and a `note`, and its page says
+Every current Project has a score from 0 to 100 (`projectScores()` in `src/lib/status.ts`, owner,
+2026-11-26): real use 40 (log10 of 1 + stars × 10 + forks × 20 + release downloads, over the highest
+among the current Projects), public availability 30 (a public repository, a live page on its own
+subdomain of martonpaulo.com, a release with a file to download; one point each, over 3), work
+invested 20 (log10 of 1 + closed issues + commits, over the highest) and recent activity 10 (commits
+in the last 90 days over all commits), rounded. The home page shows the six with the highest score,
+and the Projects list and each subject tab list every current Project in score order, ties broken by
+name. The figures are recorded in `db/projects.json` as `metrics`, with the day they were read, by
+`GH_TOKEN=… node scripts/metrics.mjs`, which reads each Project's `repo`; the build reads only the
+recorded figures, so the same data always gives the same order, and the build check fails when the
+rendered home page or Projects list differs from it. A Project whose repository is private has no `source` link and a `note`, and its page says
 only what its README says; the build check fails when any page names such a repository.
 
 ## Kinds and icons

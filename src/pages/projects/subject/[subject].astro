@@ -3,7 +3,7 @@ import ProjectTabs from "../../../components/ProjectTabs.astro";
 import { projectSubjects } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
 import { fill } from "../../../lib/copy";
-import { getCopy, getCurrentProjects, homeFirst } from "../../../lib/db";
+import { byScore, getCopy, getCurrentProjects } from "../../../lib/db";
 import {
   countBySubject,
   type ProjectSubject,
@@ -27,8 +27,8 @@ const { projects: copy, kinds, subjects } = allCopy;
 const counts = countBySubject(projects);
 
 const ofSubject = projects.filter((project) => project.subject === subject);
-// One list, as on the projects page: the home page's ones first, then the rest by year.
-const listed = (await homeFirst(ofSubject)).map((project) => projectRow(project, kinds));
+// One list, by score as on the projects page (#43).
+const listed = (await byScore(ofSubject)).map((project) => projectRow(project, kinds));
 const vars = { subject: subjectInSentence(subject, subjects) };
 ---
 

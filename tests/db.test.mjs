@@ -54,18 +54,15 @@ test("the current projects are exactly the owner's list", () => {
   assert.deepEqual(current.map((project) => project.slug).sort(), OWNER_CURRENT);
 });
 
-test("every current project records its repository and its stars", () => {
+test("every current project records its repository and its figures", () => {
   for (const project of projects.filter((project) => project.status !== "discontinued")) {
     assert.ok(project.repo, `${project.slug} has no repo`);
-    assert.ok(
-      Number.isInteger(project.stars),
-      `${project.slug} has no stars; run scripts/stars.mjs`,
-    );
+    assert.ok(project.metrics, `${project.slug} has no metrics; run scripts/metrics.mjs`);
   }
 });
 
 test("the home page shows six projects, each with artwork and a tile", () => {
-  const home = homeProjects(projects);
+  const home = homeProjects(projects, site.url);
   assert.equal(home.length, HOME_COUNT);
   for (const project of home) {
     assert.ok(project.image, `${project.slug} is on the home page without an image`);

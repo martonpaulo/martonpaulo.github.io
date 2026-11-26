@@ -247,15 +247,30 @@ const projects = defineCollection({
       }),
       /** Shown when a project has no public link, so the absence reads as a decision. */
       note: z.string().optional(),
-      /** The repository as owner/name; scripts/stars.mjs reads its stars from GitHub. Never rendered. */
+      /** The repository as owner/name; scripts/metrics.mjs reads its figures from GitHub. Never rendered. */
       repo: z
         .string()
         .regex(/^[\w.-]+\/[\w.-]+$/)
         .optional(),
       /** A file of the repository listing its tools; scripts/kinds.mjs writes `kinds` from it. */
       kindsFrom: z.string().optional(),
-      /** GitHub stars, recorded by scripts/stars.mjs; the home page shows the six with the most (#43). */
-      stars: z.number().int().nonnegative().optional(),
+      /**
+       * GitHub figures on the day `at`, recorded by scripts/metrics.mjs: the inputs of the score
+       * that orders the home page and the Projects list (`projectScores()`, #43).
+       */
+      metrics: z
+        .object({
+          stars: z.number().int().nonnegative(),
+          forks: z.number().int().nonnegative(),
+          downloads: z.number().int().nonnegative(),
+          release: z.boolean(),
+          public: z.boolean(),
+          closedIssues: z.number().int().nonnegative(),
+          commits: z.number().int().nonnegative(),
+          recentCommits: z.number().int().nonnegative(),
+          at: z.iso.date(),
+        })
+        .optional(),
       // archived: it still runs, unmaintained. discontinued: the product stopped, and
       // the three fields below say when, why and where to go instead. They are set
       // exactly when a project is discontinued, which tests/db.test.mjs checks.

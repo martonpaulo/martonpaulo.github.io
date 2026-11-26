@@ -23,8 +23,10 @@ const MUTED = {
 };
 const SAMPLES = 20;
 
-const projects = JSON.parse(
-  await readFile(new URL("../db/projects.json", import.meta.url), "utf8"),
+const [projects, site] = await Promise.all(
+  ["projects", "site"].map(async (name) =>
+    JSON.parse(await readFile(new URL(`../db/${name}.json`, import.meta.url), "utf8")),
+  ),
 );
 
 /** The stops of a `linear-gradient(135deg, #rrggbb N%, ...)`, or null for any other background. */
@@ -51,7 +53,7 @@ function colourAt(list, t) {
 }
 
 test("every home card's muted ink holds AA over the gradient wherever the copy sits", () => {
-  const checked = homeProjects(projects).filter((project) => stops(project.gradient));
+  const checked = homeProjects(projects, site.url).filter((project) => stops(project.gradient));
   assert.ok(checked.length > 0, "no home project has a 135deg gradient to check");
   for (const project of checked) {
     const list = stops(project.gradient);

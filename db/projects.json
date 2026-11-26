@@ -24,7 +24,17 @@
     "gradient": "linear-gradient(135deg,#122540 0%,#172f52 40%,#1e3c68 70%,#355e96 100%)",
     "ink": "light",
     "repo": "martonpaulo/tabelo",
-    "stars": 1
+    "metrics": {
+      "stars": 1,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 376,
+      "commits": 886,
+      "recentCommits": 590,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "mailbell",
@@ -72,7 +82,17 @@
     "gradient": "linear-gradient(135deg,#3f3a78 0%,#4b4588 40%,#575197 65%,#7069b0 100%)",
     "ink": "light",
     "repo": "martonpaulo/meantime",
-    "stars": 2
+    "metrics": {
+      "stars": 2,
+      "forks": 0,
+      "downloads": 59,
+      "release": true,
+      "public": true,
+      "closedIssues": 17,
+      "commits": 111,
+      "recentCommits": 75,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "atlastint",
@@ -98,7 +118,17 @@
       "alt": "AtlasTint's app icon",
       "fit": "contain"
     },
-    "stars": 1
+    "metrics": {
+      "stars": 1,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 36,
+      "commits": 104,
+      "recentCommits": 99,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "todo-print",
@@ -145,7 +175,17 @@
     "gradient": "linear-gradient(135deg,#2563eb 0%,#1d4ed8 50%,#4338ca 100%)",
     "ink": "light",
     "repo": "martonpaulo/windowhop",
-    "stars": 29
+    "metrics": {
+      "stars": 29,
+      "forks": 1,
+      "downloads": 442,
+      "release": true,
+      "public": true,
+      "closedIssues": 123,
+      "commits": 2161,
+      "recentCommits": 290,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "smart-desk",
@@ -218,7 +258,17 @@
       "alt": "Country Badge Generator's app icon",
       "fit": "contain"
     },
-    "stars": 1
+    "metrics": {
+      "stars": 1,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 19,
+      "commits": 99,
+      "recentCommits": 93,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "issues-graph",
@@ -264,7 +314,17 @@
     "gradient": "linear-gradient(135deg,#123a2d 0%,#17473a 40%,#1f5a48 70%,#3b7d64 100%)",
     "ink": "light",
     "repo": "martonpaulo/moon-uniform",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": false,
+      "closedIssues": 14,
+      "commits": 103,
+      "recentCommits": 103,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "lights",
@@ -291,7 +351,17 @@
     "gradient": "#05080d radial-gradient(700px 520px at 78% 40%,#16090c 0%,transparent 70%)",
     "ink": "light",
     "repo": "martonpaulo/lights",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 18,
+      "commits": 129,
+      "recentCommits": 74,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "linguae",
@@ -339,7 +409,17 @@
     "ink": "light",
     "repo": "martonpaulo/ink-tools",
     "kindsFrom": "docs/tools.json",
-    "stars": 1
+    "metrics": {
+      "stars": 2,
+      "forks": 0,
+      "downloads": 234,
+      "release": true,
+      "public": true,
+      "closedIssues": 283,
+      "commits": 1225,
+      "recentCommits": 1225,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "batuque",
@@ -357,7 +437,17 @@
     "kinds": ["web"],
     "subject": "learning",
     "repo": "martonpaulo/batuque",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 40,
+      "commits": 200,
+      "recentCommits": 200,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "leve",
@@ -374,7 +464,17 @@
     "kinds": ["macos"],
     "subject": "productivity",
     "repo": "martonpaulo/leve",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": true,
+      "closedIssues": 14,
+      "commits": 54,
+      "recentCommits": 54,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "trickle-tabs",
@@ -390,7 +490,17 @@
     "kinds": ["extension"],
     "subject": "productivity",
     "repo": "martonpaulo/trickle-tabs",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": false,
+      "closedIssues": 5,
+      "commits": 38,
+      "recentCommits": 38,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "dele-diario",
@@ -406,7 +516,17 @@
     "kinds": ["ios"],
     "subject": "learning",
     "repo": "martonpaulo/dele-diario",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": false,
+      "closedIssues": 304,
+      "commits": 574,
+      "recentCommits": 574,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "panoram",
@@ -422,7 +542,17 @@
     "kinds": ["macos"],
     "subject": "productivity",
     "repo": "martonpaulo/panoram",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": false,
+      "closedIssues": 2223,
+      "commits": 4411,
+      "recentCommits": 4195,
+      "at": "2026-11-26"
+    }
   },
   {
     "slug": "workbench",
@@ -438,6 +568,16 @@
     "kinds": ["library"],
     "subject": "ai",
     "repo": "martonpaulo/workbench",
-    "stars": 0
+    "metrics": {
+      "stars": 0,
+      "forks": 0,
+      "downloads": 0,
+      "release": false,
+      "public": false,
+      "closedIssues": 1988,
+      "commits": 3117,
+      "recentCommits": 3016,
+      "at": "2026-11-26"
+    }
   }
 ]

@@ -4,13 +4,13 @@
 //
 // The Earlier work tab and every project page it lists ask for noindex and are not in the
 // sitemap; no page links the archive's root, which serves nothing; no current list names an
-// Earlier work project; the home page shows the six most-starred projects in order (#43); a
+// Earlier work project; the home page and the Projects list follow the score (#43); a
 // project with its own site has no page and every list leads to that site (#57); and no page links
 // the repository of a project that has no public source link.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { homeProjects } from "../src/lib/status.ts";
+import { homeProjects, rankedProjects } from "../src/lib/status.ts";
 import { hasPage, pagePath, projectTarget } from "../src/lib/targets.ts";
 
 const say = (line) => process.stdout.write(`${line}\n`);
@@ -117,15 +117,22 @@ for (const project of projects) {
     problems.push(`TARGET /projects/: ${project.slug} does not lead to ${href}`);
 }
 
-// The home page shows the six most-starred current projects, in that order (#43).
+// The home page shows the six current projects with the highest score, and the Projects list
+// every current one, in score order (#43).
 const home = [
   ...page("/").matchAll(
     /class="project-card"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*class="project-card"/g,
   ),
 ].map((match) => match[1] ?? match[2]);
-const expected = homeProjects(projects).map((project) => projectTarget(project).href);
+const expected = homeProjects(projects, site.url).map((project) => projectTarget(project).href);
 if (home.join() !== expected.join())
   problems.push(`HOME ORDER ${home.join()} is not ${expected.join()}`);
+const listed = [...list.matchAll(/class="project-row__icon-link"\s+href="([^"]+)"/g)].map(
+  (match) => match[1],
+);
+const ranked = rankedProjects(projects, site.url).map((project) => projectTarget(project).href);
+if (listed.join() !== ranked.join())
+  problems.push(`LIST ORDER ${listed.join()} is not ${ranked.join()}`);
 
 // A project with no public source link is never linked to its repository (#43).
 const privateRepos = projects

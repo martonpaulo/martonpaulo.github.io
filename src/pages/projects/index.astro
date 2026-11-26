@@ -1,15 +1,15 @@
 ---
 import ProjectTabs from "../../components/ProjectTabs.astro";
 import Base from "../../layouts/Base.astro";
-import { getCopy, getCurrentProjects, homeFirst } from "../../lib/db";
+import { byScore, getCopy, getCurrentProjects } from "../../lib/db";
 import { countBySubject, projectRow, tabNotes } from "../../lib/projects";
 
 const projects = await getCurrentProjects();
 const allCopy = await getCopy();
 const { projects: copy, kinds } = allCopy;
-// One list of current projects: the home page's six first, then everything else by year.
-// Earlier work has its own tab (#42).
-const listed = (await homeFirst(projects)).map((project) => projectRow(project, kinds));
+// One list of current projects, by score as on the home page (#43). Earlier work has its own
+// tab (#42).
+const listed = (await byScore(projects)).map((project) => projectRow(project, kinds));
 const counts = countBySubject(projects);
 ---
 
