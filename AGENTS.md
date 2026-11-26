@@ -2,10 +2,10 @@
 
 ## Project identity and policy
 
-- Display name: `Portfolio Website`
-- Code name: `PortfolioWebsite`
+- Display name: `Portfolio`
+- Code name: `Portfolio`
 - Slug: `martonpaulo.github.io`
-- Identifier name: `portfoliowebsite`
+- Identifier name: `portfolio`
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
