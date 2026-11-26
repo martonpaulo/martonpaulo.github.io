@@ -1,5 +1,14 @@
 [
   {
+    "slug": "orbit",
+    "project": "orbit",
+    "planned": true,
+    "period": {
+      "from": 2026,
+      "to": 2026
+    }
+  },
+  {
     "slug": "issues-graph",
     "project": "issues-graph",
     "planned": true,

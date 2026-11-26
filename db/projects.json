@@ -11,7 +11,6 @@
       "live": "https://tabelo.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/tabelo"
     },
-    "featured": true,
     "status": "active",
     "tile": "sage",
     "image": {
@@ -22,7 +21,9 @@
     "kinds": ["web"],
     "cardAlt": "Tabelo on a denim card: the Markdown and Table panes of one workspace showing the same table of cities, kept in sync.",
     "gradient": "linear-gradient(135deg,#122540 0%,#172f52 40%,#1e3c68 70%,#355e96 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/tabelo",
+    "stars": 1
   },
   {
     "slug": "mailbell",
@@ -36,7 +37,6 @@
       "live": "https://mailbell.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/mailbell"
     },
-    "featured": false,
     "status": "discontinued",
     "discontinuedOn": "2026-10",
     "discontinuedReason": "Gmail now reaches me through Beeper.",
@@ -58,7 +58,6 @@
       "live": "https://meantime.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/meantime"
     },
-    "featured": true,
     "status": "active",
     "tile": "peach",
     "image": {
@@ -69,7 +68,9 @@
     "kinds": ["macos"],
     "cardAlt": "The Meantime clock icon and the words Free for Mac, open source, Meantime, World clocks in your menu bar, beside the Meantime panel with two clocks and a month calendar.",
     "gradient": "linear-gradient(135deg,#3f3a78 0%,#4b4588 40%,#575197 65%,#7069b0 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/meantime",
+    "stars": 2
   },
   {
     "slug": "atlastint",
@@ -83,12 +84,18 @@
       "live": "https://atlastint.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/atlastint"
     },
-    "featured": false,
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "The AtlasTint mark and the words Free in your browser, AtlasTint, Color and track the regions of the world, beside a drawing of the app: the Regions list and a world map with Canada and Brazil colored in.",
     "gradient": "linear-gradient(135deg,#6e3a26 0%,#7f4430 40%,#8f4d36 65%,#b8704f 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/atlastint",
+    "image": {
+      "src": "../src/assets/share/atlastint.png",
+      "alt": "AtlasTint's app icon",
+      "fit": "contain"
+    },
+    "stars": 1
   },
   {
     "slug": "todo-print",
@@ -102,7 +109,6 @@
       "live": "https://todoprint.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/todo-print"
     },
-    "featured": false,
     "status": "discontinued",
     "discontinuedOn": "2026-10",
     "discontinuedReason": "Google Tasks can now print lists.",
@@ -123,7 +129,6 @@
       "live": "https://windowhop.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/windowhop"
     },
-    "featured": true,
     "status": "active",
     "tile": "lavender",
     "image": {
@@ -134,7 +139,9 @@
     "kinds": ["macos"],
     "cardAlt": "The WindowHop icon and the words Free for Mac, open source, WindowHop, Switch between windows, not just apps, beside a drawing of the switcher panel with eight window previews.",
     "gradient": "linear-gradient(135deg,#2563eb 0%,#1d4ed8 50%,#4338ca 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/windowhop",
+    "stars": 29
   },
   {
     "slug": "smart-desk",
@@ -148,7 +155,6 @@
       "live": "https://smartdesk.martonpaulo.com/"
     },
     "note": "Personal app, never released. Its page describes what it did.",
-    "featured": false,
     "status": "discontinued",
     "discontinuedOn": "2026-10",
     "discontinuedReason": "Replaced by Leve and Google Tasks.",
@@ -170,8 +176,7 @@
       "live": "https://orbit.martonpaulo.com/"
     },
     "note": "Personal app, not released. The page says what it will do.",
-    "featured": true,
-    "status": "active",
+    "status": "discontinued",
     "tile": "lilac",
     "image": {
       "src": "../src/assets/projects/orbit.png",
@@ -181,7 +186,9 @@
     "kinds": ["ios"],
     "cardAlt": "Orbit on a teal card: two iPhone screens, contacts grouped by country and city, and a map with each contact pinned where they live.",
     "gradient": "linear-gradient(135deg,#0a3f3b 0%,#0c524c 40%,#0f665e 70%,#2a8a80 100%)",
-    "ink": "light"
+    "ink": "light",
+    "discontinuedOn": "2026-11",
+    "discontinuedReason": "No longer maintained; its page stays in the archive."
   },
   {
     "slug": "country-badge",
@@ -195,12 +202,18 @@
       "live": "https://countrybadge.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/country-badge"
     },
-    "featured": false,
     "status": "active",
     "kinds": ["web"],
     "cardAlt": "Country Badge Generator on an emerald card: Brazil selected, three flag-colour backgrounds, SVG, PNG and JPG formats and a large badge preview.",
     "gradient": "linear-gradient(135deg,#14543f 0%,#1b644b 40%,#227457 65%,#3f9a77 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/country-badge",
+    "image": {
+      "src": "../src/assets/share/country-badge.png",
+      "alt": "Country Badge Generator's app icon",
+      "fit": "contain"
+    },
+    "stars": 1
   },
   {
     "slug": "issues-graph",
@@ -214,7 +227,6 @@
       "live": "https://issues.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/issues-graph"
     },
-    "featured": false,
     "status": "discontinued",
     "discontinuedOn": "2026-11",
     "discontinuedReason": "No longer maintained; its last build stays in the archive.",
@@ -234,7 +246,6 @@
     "links": {
       "live": "https://moon.martonpaulo.com/"
     },
-    "featured": true,
     "status": "active",
     "tile": "salmon",
     "image": {
@@ -245,7 +256,9 @@
     "kinds": ["typeface"],
     "cardAlt": "Moon Uniform on a forest-green card: a specimen sheet with the word Moon and the letters A to Z set in the Moon alphabet.",
     "gradient": "linear-gradient(135deg,#123a2d 0%,#17473a 40%,#1f5a48 70%,#3b7d64 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/moon-uniform",
+    "stars": 0
   },
   {
     "slug": "lights",
@@ -259,7 +272,6 @@
       "live": "https://lights.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/lights"
     },
-    "featured": true,
     "status": "active",
     "tile": "mint",
     "image": {
@@ -270,7 +282,9 @@
     "kinds": ["experiment"],
     "cardAlt": "Lights, generative art: a frame of the piece, small white, blue and amber lights and the faint trails of two bonds drifting in the night.",
     "gradient": "#05080d radial-gradient(700px 520px at 78% 40%,#16090c 0%,transparent 70%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/lights",
+    "stars": 0
   },
   {
     "slug": "linguae",
@@ -284,7 +298,6 @@
       "live": "https://linguae.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/linguae"
     },
-    "featured": false,
     "status": "discontinued",
     "discontinuedOn": "2026-11",
     "discontinuedReason": "No longer maintained; its last build stays in the archive.",
@@ -305,7 +318,6 @@
       "live": "https://inktools.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/ink-tools"
     },
-    "featured": true,
     "status": "active",
     "tile": "sky",
     "image": {
@@ -316,6 +328,101 @@
     "kinds": ["macos"],
     "cardAlt": "Ink Tools on an ink-blue card: a Supernote page with a lassoed handwritten word, the Lasso Actions buttons and the picture they inserted.",
     "gradient": "linear-gradient(135deg,#10263f 0%,#1e4670 55%,#2f6aa3 100%)",
-    "ink": "light"
+    "ink": "light",
+    "repo": "martonpaulo/ink-tools",
+    "stars": 1
+  },
+  {
+    "slug": "batuque",
+    "name": "Batuque",
+    "tagline": "Watch and hear the rhythms of Pernambuco, one drum at a time, then all together.",
+    "description": "An animated show of one to two minutes for each rhythm of Pernambuco: maracatu de baque virado, coco, frevo, forró pé-de-serra, manguebeat, brega and bregafunk. A wheel shows the beats of each instrument with the score underneath, every sound is a public-domain recording of a real instrument, and a show can be exported as a vertical video made in the browser.",
+    "year": 2026,
+    "stack": ["JavaScript", "HTML", "CSS"],
+    "tags": ["music", "education", "open-source"],
+    "links": {
+      "live": "https://batuque.martonpaulo.com/",
+      "source": "https://github.com/martonpaulo/batuque"
+    },
+    "status": "active",
+    "kinds": ["web"],
+    "repo": "martonpaulo/batuque",
+    "stars": 0
+  },
+  {
+    "slug": "leve",
+    "name": "Leve",
+    "tagline": "Today's time and events in the macOS menu bar, so deep focus never costs a meeting.",
+    "description": "The menu bar says \"Free until 2:00 PM\", \"in 12 min\" or \"20 min left\", never the event's name, so it is safe on a shared screen. A notification arrives a few minutes before each event, a calm full-screen alert with a Join button covers every display just before it starts, and Leve says the time on the half hour. It reads today's events only and never changes a calendar.",
+    "year": 2026,
+    "stack": ["Swift", "AppKit", "SwiftUI", "EventKit"],
+    "tags": ["macos", "calendar", "focus"],
+    "links": {
+      "source": "https://github.com/martonpaulo/leve"
+    },
+    "status": "active",
+    "kinds": ["macos"],
+    "repo": "martonpaulo/leve",
+    "stars": 0
+  },
+  {
+    "slug": "trickle-tabs",
+    "name": "Trickle Tabs",
+    "tagline": "Keeps Brave fast when you open many tabs: background tabs load only when you open them.",
+    "description": "Each new background tab waits in a queue, loads only until its title and icon appear, and loads for real when you open it. A tab nobody looked at for ten minutes goes to sleep, sooner when memory is low, while the tab in view, tabs playing sound, pinned tabs and chat and mail sites stay awake. It runs in Brave on macOS.",
+    "year": 2026,
+    "stack": ["JavaScript", "WebExtensions API"],
+    "tags": ["browser", "performance"],
+    "links": {},
+    "note": "Not published yet. This page says what it does.",
+    "status": "active",
+    "kinds": ["extension"],
+    "repo": "martonpaulo/trickle-tabs",
+    "stars": 0
+  },
+  {
+    "slug": "dele-diario",
+    "name": "DELE Diario",
+    "tagline": "Daily iPhone practice with the real task types of DELE C1, DELE C2 and CCSE.",
+    "description": "Each exercise is a real exam task in its official format, corrected at the end, and every mistake comes back in a spaced review until it is learned. A notebook keeps saved phrases, and statistics follow each task type. Everything stays on the iPhone, with no account and no server; an optional AI estimate sends a text to Anthropic only with your own key and only when you ask.",
+    "year": 2026,
+    "stack": ["Swift", "SwiftUI"],
+    "tags": ["ios", "language-learning", "local-first"],
+    "links": {},
+    "note": "A personal study app, not published. This page says what it does.",
+    "status": "active",
+    "kinds": ["ios"],
+    "repo": "martonpaulo/dele-diario",
+    "stars": 0
+  },
+  {
+    "slug": "panoram",
+    "name": "Panoram",
+    "tagline": "Messaging, email, tasks and AI in one native macOS window, through Matrix.",
+    "description": "One place for every conversation and every task: WhatsApp, Telegram, Instagram, Messenger, LinkedIn, Microsoft Teams, Gmail threads, TikTok messages and Todoist lists in one macOS app, connected through Matrix. The direction is provider-neutral and local-first, and most of it is not built yet.",
+    "year": 2026,
+    "stack": ["Swift", "Go", "Matrix"],
+    "tags": ["macos", "messaging", "local-first"],
+    "links": {},
+    "note": "A personal app, not published. This page says what it does.",
+    "status": "active",
+    "kinds": ["macos"],
+    "repo": "martonpaulo/panoram",
+    "stars": 0
+  },
+  {
+    "slug": "workbench",
+    "name": "Workbench",
+    "tagline": "Safety-bounded engineering workflows for coding agents, as skills for Claude Code.",
+    "description": "Recurring project work turned into named workflows a coding agent can run: setting up a repository, turning an idea into issues, planning and implementing them, reviewing, auditing and releasing. Each workflow has one owner, a narrow trigger and a hard limit on what it may change, and merging stays the developer's decision. Many skills began in other open-source projects, and every source is credited.",
+    "year": 2026,
+    "stack": ["Python", "Claude Code"],
+    "tags": ["developer-tools", "ai-agents"],
+    "links": {},
+    "note": "Private. This page is its only public description.",
+    "status": "active",
+    "kinds": ["library"],
+    "repo": "martonpaulo/workbench",
+    "stars": 0
   }
 ]

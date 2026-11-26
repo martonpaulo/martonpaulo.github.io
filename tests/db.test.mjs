@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
+import { HOME_COUNT, homeProjects } from "../src/lib/status.ts";
+
 const read = async (name) =>
   JSON.parse(await readFile(new URL(`../db/${name}.json`, import.meta.url), "utf8"));
 
@@ -11,8 +13,6 @@ const [projects, links, site, copy] = await Promise.all(
   ["projects", "links", "site", "copy"].map(read),
 );
 
-const FEATURED_MIN = 3;
-const FEATURED_MAX = 9;
 const SEARCH_SNIPPET_MAX = 160;
 
 test("every project has a unique slug", () => {
@@ -27,15 +27,49 @@ test("every project has a link, or a note saying why it has none", () => {
   }
 });
 
-test("featured projects are few enough for the home page and each has artwork", () => {
-  const featured = projects.filter((project) => project.featured);
-  assert.ok(
-    featured.length >= FEATURED_MIN && featured.length <= FEATURED_MAX,
-    `featured: ${featured.length}`,
-  );
-  for (const project of featured) {
-    assert.ok(project.image, `${project.slug} is featured without an image`);
-    assert.ok(project.tile, `${project.slug} is featured without a tile colour`);
+// The owner's current projects (#43). A project joins or leaves the current list only when the
+// owner changes this list; every other project is Earlier work (#42).
+const OWNER_CURRENT = [
+  "atlastint",
+  "batuque",
+  "country-badge",
+  "dele-diario",
+  "ink-tools",
+  "leve",
+  "lights",
+  "meantime",
+  "moon-uniform",
+  "panoram",
+  "tabelo",
+  "trickle-tabs",
+  "windowhop",
+  "workbench",
+];
+
+test("the current projects are exactly the owner's list", () => {
+  const current = projects.filter((project) => project.status !== "discontinued");
+  assert.deepEqual(current.map((project) => project.slug).sort(), OWNER_CURRENT);
+});
+
+test("every current project records its repository and its stars", () => {
+  for (const project of projects.filter((project) => project.status !== "discontinued")) {
+    assert.ok(project.repo, `${project.slug} has no repo`);
+    assert.ok(
+      Number.isInteger(project.stars),
+      `${project.slug} has no stars; run scripts/stars.mjs`,
+    );
+  }
+});
+
+test("the home page shows six projects, each with artwork and a tile", () => {
+  const home = homeProjects(projects);
+  assert.equal(home.length, HOME_COUNT);
+  for (const project of home) {
+    assert.ok(project.image, `${project.slug} is on the home page without an image`);
+    assert.ok(
+      project.tile || project.gradient,
+      `${project.slug} is on the home page without a tile`,
+    );
   }
 });
 

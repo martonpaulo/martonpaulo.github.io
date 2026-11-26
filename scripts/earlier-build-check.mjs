@@ -3,10 +3,13 @@
 //   node scripts/earlier-build-check.mjs [dist]
 //
 // The Earlier work tab and every project page it lists ask for noindex and are not in the
-// sitemap; no page links the archive's root, which serves nothing; and no current list names an
-// Earlier work project.
+// sitemap; no page links the archive's root, which serves nothing; no current list names an
+// Earlier work project; the home page shows the six most-starred projects in order (#43); and
+// no page links the repository of a project that has no public source link.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+
+import { homeProjects } from "../src/lib/status.ts";
 
 const say = (line) => process.stdout.write(`${line}\n`);
 
@@ -65,6 +68,26 @@ const walk = (dir) =>
 for (const file of walk(dist)) {
   if (readFileSync(file, "utf8").includes(`href="${site.archive}"`))
     problems.push(`ROOT LINK ${file}: links ${site.archive}`);
+}
+
+// The home page shows the six most-starred current projects, in that order (#43).
+const home = [
+  ...page("/").matchAll(
+    /class="project-card"[^>]*href="\/projects\/([^/"]+)\/"|href="\/projects\/([^/"]+)\/"[^>]*class="project-card"/g,
+  ),
+].map((match) => match[1] ?? match[2]);
+const expected = homeProjects(projects).map((project) => project.slug);
+if (home.join() !== expected.join())
+  problems.push(`HOME ORDER ${home.join()} is not ${expected.join()}`);
+
+// A project with no public source link is never linked to its repository (#43).
+const privateRepos = projects
+  .filter((p) => p.repo && !p.links.source)
+  .map((p) => `github.com/${p.repo}`);
+for (const file of walk(dist)) {
+  const html = readFileSync(file, "utf8");
+  for (const repo of privateRepos)
+    if (html.includes(repo)) problems.push(`PRIVATE ${file}: names ${repo}`);
 }
 
 for (const line of problems) say(line);

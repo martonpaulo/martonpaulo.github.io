@@ -17,7 +17,7 @@
   },
   "projects": {
     "title": "Projects",
-    "lede": "The things I'm proudest of first, then everything else by year. Retired, older and study projects are under Earlier work.",
+    "lede": "The most-starred first, then everything else by year. Retired, older and study projects are under Earlier work.",
     "description": "Everything Marton Paulo has built: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
     "listHeading": "All projects",
     "filterLabel": "Filter by kind",
@@ -104,6 +104,10 @@
     "experiment": {
       "one": "Experiment",
       "many": "Experiments"
+    },
+    "extension": {
+      "one": "Browser extension",
+      "many": "Browser extensions"
     }
   }
 }

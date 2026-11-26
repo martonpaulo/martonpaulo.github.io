@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { currentOnly, monthYear, periodLabel } from "../src/lib/status.ts";
+import { currentOnly, homeProjects, monthYear, periodLabel } from "../src/lib/status.ts";
 
 test("the current lists leave discontinued projects out and keep the order", () => {
   const projects = [
@@ -15,6 +15,23 @@ test("the current lists leave discontinued projects out and keep the order", () 
   assert.deepEqual(
     currentOnly(projects).map((project) => project.slug),
     ["a", "b", "c"],
+  );
+});
+
+test("the home page takes the six most-starred current projects, ties by name", () => {
+  const projects = [
+    { name: "Zeta", stars: 3, status: "active" },
+    { name: "Alpha", stars: 1, status: "active" },
+    { name: "Gone", stars: 99, status: "discontinued" },
+    { name: "Beta", stars: 1, status: "active" },
+    { name: "Eta", stars: 0, status: "active" },
+    { name: "Delta", stars: 1, status: "active" },
+    { name: "Theta", stars: 0, status: "active" },
+    { name: "Iota", stars: 0, status: "active" },
+  ];
+  assert.deepEqual(
+    homeProjects(projects).map((project) => project.name),
+    ["Zeta", "Alpha", "Beta", "Delta", "Eta", "Iota"],
   );
 });
 

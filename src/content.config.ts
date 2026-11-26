@@ -31,6 +31,7 @@ export const projectKinds = [
   "library",
   "game",
   "experiment",
+  "extension",
 ] as const;
 
 export const tileColors = [
@@ -181,6 +182,7 @@ const copy = defineCollection({
       library: kindLabel,
       game: kindLabel,
       experiment: kindLabel,
+      extension: kindLabel,
     } satisfies Record<(typeof projectKinds)[number], typeof kindLabel>),
   }),
 });
@@ -229,7 +231,13 @@ const projects = defineCollection({
       }),
       /** Shown when a project has no public link, so the absence reads as a decision. */
       note: z.string().optional(),
-      featured: z.boolean(),
+      /** The repository as owner/name; scripts/stars.mjs reads its stars from GitHub. Never rendered. */
+      repo: z
+        .string()
+        .regex(/^[\w.-]+\/[\w.-]+$/)
+        .optional(),
+      /** GitHub stars, recorded by scripts/stars.mjs; the home page shows the six with the most (#43). */
+      stars: z.number().int().nonnegative().optional(),
       // archived: it still runs, unmaintained. discontinued: the product stopped, and
       // the three fields below say when, why and where to go instead. They are set
       // exactly when a project is discontinued, which tests/db.test.mjs checks.

@@ -4,17 +4,14 @@ import ProjectList from "../../components/ProjectList.astro";
 import WorkFilters from "../../components/WorkFilters.astro";
 import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
-import { byYear, getCopy, getCurrentProjects } from "../../lib/db";
+import { getCopy, getCurrentProjects, homeFirst } from "../../lib/db";
 import { countByKind, projectRow } from "../../lib/projects";
 
 const projects = await getCurrentProjects();
 const { projects: copy, kinds } = await getCopy();
-// One list of current projects: the selected ones first, in their authored order, then
-// everything else by year. Earlier work has its own tab (#42).
-const listed = [
-  ...projects.filter((project) => project.featured),
-  ...byYear(projects.filter((project) => !project.featured)),
-].map((project) => projectRow(project, kinds));
+// One list of current projects: the home page's six first, then everything else by year.
+// Earlier work has its own tab (#42).
+const listed = (await homeFirst(projects)).map((project) => projectRow(project, kinds));
 const counts = countByKind(projects, projectKinds);
 ---
 

@@ -1,4 +1,4 @@
-// The copy on a featured card stays readable over its gradient, WCAG 2.2 AA (#37).
+// The copy on a home page card stays readable over its gradient, WCAG 2.2 AA (#37).
 //
 // A card's 135deg gradient lightens toward the bottom-right corner, where the artwork sits; the copy
 // sits top-left. A point (x, y) of a W by H card lies at (x + y) / (W + H) along a 135deg gradient,
@@ -10,6 +10,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+
+import { homeProjects } from "../src/lib/status.ts";
 
 const TEXT_REACH = 0.7;
 const AA_TEXT = 4.5;
@@ -60,9 +62,9 @@ function colourAt(list, t) {
   return list.at(-1).rgb;
 }
 
-test("every featured card's muted ink holds AA over the gradient wherever the copy sits", () => {
-  const checked = projects.filter((project) => project.featured && stops(project.gradient));
-  assert.ok(checked.length > 0, "no featured project has a 135deg gradient to check");
+test("every home card's muted ink holds AA over the gradient wherever the copy sits", () => {
+  const checked = homeProjects(projects).filter((project) => stops(project.gradient));
+  assert.ok(checked.length > 0, "no home project has a 135deg gradient to check");
   for (const project of checked) {
     const list = stops(project.gradient);
     const ink = MUTED[project.ink ?? "dark"];

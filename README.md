@@ -68,7 +68,7 @@ TypeScript stays on major 6 until `astro check` supports 7.
 | I want to…                                 | Do this                                                                                                                                                                       |
 | :----------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add or edit a project, the bio, a link     | Edit `db/projects.json`, `db/person.json` or `db/links.json`; labels live in `db/copy.json`. The shape is enforced by `src/content.config.ts`; a wrong value fails the build. |
-| Put a project on the home page             | Set its `featured` to `true` and give it an `image` and a `tile`. Three to nine fit.                                                                                          |
+| Put a project on the home page             | The home page shows the six current projects with the most GitHub stars. Refresh the counts with `GH_TOKEN=… node scripts/stars.mjs`; each of the six needs an `image`.       |
 | Change the order of projects within a year | Reorder them in `db/projects.json`; the site keeps the file's order.                                                                                                          |
 | Give a project a short link                | Every project with a `live` URL already answers at `/p/<slug>/`.                                                                                                              |
 | Change a colour, font or spacing           | Read `docs/design-system.md`, then change the token in `src/styles/tokens.scss`.                                                                                              |
@@ -96,13 +96,13 @@ TypeScript stays on major 6 until `astro check` supports 7.
 
 ## Validation
 
-| Command         | Checks                                                                                                         |
-| :-------------- | :------------------------------------------------------------------------------------------------------------- |
-| `pnpm check`    | Types, and every file in `db/` against its schema                                                              |
-| `pnpm lint`     | ESLint and Prettier                                                                                            |
-| `pnpm test`     | Invariants the schema cannot express: unique slugs, a link per project, a sensible number of featured projects |
-| `pnpm build`    | The whole site, sitemap, redirects and share images into `dist/`                                               |
-| `pnpm validate` | All of the above, in that order                                                                                |
+| Command         | Checks                                                                                                                   |
+| :-------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| `pnpm check`    | Types, and every file in `db/` against its schema                                                                        |
+| `pnpm lint`     | ESLint and Prettier                                                                                                      |
+| `pnpm test`     | Invariants the schema cannot express: unique slugs, a link per project, the owner's current list and the home page's six |
+| `pnpm build`    | The whole site, sitemap, redirects and share images into `dist/`                                                         |
+| `pnpm validate` | All of the above, in that order                                                                                          |
 
 `Validate` runs the cheap checks — `check`, `lint`, `test` — on every push and pull request,
 because linting and formatting read files the site never serves. `Deploy` waits for `Validate` to

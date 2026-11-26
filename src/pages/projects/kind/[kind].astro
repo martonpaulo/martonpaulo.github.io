@@ -4,7 +4,7 @@ import ProjectList from "../../../components/ProjectList.astro";
 import WorkFilters from "../../../components/WorkFilters.astro";
 import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
-import { byYear, getCopy, getCurrentProjects } from "../../../lib/db";
+import { getCopy, getCurrentProjects, homeFirst } from "../../../lib/db";
 import { fill, lowerFirst } from "../../../lib/copy";
 import { countByKind, type ProjectKind, projectRow } from "../../../lib/projects";
 
@@ -21,11 +21,8 @@ const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
 const ofKind = projects.filter((project) => project.kinds.includes(kind));
-// One list, as on the projects page: the selected ones first, then the rest by year.
-const listed = [
-  ...ofKind.filter((project) => project.featured),
-  ...byYear(ofKind.filter((project) => !project.featured)),
-].map((project) => projectRow(project, kinds));
+// One list, as on the projects page: the home page's ones first, then the rest by year.
+const listed = (await homeFirst(ofKind)).map((project) => projectRow(project, kinds));
 const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---

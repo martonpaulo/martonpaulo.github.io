@@ -5,6 +5,7 @@
 ## Contents
 
 - [The patterns](#the-patterns)
+- [The current projects and the home page](#the-current-projects-and-the-home-page)
 - [Earlier work](#earlier-work)
 - [Interface rules](#interface-rules)
 - [Toolchain](#toolchain)
@@ -24,7 +25,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 - **The schema is the validation.** A new field is added to the zod schema in
   `src/content.config.ts` before it is used, so a wrong value fails `astro check` and the build.
   Invariants zod cannot express (unique slugs, a link or a note per project, artwork on every
-  featured project) are Node tests in `tests/`.
+  home page project) are Node tests in `tests/`.
 - **Order is authored, not sorted.** The loader records each entry's position in its file as
   `order`; readers in `src/lib/db.ts` sort by it, and `byYear()` is the only other ordering.
 - **Markup, style and logic are separate files.** A component is `Name.astro` (markup and prop
@@ -77,6 +78,17 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   Since 2026-09-09 each sibling project is served on its own subdomain
   (`https://<product>.martonpaulo.com/`, one GitHub Pages custom domain per repository), so `live`
   links point there; `martonpaulo.com/<repo>/` paths are gone and are not redirected.
+
+## The current projects and the home page
+
+The current Projects are exactly the owner's list, written in `tests/db.test.mjs`; every other
+Project is Earlier work ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
+The home page shows the six with the most GitHub stars, ties broken by name, and the Projects list
+and each kind tab open with them, then the rest by year (`homeProjects()` in `src/lib/status.ts`).
+`stars` is recorded in `db/projects.json` by `GH_TOKEN=… node scripts/stars.mjs`, which reads each
+Project's `repo`; the build reads only the recorded number, so the same data always gives the same
+order. A Project whose repository is private has no `source` link and a `note`, and its page says
+only what its README says; the build check fails when any page names such a repository.
 
 ## Earlier work
 
