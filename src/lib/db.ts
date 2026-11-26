@@ -1,7 +1,7 @@
 import { getCollection, getEntry } from "astro:content";
 
 import type { Project } from "./projects";
-import { discontinuedLast } from "./status";
+import { currentOnly } from "./status";
 
 const missing = (name: string) => new Error(`db/${name}.json is missing or empty`);
 
@@ -34,9 +34,20 @@ export async function getProjects(): Promise<Project[]> {
   return entries.map((entry) => entry.data).sort((a, b) => a.order - b.order);
 }
 
-/** The home grid: the featured ones in their written order, discontinued ones last. */
+/** Every project that is not Earlier work, in the order written in db/projects.json. */
+export async function getCurrentProjects(): Promise<Project[]> {
+  return currentOnly(await getProjects());
+}
+
+/** The home grid: the current featured ones in their written order. */
 export async function getFeaturedProjects() {
-  return discontinuedLast((await getProjects()).filter((project) => project.featured));
+  return (await getCurrentProjects()).filter((project) => project.featured);
+}
+
+/** The Earlier work list, in the order written in db/earlier.json (newest first). */
+export async function getEarlier() {
+  const entries = await getCollection("earlier");
+  return entries.map((entry) => entry.data).sort((a, b) => a.order - b.order);
 }
 
 /** Newest first, then the order written in db/projects.json. */

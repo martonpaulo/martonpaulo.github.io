@@ -38,6 +38,9 @@ sends an agent here before it edits `.github/`.
   live site back with `scripts/live_build_check.py`.
 - `Live` requests uncached paths after each deploy and daily, and fails on any non-2xx answer: the
   proxy's settings change without a commit, and a cached page hides a refused origin.
+  Its `archive` job compares `db/earlier.json` with the archive's folders the same way, since a
+  folder can be added there without a commit here
+  ([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42)).
 
 ## Settled settings
 

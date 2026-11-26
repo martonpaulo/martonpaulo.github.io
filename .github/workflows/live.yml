@@ -47,3 +47,11 @@ jobs:
             esac
           done
           exit "$failed"
+
+  # A folder can be added to the archive without a commit here, so the list is compared every day (#42).
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Compare db/earlier.json with the archive's folders
+        run: node scripts/archive-check.mjs

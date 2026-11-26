@@ -2,6 +2,7 @@ import type { CollectionEntry } from "astro:content";
 
 import type { projectKinds, tileColors } from "../content.config";
 import { type Copy, fill, listOf } from "./copy";
+import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
 
 export type Project = CollectionEntry<"projects">["data"];
@@ -79,24 +80,61 @@ export function kindPath(kind: ProjectKind): string {
   return `/projects/kind/${kind}/`;
 }
 
+/** The Earlier work tab (#42); noindex and out of the sitemap, like the pages it lists. */
+export const earlierPath = "/projects/earlier/";
+
+/** One line of a list, whichever list it is in: what ProjectRow draws. */
+export interface RowItem {
+  key: string;
+  name: string;
+  href: string;
+  /** The link leaves the site, so it opens in a new tab. */
+  external: boolean;
+  tagline: string;
+  /** Absent for a project with no icon of its own: the row shows a neutral square. */
+  icon: ImageMetadata | undefined;
+  /** Each kind, linked to its tab when the row is in a current list. */
+  kinds: { label: string; href?: string }[];
+  /** The year, or the period of an Earlier work entry. */
+  when: string;
+}
+
+/** A current project as a row: its page, its kinds linked to their tabs, its year. */
+export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
+  return {
+    key: project.slug,
+    name: project.name,
+    href: projectPath(project),
+    external: false,
+    tagline: project.tagline,
+    icon: projectIcon(project.slug),
+    kinds: project.kinds.map((kind) => ({ label: labels[kind].one, href: kindPath(kind) })),
+    when: String(project.year),
+  };
+}
+
 export type KindCounts = Record<ProjectKind, number>;
 
+export type FilterKey = "all" | ProjectKind | "earlier";
+
 export interface FilterOption {
-  key: "all" | ProjectKind;
+  key: FilterKey;
   label: string;
   href: string;
 }
 
-/** "Everything" first, then one chip per kind that has at least one project. */
+/** "Everything" first, then one chip per kind that has a current project, then Earlier work. */
 export function filterOptions(
   counts: KindCounts,
   allLabel: string,
   kinds: Copy["kinds"],
+  earlierLabel: string,
 ): FilterOption[] {
   const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
   return [
     { key: "all", label: allLabel, href: projectsPath },
     ...present.map((kind) => ({ key: kind, label: kinds[kind].many, href: kindPath(kind) })),
+    { key: "earlier", label: earlierLabel, href: earlierPath },
   ];
 }
 

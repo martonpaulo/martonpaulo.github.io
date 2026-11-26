@@ -82,10 +82,13 @@ transparent background and a dark halo, so it reads on a white, black or coloure
 **A floating pill for navigation.** Three destinations and the mark, translucent over the page,
 sticky at the top. It never grows a menu because there is nothing to hide in it.
 
-**A stopped project says so in words.** A discontinued project keeps its row, card and page, with a
-quiet "Discontinued" pill beside its name, outlined in the surrounding muted ink, never a warning
-colour: the work is still worth reading about. Its page adds when it stopped, why, and where to go
-instead, and every list puts it after the projects that still live ([#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)).
+**Earlier work has its own tab.** The home page and the project tabs show only current work. A
+retired product, an older project or a course exercise is one row on the Earlier work tab, the last
+chip of the filters, with its icon or a neutral square, its kind and the years it was worked on, and
+it links to its frozen build in the archive. No badge marks it: the grouping says it. A retired
+product keeps its page, which says when it stopped, why, and where to go instead
+([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42), replacing the badge of
+[#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)).
 
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
 eyebrow and one claim as the heading: "Software made with care". Section headings are

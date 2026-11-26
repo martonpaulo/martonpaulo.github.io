@@ -5,6 +5,7 @@
 ## Contents
 
 - [The patterns](#the-patterns)
+- [Earlier work](#earlier-work)
 - [Interface rules](#interface-rules)
 - [Toolchain](#toolchain)
 
@@ -76,6 +77,37 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
   Since 2026-09-09 each sibling project is served on its own subdomain
   (`https://<product>.martonpaulo.com/`, one GitHub Pages custom domain per repository), so `live`
   links point there; `martonpaulo.com/<repo>/` paths are gone and are not redirected.
+
+## Earlier work
+
+Retired products, older projects and course exercises are listed only on the Earlier work tab,
+`/projects/earlier/`, never on the home page or the other tabs
+([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42)).
+
+- **One list.** `db/earlier.json` is the only list, newest first. An entry is a Project of
+  `db/projects.json` by `project` (name, tagline, kinds, icon and source come from there), or a
+  frozen build with its own `name`, `tagline`, `kinds`, `source` and, inside a repository of
+  exercises, `folder`. `slug` is its folder at `archive.martonpaulo.com`; `planned` marks one whose
+  folder does not exist yet, which links to its project page until then. A Project is Earlier work
+  exactly when its `status` is `discontinued`; `tests/earlier.test.mjs` checks both directions.
+- **Agreement with the archive.** `pnpm archive-check` (`scripts/archive-check.mjs`) fails when a
+  folder of `martonpaulo/portfolio-archive`'s `site/` has no entry, or an entry has no folder and is
+  not planned. Validate runs it on every push and Live every day, since a folder can be added
+  without a commit here.
+- **Not indexed.** The tab and the project pages it lists carry `noindex` and are left out of the
+  sitemap in `astro.config.ts`, so portfolio-sitemap, which lists martonpaulo.com from the sitemap,
+  does not list them either. `scripts/earlier-build-check.mjs` checks the build for this, and that
+  no page links the archive's root, which serves nothing.
+- **The period is the years of real work.** `period` comes from the original repository's history,
+  never from its last change: only the owner's own commits count (no bot, no upstream author of a
+  fork), no merge, no commit that changes only files describing the repository (README, LICENSE,
+  CNAME, `AGENTS.md`, `CLAUDE.md`, `.github/`, `docs/`), and no commit made only to fit the
+  portfolio or the archive (its subject names the archive, the portfolio, martonpaulo.com or a
+  discontinuation). For a repository of exercises, only the entry's folder counts.
+  `node scripts/earlier-periods.mjs <clones-dir>` recomputes every period from clones of the
+  repositories and fails on a difference. A repository that is not public (Smart Desk) is skipped
+  there and its period is recorded by hand by the same rule; a project with no history takes the
+  year the owner gives.
 
 ## Interface rules
 

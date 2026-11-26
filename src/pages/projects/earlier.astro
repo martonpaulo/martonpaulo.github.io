@@ -1,0 +1,29 @@
+---
+import Hero from "../../components/Hero.astro";
+import ProjectList from "../../components/ProjectList.astro";
+import WorkFilters from "../../components/WorkFilters.astro";
+import { projectKinds } from "../../content.config";
+import Base from "../../layouts/Base.astro";
+import { getCopy, getCurrentProjects, getEarlier, getProjects, getSite } from "../../lib/db";
+import { earlierRow } from "../../lib/earlier";
+import { countByKind } from "../../lib/projects";
+
+// Retired, old and study projects, newest first, each linking to its frozen build (#42).
+// Not indexed: the page asks for noindex and astro.config.ts keeps it out of the sitemap.
+const site = await getSite();
+const { earlier: copy, kinds } = await getCopy();
+const projects = await getProjects();
+const counts = countByKind(await getCurrentProjects(), projectKinds);
+const items = (await getEarlier()).map((entry) => earlierRow(entry, projects, site.archive, kinds));
+---
+
+<Base title={copy.title} description={copy.description} noindex>
+  <Hero title={copy.title} lede={copy.lede} />
+
+  <WorkFilters current="earlier" counts={counts} />
+
+  <section class="section" aria-labelledby="list-heading">
+    <h2 id="list-heading" class="visually-hidden">{copy.listHeading}</h2>
+    <ProjectList items={items} />
+  </section>
+</Base>

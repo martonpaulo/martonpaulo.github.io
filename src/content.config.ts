@@ -53,8 +53,8 @@ const site = defineCollection({
     description: z.string().max(160),
     locale: z.string(),
     repository: z.url(),
-    /** The noindex archive of retired web projects (martonpaulo/portfolio-archive), linked from the footer. */
-    archive: z.url(),
+    /** The noindex archive of frozen builds (martonpaulo/portfolio-archive); an Earlier work entry lives at <archive><slug>/. */
+    archive: z.url().endsWith("/"),
     twitter: z.string().nullable(),
   }),
 });
@@ -129,7 +129,7 @@ const copy = defineCollection({
       status: z.string(),
       maintained: z.string(),
       archived: z.string(),
-      /** The badge on a card, a row and a project page, and the Status row's value. */
+      /** The Status row's value on a discontinued project's page. */
       discontinued: z.string(),
       discontinuedOn: z.string(),
       alternative: z.string(),
@@ -154,7 +154,14 @@ const copy = defineCollection({
       lede: z.string(),
       colophon: z.string(),
       sourceLink: z.string(),
-      archiveLink: z.string(),
+    }),
+    /** The Earlier work tab: retired, old and study projects, dated by when they were built (#42). */
+    earlier: z.object({
+      tab: z.string(),
+      title: z.string(),
+      lede: z.string(),
+      description: z.string(),
+      listHeading: z.string(),
     }),
     notFound: z.object({
       title: z.string(),
@@ -190,6 +197,10 @@ const links = defineCollection({
   }),
 });
 
+const year = z.number().int().min(2015).max(2100);
+/** One line under a name in a list or on a card. */
+const tagline = z.string().max(90);
+
 const projects = defineCollection({
   loader: listFromDb("projects", "slug"),
   schema: ({ image }) =>
@@ -197,9 +208,9 @@ const projects = defineCollection({
       slug: z.string().regex(/^[a-z0-9-]+$/),
       order: z.number().int(),
       name: z.string(),
-      tagline: z.string().max(90),
+      tagline,
       description: z.string(),
-      year: z.number().int().min(2015).max(2100),
+      year,
       kinds: z.array(z.enum(projectKinds)).min(1),
       // The alt text of the product's own social card, copied from the og:image:alt
       // the product serves, so the two never say different things.
@@ -245,4 +256,36 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { site, person, links, copy, projects };
+/**
+ * The one list of Earlier work, newest first (#42). An entry is either a Project of
+ * db/projects.json, by `project`, which then gives the name, tagline, kinds and source, or a
+ * frozen build of its own, which carries them. `slug` is its folder at archive.martonpaulo.com;
+ * `planned` marks one whose folder does not exist yet. `period` is the years of real work, by the
+ * rule in docs/patterns.md, "Earlier work"; scripts/earlier-periods.mjs recomputes it.
+ */
+const earlier = defineCollection({
+  loader: listFromDb("earlier", "slug"),
+  schema: z
+    .object({
+      slug: z.string().regex(/^[a-z0-9-]+$/),
+      order: z.number().int(),
+      project: z.string().optional(),
+      planned: z.literal(true).optional(),
+      name: z.string().optional(),
+      tagline: tagline.optional(),
+      kinds: z.array(z.enum(projectKinds)).min(1).optional(),
+      source: z.url().optional(),
+      /** The project's folder inside a repository of several exercises. */
+      folder: z.string().optional(),
+      period: z.object({ from: year, to: year }).refine((p) => p.from <= p.to, "from after to"),
+    })
+    .refine(
+      (entry) =>
+        entry.project
+          ? [entry.name, entry.tagline, entry.kinds, entry.source].every((v) => v === undefined)
+          : [entry.name, entry.tagline, entry.kinds, entry.source].every((v) => v !== undefined),
+      "an entry names a project, or carries its own name, tagline, kinds and source, never both",
+    ),
+});
+
+export const collections = { site, person, links, copy, projects, earlier };

@@ -38,3 +38,5 @@ jobs:
       - run: pnpm check
       - run: pnpm lint
       - run: pnpm test
+      # The archive's folders and db/earlier.json agree (#42).
+      - run: pnpm archive-check

@@ -24,7 +24,9 @@
     "text-check": "python3 scripts/text_check.py . && python3 scripts/issue_links.py . && python3 scripts/dry_check.py && python3 scripts/sleep_guard.py . && python3 scripts/shortcut_check.py .",
     "format": "prettier --write .",
     "test": "node --test",
-    "validate": "pnpm check && pnpm lint && pnpm test && pnpm build",
+    "archive-check": "node scripts/archive-check.mjs",
+    "build-check": "node scripts/earlier-build-check.mjs dist",
+    "validate": "pnpm check && pnpm lint && pnpm test && pnpm archive-check && pnpm build && pnpm build-check",
     "share-ground": "pnpm dlx playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/scripts/share-home/ground.html\" src/assets/share/home-ground.png",
     "card-art": "node scripts/card-art/render.mjs",
     "card-gradients": "node scripts/card-art/gradients.mjs"

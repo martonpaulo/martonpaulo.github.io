@@ -4,18 +4,17 @@ import ProjectList from "../../components/ProjectList.astro";
 import WorkFilters from "../../components/WorkFilters.astro";
 import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
-import { byYear, getCopy, getProjects } from "../../lib/db";
-import { countByKind } from "../../lib/projects";
-import { discontinuedLast } from "../../lib/status";
+import { byYear, getCopy, getCurrentProjects } from "../../lib/db";
+import { countByKind, projectRow } from "../../lib/projects";
 
-const projects = await getProjects();
-const { projects: copy } = await getCopy();
-// One list: the selected projects first, in their authored order, then everything else by year,
-// and discontinued projects after all of them.
-const listed = discontinuedLast([
+const projects = await getCurrentProjects();
+const { projects: copy, kinds } = await getCopy();
+// One list of current projects: the selected ones first, in their authored order, then
+// everything else by year. Earlier work has its own tab (#42).
+const listed = [
   ...projects.filter((project) => project.featured),
   ...byYear(projects.filter((project) => !project.featured)),
-]);
+].map((project) => projectRow(project, kinds));
 const counts = countByKind(projects, projectKinds);
 ---
 
@@ -26,6 +25,6 @@ const counts = countByKind(projects, projectKinds);
 
   <section class="section" aria-labelledby="list-heading">
     <h2 id="list-heading" class="visually-hidden">{copy.listHeading}</h2>
-    <ProjectList projects={listed} />
+    <ProjectList items={listed} />
   </section>
 </Base>

@@ -1,6 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig, fontProviders } from "astro/config";
 
+import earlier from "./db/earlier.json" with { type: "json" };
 import projects from "./db/projects.json" with { type: "json" };
 import site from "./db/site.json" with { type: "json" };
 
@@ -11,6 +12,13 @@ const projectRedirects = Object.fromEntries(
     .filter((project) => "live" in project.links)
     .map((project) => [`/p/${project.slug}`, project.links.live as string]),
 );
+
+// Earlier work is not indexed (#42): its tab and the project pages it lists stay out of the
+// sitemap, and so out of portfolio-sitemap, which lists martonpaulo.com from it.
+const unlisted = new Set([
+  "/projects/earlier/",
+  ...earlier.flatMap((entry) => ("project" in entry ? [`/projects/${entry.project}/`] : [])),
+]);
 
 export default defineConfig({
   site: site.url,
@@ -33,7 +41,12 @@ export default defineConfig({
   },
   // /p/ is redirects; /design/ is files for other sites, not pages.
   integrations: [
-    sitemap({ filter: (page) => !page.includes("/p/") && !page.includes("/design/") }),
+    sitemap({
+      filter: (page) =>
+        !page.includes("/p/") &&
+        !page.includes("/design/") &&
+        !unlisted.has(new URL(page).pathname),
+    }),
   ],
   fonts: [
     {

@@ -46,6 +46,9 @@ jobs:
       # is why the build lives here rather than in Validate.
       - run: pnpm build
 
+      # Earlier work stays out of search and no page links the archive's root (#42).
+      - run: pnpm build-check
+
       # The deployed commit, which the deploy job's last step reads back from the live site.
       - run: git rev-parse HEAD > dist/build.txt
 

@@ -17,7 +17,7 @@
   },
   "projects": {
     "title": "Projects",
-    "lede": "The things I'm proudest of first, then everything else by year. Study projects and archived ones stay because they show where the rest came from.",
+    "lede": "The things I'm proudest of first, then everything else by year. Retired, older and study projects are under Earlier work.",
     "description": "Everything Marton Paulo has built: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
     "listHeading": "All projects",
     "filterLabel": "Filter by kind",
@@ -58,8 +58,14 @@
     "title": "Get in touch",
     "lede": "Email is the fastest way to reach {givenName}. LinkedIn works too, and all the code is on GitHub.",
     "colophon": "© {year} {name}. Set in Gabarito and Figtree. Built with Astro from a few JSON files.",
-    "sourceLink": "Source on GitHub",
-    "archiveLink": "Archived projects"
+    "sourceLink": "Source on GitHub"
+  },
+  "earlier": {
+    "tab": "Earlier work",
+    "title": "Earlier work",
+    "lede": "Retired products, older projects and course exercises. Each one is dated by the years I worked on it, and most still run in the archive as I left them.",
+    "description": "Earlier work by Marton Paulo: retired products, older projects and course exercises, each dated by when it was built.",
+    "listHeading": "All earlier work"
   },
   "notFound": {
     "title": "Nothing here",

@@ -6,7 +6,6 @@ import { Image } from "astro:assets";
 import Button from "../../components/Button.astro";
 import DefinitionList from "../../components/DefinitionList.astro";
 import Eyebrow from "../../components/Eyebrow.astro";
-import StatusBadge from "../../components/StatusBadge.astro";
 import Base from "../../layouts/Base.astro";
 import { byYear, getCopy, getProjects, getSite } from "../../lib/db";
 import { heroImageSizes, heroImageWidths, imageQuality, projectCard } from "../../lib/images";
@@ -21,15 +20,19 @@ import {
   tileValue,
 } from "../../lib/projects";
 import { softwareNode } from "../../lib/seo";
-import { discontinuedLast } from "../../lib/status";
+import { currentOnly, isDiscontinued } from "../../lib/status";
 
 export async function getStaticPaths() {
-  // The same order the projects list reads in, so Newer and Older walk it.
-  const projects = discontinuedLast(byYear(await getProjects()));
-  return projects.map((project, index) => ({
-    params: { slug: project.slug },
-    props: { project, ...siblingsOf(projects, index) },
-  }));
+  // Newer and Older walk the project's own group: the current projects by year, or the
+  // Earlier work ones by year (#42).
+  const all = byYear(await getProjects());
+  const groups = [currentOnly(all), all.filter(isDiscontinued)];
+  return groups.flatMap((projects) =>
+    projects.map((project, index) => ({
+      params: { slug: project.slug },
+      props: { project, ...siblingsOf(projects, index) },
+    })),
+  );
 }
 
 const { project, newer, older } = Astro.props;
@@ -50,12 +53,12 @@ const card = projectCard(project.slug);
   description={description}
   ogType="article"
   jsonLd={[softwareNode(site, project)]}
+  noindex={isDiscontinued(project)}
 >
   <article class="project">
     <header class="project__header stack-center">
       <Eyebrow as="p">{label}</Eyebrow>
       <h1 class="project__title">{project.name}</h1>
-      <StatusBadge project={project} />
       <p class="lede">{project.tagline}</p>
       {
         notice && (

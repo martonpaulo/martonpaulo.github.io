@@ -1,10 +1,10 @@
-// The list order and the date wording of a discontinued project.
+// Which projects the current lists show, and the date wording of a stopped one.
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { discontinuedLast, monthYear } from "../src/lib/status.ts";
+import { currentOnly, monthYear, periodLabel } from "../src/lib/status.ts";
 
-test("discontinued projects come last, and each group keeps its order", () => {
+test("the current lists leave discontinued projects out and keep the order", () => {
   const projects = [
     { slug: "a", status: "active" },
     { slug: "gone-1", status: "discontinued" },
@@ -13,9 +13,14 @@ test("discontinued projects come last, and each group keeps its order", () => {
     { slug: "c", status: "active" },
   ];
   assert.deepEqual(
-    discontinuedLast(projects).map((project) => project.slug),
-    ["a", "b", "c", "gone-1", "gone-2"],
+    currentOnly(projects).map((project) => project.slug),
+    ["a", "b", "c"],
   );
+});
+
+test("a period reads as one year or a range", () => {
+  assert.equal(periodLabel({ from: 2023, to: 2023 }), "2023");
+  assert.equal(periodLabel({ from: 2024, to: 2025 }), "2024–2025");
 });
 
 test("a YYYY-MM month reads as the month and the year", () => {

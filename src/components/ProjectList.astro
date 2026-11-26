@@ -1,17 +1,17 @@
 ---
 import "./ProjectList.scss";
 
-import type { Project } from "../lib/projects";
+import type { RowItem } from "../lib/projects";
 import ProjectRow from "./ProjectRow.astro";
 
 interface Props {
-  projects: Project[];
+  items: RowItem[];
   headingLevel?: "h2" | "h3";
 }
 
-const { projects, headingLevel = "h3" } = Astro.props;
+const { items, headingLevel = "h3" } = Astro.props;
 ---
 
 <div class="project-list">
-  {projects.map((project) => <ProjectRow project={project} headingLevel={headingLevel} />)}
+  {items.map((item) => <ProjectRow item={item} headingLevel={headingLevel} />)}
 </div>

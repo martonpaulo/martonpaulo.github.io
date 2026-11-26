@@ -2,17 +2,17 @@
 import "./WorkFilters.scss";
 
 import { getCopy } from "../lib/db";
-import { filterOptions, type KindCounts, type ProjectKind } from "../lib/projects";
+import { type FilterKey, filterOptions, type KindCounts } from "../lib/projects";
 
-/** Pill chips that narrow the archive to one kind; each chip is a real page. */
+/** Pill chips that narrow the projects to one kind, then Earlier work; each chip is a real page. */
 interface Props {
-  current: "all" | ProjectKind;
+  current: FilterKey;
   counts: KindCounts;
 }
 
 const { current, counts } = Astro.props;
-const { projects: copy, kinds } = await getCopy();
-const options = filterOptions(counts, copy.filterAll, kinds);
+const { projects: copy, kinds, earlier } = await getCopy();
+const options = filterOptions(counts, copy.filterAll, kinds, earlier.tab);
 ---
 
 <nav class="work-filters" aria-label={copy.filterLabel}>

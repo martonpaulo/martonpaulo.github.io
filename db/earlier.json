@@ -1,0 +1,346 @@
+[
+  {
+    "slug": "issues-graph",
+    "project": "issues-graph",
+    "planned": true,
+    "period": {
+      "from": 2026,
+      "to": 2026
+    }
+  },
+  {
+    "slug": "mailbell",
+    "project": "mailbell",
+    "period": {
+      "from": 2026,
+      "to": 2026
+    }
+  },
+  {
+    "slug": "todo-print",
+    "project": "todo-print",
+    "period": {
+      "from": 2026,
+      "to": 2026
+    }
+  },
+  {
+    "slug": "smart-desk",
+    "project": "smart-desk",
+    "planned": true,
+    "period": {
+      "from": 2025,
+      "to": 2026
+    }
+  },
+  {
+    "slug": "linguae",
+    "project": "linguae",
+    "planned": true,
+    "period": {
+      "from": 2025,
+      "to": 2026
+    }
+  },
+  {
+    "slug": "react-headless-pagination",
+    "name": "React Headless Pagination",
+    "tagline": "The Storybook demo of a headless React pagination component.",
+    "kinds": ["library"],
+    "source": "https://github.com/martonpaulo/react-headless-pagination",
+    "period": {
+      "from": 2025,
+      "to": 2025
+    }
+  },
+  {
+    "slug": "github-blog",
+    "name": "GitHub Blog",
+    "tagline": "A blog whose posts are the issues of a GitHub repository.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/github-blog",
+    "period": {
+      "from": 2025,
+      "to": 2025
+    }
+  },
+  {
+    "slug": "budget-control",
+    "name": "Budget Control",
+    "tagline": "A tracker of income and expenses.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/budget-control",
+    "period": {
+      "from": 2025,
+      "to": 2025
+    }
+  },
+  {
+    "slug": "coffee-delivery",
+    "name": "Coffee Delivery",
+    "tagline": "An online coffee shop: browse, customise and order.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/coffee-delivery",
+    "period": {
+      "from": 2025,
+      "to": 2025
+    }
+  },
+  {
+    "slug": "pomodoro-timer",
+    "name": "Pomodoro Timer",
+    "tagline": "A Pomodoro timer with a history of cycles.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/pomodoro-timer",
+    "period": {
+      "from": 2024,
+      "to": 2025
+    }
+  },
+  {
+    "slug": "community-feed",
+    "name": "Community Feed",
+    "tagline": "A social feed with comments, applause and deletion.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/community-feed",
+    "period": {
+      "from": 2024,
+      "to": 2024
+    }
+  },
+  {
+    "slug": "react-todo-list",
+    "name": "React Todo List",
+    "tagline": "Add, complete and delete tasks.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/react-todo-list",
+    "period": {
+      "from": 2024,
+      "to": 2024
+    }
+  },
+  {
+    "slug": "angular-todo-list",
+    "name": "Angular Todo List",
+    "tagline": "A to-do list in Angular Material. Its API server ran locally, so the list stays empty.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/angular-todo-list",
+    "period": {
+      "from": 2023,
+      "to": 2023
+    }
+  },
+  {
+    "slug": "angular-calendar",
+    "name": "Angular Calendar",
+    "tagline": "A month calendar with appointments, built in Angular from scratch.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/angular-calendar",
+    "period": {
+      "from": 2023,
+      "to": 2023
+    }
+  },
+  {
+    "slug": "movie-list",
+    "name": "Movie List (PUC Minas)",
+    "tagline": "Browse popular films from The Movie Database and keep favourites. A course exercise.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/puc-minas-excercises",
+    "folder": "movie-list",
+    "period": {
+      "from": 2023,
+      "to": 2023
+    }
+  },
+  {
+    "slug": "svelte-calculator",
+    "name": "Svelte Calculator",
+    "tagline": "A calculator built in Svelte while following a video tutorial.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/svelte-calculator",
+    "period": {
+      "from": 2023,
+      "to": 2023
+    }
+  },
+  {
+    "slug": "puc-minas-todo-list",
+    "name": "Todo List (PUC Minas)",
+    "tagline": "A React to-do list from the full stack course at PUC Minas.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/puc-minas-excercises",
+    "folder": "todo-list",
+    "period": {
+      "from": 2023,
+      "to": 2023
+    }
+  },
+  {
+    "slug": "bezier-curves",
+    "name": "Bezier Curves",
+    "tagline": "A drawing tool for Bezier curves, from a computer graphics course at CIn-UFPE.",
+    "kinds": ["experiment"],
+    "source": "https://github.com/martonpaulo/bezier-curves",
+    "period": {
+      "from": 2021,
+      "to": 2021
+    }
+  },
+  {
+    "slug": "tic-tac-toe",
+    "name": "Tic-Tac-Toe",
+    "tagline": "Tic-tac-toe for two players. A Digital Innovation One course exercise.",
+    "kinds": ["game"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "tic-tac-toe",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "genius-memory-game",
+    "name": "Genius",
+    "tagline": "A colour and sound memory game. A Digital Innovation One course exercise.",
+    "kinds": ["game"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "genius-memory-game",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "dino-game",
+    "name": "Dino Game",
+    "tagline": "A jumping-dinosaur game. A Digital Innovation One course exercise.",
+    "kinds": ["game"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "dino-game",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "snake-the-game",
+    "name": "Snake",
+    "tagline": "The snake game on a canvas. A Digital Innovation One course exercise.",
+    "kinds": ["game"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "snake-the-game",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "instagram-landing-page",
+    "name": "Instagram Landing Page",
+    "tagline": "A copy of Instagram's landing page from a course exercise; not affiliated with Instagram.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "instagram-landing-page",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "netflix-homepage",
+    "name": "Netflix Home Page",
+    "tagline": "A copy of Netflix's home page from a course exercise; not affiliated with Netflix.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
+    "folder": "netflix-homepage",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "movie-app",
+    "name": "Movie App",
+    "tagline": "Search films by title in the OMDb database. A Digital House course exercise.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-house-exercises",
+    "folder": "movie-app",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "digital-house-todo-list",
+    "name": "Todo List (Digital House)",
+    "tagline": "A plain JavaScript to-do list. A Digital House course exercise.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-house-exercises",
+    "folder": "todo-list",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "jane-doe",
+    "name": "Jane Doe",
+    "tagline": "A small personal site with several pages. A Digital House course exercise.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-house-exercises",
+    "folder": "jane-doe",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "cep-search",
+    "name": "CEP Search",
+    "tagline": "Look up a Brazilian address by its postal code (CEP). A Digital House course exercise.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-house-exercises",
+    "folder": "cep-search",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "twitter-login",
+    "name": "Twitter Login",
+    "tagline": "A copy of the Twitter login page from a course exercise; not affiliated with Twitter.",
+    "kinds": ["web"],
+    "source": "https://github.com/martonpaulo/digital-house-exercises",
+    "folder": "twitter-login",
+    "period": {
+      "from": 2020,
+      "to": 2020
+    }
+  },
+  {
+    "slug": "take-the-color",
+    "name": "Take the Color",
+    "tagline": "A colour-matching game in plain JavaScript.",
+    "kinds": ["game"],
+    "source": "https://github.com/martonpaulo/simple-javascript-games",
+    "folder": "TakeTheColor",
+    "period": {
+      "from": 2019,
+      "to": 2019
+    }
+  },
+  {
+    "slug": "bouncing-balls",
+    "name": "Bouncing Balls",
+    "tagline": "Balls bouncing on a canvas.",
+    "kinds": ["experiment"],
+    "source": "https://github.com/martonpaulo/simple-javascript-games",
+    "folder": "BouncingBalls",
+    "period": {
+      "from": 2019,
+      "to": 2019
+    }
+  }
+]

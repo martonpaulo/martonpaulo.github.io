@@ -4,30 +4,28 @@ import ProjectList from "../../../components/ProjectList.astro";
 import WorkFilters from "../../../components/WorkFilters.astro";
 import { projectKinds } from "../../../content.config";
 import Base from "../../../layouts/Base.astro";
-import { byYear, getCopy, getProjects } from "../../../lib/db";
+import { byYear, getCopy, getCurrentProjects } from "../../../lib/db";
 import { fill, lowerFirst } from "../../../lib/copy";
-import { countByKind, type ProjectKind } from "../../../lib/projects";
-import { discontinuedLast } from "../../../lib/status";
+import { countByKind, type ProjectKind, projectRow } from "../../../lib/projects";
 
 export async function getStaticPaths() {
-  const projects = await getProjects();
+  const projects = await getCurrentProjects();
   return projectKinds
     .filter((kind) => projects.some((project) => project.kinds.includes(kind)))
     .map((kind) => ({ params: { kind } }));
 }
 
 const kind = Astro.params.kind as ProjectKind;
-const projects = await getProjects();
+const projects = await getCurrentProjects();
 const { projects: copy, kinds } = await getCopy();
 const counts = countByKind(projects, projectKinds);
 
 const ofKind = projects.filter((project) => project.kinds.includes(kind));
-// One list, as on the projects page: the selected ones first, then the rest by year,
-// discontinued ones last.
-const listed = discontinuedLast([
+// One list, as on the projects page: the selected ones first, then the rest by year.
+const listed = [
   ...ofKind.filter((project) => project.featured),
   ...byYear(ofKind.filter((project) => !project.featured)),
-]);
+].map((project) => projectRow(project, kinds));
 const label = kinds[kind].many;
 const vars = { kind: lowerFirst(label) };
 ---
@@ -39,6 +37,6 @@ const vars = { kind: lowerFirst(label) };
 
   <section class="section" aria-labelledby="list-heading">
     <h2 id="list-heading" class="visually-hidden">{fill(copy.kindListHeading, vars)}</h2>
-    <ProjectList projects={listed} />
+    <ProjectList items={listed} />
   </section>
 </Base>
