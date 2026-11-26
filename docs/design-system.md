@@ -156,7 +156,8 @@ changes its fill, border or ink under hover, focus or press, or a label falls un
   hover uses, so current and hover never look alike. Current wins over hover, focus and press: the
   hover and press rules match only a control that is neither current nor disabled, so no rule order
   can repaint a current one. Pointing at, focusing or pressing a current pill only adds
-  `--state-hover-ring` (and the press shade); its fill and ink stay
+  `--state-hover-ring`; its fill and ink stay, and a press shows no shade, since the visitor is
+  already on that page
   ([#52](https://github.com/martonpaulo/martonpaulo.github.io/issues/52)).
 - **Disabled.** `:disabled` or `aria-disabled="true"`: faded to `--state-disabled-opacity`,
   `cursor: not-allowed`, still announced, and every hover rule skips it. The site has no disabled

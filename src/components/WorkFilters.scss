@@ -51,6 +51,11 @@
 
 // Everything is the whole list, not a platform: it reads in the display face, bold, with no
 // fill at rest, and a divider follows it. Earlier work sits after a divider of its own (#43).
+// Earlier work leads to retired projects, so it is muted like them (#53).
+.work-filters__chip--earlier {
+  @include states.retired-pill;
+}
+
 .work-filters__chip--all {
   background: transparent;
   font-family: var(--font-display);

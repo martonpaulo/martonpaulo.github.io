@@ -139,6 +139,9 @@
   --state-hover-ring: 0 0 0 var(--space-1) var(--border);
   // Pressed: the control darkens in place, whatever its fill, and never moves.
   --state-press-shade: inset 0 0 0 var(--radius-pill) rgb(0 0 0 / 18%);
+  // The current retired tab (Earlier work, #53): the muted text faded as the retired icons are, so
+  // it reads as current but secondary.
+  --state-retired-fill: color-mix(in srgb, var(--text-muted) var(--retired-opacity), var(--bg));
   // The current page or tab: the accent fill, unlike any hover, and it wins over hover, focus and
   // press (src/styles/_states.scss, #52).
   --state-current-fill: var(--primary);

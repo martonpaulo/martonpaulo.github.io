@@ -15,12 +15,14 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
 /// A pill: secondary button, tab, navigation item, icon button. At rest the component draws its
 /// own fill; hover takes the stronger fill and accent ink, a press darkens it in place. With
 /// `$has-current`, `aria-current` takes the accent fill, and pointing at, focusing or pressing a current
-/// pill only adds the shared ring (and the press shade): its fill and ink never change.
+/// pill only adds the shared ring: its fill and ink never change.
 @mixin pill(
   $hover-fill: var(--state-hover-fill),
   $hover-ink: var(--state-hover-ink),
   $hover-ring: false,
-  $has-current: false
+  $has-current: false,
+  $current-fill: var(--state-current-fill),
+  $current-ink: var(--state-current-ink)
 ) {
   &:where(#{$live}):hover {
     background-color: $hover-fill;
@@ -41,17 +43,15 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
 
   @if $has-current {
     &#{$current} {
-      background-color: var(--state-current-fill);
-      border-color: var(--state-current-fill);
-      color: var(--state-current-ink);
+      background-color: $current-fill;
+      border-color: $current-fill;
+      color: $current-ink;
     }
 
-    &#{$current}:where(:hover, :focus-visible) {
+    // Pressing the page the visitor is already on goes nowhere, so a press shows no shade: only
+    // the ring, as under the pointer (#53).
+    &#{$current}:where(:hover, :focus-visible, :active) {
       box-shadow: var(--state-hover-ring);
-    }
-
-    &#{$current}:active {
-      box-shadow: var(--state-press-shade), var(--state-hover-ring);
     }
   }
 }
@@ -96,4 +96,18 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
       opacity: var(--state-hover-opacity);
     }
   }
+}
+
+/// A retired pill, the Earlier work tab (#53): muted like the retired rows it leads to. At rest it
+/// takes the muted ink; hover brings it up to the body text, never the accent; current takes the
+/// retired fill, a grey, never the accent of a current subject.
+@mixin retired-pill {
+  color: var(--text-muted);
+
+  @include pill(
+    $hover-ink: var(--state-hover-text),
+    $has-current: true,
+    $current-fill: var(--state-retired-fill),
+    $current-ink: var(--state-current-ink)
+  );
 }
