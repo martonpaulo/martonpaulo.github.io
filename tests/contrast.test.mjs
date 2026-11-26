@@ -12,7 +12,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { homeProjects } from "../src/lib/status.ts";
-import { hex, ratio } from "./support/contrast.mjs";
+import { hex, ratio } from "../scripts/lib/contrast.mjs";
 
 const TEXT_REACH = 0.7;
 const AA_TEXT = 4.5;

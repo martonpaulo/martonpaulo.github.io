@@ -7,7 +7,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { hex, ratio } from "./support/contrast.mjs";
+import { hex, ratio } from "../scripts/lib/contrast.mjs";
 
 const SRC = new URL("../src/", import.meta.url).pathname;
 /** The tokens themselves, and the reduced-motion switch that turns every transition off. */
@@ -39,8 +39,8 @@ const TOKENED = new Set([
 ]);
 const KEYWORDS = new Set(["none", "currentColor", "inherit", "transparent"]);
 const STATE_VALUE = /var\(--(state|focus)-/;
-/** A focus rule may also move a skip link into view and round its ring. */
-const FOCUS_ONLY = new Set(["top", "border-radius"]);
+/** A focus rule may also move a skip link into view. */
+const FOCUS_ONLY = new Set(["top"]);
 
 async function styles(dir, found = []) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {

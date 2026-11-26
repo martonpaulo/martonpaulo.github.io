@@ -7,13 +7,14 @@
 // With --out, it also saves one PNG per family and state, the renders the spec in
 // docs/design-system.md, "Interaction states", is judged against. It drives the installed Google
 // Chrome through playwright-core, headless, at desktop width; nothing reaches the screen.
-/* global getComputedStyle, requestAnimationFrame */
+/* global document, getComputedStyle, requestAnimationFrame */
 import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
 import { chromium } from "playwright-core";
 
+import { ratio } from "./lib/contrast.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
 
 const dist = process.argv[2];
@@ -25,6 +26,16 @@ if (!dist || !existsSync(join(dist, "index.html"))) {
 }
 
 const VIEWPORT = { width: 1440, height: 900 };
+/** WCAG 2.2 AA for text. */
+const AA_TEXT = 4.5;
+/** Red, green and blue: the first three numbers of a computed colour. */
+const RGB_PARTS = 3;
+/** "rgb(1, 2, 3)" or "rgba(1, 2, 3, 1)" as [1, 2, 3]. */
+const rgb = (css) =>
+  css
+    .match(/\d+(\.\d+)?/g)
+    .slice(0, RGB_PARTS)
+    .map(Number);
 /** The ring is three hairlines wide (--focus-ring); a thinner one would not read. */
 const MIN_RING_PX = 3;
 /** One example of each family, on the page where it lives. */
@@ -35,7 +46,13 @@ const FAMILIES = [
   { name: "navigation-item", page: "/projects/", selector: ".nav__link:not([aria-current])" },
   { name: "icon-button", page: "/projects/", selector: ".nav__home" },
   { name: "text-link", page: "/projects/", selector: ".project-row__title a" },
-  { name: "quiet-link", page: "/projects/", selector: ".project-row__meta a" },
+  // A quiet link comes up to the body text on hover, never to the accent (#45).
+  {
+    name: "quiet-link",
+    page: "/projects/",
+    selector: ".project-row__meta a",
+    hoverColor: "var(--state-hover-text)",
+  },
   { name: "card", page: "/", selector: ".project-card" },
   // An image link shows its state on the image inside it, and is skipped by the keyboard.
   {
@@ -100,6 +117,18 @@ try {
     await settle();
     const hover = await lookOf(target, family);
     await shot(target, family.name, "hover");
+    if (family.hoverColor) {
+      const expected = await page.evaluate((value) => {
+        const probe = document.body.appendChild(document.createElement("span"));
+        probe.style.color = value;
+        const colour = getComputedStyle(probe).color;
+        probe.remove();
+        return colour;
+      }, family.hoverColor);
+      if (hover.color !== expected) {
+        failures.push(`${family.name}: hover is ${hover.color}, not ${family.hoverColor}`);
+      }
+    }
     if (JSON.stringify(rest) === JSON.stringify(hover)) {
       failures.push(`${family.name}: hover looks the same as rest (${JSON.stringify(rest)})`);
     }
@@ -138,6 +167,18 @@ try {
     const hover = await look(other.first());
     if (JSON.stringify(currentLook) === JSON.stringify(hover)) {
       failures.push(`${family.name}: the current one looks like a hovered one`);
+    }
+    // Pointing at the current one keeps it current, and readable.
+    await current.hover();
+    await settle();
+    const currentHover = await look(current);
+    await shot(current, family.name, "current-hover");
+    if (JSON.stringify(currentHover) !== JSON.stringify(currentLook)) {
+      failures.push(`${family.name}: the current one changes on hover`);
+    }
+    const contrast = ratio(rgb(currentHover.color), rgb(currentHover.backgroundColor));
+    if (contrast < AA_TEXT) {
+      failures.push(`${family.name}: the hovered current one is ${contrast.toFixed(2)}:1`);
     }
   }
 } finally {

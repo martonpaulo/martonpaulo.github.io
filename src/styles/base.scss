@@ -45,7 +45,6 @@ body {
 :focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-sm);
 }
 
 // Disabled, for any control (#45): faded and refusing the pointer, but still in the
@@ -103,7 +102,9 @@ a {
   transition: color var(--state-duration) var(--state-ease);
 }
 
-a:hover:not([aria-disabled="true"]) {
+// :where() keeps this at the weight of a bare `a:hover`, so a control's own hover and current
+// looks (a tab, a nav pill, a quiet link) always win over it (#45).
+a:where(:not([aria-disabled="true"])):hover {
   color: var(--state-hover-ink);
   text-decoration-color: currentColor;
 }
