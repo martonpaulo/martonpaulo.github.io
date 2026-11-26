@@ -1,6 +1,7 @@
 dist/
 .astro/
 node_modules/
+.scratch/
 pnpm-lock.yaml
 
 # CLAUDE.md is a symlink to AGENTS.md. Prettier rewrites the link into a
