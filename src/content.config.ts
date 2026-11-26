@@ -3,6 +3,7 @@ import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
 import { projectKinds } from "./lib/kinds";
+import { projectSubjects } from "./lib/subjects";
 
 // The db/ folder is the only content source: one JSON file per collection.
 // Each becomes a typed collection so a malformed entry fails the build.
@@ -25,7 +26,7 @@ const listFromDb = (name: string, idField = "id") =>
 const objectFromDb = (name: string) =>
   file(dbFile(name), { parser: (text) => ({ [name]: JSON.parse(text) }) });
 
-export { projectKinds };
+export { projectKinds, projectSubjects };
 
 export const tileColors = [
   "lilac",
@@ -82,6 +83,7 @@ const person = defineCollection({
 
 /** `sentence`: the plural inside a sentence, for a label that keeps its capital ("Supernote plugins"). */
 const kindLabel = z.object({ one: z.string(), many: z.string(), sentence: z.string().optional() });
+const subjectLabel = z.object({ tab: z.string(), sentence: z.string().optional() });
 
 /** Every visible string that is not a project's or a person's own content. `{placeholders}` are filled by src/lib/copy.ts. */
 const copy = defineCollection({
@@ -115,9 +117,9 @@ const copy = defineCollection({
       listHeading: z.string(),
       filterLabel: z.string(),
       filterAll: z.string(),
-      kindNote: z.string(),
-      kindDescription: z.string(),
-      kindListHeading: z.string(),
+      subjectNote: z.string(),
+      subjectDescription: z.string(),
+      subjectListHeading: z.string(),
     }),
     project: z.object({
       description: z.string(),
@@ -184,6 +186,14 @@ const copy = defineCollection({
       "supernote-app": kindLabel,
       cli: kindLabel,
     } satisfies Record<(typeof projectKinds)[number], typeof kindLabel>),
+    /** Each subject's tab label, and its name inside a sentence when that is not the label lowercased. */
+    subjects: z.object({
+      productivity: subjectLabel,
+      design: subjectLabel,
+      learning: subjectLabel,
+      supernote: subjectLabel,
+      ai: subjectLabel,
+    } satisfies Record<(typeof projectSubjects)[number], typeof subjectLabel>),
   }),
 });
 
@@ -214,6 +224,8 @@ const projects = defineCollection({
       description: z.string(),
       year,
       kinds: z.array(z.enum(projectKinds)).min(1),
+      /** What a current project is about: its tab on the Projects page (#43). */
+      subject: z.enum(projectSubjects).optional(),
       // The alt text of the product's own social card, copied from the og:image:alt
       // the product serves, so the two never say different things.
       cardAlt: z.string().optional(),

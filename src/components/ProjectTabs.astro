@@ -1,7 +1,7 @@
 ---
 import "./ProjectTabs.scss";
 
-import type { FilterKey, KindCounts, RowItem } from "../lib/projects";
+import type { FilterKey, SubjectCounts, RowItem } from "../lib/projects";
 import Hero from "./Hero.astro";
 import ProjectList from "./ProjectList.astro";
 import WorkFilters from "./WorkFilters.astro";
@@ -17,7 +17,7 @@ interface Props {
   title: string;
   lede: string;
   current: FilterKey;
-  counts: KindCounts;
+  counts: SubjectCounts;
   note: string;
   notes: string[];
   listHeading: string;

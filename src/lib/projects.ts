@@ -4,9 +4,11 @@ import type { projectKinds, tileColors } from "../content.config";
 import { type Copy, fill, listOf, lowerFirst } from "./copy";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
+import { projectSubjects } from "./subjects";
 
 export type Project = CollectionEntry<"projects">["data"];
 export type ProjectKind = (typeof projectKinds)[number];
+export type ProjectSubject = (typeof projectSubjects)[number];
 export type TileColor = (typeof tileColors)[number];
 
 /** Tiles cycle through the palette when a project declares none. */
@@ -67,8 +69,9 @@ export function projectPath(project: Pick<Project, "slug">): string {
   return `/projects/${project.slug}/`;
 }
 
-export function kindPath(kind: ProjectKind): string {
-  return `/projects/kind/${kind}/`;
+/** A subject's tab (#43). */
+export function subjectPath(subject: ProjectSubject): string {
+  return `/projects/subject/${subject}/`;
 }
 
 /** The Earlier work tab (#42); noindex and out of the sitemap, like the pages it lists. */
@@ -83,15 +86,15 @@ export interface RowItem {
   external: boolean;
   tagline: string;
   icon: ImageMetadata;
-  /** Each kind, linked to its tab when the row is in a current list. */
-  kinds: { label: string; href?: string }[];
+  /** Each kind: the platform it runs on, a tag (#43). */
+  kinds: string[];
   /** The year, or the period of an Earlier work entry. */
   when: string;
   /** An Earlier work entry: drawn muted until it is pointed at or focused (#43). */
   retired: boolean;
 }
 
-/** A current project as a row: its page, its kinds linked to their tabs, its year. */
+/** A current project as a row: its page, its kinds, its year. */
 export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
   return {
     key: project.slug,
@@ -100,64 +103,71 @@ export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
     external: false,
     tagline: project.tagline,
     icon: projectIcon(project.slug),
-    kinds: project.kinds.map((kind) => ({ label: labels[kind].one, href: kindPath(kind) })),
+    kinds: kindLabels(project, labels),
     when: String(project.year),
     retired: false,
   };
 }
 
-export type KindCounts = Record<ProjectKind, number>;
+export type SubjectCounts = Record<ProjectSubject, number>;
 
-export type FilterKey = "all" | ProjectKind | "earlier";
+export type FilterKey = "all" | ProjectSubject | "earlier";
 
 export interface FilterOption {
   key: FilterKey;
   label: string;
   href: string;
   /** Which of the tab row's three groups the chip is in. */
-  group: "all" | "kind" | "earlier";
+  group: "all" | "subject" | "earlier";
 }
 
-/** "Everything" first, then one chip per kind that has a current project, then Earlier work. */
+/** The subjects with a current project, in the tab row's order. */
+function presentSubjects(counts: SubjectCounts): ProjectSubject[] {
+  return projectSubjects.filter((subject) => counts[subject] > 0);
+}
+
+/** "Everything" first, then one chip per subject that has a current project, then Earlier work. */
 export function filterOptions(
-  counts: KindCounts,
+  counts: SubjectCounts,
   allLabel: string,
-  kinds: Copy["kinds"],
+  subjects: Copy["subjects"],
   earlierLabel: string,
 ): FilterOption[] {
-  const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
   return [
     { key: "all", label: allLabel, href: projectsPath, group: "all" },
-    ...present.map((kind) => ({
-      key: kind,
-      label: kinds[kind].many,
-      href: kindPath(kind),
-      group: "kind" as const,
+    ...presentSubjects(counts).map((subject) => ({
+      key: subject,
+      label: subjects[subject].tab,
+      href: subjectPath(subject),
+      group: "subject" as const,
     })),
     { key: "earlier", label: earlierLabel, href: earlierPath, group: "earlier" },
   ];
 }
 
-/** A kind's plural inside a sentence: "web apps", "macOS apps", "Supernote plugins". */
-export function kindInSentence(kind: ProjectKind, kinds: Copy["kinds"]): string {
-  return kinds[kind].sentence ?? lowerFirst(kinds[kind].many);
+/** A subject inside a sentence: "productivity", "Supernote", "AI". */
+export function subjectInSentence(subject: ProjectSubject, subjects: Copy["subjects"]): string {
+  return subjects[subject].sentence ?? lowerFirst(subjects[subject].tab);
 }
 
-/** The sentence under one kind's tab: "Only the web apps: the most-starred first, …". */
-export function kindNote(kind: ProjectKind, copy: Copy["projects"], kinds: Copy["kinds"]): string {
-  return fill(copy.kindNote, { kind: kindInSentence(kind, kinds) });
+/** The sentence under one subject's tab: "Only the design projects: the most-starred first, …". */
+export function subjectNote(
+  subject: ProjectSubject,
+  copy: Copy["projects"],
+  subjects: Copy["subjects"],
+): string {
+  return fill(copy.subjectNote, { subject: subjectInSentence(subject, subjects) });
 }
 
 /**
- * The sentence of every Projects tab, in the tab row's order: Everything, each kind with a current
- * project, Earlier work. Each tab reserves the room of all of them under the tab row, so the list
- * starts at the same place on every tab (#54).
+ * The sentence of every Projects tab, in the tab row's order: Everything, each subject with a
+ * current project, Earlier work. Each tab reserves the room of all of them under the tab row, so
+ * the list starts at the same place on every tab (#54).
  */
-export function tabNotes(counts: KindCounts, copy: Copy): string[] {
-  const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
+export function tabNotes(counts: SubjectCounts, copy: Copy): string[] {
   return [
     copy.projects.note,
-    ...present.map((kind) => kindNote(kind, copy.projects, copy.kinds)),
+    ...presentSubjects(counts).map((subject) => subjectNote(subject, copy.projects, copy.subjects)),
     copy.earlier.note,
   ];
 }
@@ -200,10 +210,13 @@ export function siblingsOf<T>(items: T[], index: number): { newer: T | null; old
   return { newer: items[index - 1] ?? null, older: items[index + 1] ?? null };
 }
 
-export function countByKind(projects: Project[], kinds: readonly ProjectKind[]): KindCounts {
+export function countBySubject(projects: Project[]): SubjectCounts {
   return Object.fromEntries(
-    kinds.map((kind) => [kind, projects.filter((project) => project.kinds.includes(kind)).length]),
-  ) as KindCounts;
+    projectSubjects.map((subject) => [
+      subject,
+      projects.filter((project) => project.subject === subject).length,
+    ]),
+  ) as SubjectCounts;
 }
 
 /**

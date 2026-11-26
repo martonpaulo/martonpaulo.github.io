@@ -85,7 +85,7 @@ existing one does not fit. Deviating is allowed; deviating silently is what prod
 The current Projects are exactly the owner's list, written in `tests/db.test.mjs`; every other
 Project is Earlier work ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 The home page shows the six with the most GitHub stars, ties broken by name, and the Projects list
-and each kind tab open with them, then the rest by year (`homeProjects()` in `src/lib/status.ts`).
+and each subject tab open with them, then the rest by year (`homeProjects()` in `src/lib/status.ts`).
 `stars` is recorded in `db/projects.json` by `GH_TOKEN=… node scripts/stars.mjs`, which reads each
 Project's `repo`; the build reads only the recorded number, so the same data always gives the same
 order. A Project whose repository is private has no `source` link and a `note`, and its page says
@@ -95,8 +95,14 @@ only what its README says; the build check fails when any page names such a repo
 
 - **A Kind is a platform.** `projectKinds` in `src/lib/kinds.ts` lists them (web, macOS, iOS,
   typeface, library, browser extension, Supernote plugin, Supernote app, command-line tool); a game
-  or an experiment takes the platform it runs on. Each kind is a tab, and `tests/db.test.mjs` fails
-  on a kind no current project has, so no tab is empty
+  or an experiment takes the platform it runs on. A kind is a tag on a project's card and row, and
+  `tests/db.test.mjs` fails on a kind no current project has
+  ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
+- **A Subject is a tab.** Each current project has exactly one `subject`, from `projectSubjects`
+  in `src/lib/subjects.ts` (Productivity, Design, Learning, Supernote, AI), and each subject is a
+  tab at `/projects/subject/<subject>/`; a retired project has none. `tests/db.test.mjs` fails on a
+  current project without one or a subject with no current project, so no tab is empty. The old
+  platform tabs, `/projects/kind/<kind>/`, redirect to `/projects/`
   ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 - **A suite's kinds come from its repository.** A Project with `kindsFrom` names a file of its
   repository listing its tools (Ink Tools: `docs/tools.json`); `node scripts/kinds.mjs` writes

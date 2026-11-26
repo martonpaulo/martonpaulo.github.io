@@ -1,9 +1,8 @@
 ---
 import ProjectTabs from "../../components/ProjectTabs.astro";
-import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import { getCopy, getCurrentProjects, homeFirst } from "../../lib/db";
-import { countByKind, projectRow, tabNotes } from "../../lib/projects";
+import { countBySubject, projectRow, tabNotes } from "../../lib/projects";
 
 const projects = await getCurrentProjects();
 const allCopy = await getCopy();
@@ -11,7 +10,7 @@ const { projects: copy, kinds } = allCopy;
 // One list of current projects: the home page's six first, then everything else by year.
 // Earlier work has its own tab (#42).
 const listed = (await homeFirst(projects)).map((project) => projectRow(project, kinds));
-const counts = countByKind(projects, projectKinds);
+const counts = countBySubject(projects);
 ---
 
 <Base title={copy.title} description={copy.description}>

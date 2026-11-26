@@ -2,7 +2,8 @@
 
 /**
  * What a project is: the platform it runs on, never its genre, so a browser game is a web app
- * (#43). Every kind has its tab, and tests/db.test.mjs fails on a kind no current project has.
+ * (#43). A kind is a tag on a project's card and row; the tabs are subjects (src/lib/subjects.ts),
+ * and tests/db.test.mjs fails on a kind no current project has.
  */
 export const projectKinds = [
   "web",

@@ -1,10 +1,9 @@
 ---
 import ProjectTabs from "../../components/ProjectTabs.astro";
-import { projectKinds } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import { getCopy, getCurrentProjects, getEarlier, getProjects, getSite } from "../../lib/db";
 import { earlierRow } from "../../lib/earlier";
-import { countByKind, tabNotes } from "../../lib/projects";
+import { countBySubject, tabNotes } from "../../lib/projects";
 
 // Retired, old and study projects, newest first, each linking to its frozen build (#42).
 // Not indexed: the page asks for noindex and astro.config.ts keeps it out of the sitemap.
@@ -12,7 +11,7 @@ const site = await getSite();
 const allCopy = await getCopy();
 const { earlier: copy, kinds } = allCopy;
 const projects = await getProjects();
-const counts = countByKind(await getCurrentProjects(), projectKinds);
+const counts = countBySubject(await getCurrentProjects());
 const items = (await getEarlier()).map((entry) => earlierRow(entry, projects, site.archive, kinds));
 ---
 

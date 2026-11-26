@@ -1,0 +1,46 @@
+---
+import ProjectTabs from "../../../components/ProjectTabs.astro";
+import { projectSubjects } from "../../../content.config";
+import Base from "../../../layouts/Base.astro";
+import { fill } from "../../../lib/copy";
+import { getCopy, getCurrentProjects, homeFirst } from "../../../lib/db";
+import {
+  countBySubject,
+  type ProjectSubject,
+  projectRow,
+  subjectInSentence,
+  subjectNote,
+  tabNotes,
+} from "../../../lib/projects";
+
+export async function getStaticPaths() {
+  const projects = await getCurrentProjects();
+  return projectSubjects
+    .filter((subject) => projects.some((project) => project.subject === subject))
+    .map((subject) => ({ params: { subject } }));
+}
+
+const subject = Astro.params.subject as ProjectSubject;
+const projects = await getCurrentProjects();
+const allCopy = await getCopy();
+const { projects: copy, kinds, subjects } = allCopy;
+const counts = countBySubject(projects);
+
+const ofSubject = projects.filter((project) => project.subject === subject);
+// One list, as on the projects page: the home page's ones first, then the rest by year.
+const listed = (await homeFirst(ofSubject)).map((project) => projectRow(project, kinds));
+const vars = { subject: subjectInSentence(subject, subjects) };
+---
+
+<Base title={subjects[subject].tab} description={fill(copy.subjectDescription, vars)}>
+  <ProjectTabs
+    title={copy.title}
+    lede={copy.lede}
+    current={subject}
+    counts={counts}
+    note={subjectNote(subject, copy, subjects)}
+    notes={tabNotes(counts, allCopy)}
+    listHeading={fill(copy.subjectListHeading, vars)}
+    items={listed}
+  />
+</Base>

@@ -36,7 +36,7 @@ export function earlierRow(
     external: !(planned && project),
     tagline,
     icon: projectIcon(project?.slug ?? entry.slug),
-    kinds: kinds.map((kind) => ({ label: labels[kind].one })),
+    kinds: kinds.map((kind) => labels[kind].one),
     when: periodLabel(entry.period),
     retired: true,
   };

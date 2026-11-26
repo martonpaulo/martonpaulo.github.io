@@ -95,7 +95,7 @@ colour back while the row is pointed at or holds focus; each stays a link like a
 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 
 **The tab row is three groups.** Everything, the whole list, comes first in the display face, bold
-and without a fill, and a divider follows it; then one chip per platform; then a divider and
+and without a fill, and a divider follows it; then one chip per subject; then a divider and
 Earlier work. The current tab looks the same whichever it is. The tabs are filters of one page, so
 every tab shares one heading and subtitle above the row, and each tab's own sentence sits under the
 row, in one cell that holds every tab's sentence invisibly, so neither the row nor the list moves

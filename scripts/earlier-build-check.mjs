@@ -44,13 +44,20 @@ for (const path of unlisted) {
     problems.push(`IN SITEMAP ${path}`);
 }
 
+// Every subject tab is a listed page; a filter that matched part of a path once dropped Design (#43).
+for (const subject of readdirSync(join(dist, "projects/subject"))) {
+  const path = `/projects/subject/${subject}/`;
+  if (!sitemap.includes(`<loc>${new URL(path, site.url)}</loc>`))
+    problems.push(`NOT IN SITEMAP ${path}`);
+}
+
 const earlierNames = projects
   .filter((p) => p.status === "discontinued")
   .map((p) => `/projects/${p.slug}/`);
 for (const path of [
   "/",
   "/projects/",
-  ...readdirSync(join(dist, "projects/kind")).map((k) => `/projects/kind/${k}/`),
+  ...readdirSync(join(dist, "projects/subject")).map((s) => `/projects/subject/${s}/`),
 ]) {
   const html = page(path);
   for (const href of earlierNames)

@@ -22,11 +22,11 @@
     "note": "The most-starred first, then everything else by year. Retired, older and study projects are under Earlier work.",
     "description": "Everything Marton Paulo has built: web, macOS and iOS apps, a browser extension, tablet plugins, a typeface and libraries, with live demos and source code.",
     "listHeading": "All projects",
-    "filterLabel": "Filter by kind",
+    "filterLabel": "Filter by subject",
     "filterAll": "Everything",
-    "kindNote": "Only the {kind}: the most-starred first, then everything else by year.",
-    "kindDescription": "All the {kind} Marton Paulo has built, the most-starred first: what each one does, the stack behind it, a live demo where there is one, and the source code.",
-    "kindListHeading": "All {kind}"
+    "subjectNote": "Only the {subject} projects: the most-starred first, then everything else by year.",
+    "subjectDescription": "Marton Paulo's {subject} projects, the most-starred first: what each one does, the platform it runs on, the stack behind it, a live demo where there is one, and the source code.",
+    "subjectListHeading": "All {subject} projects"
   },
   "project": {
     "description": "{tagline} Built by {author} with {stack}.",
@@ -115,6 +115,25 @@
     "cli": {
       "one": "Command-line tool",
       "many": "Command-line tools"
+    }
+  },
+  "subjects": {
+    "productivity": {
+      "tab": "Productivity"
+    },
+    "design": {
+      "tab": "Design"
+    },
+    "learning": {
+      "tab": "Learning"
+    },
+    "supernote": {
+      "tab": "Supernote",
+      "sentence": "Supernote"
+    },
+    "ai": {
+      "tab": "AI",
+      "sentence": "AI"
     }
   }
 }

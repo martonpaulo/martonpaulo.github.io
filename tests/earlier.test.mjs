@@ -51,7 +51,7 @@ test("the list is written newest first", () => {
 });
 
 test("no project slug takes a path the projects section already uses", () => {
-  for (const reserved of ["earlier", "kind"]) assert.ok(!bySlug.has(reserved), reserved);
+  for (const reserved of ["earlier", "kind", "subject"]) assert.ok(!bySlug.has(reserved), reserved);
 });
 
 // Every row shows an icon: the product's own, or one scripts/icons.mjs draws (#43).

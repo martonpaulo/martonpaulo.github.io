@@ -19,6 +19,7 @@
       "fit": "cover"
     },
     "kinds": ["web"],
+    "subject": "productivity",
     "cardAlt": "Tabelo on a denim card: the Markdown and Table panes of one workspace showing the same table of cities, kept in sync.",
     "gradient": "linear-gradient(135deg,#122540 0%,#172f52 40%,#1e3c68 70%,#355e96 100%)",
     "ink": "light",
@@ -66,6 +67,7 @@
       "fit": "cover"
     },
     "kinds": ["macos"],
+    "subject": "productivity",
     "cardAlt": "The Meantime clock icon and the words Free for Mac, open source, Meantime, World clocks in your menu bar, beside the Meantime panel with two clocks and a month calendar.",
     "gradient": "linear-gradient(135deg,#3f3a78 0%,#4b4588 40%,#575197 65%,#7069b0 100%)",
     "ink": "light",
@@ -86,6 +88,7 @@
     },
     "status": "active",
     "kinds": ["web"],
+    "subject": "design",
     "cardAlt": "The AtlasTint mark and the words Free in your browser, AtlasTint, Color and track the regions of the world, beside a drawing of the app: the Regions list and a world map with Canada and Brazil colored in.",
     "gradient": "linear-gradient(135deg,#6e3a26 0%,#7f4430 40%,#8f4d36 65%,#b8704f 100%)",
     "ink": "light",
@@ -137,6 +140,7 @@
       "fit": "cover"
     },
     "kinds": ["macos"],
+    "subject": "productivity",
     "cardAlt": "The WindowHop icon and the words Free for Mac, open source, WindowHop, Switch between windows, not just apps, beside a drawing of the switcher panel with eight window previews.",
     "gradient": "linear-gradient(135deg,#2563eb 0%,#1d4ed8 50%,#4338ca 100%)",
     "ink": "light",
@@ -204,6 +208,7 @@
     },
     "status": "active",
     "kinds": ["web"],
+    "subject": "design",
     "cardAlt": "Country Badge Generator on an emerald card: Brazil selected, three flag-colour backgrounds, SVG, PNG and JPG formats and a large badge preview.",
     "gradient": "linear-gradient(135deg,#14543f 0%,#1b644b 40%,#227457 65%,#3f9a77 100%)",
     "ink": "light",
@@ -254,6 +259,7 @@
       "fit": "cover"
     },
     "kinds": ["typeface"],
+    "subject": "design",
     "cardAlt": "Moon Uniform on a forest-green card: a specimen sheet with the word Moon and the letters A to Z set in the Moon alphabet.",
     "gradient": "linear-gradient(135deg,#123a2d 0%,#17473a 40%,#1f5a48 70%,#3b7d64 100%)",
     "ink": "light",
@@ -280,6 +286,7 @@
       "fit": "full"
     },
     "kinds": ["web"],
+    "subject": "design",
     "cardAlt": "Lights, generative art: a frame of the piece, small white, blue and amber lights and the faint trails of two bonds drifting in the night.",
     "gradient": "#05080d radial-gradient(700px 520px at 78% 40%,#16090c 0%,transparent 70%)",
     "ink": "light",
@@ -326,6 +333,7 @@
       "fit": "contain"
     },
     "kinds": ["supernote-plugin", "supernote-app", "macos", "cli"],
+    "subject": "supernote",
     "cardAlt": "Ink Tools on an ink-blue card: a Supernote page with a lassoed handwritten word, the Lasso Actions buttons and the picture they inserted.",
     "gradient": "linear-gradient(135deg,#10263f 0%,#1e4670 55%,#2f6aa3 100%)",
     "ink": "light",
@@ -347,6 +355,7 @@
     },
     "status": "active",
     "kinds": ["web"],
+    "subject": "learning",
     "repo": "martonpaulo/batuque",
     "stars": 0
   },
@@ -363,6 +372,7 @@
     },
     "status": "active",
     "kinds": ["macos"],
+    "subject": "productivity",
     "repo": "martonpaulo/leve",
     "stars": 0
   },
@@ -378,6 +388,7 @@
     "note": "Not published yet. This page says what it does.",
     "status": "active",
     "kinds": ["extension"],
+    "subject": "productivity",
     "repo": "martonpaulo/trickle-tabs",
     "stars": 0
   },
@@ -393,6 +404,7 @@
     "note": "A personal study app, not published. This page says what it does.",
     "status": "active",
     "kinds": ["ios"],
+    "subject": "learning",
     "repo": "martonpaulo/dele-diario",
     "stars": 0
   },
@@ -408,6 +420,7 @@
     "note": "A personal app, not published. This page says what it does.",
     "status": "active",
     "kinds": ["macos"],
+    "subject": "productivity",
     "repo": "martonpaulo/panoram",
     "stars": 0
   },
@@ -423,6 +436,7 @@
     "note": "Private. This page is its only public description.",
     "status": "active",
     "kinds": ["library"],
+    "subject": "ai",
     "repo": "martonpaulo/workbench",
     "stars": 0
   }

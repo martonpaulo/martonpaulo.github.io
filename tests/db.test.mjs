@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { projectKinds } from "../src/lib/kinds.ts";
+import { projectSubjects } from "../src/lib/subjects.ts";
 import { HOME_COUNT, homeProjects } from "../src/lib/status.ts";
 
 const read = async (name) =>
@@ -83,9 +84,9 @@ test("every project kind has a label in the copy", () => {
   }
 });
 
-// A kind is the platform a project runs on, and each kind is a tab: a kind no current project
-// has would be an empty tab, and a label without a kind a leftover (#43).
-test("every kind is a platform with a tab: a current project has it, and it has a label", () => {
+// A kind is the platform a project runs on, shown as a tag on its card and row: a kind no current
+// project has, or a label without a kind, is a leftover (#43).
+test("every kind is a platform a current project has, with a label", () => {
   const current = projects.filter((project) => project.status !== "discontinued");
   for (const project of projects) {
     for (const kind of project.kinds) {
@@ -95,10 +96,30 @@ test("every kind is a platform with a tab: a current project has it, and it has 
   for (const kind of projectKinds) {
     assert.ok(
       current.some((project) => project.kinds.includes(kind)),
-      `kind ${kind} has no current project, so its tab would be empty`,
+      `kind ${kind} has no current project, so it is a leftover`,
     );
   }
   assert.deepEqual(Object.keys(copy.kinds).sort(), [...projectKinds].sort());
+});
+
+// The tabs are subjects (#43): every current project has exactly one, a retired one has none, and
+// every subject has a current project, so no tab is empty.
+test("every current project has one subject, and every subject a current project", () => {
+  for (const project of projects) {
+    const current = project.status !== "discontinued";
+    if (current) {
+      assert.ok(projectSubjects.includes(project.subject), `${project.slug} has no subject`);
+    } else {
+      assert.equal(project.subject, undefined, `${project.slug} is retired, yet has a subject`);
+    }
+  }
+  for (const subject of projectSubjects) {
+    assert.ok(
+      projects.some((project) => project.status !== "discontinued" && project.subject === subject),
+      `subject ${subject} has no current project, so its tab would be empty`,
+    );
+  }
+  assert.deepEqual(Object.keys(copy.subjects).sort(), [...projectSubjects].sort());
 });
 
 test("a project whose kinds come from its repository records the file they come from", () => {

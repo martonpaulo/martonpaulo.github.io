@@ -64,12 +64,11 @@ const { nav } = await getCopy();
   </div>
   <p class="project-row__meta">
     {
-      /* Each kind of a current project is its own filter, so a project that is
-         both an iOS and a macOS app offers both. */
+      /* The platforms a project runs on, a tag each (#43). */
       item.kinds.map((kind, index) => (
         <>
           {index > 0 && <span aria-hidden="true">·</span>}
-          {kind.href ? <a href={kind.href}>{kind.label}</a> : <span>{kind.label}</span>}
+          <span>{kind}</span>
         </>
       ))
     }

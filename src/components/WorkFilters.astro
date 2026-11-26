@@ -2,21 +2,21 @@
 import "./WorkFilters.scss";
 
 import { getCopy } from "../lib/db";
-import { type FilterKey, filterOptions, type KindCounts } from "../lib/projects";
+import { type FilterKey, filterOptions, type SubjectCounts } from "../lib/projects";
 
 /**
  * The tab row, in three groups (#43): Everything, set apart as the whole list; one chip per
- * platform; then Earlier work. A divider closes the first group and opens the last. Each chip is
+ * subject; then Earlier work. A divider closes the first group and opens the last. Each chip is
  * a real page, and the current one looks the same whichever it is.
  */
 interface Props {
   current: FilterKey;
-  counts: KindCounts;
+  counts: SubjectCounts;
 }
 
 const { current, counts } = Astro.props;
-const { projects: copy, kinds, earlier } = await getCopy();
-const options = filterOptions(counts, copy.filterAll, kinds, earlier.tab);
+const { projects: copy, subjects, earlier } = await getCopy();
+const options = filterOptions(counts, copy.filterAll, subjects, earlier.tab);
 ---
 
 <nav class="work-filters" aria-label={copy.filterLabel}>
