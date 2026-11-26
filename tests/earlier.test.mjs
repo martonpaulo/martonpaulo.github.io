@@ -5,6 +5,8 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
+import sharp from "sharp";
+
 const read = async (name) =>
   JSON.parse(await readFile(new URL(`../db/${name}.json`, import.meta.url), "utf8"));
 
@@ -74,5 +76,30 @@ test("every entry, current or earlier, has its icon file", () => {
   const current = projects.filter((project) => project.status !== "discontinued");
   for (const slug of [...current.map((p) => p.slug), ...earlier.map((e) => e.project ?? e.slug)]) {
     assert.ok(existsSync(icon(slug)), `src/assets/share/${slug}.png is missing`);
+  }
+});
+
+// An icon fills its square (#49): no Earlier work icon is a small logo on the old light tile, so
+// the middle of each edge, just inside the rounded square, is never that tile's grey.
+test("no Earlier work icon is a logo on the old light tile", async () => {
+  const OLD_TILE = [0xf4, 0xf4, 0xf5];
+  const NEAR = 3;
+  const INSET = 6;
+  for (const entry of earlier.filter((item) => !item.project)) {
+    const file = new URL(`../src/assets/share/${entry.slug}.png`, import.meta.url);
+    const { data, info } = await sharp(file.pathname).raw().toBuffer({ resolveWithObject: true });
+    const pixel = (x, y) => [...data.subarray((y * info.width + x) * info.channels).subarray(0, 3)];
+    const middle = Math.floor(info.width / 2);
+    const last = info.width - 1 - INSET;
+    const edges = [
+      pixel(middle, INSET),
+      pixel(middle, last),
+      pixel(INSET, middle),
+      pixel(last, middle),
+    ];
+    const grey = edges.filter((rgb) =>
+      rgb.every((value, c) => Math.abs(value - OLD_TILE[c]) <= NEAR),
+    );
+    assert.equal(grey.length, 0, `${entry.slug} sits on the old light tile`);
   }
 });

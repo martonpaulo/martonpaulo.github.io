@@ -1,5 +1,5 @@
-// Draws the icon of every Earlier work entry that has none yet (#43): its own favicon from the
-// archived folder on a light tile, or, when the folder has no usable one, its initial on a tile in
+// Draws the icon of every Earlier work entry that has none yet (#43, #49): its own favicon from the
+// archived folder filling its square, or, when the folder has no usable one, its initial on a tile in
 // the style of the products' own icons. The result is src/assets/share/<slug>.png, 208 px, the
 // file the project list shows beside each row; tests/earlier.test.mjs fails on an entry without one.
 //
@@ -16,15 +16,34 @@ import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 
 import { woffToSfnt } from "../src/lib/fonts.ts";
+import { luminance } from "./lib/contrast.mjs";
 
 const SIZE = 208;
 /** The corner of the products' own tiles at 208 px, measured on src/assets/share/mailbell.png. */
 const RADIUS = 46;
-/** The share of the tile a favicon covers, so a square logo keeps the products' margin. */
+/** The share of the tile a glyph covers on its own colour (--glyph). */
 const LOGO_SHARE = 0.6;
-/** Below this, a bitmap favicon is a blur when drawn at tile size; the initial reads better. */
-const MIN_BITMAP = 32;
-const TILE_LIGHT = "#f4f4f5";
+/**
+ * A favicon on a transparent ground fills this share of the tile, on a ground of its own colour
+ * (#49): the margin its own shape needs, never a small badge on a grey tile.
+ */
+const MARK_SHARE = 0.72;
+/** A favicon whose trimmed edges are this opaque is already a tile: it becomes the whole icon. */
+const TILE_EDGE_OPAQUE = 0.85;
+const OPAQUE = 200;
+/** How far the ground is pushed from the mark's own colour so the mark reads on it, 0 to 1. */
+const GROUND_SHIFT = 0.82;
+/** Relative luminance above which a mark is light, so its ground goes dark (WCAG's midpoint). */
+const LIGHT_MARK = 0.4;
+const CHANNEL_MAX = 255;
+/** Where the alpha of an RGBA pixel is. */
+const ALPHA = 3;
+/** The middle half of an edge, as shares of its length. */
+const EDGE_MIDDLE = { from: 0.25, to: 0.75 };
+/** Colours count as one when they agree above these low bits (steps of 32). */
+const SHADE_BITS = 5;
+/** Below this, a bitmap favicon is a blur when it fills the tile; the initial reads better (#49). */
+const MIN_BITMAP = 64;
 /** How finely an SVG favicon is rasterised before it is scaled to the tile, in dots per inch. */
 const SVG_DENSITY = 600;
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -146,13 +165,64 @@ async function favicon(folder) {
   return null;
 }
 
+const HEX_BASE = 16;
+const HEX_DIGITS = 2;
+const toHex = (rgb) =>
+  `#${rgb.map((v) => Math.round(v).toString(HEX_BASE).padStart(HEX_DIGITS, "0")).join("")}`;
+
+/** The trimmed favicon's pixels, whether it is already a tile, and its dominant opaque colour. */
+async function readLogo(logo) {
+  const trimmed = await logo
+    .png()
+    .toBuffer()
+    .then((png) => sharp(png).trim().toBuffer());
+  const { data, info } = await sharp(trimmed)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const at = (x, y) => data[(y * info.width + x) * RGBA + ALPHA];
+  // The middle half of each edge: a rounded tile leaves its corners clear, never its sides.
+  const middle = (length) => {
+    const from = Math.floor(length * EDGE_MIDDLE.from);
+    return Array.from({ length: Math.ceil(length * EDGE_MIDDLE.to) - from }, (_, i) => from + i);
+  };
+  const edge = [
+    ...middle(info.width).flatMap((x) => [at(x, 0), at(x, info.height - 1)]),
+    ...middle(info.height).flatMap((y) => [at(0, y), at(info.width - 1, y)]),
+  ];
+  const tile = edge.filter((alpha) => alpha >= OPAQUE).length / edge.length >= TILE_EDGE_OPAQUE;
+  // The most frequent colour among opaque pixels, in steps of 32 so near shades count once.
+  const counts = new Map();
+  for (let i = 0; i < data.length; i += RGBA) {
+    if (data[i + ALPHA] < OPAQUE) continue;
+    const rgb = Array.from(data.subarray(i, i + ALPHA));
+    const key = rgb.map((value) => value >> SHADE_BITS).join(",");
+    const entry = counts.get(key) ?? { n: 0, sum: [0, 0, 0] };
+    entry.n += 1;
+    rgb.forEach((value, c) => (entry.sum[c] += value));
+    counts.set(key, entry);
+  }
+  const top = [...counts.values()].sort((a, b) => b.n - a.n)[0];
+  const colour = top ? top.sum.map((v) => v / top.n) : [0, 0, 0];
+  return { png: trimmed, tile, colour };
+}
+
+/**
+ * A favicon as the whole icon (#49). One that is already a tile fills the square edge to edge; a
+ * mark on a transparent ground fills most of it, on a ground of its own colour pushed toward dark
+ * (for a light mark) or light (for a dark one), so the mark reads and the icon is one colour family.
+ */
 async function logoTile(logo) {
-  const side = Math.round(SIZE * LOGO_SHARE);
-  const mark = await logo
+  const { png, tile, colour } = await readLogo(logo);
+  if (tile) return sharp(png).resize(SIZE, SIZE, { fit: "cover" }).png().toBuffer();
+  const target = luminance(colour) > LIGHT_MARK ? 0 : CHANNEL_MAX;
+  const ground = colour.map((v) => v + (target - v) * GROUND_SHIFT);
+  const side = Math.round(SIZE * MARK_SHARE);
+  const mark = await sharp(png)
     .resize(side, side, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
     .toBuffer();
-  return sharp(Buffer.from(tileSvg(gradient([TILE_LIGHT, TILE_LIGHT]))))
+  return sharp(Buffer.from(tileSvg(gradient([toHex(ground), toHex(ground)]))))
     .composite([{ input: mark, gravity: "center" }])
     .png()
     .toBuffer();

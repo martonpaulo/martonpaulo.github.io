@@ -110,7 +110,10 @@ only what its README says; the build check fails when any page names such a repo
 - **Every row has an icon.** `src/assets/share/<slug>.png`, 208 px, for every current Project and
   every Earlier work entry; `tests/earlier.test.mjs` fails on a missing one. A product's own icon
   comes from its repository; `node scripts/icons.mjs <archive/site>` draws the rest from
-  each archived folder's favicon on a light tile, or the initial on a tile in the products' style.
+  each archived folder's favicon, filling the square: a favicon that is already a tile becomes the
+  whole icon, a mark on a transparent ground fills most of it on a ground of its own colour, and a
+  bitmap under 64 px keeps the initial on a tile in the products' style
+  ([#49](https://github.com/martonpaulo/martonpaulo.github.io/issues/49)).
 
 ## Earlier work
 
