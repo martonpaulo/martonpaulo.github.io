@@ -19,7 +19,7 @@
 //
 // With --out, it also saves one PNG per family, look and state. It drives Chrome through
 // playwright-core, headless, at desktop width; nothing reaches the screen.
-/* global document, getComputedStyle, NodeFilter, requestAnimationFrame, SVGElement */
+/* global document, getComputedStyle, NodeFilter, requestAnimationFrame, SVGElement, window */
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
@@ -69,6 +69,10 @@ const FAMILIES = [
 ];
 /** How much of a control's markup a failure quotes. */
 const SNIPPET = 120;
+/** The widths at which the floating bar's links are measured over every home card (#48). */
+const BAR_WIDTHS = [390, 1280, 1920];
+/** Where on a card the bar is measured: near its copy, its middle and over its artwork. */
+const BAR_OVER = [0.2, 0.5, 0.8];
 /** The look a current control keeps in every combined state. */
 const CURRENT_LOOK = ["color", "backgroundColor", "borderTopColor"];
 /** What a state may change, compared between two states. */
@@ -98,11 +102,11 @@ async function pages(dir) {
 }
 
 /** A box cut to the viewport, which is all a screenshot can show; undefined when none is left. */
-function inViewport(box) {
+function inViewport(box, size) {
   const x = Math.max(0, box.x);
   const y = Math.max(0, box.y);
-  const width = Math.min(VIEWPORT.width, box.x + box.width) - x;
-  const height = Math.min(VIEWPORT.height, box.y + box.height) - y;
+  const width = Math.min(size.width, box.x + box.width) - x;
+  const height = Math.min(size.height, box.y + box.height) - y;
   return width >= 1 && height >= 1 ? { x, y, width, height } : undefined;
 }
 
@@ -216,7 +220,9 @@ try {
     await node.evaluate((element) => element.setAttribute("data-state-probe", ""));
     let worst = Infinity;
     try {
-      for (const box of label.boxes.map(inViewport).filter(Boolean)) {
+      for (const box of label.boxes
+        .map((box) => inViewport(box, page.viewportSize()))
+        .filter(Boolean)) {
         const png = await page.screenshot({ clip: box, animations: "disabled" });
         const raw = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
         worst = Math.min(worst, worstContrast(label.ink, raw));
@@ -369,6 +375,42 @@ try {
       }
     }
   }
+
+  // 3. The floating bar over what passes behind it (#48): every home card, its copy, middle and
+  //    artwork in turn under the bar, at each width the owner compared. The links keep their
+  //    contrast over whatever shows through.
+  const bar = FAMILIES.find((family) => family.name === "navigation-item");
+  for (const scheme of SCHEMES) {
+    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+    for (const width of BAR_WIDTHS) {
+      await page.setViewportSize({ width, height: VIEWPORT.height });
+      await visit("/");
+      const cards = await page.locator(".project-card").count();
+      for (let card = 0; card < cards; card++) {
+        for (const share of BAR_OVER) {
+          await page.evaluate(
+            ({ index, at }) => {
+              const box = document.querySelectorAll(".project-card")[index].getBoundingClientRect();
+              const top = document.querySelector(".nav").getBoundingClientRect().top;
+              window.scrollBy(0, box.top + box.height * at - top);
+            },
+            { index: card, at: share },
+          );
+          await settle();
+          const links = page.locator(".nav__link:not([aria-current])");
+          for (let link = 0; link < (await links.count()); link++) {
+            await contrast(
+              links.nth(link),
+              bar,
+              `navigation-item over home card ${card + 1} at ${share}, ${width}px, ${scheme}`,
+            );
+          }
+          rendered += 1;
+        }
+      }
+    }
+  }
+  await page.setViewportSize(VIEWPORT);
 } finally {
   await browser.close();
   close();

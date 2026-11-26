@@ -98,6 +98,11 @@
     drop-shadow(0 var(--space-1) var(--space-1) rgb(0 0 0 / 22%))
     drop-shadow(0 var(--space-3) var(--space-4) rgb(0 0 0 / 28%));
 
+  /* The floating bar (#48): the room's colour over most of what passes behind it, which is
+     blurred and dimmed in the same backdrop filter, inside the bar's own box. */
+  --bar-fill: color-mix(in srgb, var(--bg) 85%, transparent);
+  --bar-backdrop: blur(var(--space-4)) saturate(1.2) brightness(0.7);
+
   /* Layout */
   --container: 64rem;
   --container-wide: 96rem;
