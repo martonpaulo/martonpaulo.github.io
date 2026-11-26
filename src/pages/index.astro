@@ -18,7 +18,7 @@ const eyebrow = fill(home.eyebrow, { name: person.name, role: person.role });
 ---
 
 <Base description={site.description}>
-  <Hero eyebrow={eyebrow} title={home.greeting} lede={person.intro} />
+  <Hero eyebrow={eyebrow} title={home.greeting} lede={person.intro} marks={person.introMarks} />
 
   <section class="section" aria-labelledby="featured-heading">
     <h2 id="featured-heading" class="visually-hidden">{home.featuredHeading}</h2>

@@ -22,6 +22,11 @@
   --primary: #7fd0e6;
   --primary-strong: #a8e2f2;
   --focus: #ffffff;
+  /* A selection, and a phrase highlighted as if selected (#56): the same accent, so the highlight
+     reads as a selection. A real selection over a highlight turns to the body text, so it shows. */
+  --highlight: var(--primary);
+  --highlight-ink: var(--bg);
+  --highlight-selected: var(--text);
   /* An Earlier work icon at rest: greyed and faded, full again on hover and focus (#43). */
   --retired-opacity: 60%;
 

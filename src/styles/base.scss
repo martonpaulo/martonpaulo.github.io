@@ -40,8 +40,30 @@ body {
 }
 
 ::selection {
-  background: var(--primary);
-  color: var(--bg);
+  background: var(--highlight);
+  color: var(--highlight-ink);
+}
+
+// A phrase highlighted as if selected (#56): the selection's colours, carried across a line break.
+mark {
+  padding-inline: 0.15em;
+  border-radius: var(--radius-sm);
+  background: var(--highlight);
+  color: var(--highlight-ink);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+mark::selection {
+  background: var(--highlight-selected);
+}
+
+@media (forced-colors: active) {
+  mark {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
 }
 
 :focus-visible {

@@ -1,6 +1,7 @@
 ---
 import "./Hero.scss";
 
+import { markRuns } from "../lib/copy";
 import Eyebrow from "./Eyebrow.astro";
 
 /**
@@ -11,16 +12,25 @@ interface Props {
   title: string;
   eyebrow?: string | undefined;
   lede?: string | undefined;
+  /** Phrases of the lede shown highlighted, as if selected (#56). */
+  marks?: string[] | undefined;
 }
 
-const { title, eyebrow, lede } = Astro.props;
+const { title, eyebrow, lede, marks = [] } = Astro.props;
+const runs = lede ? markRuns(lede, marks) : [];
 ---
 
 <header class="hero stack-center enter">
   {eyebrow && <Eyebrow as="p">{eyebrow}</Eyebrow>}
   <div class="hero__text">
     <h1 class="hero__title" set:html={title} />
-    {lede && <p class="lede hero-summary">{lede}</p>}
+    {
+      lede && (
+        <p class="lede hero-summary">
+          {runs.map((run) => (run.mark ? <mark>{run.text}</mark> : run.text))}
+        </p>
+      )
+    }
   </div>
   <slot />
 </header>

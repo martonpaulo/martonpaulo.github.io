@@ -62,6 +62,8 @@ const person = defineCollection({
     role: z.string(),
     tagline: z.string().max(60),
     intro: z.string(),
+    /** Phrases of the intro shown highlighted, as if selected (#56); each must occur in it. */
+    introMarks: z.array(z.string()),
     location: z.string(),
     /** The month the first job began, as YYYY-MM. `{years}` in the bio is counted from it at build time. */
     careerStart: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),

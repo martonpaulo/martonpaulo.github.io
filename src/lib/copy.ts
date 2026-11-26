@@ -18,3 +18,33 @@ export function lowerFirst(text: string): string {
 export function listOf(items: readonly string[]): string {
   return new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(items);
 }
+
+/** One run of a text: plain, or a phrase to highlight. */
+export interface Run {
+  text: string;
+  mark: boolean;
+}
+
+/**
+ * `text` cut into runs, each phrase of `marks` a highlighted run of its own (#56). A phrase the text
+ * does not hold throws, so a copy edit can never drop a highlight without the build saying so.
+ */
+export function markRuns(text: string, marks: string[]): Run[] {
+  const found = marks
+    .map((phrase) => {
+      const at = text.indexOf(phrase);
+      if (at < 0) throw new Error(`the highlighted phrase "${phrase}" is not in "${text}"`);
+      return { at, end: at + phrase.length };
+    })
+    .sort((a, b) => a.at - b.at);
+  const runs: Run[] = [];
+  let from = 0;
+  for (const { at, end } of found) {
+    if (at < from) throw new Error(`two highlighted phrases overlap in "${text}"`);
+    if (at > from) runs.push({ text: text.slice(from, at), mark: false });
+    runs.push({ text: text.slice(at, end), mark: true });
+    from = end;
+  }
+  if (from < text.length) runs.push({ text: text.slice(from), mark: false });
+  return runs;
+}

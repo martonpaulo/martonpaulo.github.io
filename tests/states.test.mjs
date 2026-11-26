@@ -170,6 +170,8 @@ test("every state keeps its contrast", async () => {
     ["state-current-ink", "state-current-fill", 4.5],
     ["state-current-ink", "state-primary-hover-fill", 4.5],
     ["focus", "bg", 3],
+    ["highlight-ink", "highlight", 4.5],
+    ["highlight-ink", "highlight-selected", 4.5],
   ];
   for (const [ink, ground, least] of pairs) {
     const measured = ratio(colour(ink), colour(ground));

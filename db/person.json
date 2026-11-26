@@ -82,5 +82,9 @@
     "Tinkering with my tools: Hammerspoon and Raycast scripts that automate my Mac, a VS Code setup with more customisation than it needs, and an old Linux machine I keep running for fun."
   ],
   "tagline": "Software made with care",
-  "intro": "I'm a senior full-stack developer and a vibe coder: I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift, mostly by directing AI coding agents. The tools I make on my own are free and local-first: your data stays on your machine."
+  "intro": "I'm a senior full-stack developer and a vibe coder: I build web products with React and TypeScript, and native apps for the Mac and iPhone in Swift, mostly by directing AI coding agents. The tools I make on my own are free and local-first: your data stays on your machine.",
+  "introMarks": [
+    "I'm a senior full-stack developer and a vibe coder",
+    "your data stays on your machine"
+  ]
 }
