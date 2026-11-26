@@ -7,7 +7,7 @@
 //
 //   node scripts/layout-check.mjs dist
 //
-// It drives the installed Google Chrome through playwright-core (the `chrome` channel), headless,
+// It drives Chrome through playwright-core (scripts/lib/browser.mjs picks the installed one), headless,
 // in a fresh profile, against a local server of the build; nothing reaches the screen.
 // The functions passed to evaluate() run in the page, where these are its globals.
 /* global document, window, innerHeight */
@@ -15,8 +15,7 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 
-import { chromium } from "playwright-core";
-
+import { launchChrome } from "./lib/browser.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
 
 const dist = process.argv[2];
@@ -58,9 +57,7 @@ const { origin, close } = await serveDist(dist);
 
 const failures = [];
 // Headless Chrome hides scrollbars by default, which would hide the very jump this checks.
-const browser = await chromium.launch({
-  channel: "chrome",
-  headless: true,
+const browser = await launchChrome({
   ignoreDefaultArgs: ["--hide-scrollbars"],
 });
 try {

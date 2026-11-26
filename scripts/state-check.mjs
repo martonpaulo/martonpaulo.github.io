@@ -12,8 +12,7 @@ import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
-import { chromium } from "playwright-core";
-
+import { launchChrome } from "./lib/browser.mjs";
 import { ratio } from "./lib/contrast.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
 
@@ -80,7 +79,7 @@ const { origin, close } = await serveDist(dist);
 if (out) await mkdir(out, { recursive: true });
 
 const failures = [];
-const browser = await chromium.launch({ channel: "chrome", headless: true });
+const browser = await launchChrome();
 try {
   const page = await browser.newPage({ viewport: VIEWPORT, reducedMotion: "reduce" });
   // Every state reads after its transition, which reduced motion makes all but instant: two
