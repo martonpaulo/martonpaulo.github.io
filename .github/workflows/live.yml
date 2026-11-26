@@ -1,0 +1,49 @@
+name: Live
+
+# Reaches the GitHub Pages origin through Cloudflare. A cached page keeps
+# answering 200 while the origin is unreachable, so every request carries a
+# query string that Cloudflare's cache has never seen (#40): a 526 from a
+# certificate the proxy refuses, or any other non-2xx answer, fails the run.
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+  workflow_dispatch:
+  # The proxy's settings live outside this repository and change without a
+  # commit, so a daily run is the only thing that notices them.
+  schedule:
+    - cron: "41 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  origin:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request uncached paths
+        env:
+          SITE: https://martonpaulo.com
+          RUN: ${{ github.run_id }}
+        run: |
+          set -u
+          html="$(curl -sS "$SITE/projects/?live=$RUN")"
+          image="$(printf '%s' "$html" | grep -o '/_astro/[^"?]*\.webp' | head -n 1)"
+          failed=0
+          if [ -z "$image" ]; then
+            echo "::error::/projects/ names no /_astro/*.webp image"
+            failed=1
+          fi
+          for path in / /projects/ /projects/kind/web/ /about/ /robots.txt /favicon.ico /og/site.png $image; do
+            code="$(curl -sS -o /dev/null -w '%{http_code}' "$SITE$path?live=$RUN")"
+            echo "$code $path"
+            case "$code" in
+              2??) ;;
+              526) echo "::error::$path answers 526: Cloudflare refuses the origin certificate (#40)"; failed=1 ;;
+              *) echo "::error::$path answers $code"; failed=1 ;;
+            esac
+          done
+          exit "$failed"
