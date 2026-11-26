@@ -3,7 +3,7 @@
 // the style of the products' own icons. The result is src/assets/share/<slug>.png, 208 px, the
 // file the project list shows beside each row; tests/earlier.test.mjs fails on an entry without one.
 //
-//   node scripts/icons.mjs <portfolio-archive/site> [--glyph <slug>=<png>:<#rrggbb>]...
+//   node scripts/icons.mjs <archive/site> [--glyph <slug>=<png>:<#rrggbb>]...
 //
 // `--glyph` draws one product's own glyph on its own colour, for a product whose icon exists only
 // as a layered source (Leve's Icon Composer bundle). An icon file that exists is never redrawn;
@@ -71,7 +71,7 @@ const say = (line) => process.stdout.write(`${line}\n`);
 const args = process.argv.slice(2);
 const site = args.find((arg, index) => !arg.startsWith("--") && args[index - 1] !== "--glyph");
 if (!site || !existsSync(site)) {
-  process.stderr.write("usage: node scripts/icons.mjs <portfolio-archive/site> [--glyph ...]\n");
+  process.stderr.write("usage: node scripts/icons.mjs <archive/site> [--glyph ...]\n");
   process.exit(2);
 }
 const glyphs = args.flatMap((arg, index) => (args[index - 1] === "--glyph" ? [arg] : []));

@@ -4,7 +4,7 @@
 //   node scripts/archive-check.mjs [--site DIR | --live [--base URL]]
 //
 // The folders come from, in order: --site DIR; a shallow, treeless clone of the private
-// martonpaulo/portfolio-archive, which works wherever git can read it (the Mac, a cloud session);
+// martonpaulo/archive, which works wherever git can read it (the Mac, a cloud session);
 // else the live archive. CI has no token for that private repository, so there the clone is
 // refused and the check reads each entry's live address instead. The live archive answers 200 at
 // a project folder and redirects every other path, so it proves each entry but cannot list a
@@ -20,7 +20,7 @@ const argument = (name) => {
   return at === -1 ? undefined : process.argv[at + 1];
 };
 
-const ARCHIVE = "https://github.com/martonpaulo/portfolio-archive.git";
+const ARCHIVE = "https://github.com/martonpaulo/archive.git";
 const FOLDER_ANSWER = 200;
 // The archive's answer off a folder: a 3xx redirect to martonpaulo.com/404.
 const REDIRECT_FIRST = 300;

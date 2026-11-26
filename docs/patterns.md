@@ -103,7 +103,7 @@ only what its README says; the build check fails when any page names such a repo
   `kinds` from it, skipping internal tools, and `pnpm kinds-check` fails when they differ.
 - **Every row has an icon.** `src/assets/share/<slug>.png`, 208 px, for every current Project and
   every Earlier work entry; `tests/earlier.test.mjs` fails on a missing one. A product's own icon
-  comes from its repository; `node scripts/icons.mjs <portfolio-archive/site>` draws the rest from
+  comes from its repository; `node scripts/icons.mjs <archive/site>` draws the rest from
   each archived folder's favicon on a light tile, or the initial on a tile in the products' style.
 
 ## Earlier work
@@ -119,13 +119,13 @@ Retired products, older projects and course exercises are listed only on the Ear
   folder does not exist yet, which links to its project page until then. A Project is Earlier work
   exactly when its `status` is `discontinued`; `tests/earlier.test.mjs` checks both directions.
 - **Agreement with the archive.** `pnpm archive-check` (`scripts/archive-check.mjs`) fails when a
-  folder of `martonpaulo/portfolio-archive`'s `site/` has no entry, or an entry has no folder and is
+  folder of `martonpaulo/archive`'s `site/` has no entry, or an entry has no folder and is
   not planned. Validate runs it on every push and Live every day, since a folder can be added
   without a commit here. The archive repository is private and CI holds no token for it, so where
   the clone is refused the check reads each entry's live address instead (200 at a folder, a
   redirect elsewhere); that proves every entry, but a folder with no entry shows only to a clone.
 - **Not indexed.** The tab and the project pages it lists carry `noindex` and are left out of the
-  sitemap in `astro.config.ts`, so portfolio-sitemap, which lists martonpaulo.com from the sitemap,
+  sitemap in `astro.config.ts`, so martonpaulo/domain, which lists martonpaulo.com from the sitemap,
   does not list them either. `scripts/earlier-build-check.mjs` checks the build for this, and that
   no page links the archive's root, which serves nothing.
 - **The period is the years of real work.** `period` comes from the original repository's history,

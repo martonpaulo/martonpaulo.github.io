@@ -47,7 +47,7 @@ const site = defineCollection({
     description: z.string().max(160),
     locale: z.string(),
     repository: z.url(),
-    /** The noindex archive of frozen builds (martonpaulo/portfolio-archive); an Earlier work entry lives at <archive><slug>/. */
+    /** The noindex archive of frozen builds (martonpaulo/archive); an Earlier work entry lives at <archive><slug>/. */
     archive: z.url().endsWith("/"),
     twitter: z.string().nullable(),
   }),

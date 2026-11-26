@@ -14,7 +14,7 @@ const projectRedirects = Object.fromEntries(
 );
 
 // Earlier work is not indexed (#42): its tab and the project pages it lists stay out of the
-// sitemap, and so out of portfolio-sitemap, which lists martonpaulo.com from it.
+// sitemap, and so out of martonpaulo/domain's map, which lists martonpaulo.com from it.
 const unlisted = new Set([
   "/projects/earlier/",
   ...earlier.flatMap((entry) => ("project" in entry ? [`/projects/${entry.project}/`] : [])),
