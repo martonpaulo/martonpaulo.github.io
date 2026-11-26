@@ -4,7 +4,11 @@ import "./WorkFilters.scss";
 import { getCopy } from "../lib/db";
 import { type FilterKey, filterOptions, type KindCounts } from "../lib/projects";
 
-/** Pill chips that narrow the projects to one kind, then Earlier work; each chip is a real page. */
+/**
+ * The tab row, in three groups (#43): Everything, set apart as the whole list; one chip per
+ * platform; then Earlier work. A divider closes the first group and opens the last. Each chip is
+ * a real page, and the current one looks the same whichever it is.
+ */
 interface Props {
   current: FilterKey;
   counts: KindCounts;
@@ -19,9 +23,9 @@ const options = filterOptions(counts, copy.filterAll, kinds, earlier.tab);
   <ul class="actions" role="list">
     {
       options.map((option) => (
-        <li>
+        <li class:list={["work-filters__item", `work-filters__item--${option.group}`]}>
           <a
-            class="work-filters__chip"
+            class:list={["work-filters__chip", `work-filters__chip--${option.group}`]}
             href={option.href}
             aria-current={option.key === current ? "page" : undefined}
           >

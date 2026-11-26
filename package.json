@@ -26,10 +26,12 @@
     "test": "node --test",
     "archive-check": "node scripts/archive-check.mjs",
     "build-check": "node scripts/earlier-build-check.mjs dist",
-    "validate": "pnpm check && pnpm lint && pnpm test && pnpm archive-check && pnpm build && pnpm build-check",
+    "validate": "pnpm check && pnpm lint && pnpm test && pnpm archive-check && pnpm kinds-check && pnpm build && pnpm build-check && pnpm layout-check",
     "share-ground": "pnpm dlx playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/scripts/share-home/ground.html\" src/assets/share/home-ground.png",
     "card-art": "node scripts/card-art/render.mjs",
-    "card-gradients": "node scripts/card-art/gradients.mjs"
+    "card-gradients": "node scripts/card-art/gradients.mjs",
+    "kinds-check": "node scripts/kinds.mjs --check",
+    "layout-check": "node scripts/layout-check.mjs dist"
   },
   "packageManager": "pnpm@11.7.0",
   "dependencies": {
@@ -48,6 +50,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.14.0",
+    "playwright-core": "1.63.0",
     "prettier": "^3.10.1",
     "prettier-plugin-astro": "^0.14.1",
     "sass": "^1.108.2",

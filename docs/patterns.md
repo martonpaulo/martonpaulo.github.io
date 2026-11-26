@@ -6,6 +6,7 @@
 
 - [The patterns](#the-patterns)
 - [The current projects and the home page](#the-current-projects-and-the-home-page)
+- [Kinds and icons](#kinds-and-icons)
 - [Earlier work](#earlier-work)
 - [Interface rules](#interface-rules)
 - [Toolchain](#toolchain)
@@ -90,6 +91,21 @@ Project's `repo`; the build reads only the recorded number, so the same data alw
 order. A Project whose repository is private has no `source` link and a `note`, and its page says
 only what its README says; the build check fails when any page names such a repository.
 
+## Kinds and icons
+
+- **A Kind is a platform.** `projectKinds` in `src/lib/kinds.ts` lists them (web, macOS, iOS,
+  typeface, library, browser extension, Supernote plugin, Supernote app, command-line tool); a game
+  or an experiment takes the platform it runs on. Each kind is a tab, and `tests/db.test.mjs` fails
+  on a kind no current project has, so no tab is empty
+  ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
+- **A suite's kinds come from its repository.** A Project with `kindsFrom` names a file of its
+  repository listing its tools (Ink Tools: `docs/tools.json`); `node scripts/kinds.mjs` writes
+  `kinds` from it, skipping internal tools, and `pnpm kinds-check` fails when they differ.
+- **Every row has an icon.** `src/assets/share/<slug>.png`, 208 px, for every current Project and
+  every Earlier work entry; `tests/earlier.test.mjs` fails on a missing one. A product's own icon
+  comes from its repository; `node scripts/icons.mjs <portfolio-archive/site>` draws the rest from
+  each archived folder's favicon on a light tile, or the initial on a tile in the products' style.
+
 ## Earlier work
 
 Retired products, older projects and course exercises are listed only on the Earlier work tab,
@@ -137,7 +153,10 @@ Retired products, older projects and course exercises are listed only on the Ear
   the home page and a project page.
 - After a visual change, look at the affected page in the dev server in light and dark schemes and
   at a narrow width before committing, and in one browser of each engine family (Chromium, Gecko,
-  WebKit); there is no browser automation.
+  WebKit). The one browser automation is `pnpm layout-check` (`scripts/layout-check.mjs`), which
+  renders the build in the installed Chrome through `playwright-core` and fails when the content's
+  left edge or the Projects tab row moves between pages
+  ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 
 ## Toolchain
 

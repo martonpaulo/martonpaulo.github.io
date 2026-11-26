@@ -6,19 +6,42 @@ import Eyebrow from "./Eyebrow.astro";
 /**
  * The opening of a page: an optional eyebrow, a big display heading and an
  * optional lede, centered, rising into place on load.
+ *
+ * `reserve` lists the title and lede of every page that shares this hero's place, such as the
+ * Projects tabs. Each is laid out invisibly in the same cell as the visible one, so the hero is
+ * as tall as the longest of them at every width and the tab row under it never moves (#43).
  */
 interface Props {
   title: string;
   eyebrow?: string | undefined;
   lede?: string | undefined;
+  reserve?: { title: string; lede: string }[] | undefined;
 }
 
-const { title, eyebrow, lede } = Astro.props;
+const { title, eyebrow, lede, reserve = [] } = Astro.props;
 ---
 
 <header class="hero stack-center enter">
   {eyebrow && <Eyebrow as="p">{eyebrow}</Eyebrow>}
-  <h1 class="hero__title" set:html={title} />
-  {lede && <p class="lede">{lede}</p>}
+  <div class="hero__slot">
+    <h1 class="hero__title" set:html={title} />
+    {
+      reserve.map((other) => (
+        <p class="hero__title hero__ghost heading-1" aria-hidden="true" set:html={other.title} />
+      ))
+    }
+  </div>
+  {
+    lede && (
+      <div class="hero__slot">
+        <p class="lede">{lede}</p>
+        {reserve.map((other) => (
+          <p class="lede hero__ghost" aria-hidden="true">
+            {other.lede}
+          </p>
+        ))}
+      </div>
+    )
+  }
   <slot />
 </header>

@@ -67,9 +67,15 @@ const icons = import.meta.glob<{ default: ImageMetadata }>("../assets/share/*.pn
   eager: true,
 });
 
-/** A project's icon, or undefined when it has none yet (the row then shows no icon). */
-export const projectIcon = (slug: string): ImageMetadata | undefined =>
-  icons[`../assets/share/${slug}.png`]?.default;
+/**
+ * A project's or an Earlier work entry's icon. Every entry has one (#43), drawn by
+ * scripts/icons.mjs when the product has none of its own, so a missing file fails the build.
+ */
+export function projectIcon(slug: string): ImageMetadata {
+  const icon = icons[`../assets/share/${slug}.png`]?.default;
+  if (!icon) throw new Error(`src/assets/share/${slug}.png is missing: run scripts/icons.mjs`);
+  return icon;
+}
 
 /** The icon beside a list row: 44 CSS px, drawn from the file at 1x and 2x. */
 export const ROW_ICON_SIZE = 44;

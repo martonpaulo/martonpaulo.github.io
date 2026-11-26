@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
+import { projectKinds } from "../src/lib/kinds.ts";
 import { HOME_COUNT, homeProjects } from "../src/lib/status.ts";
 
 const read = async (name) =>
@@ -80,6 +81,35 @@ test("every project kind has a label in the copy", () => {
       assert.ok(copy.kinds[kind], `${project.slug} has kind ${kind} without a label`);
     }
   }
+});
+
+// A kind is the platform a project runs on, and each kind is a tab: a kind no current project
+// has would be an empty tab, and a label without a kind a leftover (#43).
+test("every kind is a platform with a tab: a current project has it, and it has a label", () => {
+  const current = projects.filter((project) => project.status !== "discontinued");
+  for (const project of projects) {
+    for (const kind of project.kinds) {
+      assert.ok(projectKinds.includes(kind), `${project.slug} has kind ${kind}, not a platform`);
+    }
+  }
+  for (const kind of projectKinds) {
+    assert.ok(
+      current.some((project) => project.kinds.includes(kind)),
+      `kind ${kind} has no current project, so its tab would be empty`,
+    );
+  }
+  assert.deepEqual(Object.keys(copy.kinds).sort(), [...projectKinds].sort());
+});
+
+test("a project whose kinds come from its repository records the file they come from", () => {
+  for (const project of projects.filter((project) => project.kindsFrom)) {
+    assert.ok(project.repo, `${project.slug} reads its kinds from no repository`);
+  }
+  // Ink Tools is a suite: its kinds come from its docs/tools.json (scripts/kinds.mjs).
+  assert.equal(
+    projects.find((project) => project.slug === "ink-tools")?.kindsFrom,
+    "docs/tools.json",
+  );
 });
 
 test("links have unique ids and one of them is email", () => {

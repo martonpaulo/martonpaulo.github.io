@@ -29,3 +29,27 @@
   border-color: var(--primary);
   color: var(--bg);
 }
+
+// Everything is the whole list, not a platform: it reads in the display face, bold, with no
+// fill at rest, and a divider follows it. Earlier work sits after a divider of its own (#43).
+.work-filters__chip--all {
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+}
+
+.work-filters__item--all,
+.work-filters__item--earlier {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.work-filters__item--all::after,
+.work-filters__item--earlier::before {
+  content: "";
+  width: var(--hairline);
+  height: var(--space-4);
+  margin-inline: var(--space-1);
+  background: var(--border);
+}

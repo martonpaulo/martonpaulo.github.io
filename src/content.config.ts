@@ -2,6 +2,8 @@ import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
 import { z } from "astro/zod";
 
+import { projectKinds } from "./lib/kinds";
+
 // The db/ folder is the only content source: one JSON file per collection.
 // Each becomes a typed collection so a malformed entry fails the build.
 const dbFile = (name: string) => `db/${name}.json`;
@@ -23,16 +25,7 @@ const listFromDb = (name: string, idField = "id") =>
 const objectFromDb = (name: string) =>
   file(dbFile(name), { parser: (text) => ({ [name]: JSON.parse(text) }) });
 
-export const projectKinds = [
-  "web",
-  "macos",
-  "ios",
-  "typeface",
-  "library",
-  "game",
-  "experiment",
-  "extension",
-] as const;
+export { projectKinds };
 
 export const tileColors = [
   "lilac",
@@ -87,7 +80,8 @@ const person = defineCollection({
   }),
 });
 
-const kindLabel = z.object({ one: z.string(), many: z.string() });
+/** `sentence`: the plural inside a sentence, for a label that keeps its capital ("Supernote plugins"). */
+const kindLabel = z.object({ one: z.string(), many: z.string(), sentence: z.string().optional() });
 
 /** Every visible string that is not a project's or a person's own content. `{placeholders}` are filled by src/lib/copy.ts. */
 const copy = defineCollection({
@@ -180,9 +174,10 @@ const copy = defineCollection({
       ios: kindLabel,
       typeface: kindLabel,
       library: kindLabel,
-      game: kindLabel,
-      experiment: kindLabel,
       extension: kindLabel,
+      "supernote-plugin": kindLabel,
+      "supernote-app": kindLabel,
+      cli: kindLabel,
     } satisfies Record<(typeof projectKinds)[number], typeof kindLabel>),
   }),
 });
@@ -236,6 +231,8 @@ const projects = defineCollection({
         .string()
         .regex(/^[\w.-]+\/[\w.-]+$/)
         .optional(),
+      /** A file of the repository listing its tools; scripts/kinds.mjs writes `kinds` from it. */
+      kindsFrom: z.string().optional(),
       /** GitHub stars, recorded by scripts/stars.mjs; the home page shows the six with the most (#43). */
       stars: z.number().int().nonnegative().optional(),
       // archived: it still runs, unmaintained. discontinued: the product stopped, and

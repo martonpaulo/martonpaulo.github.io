@@ -279,7 +279,7 @@
       "alt": "Small points of light drifting across a dark field",
       "fit": "full"
     },
-    "kinds": ["experiment"],
+    "kinds": ["web"],
     "cardAlt": "Lights, generative art: a frame of the piece, small white, blue and amber lights and the faint trails of two bonds drifting in the night.",
     "gradient": "#05080d radial-gradient(700px 520px at 78% 40%,#16090c 0%,transparent 70%)",
     "ink": "light",
@@ -325,11 +325,12 @@
       "alt": "The Ink Tools icon: a pen nib writing one stroke on a light page, on an ink-grey tile",
       "fit": "contain"
     },
-    "kinds": ["macos"],
+    "kinds": ["supernote-plugin", "supernote-app", "macos", "cli"],
     "cardAlt": "Ink Tools on an ink-blue card: a Supernote page with a lassoed handwritten word, the Lasso Actions buttons and the picture they inserted.",
     "gradient": "linear-gradient(135deg,#10263f 0%,#1e4670 55%,#2f6aa3 100%)",
     "ink": "light",
     "repo": "martonpaulo/ink-tools",
+    "kindsFrom": "docs/tools.json",
     "stars": 1
   },
   {

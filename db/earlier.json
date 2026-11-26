@@ -189,7 +189,7 @@
     "slug": "bezier-curves",
     "name": "Bezier Curves",
     "tagline": "A drawing tool for Bezier curves, from a computer graphics course at CIn-UFPE.",
-    "kinds": ["experiment"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/bezier-curves",
     "period": {
       "from": 2021,
@@ -200,7 +200,7 @@
     "slug": "tic-tac-toe",
     "name": "Tic-Tac-Toe",
     "tagline": "Tic-tac-toe for two players. A Digital Innovation One course exercise.",
-    "kinds": ["game"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
     "folder": "tic-tac-toe",
     "period": {
@@ -212,7 +212,7 @@
     "slug": "genius-memory-game",
     "name": "Genius",
     "tagline": "A colour and sound memory game. A Digital Innovation One course exercise.",
-    "kinds": ["game"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
     "folder": "genius-memory-game",
     "period": {
@@ -224,7 +224,7 @@
     "slug": "dino-game",
     "name": "Dino Game",
     "tagline": "A jumping-dinosaur game. A Digital Innovation One course exercise.",
-    "kinds": ["game"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
     "folder": "dino-game",
     "period": {
@@ -236,7 +236,7 @@
     "slug": "snake-the-game",
     "name": "Snake",
     "tagline": "The snake game on a canvas. A Digital Innovation One course exercise.",
-    "kinds": ["game"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/digital-innovation-one-exercises",
     "folder": "snake-the-game",
     "period": {
@@ -332,7 +332,7 @@
     "slug": "take-the-color",
     "name": "Take the Color",
     "tagline": "A colour-matching game in plain JavaScript.",
-    "kinds": ["game"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/simple-javascript-games",
     "folder": "TakeTheColor",
     "period": {
@@ -344,7 +344,7 @@
     "slug": "bouncing-balls",
     "name": "Bouncing Balls",
     "tagline": "Balls bouncing on a canvas.",
-    "kinds": ["experiment"],
+    "kinds": ["web"],
     "source": "https://github.com/martonpaulo/simple-javascript-games",
     "folder": "BouncingBalls",
     "period": {

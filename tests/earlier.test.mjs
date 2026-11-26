@@ -1,6 +1,7 @@
 // Invariants of db/earlier.json the schema cannot express (#42). The agreement with the
 // archive's folders is scripts/archive-check.mjs, which needs the archive repository.
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
@@ -51,4 +52,13 @@ test("the list is written newest first", () => {
 
 test("no project slug takes a path the projects section already uses", () => {
   for (const reserved of ["earlier", "kind"]) assert.ok(!bySlug.has(reserved), reserved);
+});
+
+// Every row shows an icon: the product's own, or one scripts/icons.mjs draws (#43).
+test("every entry, current or earlier, has its icon file", () => {
+  const icon = (slug) => new URL(`../src/assets/share/${slug}.png`, import.meta.url);
+  const current = projects.filter((project) => project.status !== "discontinued");
+  for (const slug of [...current.map((p) => p.slug), ...earlier.map((e) => e.project ?? e.slug)]) {
+    assert.ok(existsSync(icon(slug)), `src/assets/share/${slug}.png is missing`);
+  }
 });

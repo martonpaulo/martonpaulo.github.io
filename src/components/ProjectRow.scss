@@ -98,9 +98,29 @@
   border-radius: var(--radius-sm);
 }
 
-// A project with no icon of its own: a quiet square the size of an icon.
-.project-row__icon--neutral {
-  border: var(--hairline) solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
+// Earlier work: retired, so quieter than the current list, yet a link like any other row. The
+// name takes the muted text colour, which still meets AA on the page (tests/contrast.test.mjs),
+// and the icon loses its colour; both come back while the row is pointed at or holds focus (#43).
+.project-row--retired {
+  .project-row__title a {
+    color: var(--text-muted);
+  }
+
+  .project-row__icon {
+    filter: grayscale(1);
+    opacity: var(--retired-opacity);
+    transition: opacity var(--duration) var(--ease-out);
+  }
+
+  &:hover,
+  &:focus-within {
+    .project-row__title a {
+      color: var(--text);
+    }
+
+    .project-row__icon {
+      filter: none;
+      opacity: 1;
+    }
+  }
 }

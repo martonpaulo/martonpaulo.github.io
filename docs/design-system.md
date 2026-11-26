@@ -84,11 +84,21 @@ sticky at the top. It never grows a menu because there is nothing to hide in it.
 
 **Earlier work has its own tab.** The home page and the project tabs show only current work. A
 retired product, an older project or a course exercise is one row on the Earlier work tab, the last
-chip of the filters, with its icon or a neutral square, its kind and the years it was worked on, and
-it links to its frozen build in the archive. No badge marks it: the grouping says it. A retired
+chip of the filters, with its icon, its kind and the years it was worked on, and it links to its
+frozen build in the archive. No badge marks it: the grouping says it. A retired
 product keeps its page, which says when it stopped, why, and where to go instead
 ([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42), replacing the badge of
-[#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)).
+[#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)). Its rows are quieter than
+the current list: the name in `--text-muted` and the icon grey at `--retired-opacity`, with full
+colour back while the row is pointed at or holds focus; each stays a link like any other row
+([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
+
+**The tab row is three groups.** Everything, the whole list, comes first in the display face, bold
+and without a fill, and a divider follows it; then one chip per platform; then a divider and
+Earlier work. The current tab looks the same whichever it is. Every Projects hero reserves the room
+of the tallest one, so the tab row never moves between tabs, and every page reserves the
+scrollbar's room, so nothing moves sideways between a short page and a long one
+([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
 eyebrow and one claim as the heading: "Software made with care". Section headings are

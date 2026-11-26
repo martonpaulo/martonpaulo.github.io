@@ -18,7 +18,7 @@
   "projects": {
     "title": "Projects",
     "lede": "The most-starred first, then everything else by year. Retired, older and study projects are under Earlier work.",
-    "description": "Everything Marton Paulo has built: macOS and iOS apps, browser tools, a typeface, libraries, games and experiments, with live demos and source code.",
+    "description": "Everything Marton Paulo has built: web, macOS and iOS apps, a browser extension, tablet plugins, a typeface and libraries, with live demos and source code.",
     "listHeading": "All projects",
     "filterLabel": "Filter by kind",
     "filterAll": "Everything",
@@ -97,17 +97,23 @@
       "one": "Library",
       "many": "Libraries"
     },
-    "game": {
-      "one": "Game",
-      "many": "Games"
-    },
-    "experiment": {
-      "one": "Experiment",
-      "many": "Experiments"
-    },
     "extension": {
       "one": "Browser extension",
       "many": "Browser extensions"
+    },
+    "supernote-plugin": {
+      "one": "Supernote plugin",
+      "many": "Supernote plugins",
+      "sentence": "Supernote plugins"
+    },
+    "supernote-app": {
+      "one": "Supernote app",
+      "many": "Supernote apps",
+      "sentence": "Supernote apps"
+    },
+    "cli": {
+      "one": "Command-line tool",
+      "many": "Command-line tools"
     }
   }
 }

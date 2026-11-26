@@ -22,6 +22,8 @@
   --primary: #7fd0e6;
   --primary-strong: #a8e2f2;
   --focus: #ffffff;
+  /* An Earlier work icon at rest: greyed and faded, full again on hover and focus (#43). */
+  --retired-opacity: 60%;
 
   /* Card tiles: a pastel background and the ink that reads on all of them.
      A tile painted with a dark social-card gradient takes the light ink instead. */

@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
 import type { projectKinds, tileColors } from "../content.config";
-import { type Copy, fill, listOf } from "./copy";
+import { type Copy, fill, listOf, lowerFirst } from "./copy";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
 
@@ -54,20 +54,11 @@ export function projectLinks(project: Project, copy: Copy["project"]): ProjectLi
 }
 
 /**
- * What a project is, in words. A project can belong to more than one kind —
- * Smart Desk ships for iPhone and for Mac — and reading "iOS app · macOS app"
- * beside the year, which is also separated by "·", parses as three facts
- * rather than two. When the labels end in the same noun, it is written once:
- * "iOS and macOS app".
+ * What a project is, in words: every kind it has, each in full, as its card and page show them
+ * ("iOS app · macOS app"). A suite such as Ink Tools has several (#43).
  */
 export function kindLabel(project: Project, labels: Copy["kinds"]): string {
-  const words = project.kinds.map((kind) => labels[kind].one);
-  if (words.length === 1) return words[0]!;
-  const tails = words.map((word) => word.split(" ").at(-1));
-  const shared = tails.every((tail) => tail === tails[0]);
-  const heads = shared ? words.map((word) => word.split(" ").slice(0, -1).join(" ")) : words;
-  const last = shared ? `${heads.at(-1)} ${tails[0]}` : words.at(-1);
-  return [...heads.slice(0, -1), last].join(" and ");
+  return project.kinds.map((kind) => labels[kind].one).join(" · ");
 }
 
 export const projectsPath = "/projects/";
@@ -91,12 +82,13 @@ export interface RowItem {
   /** The link leaves the site, so it opens in a new tab. */
   external: boolean;
   tagline: string;
-  /** Absent for a project with no icon of its own: the row shows a neutral square. */
-  icon: ImageMetadata | undefined;
+  icon: ImageMetadata;
   /** Each kind, linked to its tab when the row is in a current list. */
   kinds: { label: string; href?: string }[];
   /** The year, or the period of an Earlier work entry. */
   when: string;
+  /** An Earlier work entry: drawn muted until it is pointed at or focused (#43). */
+  retired: boolean;
 }
 
 /** A current project as a row: its page, its kinds linked to their tabs, its year. */
@@ -110,6 +102,7 @@ export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
     icon: projectIcon(project.slug),
     kinds: project.kinds.map((kind) => ({ label: labels[kind].one, href: kindPath(kind) })),
     when: String(project.year),
+    retired: false,
   };
 }
 
@@ -121,6 +114,8 @@ export interface FilterOption {
   key: FilterKey;
   label: string;
   href: string;
+  /** Which of the tab row's three groups the chip is in. */
+  group: "all" | "kind" | "earlier";
 }
 
 /** "Everything" first, then one chip per kind that has a current project, then Earlier work. */
@@ -132,9 +127,50 @@ export function filterOptions(
 ): FilterOption[] {
   const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
   return [
-    { key: "all", label: allLabel, href: projectsPath },
-    ...present.map((kind) => ({ key: kind, label: kinds[kind].many, href: kindPath(kind) })),
-    { key: "earlier", label: earlierLabel, href: earlierPath },
+    { key: "all", label: allLabel, href: projectsPath, group: "all" },
+    ...present.map((kind) => ({
+      key: kind,
+      label: kinds[kind].many,
+      href: kindPath(kind),
+      group: "kind" as const,
+    })),
+    { key: "earlier", label: earlierLabel, href: earlierPath, group: "earlier" },
+  ];
+}
+
+export interface HeroText {
+  title: string;
+  lede: string;
+}
+
+/** A kind's plural inside a sentence: "web apps", "macOS apps", "Supernote plugins". */
+export function kindInSentence(kind: ProjectKind, kinds: Copy["kinds"]): string {
+  return kinds[kind].sentence ?? lowerFirst(kinds[kind].many);
+}
+
+/** The hero of one kind's tab: "Web apps", "Only the web apps. Newest first." */
+export function kindHero(
+  kind: ProjectKind,
+  copy: Copy["projects"],
+  kinds: Copy["kinds"],
+): HeroText {
+  return {
+    title: fill(copy.kindTitle, { kind: kinds[kind].many }),
+    lede: fill(copy.kindLede, { kind: kindInSentence(kind, kinds) }),
+  };
+}
+
+/**
+ * The hero of every Projects tab, in the tab row's order: Everything, each kind with a current
+ * project, Earlier work. Each tab's hero reserves the room of all of them, so the tab row sits at
+ * the same place on every tab (#43).
+ */
+export function projectHeroes(counts: KindCounts, copy: Copy): HeroText[] {
+  const present = (Object.keys(counts) as ProjectKind[]).filter((kind) => counts[kind] > 0);
+  return [
+    { title: copy.projects.title, lede: copy.projects.lede },
+    ...present.map((kind) => kindHero(kind, copy.projects, copy.kinds)),
+    { title: copy.earlier.title, lede: copy.earlier.lede },
   ];
 }
 

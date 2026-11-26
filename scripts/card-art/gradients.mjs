@@ -10,8 +10,10 @@
 // The card sources live in the product repositories, checked out beside this
 // one. Run `pnpm card-gradients` after a card changes; it rewrites
 // db/projects.json. A project whose repository draws no card keeps its palette tile.
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
+
+import { readProjects, writeProjects } from "../lib/projects-file.mjs";
 
 const SIBLINGS = path.resolve(process.cwd(), "..");
 const CARD = "design/social-card/social-card.html";
@@ -41,8 +43,7 @@ function cardBackground(html) {
   return value;
 }
 
-const projectsPath = path.join(process.cwd(), "db", "projects.json");
-const projects = JSON.parse(await readFile(projectsPath, "utf8"));
+const projects = await readProjects();
 
 for (const project of projects) {
   let html;
@@ -64,4 +65,4 @@ for (const project of projects) {
   process.stdout.write(`${project.slug}: ${ink} ink on ${background}\n`);
 }
 
-await writeFile(projectsPath, `${JSON.stringify(projects, null, 2)}\n`);
+await writeProjects(projects);

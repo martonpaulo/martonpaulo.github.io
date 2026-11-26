@@ -35,8 +35,9 @@ export function earlierRow(
     href: planned && project ? projectPath(project) : `${archive}${entry.slug}/`,
     external: !(planned && project),
     tagline,
-    icon: project ? projectIcon(project.slug) : undefined,
+    icon: projectIcon(project?.slug ?? entry.slug),
     kinds: kinds.map((kind) => ({ label: labels[kind].one })),
     when: periodLabel(entry.period),
+    retired: true,
   };
 }

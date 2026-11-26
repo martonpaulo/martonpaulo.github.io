@@ -17,3 +17,20 @@
     padding-block: var(--space-6) var(--space-5);
   }
 }
+
+// The visible text and its invisible twins share one grid cell, so the cell is as tall as the
+// tallest of them.
+.hero__slot {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+
+  > * {
+    grid-area: 1 / 1;
+    margin: 0;
+  }
+}
+
+.hero__ghost {
+  visibility: hidden;
+}

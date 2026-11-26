@@ -5,12 +5,11 @@
 //
 // A token lets private repositories count; without one they cannot be read, and the script stops
 // rather than write a zero it did not see.
-import { readFile, writeFile } from "node:fs/promises";
+import { readProjects, writeProjects } from "./lib/projects-file.mjs";
 
 /** GitHub's REST endpoint for one repository. */
 const API = "https://api.github.com/repos/";
-const file = new URL("../db/projects.json", import.meta.url);
-const projects = JSON.parse(await readFile(file, "utf8"));
+const projects = await readProjects();
 const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
 const headers = {
   accept: "application/vnd.github+json",
@@ -28,5 +27,5 @@ for (const project of projects.filter((p) => p.status !== "discontinued")) {
   if (project.stars !== stars) say(`${project.slug}: ${project.stars ?? "none"} -> ${stars}`);
   project.stars = stars;
 }
-await writeFile(file, `${JSON.stringify(projects, null, 2)}\n`);
+await writeProjects(projects);
 say("stars recorded; run pnpm format to restore the file's wrapping");

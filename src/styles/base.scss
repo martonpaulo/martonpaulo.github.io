@@ -5,7 +5,11 @@
   box-sizing: border-box;
 }
 
+// Every page keeps the scrollbar's room, so a short page without a scrollbar and a long one with
+// it lay out at the same width and nothing moves sideways between them (#43). Where
+// scrollbar-gutter is unsupported, the scrollbar is always shown instead.
 html {
+  overflow-y: scroll;
   overflow-x: clip;
   background: var(--bg);
   color: var(--text);
@@ -16,6 +20,13 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+}
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
 }
 
 body {
@@ -39,7 +50,8 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+.heading-1 {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
   line-height: var(--leading-snug);
@@ -49,7 +61,10 @@ h3 {
   text-wrap: balance;
 }
 
-h1 {
+// .heading-1 sets text as the page title does, where it cannot be one, such as a hero's
+// invisible twin of another page's title.
+h1,
+.heading-1 {
   font-size: var(--text-3xl);
   line-height: var(--leading-tight);
 }
