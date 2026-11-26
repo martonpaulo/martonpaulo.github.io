@@ -2,7 +2,7 @@
 // db/earlier.json agree, and names the folder that has no entry (#42).
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -100,4 +100,58 @@ test("a refused clone falls back to the live archive instead of crashing", async
   assert.equal(result.status, 0, result.stdout);
   assert.match(result.stdout, /not readable here/);
   assert.match(result.stdout, /archive check OK, live/);
+});
+
+// A clone that holds a folder the live archive still redirects away, as when the archive's
+// Cloudflare rule does not yet let a new folder through: the entry stays planned (#43).
+function fixtureArchive(folders) {
+  const root = mkdtempSync(join(tmpdir(), "archive-repo-"));
+  const repo = join(root, "archive.git");
+  const git = (...args) =>
+    spawnSync("git", [
+      "-C",
+      repo,
+      "-c",
+      "user.name=Test",
+      "-c",
+      "user.email=test@example.invalid",
+      ...args,
+    ]);
+  mkdirSync(repo);
+  git("init", "-q");
+  for (const folder of folders) {
+    mkdirSync(join(repo, "site", folder), { recursive: true });
+    writeFileSync(join(repo, "site", folder, "index.html"), "");
+  }
+  git("add", ".");
+  git("commit", "-q", "--no-gpg-sign", "-m", "fixture");
+  const env = {
+    ...process.env,
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: `url.file://${root}/.insteadOf`,
+    GIT_CONFIG_VALUE_0: "https://github.com/martonpaulo/",
+  };
+  return { root, env };
+}
+
+test("clone: a folder whose live address redirects away keeps its entry planned", async () => {
+  const planned = earlier.find((entry) => entry.planned).slug;
+  const { root, env } = fixtureArchive([...built, planned]);
+  try {
+    const served = (slug) => (built.includes(slug) ? 200 : 301);
+    const kept = await runLive(served, { args: [], env });
+    assert.equal(kept.status, 0, kept.stdout);
+    assert.match(kept.stdout, /archive check OK \(/);
+    const hidden = await runLive((slug) => (slug === built[0] ? 301 : served(slug)), {
+      args: [],
+      env,
+    });
+    assert.equal(hidden.status, 1);
+    assert.match(
+      hidden.stdout,
+      new RegExp(`MISSING ${built[0]}: the archive repository has its folder`),
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });

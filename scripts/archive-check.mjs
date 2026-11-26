@@ -3,12 +3,14 @@
 //
 //   node scripts/archive-check.mjs [--site DIR | --live [--base URL]]
 //
-// The folders come from, in order: --site DIR; a shallow, treeless clone of the private
-// martonpaulo/archive, which works wherever git can read it (the Mac, a cloud session);
-// else the live archive. CI has no token for that private repository, so there the clone is
-// refused and the check reads each entry's live address instead. The live archive answers 200 at
-// a project folder and redirects every other path, so it proves each entry but cannot list a
-// folder that has no entry; that direction is checked only by the clone.
+// An entry counts as archived when its live address answers: a folder in the repository that
+// Cloudflare still redirects away is not reachable, so its entry stays planned. The live archive
+// answers 200 at a project folder and redirects every other path, so it proves each entry but
+// cannot list a folder that has no entry; that direction needs the repository's folder list,
+// from --site DIR or a shallow, treeless clone of the private martonpaulo/archive, which works
+// wherever git can read it (the Mac, a cloud session). CI has no token for that repository, so
+// there the clone is refused and only the live direction is checked. --site DIR alone reads no
+// network: its folders stand for both directions, for the tests.
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -86,11 +88,14 @@ async function liveFolders(base) {
 
 async function source() {
   const dir = argument("--site");
-  if (dir)
-    return { present: new Set(siteFolders(dir)), complete: true, unread: new Set(), problems: [] };
+  if (dir) {
+    const folders = new Set(siteFolders(dir));
+    return { folders, present: folders, unread: new Set(), problems: [] };
+  }
+  let folders = null;
   if (!process.argv.includes("--live")) {
     try {
-      return { present: new Set(clonedFolders()), complete: true, unread: new Set(), problems: [] };
+      folders = new Set(clonedFolders());
     } catch (error) {
       const reason = String(error.stderr ?? error.message)
         .trim()
@@ -100,22 +105,26 @@ async function source() {
     }
   }
   const base = argument("--base") ?? site.archive;
-  return { ...(await liveFolders(base)), complete: false };
+  return { folders, ...(await liveFolders(base)) };
 }
 
-const { present, complete, unread, problems } = await source();
+const { folders, present, unread, problems } = await source();
 if (present.size === 0) {
   console.error("the archive shows no folder; refusing to pass on an empty list");
   process.exit(1);
 }
 const listed = new Set(earlier.map((entry) => entry.slug));
+const missing = (slug) =>
+  folders?.has(slug)
+    ? `MISSING ${slug}: the archive repository has its folder but its live address redirects away; keep it planned until it answers`
+    : `MISSING ${slug}: no archive folder and not planned`;
 problems.push(
-  ...[...present]
+  ...[...(folders ?? [])]
     .filter((slug) => !listed.has(slug))
     .map((slug) => `UNLISTED ${slug}: archive folder with no entry in db/earlier.json`),
   ...earlier
     .filter((entry) => !present.has(entry.slug) && !unread.has(entry.slug) && !entry.planned)
-    .map((entry) => `MISSING ${entry.slug}: no archive folder and not planned`),
+    .map((entry) => missing(entry.slug)),
   ...earlier
     .filter((entry) => present.has(entry.slug) && entry.planned)
     .map((entry) => `PLANNED ${entry.slug}: already archived, drop "planned"`),
@@ -123,7 +132,7 @@ problems.push(
 for (const line of problems.sort()) say(line);
 if (problems.length) process.exit(1);
 say(
-  complete
-    ? `archive check OK (${present.size} folders, ${listed.size} entries)`
+  folders
+    ? `archive check OK (${folders.size} folders, ${present.size} answer, ${listed.size} entries)`
     : `archive check OK, live (${present.size} folders answer, ${listed.size} entries; a folder with no entry is not visible live)`,
 );

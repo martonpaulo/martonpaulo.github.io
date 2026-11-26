@@ -130,9 +130,11 @@ Retired products, older projects and course exercises are listed only on the Ear
 - **Agreement with the archive.** `pnpm archive-check` (`scripts/archive-check.mjs`) fails when a
   folder of `martonpaulo/archive`'s `site/` has no entry, or an entry has no folder and is
   not planned. Validate runs it on every push and Live every day, since a folder can be added
-  without a commit here. The archive repository is private and CI holds no token for it, so where
-  the clone is refused the check reads each entry's live address instead (200 at a folder, a
-  redirect elsewhere); that proves every entry, but a folder with no entry shows only to a clone.
+  without a commit here. An entry counts as archived only when its live address answers 200 (a
+  redirect elsewhere): a folder that the archive's Cloudflare rule still redirects keeps its entry
+  planned, so no row links to a 404 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
+  The archive repository is private and CI holds no token for it, so a folder with no entry shows
+  only where the clone works (the Mac, a cloud session).
 - **Not indexed.** The tab and the project pages it lists carry `noindex` and are left out of the
   sitemap in `astro.config.ts`, so martonpaulo/domain, which lists martonpaulo.com from the sitemap,
   does not list them either. `scripts/earlier-build-check.mjs` checks the build for this, and that
