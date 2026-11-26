@@ -1,0 +1,52 @@
+{
+  "magicValues": {
+    "folders": [],
+    "exclude": [
+      "scripts/dry_check.py",
+      "scripts/issue_links.py",
+      "scripts/live_build_check.py",
+      "scripts/shortcut_check.py",
+      "scripts/sleep_guard.py",
+      "scripts/text_check.py",
+      "scripts/skd/**"
+    ],
+    "counts": {
+      "scripts/card-art/gradients.mjs": {
+        "number": 13
+      },
+      "scripts/card-art/render.mjs": {
+        "number": 5
+      },
+      "src/content.config.ts": {
+        "number": 5
+      },
+      "src/lib/fonts.ts": {
+        "number": 16
+      },
+      "src/lib/images.ts": {
+        "number": 8
+      },
+      "src/lib/person.ts": {
+        "number": 2
+      },
+      "src/lib/seo.ts": {
+        "url": 1
+      },
+      "src/pages/apple-touch-icon.png.ts": {
+        "url": 1
+      }
+    }
+  },
+  "duplicates": {
+    "depth": 1,
+    "exclude": ["scripts/skd/**"],
+    "counts": {
+      "src": 4
+    }
+  },
+  "documents": {
+    "files": ["*.md", "docs/**/*.md"],
+    "exclude": [],
+    "repeated": {}
+  }
+}

@@ -20,7 +20,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "lint": "eslint . && prettier --check .",
+    "lint": "eslint . && prettier --check . && pnpm text-check",
+    "text-check": "python3 scripts/text_check.py . && python3 scripts/issue_links.py . && python3 scripts/dry_check.py && python3 scripts/sleep_guard.py . && python3 scripts/shortcut_check.py .",
     "format": "prettier --write .",
     "test": "node --test",
     "validate": "pnpm check && pnpm lint && pnpm test && pnpm build",
@@ -30,13 +31,13 @@
   },
   "packageManager": "pnpm@11.7.0",
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.6",
     "@fontsource/figtree": "^5.3.0",
     "@fontsource/gabarito": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
-    "astro": "^7.3.1",
-    "satori": "^0.33.4",
-    "sharp": "^0.35.4"
+    "astro": "^7.4.13",
+    "satori": "^0.33.5",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
@@ -47,7 +48,7 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "sass": "^1.104.0",
+    "sass": "^1.108.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0"
   }

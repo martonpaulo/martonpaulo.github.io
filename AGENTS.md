@@ -9,8 +9,8 @@
 - Benefit-first description: Marton Paulo's personal site: a static portfolio of projects, skills and contact links, built with Astro from a few JSON files and published to GitHub Pages at martonpaulo.com.
 - Repository: `martonpaulo/martonpaulo.github.io` (public)
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
-- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Deploy` workflow. The domain is registered at Hostinger and its DNS is delegated to Cloudflare nameservers; both are owner-managed and nothing in this repository touches them.
-- HTTPS is terminated by the Cloudflare proxy in front of GitHub Pages, so `http://martonpaulo.com/` already answers `301` to the HTTPS canonical. Because the apex `A` records resolve to Cloudflare rather than to the GitHub Pages addresses, GitHub cannot issue its own certificate: `PUT /repos/martonpaulo/martonpaulo.github.io/pages` with `https_enforced: true` fails with `404 The certificate does not exist yet`, and the Pages metadata keeps `https_enforced: false` and an `http://` `html_url`. That mismatch is expected and is not a defect to fix from this repository. It affects no visitor only while Cloudflare can accept the origin's `*.github.io` certificate for the apex: under Full (strict) every uncached path answers `526` (#40), because a strict origin check matches the requested or target hostname and the apex's target is an IP. The `Live` workflow requests uncached paths after each deploy and daily, and fails on that.
+- Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Deploy` workflow behind the owner-managed Cloudflare proxy. The certificate and proxy details, and the GitHub settings that look wrong but are settled, are in `docs/hosting.md`.
+- Icon: `public/favicon.svg`
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
 - Development language: English.
@@ -18,499 +18,176 @@
 - Branch policy: `main`-only. Work is committed directly to `main`; a branch is an occasional convenience for an experiment, never a requirement, and no pull request is needed to deliver.
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
-- Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0` and is not a product version. Every push to `main` whose validation passes deploys.
-- Merge policy: pull requests are the exception. When one is used, it is merged with a merge commit, `gh pr merge <number> --merge --delete-branch`, so every branch commit reaches `main`, and the repository allows no other method (martonpaulo/skill-deck#277).
-- Commit subject: a commit made for an issue ends with `(#<issue number>)`.
-- Delete branches after merge: enabled.
-- Default branch review policy: no required approving review or required pull request; delivery is directly to `main` after `pnpm validate`. Existing optional pull requests do not change this policy.
+- Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0`. Every push to `main` whose validation passes deploys.
+- Merge policy: merge commits. When a pull request is used, it is merged with `gh pr merge <number> --merge --delete-branch`, and the repository allows no other method ([martonpaulo/skill-deck#277](https://github.com/martonpaulo/skill-deck/issues/277)).
+- Commit subject: a commit made for an issue ends with `(#<issue number>)`, never the pull request's.
+- Delete branches after merge: enabled
 - Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `pnpm install --frozen-lockfile && pnpm build`.
-- Browser engine families: Chromium, Gecko and WebKit are all acceptance targets. Validation is by the checks below plus a manual look in one browser of each family when a visual change lands; there is no browser automation.
-- Skills baseline revision: `7cfc324fcded57145c36cc678977c070ed800692`
-- Skills baseline applied: `2026-09-08`
-- Skills baseline divergence `host-fixed-repository-name` (owner decision, 2026-09-17, martonpaulo/skill-deck#286): the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io`. The repository, the `~/proj` folder and the npm package name all use it; the display name is `Portfolio Website`, and the code and identifier names derive from it (`PortfolioWebsite`, `portfoliowebsite`). The site itself is branded with the owner's name (`db/site.json`), which is the person the portfolio presents, not the project name.
+- Skills baseline revision: `4588ac536cc6868f682c26309beb47f55d6de5d7`
+- Skills baseline applied: `2026-11-26`
+- Skills baseline divergence `host-fixed-repository-name` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io` (owner decision, 2026-09-17, [martonpaulo/skill-deck#286](https://github.com/martonpaulo/skill-deck/issues/286)).
+- Skills baseline divergence `workflow-names` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: `live.yml` (`Live`) requests uncached paths daily, because the Cloudflare proxy's settings change without a commit and a cached page hides a refused origin ([#40](https://github.com/martonpaulo/martonpaulo.github.io/issues/40)); Deploy's read-back runs only after a deploy (assumption taken during the unattended alignment of [#21](https://github.com/martonpaulo/martonpaulo.github.io/issues/21), 2026-11-26).
 
-Treat these values as stable project decisions. Change an established identifier, license, visibility, branch policy, versioning model, localization strategy, landing-page contract, or release policy only through an explicit task that describes the migration and downstream effects.
+Change an identifier or policy recorded above only through an explicit task describing the migration and its effects.
 
-## What the site is
+## Route map
+
+Before editing under a path, read the file its row names. A module with rules of its own keeps them in its own `AGENTS.md` of at most 150 lines, beside a `CLAUDE.md` symlink, and has a row here; this file stays at most 200 lines.
+
+| Path       | Read first                                                    |
+| :--------- | :------------------------------------------------------------ |
+| `db/`      | `docs/patterns.md`                                            |
+| `src/`     | `docs/patterns.md; docs/design-system.md for a visual change` |
+| `tests/`   | `docs/patterns.md`                                            |
+| `.github/` | `docs/hosting.md`                                             |
+
+## What the site is and how it is built
 
 `docs/product.md` says what the site is for, who reads it, and what it will never do, each non-goal
-with its reason. Read it before proposing a feature; if the feature contradicts a non-goal, the
-answer is in that file, not in this one.
-
-## Agent skill paths
-
-- Product definition: `docs/product.md`
-- Design rationale: `docs/design-system.md`
-- Domain glossary: `CONTEXT.md` (optional; create only when useful)
-- ADRs: `docs/adr/` (create only with the first decision record)
-- Research notes: `docs/research/` (create only when persisting research)
-- Handoffs: `.scratch/handoffs/` (ignored by Git)
-- Prototypes: `.scratch/prototypes/` (ignored by Git)
-
-## Commands
+with its reason. Read it before proposing a feature. `docs/patterns.md` holds the patterns the code
+repeats; a change that would break one, or establish a new one, stops and asks the owner first.
 
 | Command         | What it does                                                                                  |
 | :-------------- | :-------------------------------------------------------------------------------------------- |
 | `pnpm dev`      | Astro dev server at `http://localhost:4321`                                                   |
 | `pnpm check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema |
-| `pnpm lint`     | ESLint, then Prettier in check mode                                                           |
+| `pnpm lint`     | ESLint, Prettier in check mode, then the repository text checks in `scripts/`                 |
 | `pnpm format`   | Prettier in write mode                                                                        |
 | `pnpm test`     | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
 | `pnpm build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
-| `pnpm validate` | `check`, `lint`, `test`, `build`, in that order; the superset of CI                           |
-| `pnpm preview`  | Serves `dist/` locally                                                                        |
-
-Node 22.12 or newer, even versions only. TypeScript stays on major 6 until `astro check` supports
-TypeScript 7; do not bump it to make the lockfile look current. Styles are Sass (`.scss`) only for
-the breakpoint mixin and nesting; tokens stay CSS custom properties.
-
-## Patterns this project repeats
-
-These are the conventions the code already follows. A change that would break one, or establish a
-new one, stops and asks the owner first, naming the existing pattern, the proposed one, and why the
-existing one does not fit. Deviating is allowed; deviating silently is what produces two patterns.
-
-- **The `db/` folder is the only content, including interface copy.** Every word a visitor reads
-  comes from it: `site.json`, `person.json`, `links.json`, `projects.json`, and `copy.json` with
-  every label, heading and template string. Placeholders like `{givenName}` are filled by `fill()` in `src/lib/copy.ts`.
-  A string typed into a component is a defect. The one exception is `astro.config.ts`, which
-  imports `db/projects.json` and `db/site.json` directly because the config runs before
-  collections exist.
-- **The schema is the validation.** A new field is added to the zod schema in
-  `src/content.config.ts` before it is used, so a wrong value fails `astro check` and the build.
-  Invariants zod cannot express (unique slugs, a link or a note per project, artwork on every
-  featured project) are Node tests in `tests/`.
-- **Order is authored, not sorted.** The loader records each entry's position in its file as
-  `order`; readers in `src/lib/db.ts` sort by it, and `byYear()` is the only other ordering.
-- **Markup, style and logic are separate files.** A component is `Name.astro` (markup and prop
-  wiring only) beside `Name.scss` (its styles, global, so every class is prefixed with the
-  component's name in block__element--modifier form). Page-level styles live in
-  `src/styles/pages/`. Anything that computes lives in `src/lib/*.ts` (`projects.ts`,
-  `navigation.ts`, `links.ts`, `images.ts`, `pages.ts`, `person.ts`, `seo.ts`, `copy.ts`), so a
-  frontmatter block reads data and calls functions and does nothing else.
-- **Visual decisions are tokens.** `docs/design-system.md` explains them; `src/styles/tokens.scss` holds
-  them as CSS custom properties; components use only the variables. Sizes use `rem` on a doubling
-  scale (`--space-1` … `--space-6`). Breakpoints are the one Sass mixin, in
-  `src/styles/_breakpoints.scss`, so no width is repeated by hand. No utility framework, no inline
-  colours, no magic numbers.
-- **Shared utilities before new rules.** `.container`, `.stack-center`, `.actions`, `.dot-list`,
-  `.lede`, `.prose`, `.section` and `.visually-hidden` in `src/styles/utilities.scss` cover the layouts
-  every page repeats. A component reaches for them first.
-- **Accessibility is part of the markup, not a pass afterwards.** Landmarks and skip link in the
-  layout, `aria-current` on the active navigation and filter, one link per card with the project
-  name alone as its required accessible name and decorative images with empty `alt`, headings in order with hidden
-  ones where a section has no visible title, every control at least `--touch-target` tall, a
-  visible focus ring in `--focus`, and every animation off under `prefers-reduced-motion`.
-  A whole-card link is named by `aria-labelledby` pointing at its own heading, so the name is the
-  visible one and the copy is not duplicated.
-- **Responsive by measure, not by device.** Fluid type through `clamp()`, one card column on
-  phones, two from `tablet`, three on `ultrawide` (three is the maximum by decision); the
-  container widens on ultrawide instead of stretching the cards.
-- **No script.** The site ships no client JavaScript. A page change is the browser's own
-  cross-document view transition (`@view-transition` in `src/styles/motion.scss`), as described in
-  [Design: Motion](docs/design-system.md#motion). Astro's `<ClientRouter />` did this until 2026-09-13 and
-  was removed because its module in `<head>` delayed the first paint on a throttled phone by
-  176 ms (FCP 956 → 780 ms); a feature that needs a script must say what it does that HTML and CSS cannot.
-- **SEO is owned by the layout.** `src/layouts/Base.astro` emits title, description, canonical,
-  Open Graph, Twitter, JSON-LD (built in `src/lib/seo.ts`) and font preloads. A page passes
-  `description` and optional extra JSON-LD; it never writes `<head>` tags. Every page shares one
-  share image, `SHARE_IMAGE` (`/og/site.png`).
-- **The share image is generated, never drawn by hand.** `src/pages/og/site.png.ts` renders the
-  site's one card with satori and resvg, and every page links to it (owner decision, 2026-09-11:
-  no per-page cards for now). It writes the copy over `src/assets/share/home-ground.png`, rendered
-  by `pnpm share-ground` from `scripts/share-home/ground.html` (the page glow and every product's
-  icon, `src/assets/share/<slug>.png`, on a wall in perspective), because satori cannot draw 3D
-  transforms or blur. Re-render the ground when a product or its icon changes.
-- **Project artwork is a real capture.** `src/assets/projects/<slug>.png` is a transparent PNG of
-  the product's own interface cut into a rounded panel, or its app icon when there is no interface
-  to capture. It is referenced from the project's `image` field in `db/projects.json` with an `alt` and a
-  `fit`, and rendered through `<Image>` with the widths in `src/lib/images.ts`.
-- **Static output, trailing slashes.** `trailingSlash: "always"` matches how GitHub Pages serves
-  `directory` builds. Internal links end with `/`.
-- **Redirects come from data.** `/p/<slug>` sends a visitor to a project's live URL; the list is
-  derived from `db/projects.json` in `astro.config.ts` and excluded from the sitemap and `robots.txt`.
-  Since 2026-09-09 each sibling project is served on its own subdomain
-  (`https://<product>.martonpaulo.com/`, one GitHub Pages custom domain per repository), so `live`
-  links point there; `martonpaulo.com/<repo>/` paths are gone and are not redirected.
+| `pnpm validate` | `check`, `lint`, `test`, `build`, in that order; the gate before every commit                 |
 
 ## Instruction hierarchy and sources of truth
 
-- Follow the direct task, the most specific applicable scoped instructions, this root file, and then general working agreements, in that order.
-- Read applicable instructions before changing files.
-- Code is evidence of current behavior. `AGENTS.md` is normative for process. `docs/product.md` is normative for what belongs in the product. Expose divergence among them; do not silently resolve every conflict in favor of one source.
-- Keep one canonical source for each rule. Secondary documents should summarize or link to it instead of restating it.
+- Follow the direct task, the most specific scoped instructions, this file, then general agreements. Read applicable instructions before editing.
+- Code is evidence of current behavior, `AGENTS.md` is normative for process, and an approved specification for desired behavior. Expose divergence among them; never resolve it silently.
+- When two sources disagree (issues, comments, this file, the agent's memory, the owner's current instruction), a newer trusted statement is the recommended side, never the decided one. Ask the owner before acting on either side and record the answer in the newer issue; `bench-agent-context` owns the precedence.
+- Keep one canonical source per rule, as the `bench-project-standards` skill's `references/documentation-standard.md` defines; issues, code and tests cite a rule's ID, never its text.
 - Do not turn analysis, research, or a read-only audit into implementation without authorization.
-- Be direct and evidence-based. State assumptions, uncertainty, risks, tradeoffs, and blockers.
-- Ask only when a material decision cannot be discovered safely. Prefer explicit, reversible assumptions when enough context exists.
+- The owner calls `bench-<verb>` and `bench-issue-*` by name; every other skill is internal: offer one in plain words, never by name.
+- Be direct and evidence-based: state assumptions, risks, tradeoffs, blockers. Ask only about a material decision you cannot discover safely; otherwise make explicit, reversible assumptions.
 - Give concise progress updates during long-running work.
 
 ## Long-running operations
 
-For any command, process, browser action, integration, or delegated task likely to run long:
-
-- Use the client's bounded yield, timeout, or status mechanism and wait for an observable
-  condition instead of an arbitrary sleep.
-- Keep the user informed at least once per minute when the client supports progress commentary.
-- Distinguish slow but progressing work from a stall using new output, state changes, resource
-  activity, the known duration of the current phase, or a tool-reported deadline. Elapsed time
-  alone is not evidence of a stall.
-- Inspect the current output and state before interrupting, retrying, or changing approach.
-- Interrupt only when there is evidence of no useful progress, a deadline has expired, or the
-  continued cost or risk is no longer justified.
-- After an interruption, explain what state or output was preserved, diagnose the likely cause,
-  and choose a narrower retry, a different tool, a smaller unit of work, or an explicit blocker.
-- Never rerun the same unchanged failure, and do not add a polling service, background job, timer,
-  or other infrastructure merely to satisfy this rule.
-- Keep termination thresholds task-specific. Workflow-specific wait tools and user-input
-  boundaries remain authoritative.
+Long-running work follows the `bench-project-standards` skill's `references/long-running-operations.md`. A delegation brief states its concurrency budget; without one, the delegated agent spawns no sub-agents. Delegate only bounded, independent work that cannot race on shared writes; the parent keeps scope, verification and every mutation.
 
 ## Before editing
 
-1. Check applicable instructions, Git status, and the current branch.
-2. Search for the behavior, callers, tests, contracts, and nearby patterns before adding anything.
-3. Read only the files and chunks required to understand the affected behavior.
-4. Distinguish verified facts, reasonable inferences, and unknowns.
-5. Define the source of truth and ownership before changing data or state.
-6. Make a short plan only for complex, risky, ambiguous, or multi-file work.
+1. Check Git status and the current branch.
+2. Search for the behavior, callers, tests, contracts, and nearby patterns; read only the chunks the change needs.
+3. Distinguish verified facts, reasonable inferences, and unknowns, and define the source of truth before changing data or state.
+4. When the project records an upstream or reference project, consult it before planning. When
+   this project solves the problem differently, document the divergence and its reason.
+5. Make a short plan only for complex, risky, ambiguous, or multi-file work.
 
 ## Scope, reuse, and implementation
 
-- Keep changes scoped to the requested result. Do not mix unrelated cleanup, redesign, dependency updates, broad refactors, or future work.
-- Preserve behavior outside the task and preserve unrelated or uncommitted user changes.
-- Search for existing components, services, types, helpers, tokens, configuration, tests, and platform capabilities before creating new ones.
-- Follow the patterns this project already repeats. When a change would break a recorded pattern or establish a new one, stop and ask first, naming the existing pattern, the proposed one, and why the existing one does not fit. Deviating is allowed; deviating silently is not.
-- Prefer the smallest correct, readable, reversible, and low-operational-cost solution.
-- Maintain one owner and one source of truth for each business rule, state, mapping, default, and copy value.
-- Derive values instead of storing synchronized copies. Model invalid states explicitly.
-- Do not add dependencies, services, layers, caches, observers, timers, polling, background jobs, or infrastructure without a current requirement and a clear owner. Every dependency must earn its place through a visible benefit to the reader.
-- For large changes, use reviewable, executable increments and patches small enough to diagnose failures. Do not fragment one coherent concern mechanically.
-- Implement relevant errors, states, accessibility, and tests with the behavior rather than as unrelated follow-up work.
+- Preserve behavior outside the task and unrelated or uncommitted user changes.
+- Follow the patterns this project already repeats. When a change would break a recorded pattern or establish a new one, stop and ask first, naming the existing pattern, the proposed one, and why the existing one does not fit.
+- When a change sets or fixes a pattern, the same delivery adds the cheapest automatic check that guards it: a lint or type rule, a test over the repository, a gate script. A check larger than the fix becomes its own issue, linked from the change ([martonpaulo/skill-deck#732](https://github.com/martonpaulo/skill-deck/issues/732)).
+- Prefer the smallest correct, readable, reversible solution that is cheap to operate.
+- Keep one owner and one source of truth for each business rule, state, default, and copy value, outside presentation and adapter layers. Derive values instead of storing synchronized copies; model invalid states explicitly.
+- Deliver large changes in reviewable, executable increments. Implement errors, states, accessibility, and tests with the behavior.
+- Never return a success-shaped default (zero, an empty list, `ok`) for a value that failed or is missing; show or raise the failure. A result that is really empty stays empty ([#758](https://github.com/martonpaulo/skill-deck/issues/758)).
 
 ## Data, security, and destructive operations
 
-- The `db/` folder is canonical data and the only durable state. `dist/`, `.astro/` and
-  `node_modules/.astro/fonts` are reconstructible and never committed.
-- Keep credentials, tokens, private keys, personal data beyond what the site publishes on purpose,
-  and sensitive payloads out of the repository and logs. The site needs none of them; a change that
-  introduces one is a design question, not a configuration step.
+- Distinguish canonical data, reconstructible cache, transient state, and preferences. Persist or synchronize only data that must survive or cross devices; a cache never becomes a source of truth.
+- Use stable application-owned identifiers, and validate data at input and persistence boundaries.
+- Change a relational schema only through an explicit, tested, versioned migration, never manually in production. Use transactions or atomic writes when partial failure could leave inconsistent state.
+- Request only necessary permissions and scopes. Keep credentials, keys, signing material, personal data, and sensitive payloads out of the repository and logs.
 - Use structured subprocess arguments and validate destinations, redirects, and untrusted inputs.
+- Apply the `bench-project-standards` skill's `references/security-standard.md` to every change, plan and audit that touches a surface it covers; `docs/security.md` records each item's answer.
 - Resolve an exact target before deletion, overwrite, interruption, or another hard-to-recover action. A clear request authorizes its exact resolved operation; ask again when the target is ambiguous, loss is difficult to recover, or effects exceed the named scope.
-- Prefer recoverable deletion where practical. Never force-push or perform broad cleanup without explicit authorization.
+- Prefer recoverable deletion. Never perform broad cleanup without explicit authorization. Never force-push, except to purge sensitive data from a remote branch's history, on the owner's approval of that exact push, as the `bench-github-publishing` skill's section 2 defines.
 
 ## Product interface and accessibility
 
-- Read `docs/design-system.md` before any visual change. It says what the site is meant to signify and
-  why each token exists; a change that cannot be explained in its terms does not belong. The
-  visual reference is seanhalpin.xyz; the owner's taste is minimal, personal and never template-like.
-- Prefer native HTML and established patterns. Custom UI must provide clear product value.
-- Define layout, hierarchy, controls, loading, content, empty, error, retry, disabled, cancellation, and destructive states when applicable.
-- Include keyboard navigation, focus, screen-reader labels, scalable text, contrast, safe areas, reduced motion, and non-color status cues in the same change. `--text-muted` is the lightest text allowed on `--bg` and `--tile-ink-muted` on a tile; check contrast before adding a lighter one.
-- Keep visible copy in `db/copy.json` and consistent with the product language strategy.
-- Keep expensive work out of the build's hot paths: share images are the slowest step and are generated once per page.
-- Measure before claiming a performance problem and optimize measured user-visible bottlenecks. The target is 100 in every Lighthouse category on the home page and a project page.
+- Prefer native platform components and established patterns; custom UI must provide clear product value.
+- Before changing an interface, a style, or a visual asset, name what the product should communicate and how it should feel, from the product definition and brand decisions, and judge visual and copy choices by that intent. When none is recorded, state the one you infer and ask before a consequential visual change.
+- Define the layout and the loading, empty, error, disabled, and destructive states that apply. Include keyboard navigation, focus, screen-reader labels, scalable text, contrast, reduced motion, and non-color status cues in the same change.
+- Build every interface to the `bench-project-standards` skill's `references/interface-standard.md`; an explicit owner request to do otherwise wins and is recorded where this project records decisions.
+- Before showing an interface change to the owner, compare it side by side with its reference and take its sizes and colours from that reference, measured, as the `bench-project-standards` skill's `references/reference-comparison.md` defines. Interface reference: a reference app: the web, with seanhalpin.xyz as the visual reference `docs/design-system.md` names.
+- Accessibility evidence: the view code, reviewed in each change; `docs/product.md` records the accepted gap under `## Accepted evidence gaps`. Manual screen-reader passes are not run and never block completion, as the `bench-capture` skill defines ([martonpaulo/skill-deck#266](https://github.com/martonpaulo/skill-deck/issues/266)).
+- Keep visible copy centralized and localized. Keep expensive work out of render paths and hot loops. Measure before claiming a performance problem.
 
 ## Code, comments, and documentation
 
-- Write code, comments, commits, filenames, tests, configuration, and developer documentation in English. Product copy follows the recorded localization strategy.
-- Follow the existing formatter, linter, naming, file layout, and architectural conventions.
-- Prefer clear types, explicit ownership, and simple control flow over cleverness.
-- Put comments next to non-obvious constraints. Explain intent, provenance, or a subtle external rule, not mechanics.
-- Link official documentation in a code comment when an external rule or workaround must remain visible to prevent a future regression.
-- Durable documentation describes responsibilities, contracts, invariants, commands, and decisions. Audits cite exact evidence. Manuals use exact filenames only when users must act on them and the names are stable contracts.
-- Update the smallest canonical documentation section when a durable contract changes. Do not create empty documentation for possible future use.
-- Keep the README easy to scan. Cover benefit, behavior, requirements, setup, usage, validation, security, privacy, limitations, landing page, and download where applicable.
-- When creating a README or materially updating one, use the recorded `Display name` above as the H1
-  and preserve an existing approved H1, including its branding and casing. Humanize the raw
-  repository slug only when the display name is unresolved; never mechanically title-case an
-  approved name or sweep unrelated README content.
-- Every fenced code block you create or materially edit has an explicit language identifier. Use
-  the real language for code or configuration and `text` for plain commands or output; leave
-  untouched historical fences alone.
-- Use badges, real screenshots, statistics, and emoji only when they improve comprehension and can
-  remain current. No README needs a visual aid to pass setup.
-- Preserve third-party licenses, copyright, attribution, and notices. The fonts are loaded from
-  Fontsource under the SIL Open Font License and are not vendored, so no notice file is needed;
-  vendoring one would create that obligation.
+- Write code, comments, commits, filenames, tests, configuration, and developer documentation in English; product copy follows the localization strategy. Write human-facing English in plain international English that non-native readers understand: precise verbs, no idioms, short sentences.
+- Prefer clear types and simple control flow.
+- Comment non-obvious constraints, linking official documentation when a workaround must stay visible.
+- Update the smallest canonical documentation section when a durable contract changes; never create empty documentation.
+- A divergence answer goes in the newer issue's Clarify. A decision that changes a durable rule rewrites the document that owns it, which keeps only the current rule with a short `#N` link, and adds one row to the `## Decision index` of `docs/decisions.md`, the only home of decision history. An ADR is the owning document only for architecture. No issue, wiki page or long-lived comment serves as a decision register.
+- Each limit the owner sets is one row of the product definition's `## Limits the owner set`, in the same commit; a relaxed limit keeps its row as «replaced» ([martonpaulo/skill-deck#738](https://github.com/martonpaulo/skill-deck/issues/738)).
+- README: the recorded `Display name` is the H1. Links to the live project are allowed. The rest
+  follows the `bench-project-standards` skill's `references/public-surface-style.md`.
+- Every fenced code block you create or materially edit has an explicit language identifier.
+- Never mark an API, a flag or a behaviour `implemented` without running it. Fix or drop a broken script; never ship it documented as working.
+- Every issue or pull request reference in Markdown prose is a link to the issue's URL; code,
+  quoted lines and quoted commit subjects stay as written. The `bench-setup` skill's
+  `assets/issue_links.py` checks it in the gate.
+- Preserve third-party licenses and notices in `NOTICE.md`. Maintain `CHANGELOG.md` when the project has public releases.
 
 ## Durable project learning
 
-At workflow wrap-up, assess whether the work produced a learning that should outlive the current
-session. A learning qualifies only when it is verified, specific to this project, likely to recur,
-and belongs in a durable source.
-
-Qualifying examples include:
-
-- reproducible build, test, setup, or recovery commands that were actually run;
-- an ownership boundary or invariant established by code and accepted guidance;
-- a recurring failure shield with a verified cause; or
-- a versioned external constraint whose source must remain visible.
-
-Hypotheses, one-off debugging steps, raw logs, issue-specific implementation details, transient
-environment state, machine-specific paths, credentials, personal data, and model conclusions
-without evidence do not qualify.
-
-Compare each qualifying learning with the existing canonical guidance, README, scripts, and
-architecture records. If the learning is already recorded, do nothing. If it is absent or
-contradictory, present one compact proposal that names the evidence, the canonical owner, the exact
-section or script, and the smallest intended change. Use the shared proposal fields `Evidence`,
-`Canonical owner`, `Smallest change`, `Draft`, and `Decision requested`. The draft is the exact
-section or script change being proposed; end with `Decision requested: Approve, reject, or revise.`
-Do not create a new file when an existing owner can hold the learning, and do not turn a convenience
-into a mandatory convention.
-
-Documentation required by the selected behavior remains part of the current task and needs no
-additional approval. An adjacent learning outside the accepted scope is proposal-only and waits for
-explicit owner approval before editing, staging, or committing. Behavior-changing configuration or
-script work is a separate approved task and never enters through the documentation gate. Do not
-delay the requested task result while waiting on an adjacent proposal, and do not publish the
-proposal externally on your own.
-
-## User attention cards
-
-When the user must notice and respond to a proposed follow-up, a material choice, a permission
-boundary, or a blocker, use exactly one of the four attention cards below. Never hide one inside a
-general summary, ordinary bullet list, or vague "human review" note.
-
-The English labels in the templates name the semantic fields; they are not fixed user-facing copy.
-Render every visible heading, field label, explanation, option, recommendation, and reply token in
-the language already used with the user. If the user changes language explicitly, follow the latest
-choice. Keep code, commands, paths, identifiers, and quoted source text in their required form.
-
-Surround every card with a Markdown horizontal rule: a standalone `---` before its heading and
-another after its final response line. When cards are consecutive, one rule may separate them. The
-emoji supplements the descriptive heading and never replaces it. Use one card per requested
-decision, approval, action, or issue proposal, and end with an exact response format the user can
-copy.
-
-### Raise the card through the question tool
-
-A card written only as Markdown is a message, and a message ends the turn. The agent stops, the
-client shows the session as finished, and a decision that was genuinely blocking looks answered.
-The card is the record; it is not the asking.
-
-So whenever the client offers a native structured-question facility — `AskUserQuestion` in Claude
-Code, the equivalent elicitation or form input in other agents — put the question through it. The
-tool call is what actually holds the turn open and what puts the session in the _needs you_
-column. Map the card onto it directly: the card's heading becomes the question, each row of the
-options table becomes one option with its tradeoffs as the description, and the recommended option
-goes first, marked as recommended.
-
-Write the card too, in the same turn. The tool renders a compact chooser, while the card carries
-the evidence, the impact and the reasoning that the chooser has no room for. One without the other
-loses something: the tool alone strips the argument, the card alone never asks.
-
-Fall back to the card alone only when the client has no such facility. A run that wrote only the
-card has not asked, however clearly it was worded.
-
-### Proposed issue
-
-Use this card when the work uncovers a distinct, evidence-backed, implementable improvement outside
-the accepted scope that is valuable enough to preserve and is not already tracked. A durable
-research note or other repository artifact does not replace this visible proposal. Do not propose
-issues for incidental observations, speculative ideas without enough evidence, already tracked
-work, or changes completed within the current task. The card proposes backlog capture; it never
-authorizes creating or publishing the issue.
-
-```markdown
----
-
-## 🆕 Proposed issue: <short title>
-
-**What I need from you:** Approve, reject, or revise this issue proposal.
-
-### Why this matters
-
-<Explain the user or project impact in plain language.>
-
-### Current situation
-
-<Explain what happens today and the evidence found.>
-
-### Proposed outcome
-
-<Explain what should become possible or improve after implementation.>
-
-### Why this is a separate issue
-
-<Explain why it is valuable but outside the current task.>
-
-### My recommendation
-
-<Explain briefly why opening the issue is worthwhile.>
-
-**Reply with:** `Approve issue`, `Reject issue`, or `Revise: ...`
-
----
-```
-
-### Decision needed
-
-Use this card when the user must choose among materially different outcomes. State why the choice
-cannot be made safely from existing evidence, show the meaningful options and tradeoffs, and make a
-clear recommendation. Do not stop at "human review needed."
-
-```markdown
----
-
-## 🧭 Decision needed: <question>
-
-**What I need from you:** Choose one of the options below.
-
-### Why this decision is needed
-
-<Explain what cannot be decided safely without the user's preference.>
-
-### Options
-
-| Option | What it means | Advantages | Disadvantages |
-| --- | --- | --- | --- |
-| A — <name> | <plain explanation> | <benefits> | <tradeoffs> |
-| B — <name> | <plain explanation> | <benefits> | <tradeoffs> |
-
-### My recommendation
-
-**Option <X>**, because <short evidence-based reason>.
-
-**Reply with:** `Option A`, `Option B`, or `Revise: ...`
-
----
-```
-
-### Approval needed
-
-Use this card when one exact action is already preferred but crossing a permission, publication,
-destructive-operation, cost, privacy, or external-mutation boundary requires approval. Name the
-exact target, expected change, risk, reversibility, and recovery path. Approval covers only the
-stated action.
-
-```markdown
----
-
-## 🔐 Approval needed: <exact action>
-
-**What I need from you:** Approve or decline this specific action.
-
-### Proposed action
-
-<Describe exactly what will be changed, published, deleted, or executed.>
-
-### Why it is needed
-
-<Explain the benefit and why the action cannot be avoided.>
-
-### Impact and safety
-
-- **Target:** <exact repository, file, branch, service, or data>
-- **Expected change:** <what will be different>
-- **Risk:** <what could go wrong>
-- **Reversible:** <yes or no, and how>
-- **Recovery:** <how the previous state can be restored>
-
-### My recommendation
-
-<Recommend approval or rejection, with a short reason.>
-
-**Reply with:** `Approve`, `Decline`, or `Revise: ...`
-
----
-```
-
-### Action needed
-
-Use this card when work is blocked by one specific external action from the user rather than by a
-choice or permission decision. State what is blocked, why the agent cannot continue, the smallest
-unblocking action, and the observable condition for resumption.
-
-```markdown
----
-
-## ⛔ Action needed: <blocking condition>
-
-**What I need from you:** <one specific action>.
-
-### What is blocked
-
-<Explain which requested work cannot continue.>
-
-### Why I cannot continue
-
-<Explain the verified blocker in plain language.>
-
-### How to unblock it
-
-1. <First exact action>
-2. <Second action, only when necessary>
-
-### I can continue when
-
-<Describe the observable condition that confirms the blocker is resolved.>
-
----
-```
+At wrap-up, propose recording a learning only when it is verified, specific to this project, likely
+to recur, and not already recorded, as the `bench-project-standards` skill's `references/durable-learning.md`
+defines. A command that failed twice for the same cause qualifies: record the cause and working form.
+End each finding, here or in `martonpaulo/skill-deck` for one about Skill Deck itself, as
+`bench-github-publishing` section 15 defines.
+
+## Output shape and asking the owner
+
+Shape every message and ask the owner as Skill Deck's global rules define (`global/AGENTS.md`, which `bench sync` links into every agent); the four kinds of request are in the `bench-owner-questions` skill's `references/attention-cards.md`. Do every action your tools allow instead of handing it to the owner; hand over only what the owner alone can do, as those rules list.
 
 ## Configuration and repository hygiene
 
-- Ignore secrets, local environments, logs, caches, build output, and generated artifacts appropriate to the actual stack. `.gitignore` covers `node_modules/`, `dist/`, `.astro/`, `.env*` and `.claude/`.
-- There are no local environment variables, so there is no `.env.example`. Add one only with the first real variable.
-- Dependency updates are manual: run `pnpm outdated`, update, run `pnpm validate`, commit. Keep TypeScript on major 6 (see Commands).
-- Change GitHub's repository `homepage` to the recorded canonical landing-page URL only when the
-  Pages site exists, the latest `github-pages` deployment succeeded, and both GitHub URL surfaces
-  agree with that recorded URL. When the value differs, preview and confirm the exact change, then
-  read `homepage` back through the API. Otherwise leave it unchanged and report the evidence gap;
-  do not enable or deploy Pages as setup work. The two surfaces will never agree here: `homepage`
-  is `https://martonpaulo.com` while the Pages API's `html_url` is `http://martonpaulo.com/`, for
-  the certificate reason recorded under Landing page above. That is the settled state; `homepage`
-  is already correct, so do not "fix" either value and do not reopen it as a finding.
-- The Dependabot tab (`/network/updates`) answers `404` because `dependabot_security_updates` is
-  disabled, which is what manual dependency updates mean. The dependency graph itself is enabled
-  and populated: `/network/dependencies` and the SBOM API both answer `200`. A `404` on the
-  updates tab is not a broken dependency viewer.
-- Keep secrets in the platform or provider's secure store, never in versioned files.
+- Ignore secrets, local environments, logs, caches, and build output. Keep `.env.example` with every variable and a safe placeholder, and secrets only in the platform's secure store. Nothing new in `~` (`project-layout.md`).
+- Add CI, dependency updates, release workflows, and signing only when distribution or risk requires them.
+- The Validate workflow has no `pull_request_target` trigger and reads no stored secret, so it runs on a fork; the `validate-trust` check of `check_repository_conventions.py` fails either ([martonpaulo/skill-deck#801](https://github.com/martonpaulo/skill-deck/issues/801)).
+- Workflows: `deploy.yml` (`Deploy`), `live.yml` (`Live`) and `validate.yml` (`Validate`). A workflow added outside the `bench-setup` skill's `references/ci-pipelines.md` is a recorded exception. A Node repository's `validate` script runs exactly what CI runs. Do not add an image-optimisation bot.
+- The agent rules live in `AGENTS.md`, the one real file; `CLAUDE.md` is a symlink to it. Do not create `GEMINI.md`, `.gemini/rules/agents.md`, or any other alias, and never commit `.claude/settings.local.json`.
+- Change the repository `homepage` only as the `bench-setup` skill's `references/github-settings.md` describes.
 
 ## Tests and validation
 
-- `pnpm validate` is the gate before every commit. `Validate` runs `check`, `lint` and `test` on every push and pull request; `Deploy` runs only after `Validate` succeeds on `main`, never repeating those checks, and publishes on every such run, plus the monthly schedule that keeps the bio's `{years}` and the footer year current.
-- Add a Node test in `tests/` for an invariant of `db/` the schema cannot express. Do not test framework behavior or mirror the schema.
-- Run the smallest relevant check during iteration (`pnpm check` for content and types, `pnpm test` for data). Inspect the first useful failure and make a relevant change before rerunning it.
-- After a visual change, look at the affected page in the dev server in light and dark schemes and at a narrow width before committing.
-- Never claim a check passed unless it ran successfully. Report exact skips, blockers, residual risk, and manual gaps.
+- Add or update focused tests for changed behavior, regressions, persistence, migrations, security, and critical accessibility, at stable seams.
+- Every test, fixture, example and demo or default data holds synthetic data only: no real person's name, address, email, username or account, least of all the owner's. Person-shaped data comes from one shared list in the project, in its order; add a person there, never at the call site.
+- With more than one gate, choose them with the gate selector (the `bench-setup` skill's `assets/gates.py`, rules in `gates.json`): it prints the gates the changed paths need, cheapest first, and every gate for a path no rule names; CI uses the same selector.
+- Run the smallest check while iterating. Before each commit, run the full suite and repository validation when the full suite takes about 90 seconds or less; otherwise run the suites that cover a change or list its directory, let CI run the full suite, read its result before reporting done with the `bench-github-publishing` skill's `scripts/ci_result.py <sha>`, and require zero failures and zero warnings. Use a real integration only when local tests cannot prove the contract.
+- When a change alters behavior, run the real application with its native diagnostics and observe the changed behavior. Green tests are not seeing it run.
+- Before investigating or reporting a suspected defect, read `docs/answered-suspicions.md`; after measuring one that is not a defect, add its row there, as the `bench-setup` skill's `references/product-definition.md` defines.
+- Report skips, blockers, residual risk, what was verified manually, and what remains unverified.
+- A piped check reports the last command's status: `npm run lint | tail -3` exits 0 when lint fails. Run a gating check unpiped or with `set -o pipefail`. A check whose exit code you did not observe has not run.
+- Local browser tests follow the `bench-setup` skill's `references/browser-test-harness.md`.
+- Repository-wide rules live in one discovery-based checker that accepts `--root` and is tested over fixtures, never in scattered one-off scripts.
+- The gate runs unchanged copies of the `bench-setup` skill's `assets/text_check.py` (no invisible character, every relative link and anchor resolves, a long `docs/` file opens with a Contents list) and, with shell suites, `assets/run_suites.sh` (an unknown command fails, GNU grep first, `VERBOSE=0|1` the one output switch); the `text-check` and `suite-runner` rules of `check_repository_conventions.py` check both ([martonpaulo/skill-deck#797](https://github.com/martonpaulo/skill-deck/issues/797)). In shell, no backslash escape in a `grep` pattern, no `$?` read after a pipeline, and no numeric compare of captured output before checking it is a number.
+- With code, the gate runs an unchanged copy of the `bench-setup` skill's `assets/dry_check.py` over a root `dry-check.json`: no new magic value, repeated block, twin rule without an owner, or rule written in a second document; its counts only go down (`references/dry-checks.md`, the `dry-gate` rule, [martonpaulo/skill-deck#722](https://github.com/martonpaulo/skill-deck/issues/722)).
 
 ## Artifacts and processes
 
-- Temporary is the default; retention is an explicit repository exception.
-- Remove only temporary files created by the current task when they are no longer needed. Preserve deliverables, next-phase inputs, failure evidence, and anything protected by repository policy.
-- Never delete pre-existing user artifacts, fixtures, baselines, or logs merely because they look temporary.
-- Never version `dist/`, `.astro/`, caches, local logs or coverage.
-- Stop servers, watchers, browsers, and other processes started by the task. Do not stop the user's pre-existing processes.
+- Temporary is the default; retention is an explicit exception. Remove only temporary files the current task created, keeping deliverables and failure evidence, never pre-existing artifacts, fixtures, baselines, or logs, and never version caches, logs, coverage, or build output.
+- Stop only processes the session started, never the user's pre-existing ones.
 
 ## Git and releases
 
-- Follow the recorded branch, commit, push, and version policies above.
-- Check status and branch before editing and before the final report. Work only on task files and leave unrelated changes untouched.
-- Use Conventional Commits in English. Make one commit per concern: a small task usually has one; a large task may have several independent concerns. Do not split mechanically or combine unrelated changes.
-- End a commit subject with its issue number when the commit belongs to one: `feat: add the export button (#54)`. Use the issue number, never the pull request's, and leave the suffix off when there is no issue.
-- Inspect the exact payload before publishing it: the staged diff before a commit, the outgoing
-  commit range before a push, the final text before an issue, pull request, comment, or review.
-  Never commit secrets, caches, generated logs, temporary artifacts, or unrelated formatting churn.
-- Stop before the mutation when the payload holds a credential, token, key, signing material, or
-  sensitive personal value. Report the file, a masked location, and the category; never print the
-  value. Offer a placeholder, a secret-store reference, or removal from scope. An explicit request
-  to publish a plaintext secret is refused: authorization can permit a publication, it cannot make
-  a secret safe.
-- If a value may already be published, deleting it from the latest tree does not unpublish it. Stop
-  further spread, state the reach without repeating the value, and revoke or rotate it before any
-  decision about rewriting history.
-- Never force-push. If commit or push fails, report the exact failure without claiming success.
-- There are no releases and no version bumps. Do not tag, do not change `version`, do not write a changelog.
+- Follow the recorded branch, commit, push, and version policies; leave unrelated changes untouched.
+- Use English Conventional Commits, one per concern: `feat: add the export button (#54)`.
+- Before a commit, push, published text or release upload, apply `bench-github-publishing` section 2.
+- If commit or push fails, report the exact failure.
+- Under direct push to the default branch, a red default branch is fixed at once by a new commit, never left for later.
+- Close a `completed` issue with the closing comment `bench-github-publishing` defines.
+- Release or change a version only when the task and recorded policy authorize it, through `bench-release`.
 
 ## Completion report
 
-Lead with the outcome and include:
+Lead with the outcome, in the output shape, and include:
 
-- what changed and why;
-- files touched;
-- validation commands and actual results;
-- warnings, failures, skips, manual gaps, and remaining risks;
-- temporary artifacts kept or removed;
-- commit and push status;
-- final worktree status and unrelated dirty files left untouched.
+- what changed and why, and the files touched;
+- validation commands and results, with warnings, skips, and remaining risks;
+- what running the application verified, and what remains unverified;
+- each change to the owner's real state, and its restore with the diff result;
+- each issue closed, with the resolving commit its closing comment names;
+- each issue opened in the run;
+- temporary artifacts kept or removed, commit, branch, push, and worktree status.

@@ -12,5 +12,6 @@ dist/
 
 # logs
 npm-debug.log*
-.claude/
+.claude/*
+!.claude/settings.json
 .scratch/

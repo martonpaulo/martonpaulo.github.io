@@ -67,3 +67,10 @@ repository with equal weight, and with LinkedIn, which is generic by design. Nei
 - Accessible by default: WCAG 2.2 AA contrast, keyboard navigation, reduced-motion respected,
   real HTML semantics.
 - English product copy. Code, comments, commits, and documentation in English.
+
+## Accepted evidence gaps
+
+- Accessibility: the markup and the `tests/` invariants are the evidence. The site runs no browser
+  automation, so no automated accessibility audit gates a change; Lighthouse is run by hand on the
+  home page and a project page, as "How you know it worked" says (recorded 2026-11-26, during the
+  baseline alignment of [#21](https://github.com/martonpaulo/martonpaulo.github.io/issues/21)).

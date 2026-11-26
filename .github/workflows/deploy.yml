@@ -16,8 +16,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
@@ -48,6 +46,9 @@ jobs:
       # is why the build lives here rather than in Validate.
       - run: pnpm build
 
+      # The deployed commit, which the deploy job's last step reads back from the live site.
+      - run: git rev-parse HEAD > dist/build.txt
+
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
@@ -55,6 +56,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     # GitHub deploys one Pages build at a time; queue rather than cancel, so
     # the site never settles on an older build than the newest green commit.
     concurrency:
@@ -66,3 +71,15 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/live_build_check.py
+          sparse-checkout-cone-mode: false
+
+      # A green upload is not what the site serves: read the commit back through the proxy, with a
+      # query no cache has seen. It fails while the proxy refuses the origin (#40).
+      - name: Read the live site back
+        run: python3 scripts/live_build_check.py https://martonpaulo.com/build.txt "${{ github.event.workflow_run.head_sha || github.sha }}" --timeout 300

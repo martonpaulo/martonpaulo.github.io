@@ -4,6 +4,16 @@ What the site is meant to make a visitor feel, and how every visual decision fol
 Change this file first, then the tokens in `src/styles/tokens.scss`; a component never sets a
 colour, font or measure of its own.
 
+## Contents
+
+- [What the site should signify](#what-the-site-should-signify)
+- [The signs](#the-signs)
+- [Motion](#motion)
+- [What is deliberately absent](#what-is-deliberately-absent)
+- [Tokens](#tokens)
+- [Checks every change passes](#checks-every-change-passes)
+- [Rules for changes](#rules-for-changes)
+
 ## What the site should signify
 
 The visitor met one of the tools, or Marton himself, and wants to see what else he has made. The site should feel like a well-lit workshop at night: a dark blue-green room with a light on,
@@ -75,7 +85,7 @@ sticky at the top. It never grows a menu because there is nothing to hide in it.
 **A stopped project says so in words.** A discontinued project keeps its row, card and page, with a
 quiet "Discontinued" pill beside its name, outlined in the surrounding muted ink, never a warning
 colour: the work is still worth reading about. Its page adds when it stopped, why, and where to go
-instead, and every list puts it after the projects that still live (#26).
+instead, and every list puts it after the projects that still live ([#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)).
 
 **Copy in the first person, plain and short.** The home page opens with the name and role as an
 eyebrow and one claim as the heading: "Software made with care". Section headings are
