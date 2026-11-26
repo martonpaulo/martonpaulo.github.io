@@ -1,3 +1,5 @@
+@use "../styles/states";
+
 // Modelled on an App Store story card: text at the top, artwork filling the
 // bottom, one soft surface that grows a little under the pointer.
 //
@@ -17,14 +19,7 @@
     box-shadow var(--state-duration) var(--state-ease);
 
   // A card is one of the two families that may move: it lifts, then presses back (#45).
-  &:hover {
-    transform: var(--state-lift);
-    box-shadow: var(--state-lift-shadow);
-  }
-
-  &:active {
-    transform: var(--state-press);
-  }
+  @include states.card;
 }
 
 // A dark gradient carries the light ink, so the copy never sits on a ground it

@@ -1,4 +1,5 @@
 @use "../styles/breakpoints" as bp;
+@use "../styles/states";
 
 .nav-bar {
   position: sticky;
@@ -56,21 +57,9 @@
 }
 
 // Navigation items are pills too: the same hover, press and current looks as the tab row (#45).
-.nav__home:hover,
-.nav__link:hover {
-  background-color: var(--state-hover-fill);
-  color: var(--state-hover-ink);
-}
-
-.nav__home:active,
-.nav__link:active {
-  box-shadow: var(--state-press-shade);
-}
-
-.nav__home[aria-current="page"],
-.nav__link[aria-current="page"] {
-  background-color: var(--state-current-fill);
-  color: var(--state-current-ink);
+.nav__home,
+.nav__link {
+  @include states.pill($has-current: true);
 }
 
 @include bp.up("tablet") {

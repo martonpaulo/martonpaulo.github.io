@@ -122,20 +122,26 @@ flash.
 ## Interaction states
 
 One system for every control ([#45](https://github.com/martonpaulo/martonpaulo.github.io/issues/45)).
-Each look is a `--state-*` or `--focus-*` token in `src/styles/tokens.scss`, and a component only
-picks tokens: it never writes a hover, focus or press colour, shadow or transform of its own.
-`tests/states.test.mjs` fails on a state rule that does, and `pnpm state-check` renders each family
-in each state and fails when a hover does not show, keyboard focus draws no ring, or the current
-item looks like a hovered one.
+Each look is a `--state-*` or `--focus-*` token in `src/styles/tokens.scss`, and each family's
+state rules are one mixin in `src/styles/_states.scss`, which every component includes: a component
+never writes a hover, press or current rule of its own. `tests/states.test.mjs` fails on a state
+rule outside the tokens, and on a current, hover-fill or hover-ink rule outside `_states.scss`.
+`pnpm state-check` sorts every control of every page into a family (a control no family takes, or a
+current one whose family has no current state, fails), then renders each look of each family, and
+every current control on every page, in each state and combination, in both colour-scheme
+emulations. It fails when a hover does not show, keyboard focus draws no ring, a current control
+changes its fill, border or ink under hover, focus or press, or a label falls under its contrast
+(4.5:1 for text, 3:1 for an icon), measured against the pixels behind it
+([#52](https://github.com/martonpaulo/martonpaulo.github.io/issues/52)).
 
-| Family                                             | Hover                                      | Pressed               | Current                                                        |
-| :------------------------------------------------- | :----------------------------------------- | :-------------------- | :------------------------------------------------------------- |
-| Primary button                                     | `--state-primary-hover-fill` and its ring  | `--state-press-shade` | none                                                           |
-| Secondary button, pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`  | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
-| Text link                                          | `--state-hover-ink` and a full underline   | none                  | none                                                           |
-| Quiet link, retired row                            | `--state-hover-text` (muted text comes up) | none                  | none                                                           |
-| Card                                               | `--state-lift`, `--state-lift-shadow`      | `--state-press`       | none                                                           |
-| Image link                                         | `--state-lift` on the image                | none                  | none                                                           |
+| Family                                             | Hover                                              | Pressed               | Current                                                        |
+| :------------------------------------------------- | :------------------------------------------------- | :-------------------- | :------------------------------------------------------------- |
+| Primary button                                     | `--state-primary-hover-fill`, `--state-hover-ring` | `--state-press-shade` | none                                                           |
+| Secondary button, pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`          | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
+| Text link                                          | `--state-hover-ink` and a full underline           | none                  | none                                                           |
+| Quiet link, retired row                            | `--state-hover-text` (muted text comes up)         | none                  | none                                                           |
+| Card                                               | `--state-lift`, `--state-lift-shadow`              | `--state-press`       | none                                                           |
+| Image link                                         | `--state-lift` on the image                        | none                  | none                                                           |
 
 - **Who moves.** Only cards and image links grow, by `--grow`, and press back by `--press`.
   Buttons, pills, tabs, navigation and text links never move: hover changes their colour, a press
@@ -143,8 +149,12 @@ item looks like a hovered one.
 - **Focus.** One ring, `--focus-ring` (three hairlines of `--focus`, white) at `--focus-ring-offset`,
   on every control and every background; the page is dark, so the ring keeps well over 3:1. It is
   never removed without a replacement.
-- **Current.** The page or tab in view carries `aria-current` and the accent fill, which no hover
-  uses, so current and hover never look alike.
+- **Current wins.** The page or tab in view carries `aria-current` and the accent fill, which no
+  hover uses, so current and hover never look alike. Current wins over hover, focus and press: the
+  hover and press rules match only a control that is neither current nor disabled, so no rule order
+  can repaint a current one. Pointing at, focusing or pressing a current pill only adds
+  `--state-hover-ring` (and the press shade); its fill and ink stay
+  ([#52](https://github.com/martonpaulo/martonpaulo.github.io/issues/52)).
 - **Disabled.** `:disabled` or `aria-disabled="true"`: faded to `--state-disabled-opacity`,
   `cursor: not-allowed`, still announced, and every hover rule skips it. The site has no disabled
   control today; the rule is there for the first one.

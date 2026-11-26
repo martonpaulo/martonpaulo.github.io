@@ -53,7 +53,12 @@ async function styles(dir, found = []) {
 
 /** Every declaration with the full selector it applies to, nesting resolved. */
 function declarations(source) {
-  const text = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
+  const text = source
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1")
+    // A Sass interpolation in a selector (_states.scss) is read as the state it stands for.
+    .replace(/#\{\$current\}/g, "[aria-current]")
+    .replace(/#\{[^}]*\}/g, ":interpolated");
   const stack = [];
   const found = [];
   let buffer = "";
@@ -112,7 +117,13 @@ test("a state rule changes only paint, from the shared state tokens", () => {
         wrong.push(
           `src/${path}:${line}: ${selector} { ${property} } uses a property a state may not change`,
         );
-      } else if (TOKENED.has(property) && !STATE_VALUE.test(value) && !KEYWORDS.has(value)) {
+      } else if (
+        TOKENED.has(property) &&
+        !STATE_VALUE.test(value) &&
+        !KEYWORDS.has(value) &&
+        // A state mixin's parameter, whose callers pass state tokens.
+        !(path === "styles/_states.scss" && /^\$[\w-]+$/.test(value))
+      ) {
         wrong.push(
           `src/${path}:${line}: ${selector} { ${property}: ${value} } is not a state token`,
         );
@@ -164,4 +175,23 @@ test("every state keeps its contrast", async () => {
     const measured = ratio(colour(ink), colour(ground));
     assert.ok(measured >= least, `--${ink} on --${ground} is ${measured.toFixed(2)}:1`);
   }
+});
+
+// The precedence is written once (#52): only src/styles/_states.scss may style a current control,
+// or repaint a control's fill or ink on hover or press, so a component's rule order can never let a
+// hover beat a current look again.
+test("only the state mixins style a current control or a hover and press fill or ink", () => {
+  const wrong = [];
+  for (const { path, list } of all) {
+    if (path === "styles/_states.scss") continue;
+    for (const { selector, property, line } of list) {
+      const current = selector.includes("[aria-current");
+      const repaint =
+        /:hover|:active/.test(selector) && ["color", "background-color"].includes(property);
+      if (current || repaint) {
+        wrong.push(`src/${path}:${line}: ${selector} { ${property} } belongs in _states.scss`);
+      }
+    }
+  }
+  assert.deepEqual(wrong, []);
 });

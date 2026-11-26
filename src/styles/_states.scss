@@ -1,0 +1,107 @@
+// The interaction-state precedence, written once (#52): a control's current state wins over hover,
+// focus and press. Every control family takes its state rules from a mixin here, never from rules of
+// its own, so no rule order or specificity in a component can let a hover repaint a current tab, nav
+// item or button. The looks themselves are the --state-* tokens in tokens.scss; the spec is
+// docs/design-system.md, "Interaction states", and scripts/state-check.mjs renders every family in
+// every state and combination against it.
+
+/// A current control: the page or tab the visitor is on.
+$current: "[aria-current]";
+
+/// A control a hover or press may restyle: not current and not disabled. Hover and press rules
+/// match only this, so they never reach a current or disabled control, whatever comes later.
+$live: ':not([aria-current], [aria-disabled="true"], :disabled)';
+
+/// A pill: secondary button, tab, navigation item, icon button. At rest the component draws its
+/// own fill; hover takes the stronger fill and accent ink, a press darkens it in place. With
+/// `$has-current`, `aria-current` takes the accent fill, and pointing at, focusing or pressing a current
+/// pill only adds the shared ring (and the press shade): its fill and ink never change.
+@mixin pill(
+  $hover-fill: var(--state-hover-fill),
+  $hover-ink: var(--state-hover-ink),
+  $hover-ring: false,
+  $has-current: false
+) {
+  &:where(#{$live}):hover {
+    background-color: $hover-fill;
+    color: $hover-ink;
+
+    @if $hover-ring {
+      box-shadow: var(--state-hover-ring);
+    }
+  }
+
+  &:where(#{$live}):active {
+    @if $hover-ring {
+      box-shadow: var(--state-press-shade), var(--state-hover-ring);
+    } @else {
+      box-shadow: var(--state-press-shade);
+    }
+  }
+
+  @if $has-current {
+    &#{$current} {
+      background-color: var(--state-current-fill);
+      border-color: var(--state-current-fill);
+      color: var(--state-current-ink);
+    }
+
+    &#{$current}:where(:hover, :focus-visible) {
+      box-shadow: var(--state-hover-ring);
+    }
+
+    &#{$current}:active {
+      box-shadow: var(--state-press-shade), var(--state-hover-ring);
+    }
+  }
+}
+
+/// A text link: the base `a` rule. Hover brings the accent forward; a current or disabled link
+/// keeps its own look. `:where()` keeps the weight of a bare `a:hover`, so a family's own mixin wins.
+@mixin text-link {
+  &:where(#{$live}):hover {
+    color: var(--state-hover-ink);
+    text-decoration-color: currentColor;
+  }
+}
+
+/// Quiet text (a muted link) comes up to the body text and takes its underline.
+@mixin quiet-link {
+  &:where(#{$live}):is(:hover, :focus-visible) {
+    color: var(--state-hover-text);
+    text-decoration: underline;
+  }
+}
+
+/// A card: it lifts under the pointer with a deeper shadow, and presses back.
+@mixin card {
+  &:where(#{$live}):hover {
+    transform: var(--state-lift);
+    box-shadow: var(--state-lift-shadow);
+  }
+
+  &:where(#{$live}):active {
+    transform: var(--state-press);
+  }
+}
+
+/// An image link shows its state on the image inside it: the image lifts under the pointer.
+@mixin image-link($image) {
+  &:where(#{$live}):hover #{$image} {
+    transform: var(--state-lift);
+  }
+}
+
+/// A retired row (Earlier work) comes up while one of its links is pointed at or keyboard-focused:
+/// its muted title to the body text, its faded icon to full.
+@mixin retired-row($title, $icon) {
+  &:has(a:where(#{$live}):hover, a:focus-visible) {
+    #{$title} {
+      color: var(--state-hover-text);
+    }
+
+    #{$icon} {
+      opacity: var(--state-hover-opacity);
+    }
+  }
+}

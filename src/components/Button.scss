@@ -1,3 +1,5 @@
+@use "../styles/states";
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -20,13 +22,8 @@
 }
 
 // A button never moves: hover changes its fill and ink, a press darkens it in place (#45).
-.button:hover:not([aria-disabled="true"]) {
-  background-color: var(--state-hover-fill);
-  color: var(--state-hover-ink);
-}
-
-.button:active:not([aria-disabled="true"]) {
-  box-shadow: var(--state-press-shade);
+.button {
+  @include states.pill;
 }
 
 .button--primary {
@@ -35,15 +32,12 @@
   color: var(--bg);
 }
 
-.button--primary:hover:not([aria-disabled="true"]) {
-  background-color: var(--state-primary-hover-fill);
-  color: var(--state-current-ink);
-  box-shadow: var(--state-primary-hover-ring);
-}
-
-// The press shade over the hover ring, which a plain :active rule would lose to the hover rule.
-.button--primary:active:not([aria-disabled="true"]) {
-  box-shadow: var(--state-press-shade), var(--state-primary-hover-ring);
+.button--primary {
+  @include states.pill(
+    $hover-fill: var(--state-primary-hover-fill),
+    $hover-ink: var(--state-current-ink),
+    $hover-ring: true
+  );
 }
 
 .button__arrow {

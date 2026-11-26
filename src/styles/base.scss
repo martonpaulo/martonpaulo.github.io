@@ -1,3 +1,5 @@
+@use "./states";
+
 /* Element defaults. Layout and component styles live next to their components. */
 *,
 *::before,
@@ -102,11 +104,10 @@ a {
   transition: color var(--state-duration) var(--state-ease);
 }
 
-// :where() keeps this at the weight of a bare `a:hover`, so a control's own hover and current
-// looks (a tab, a nav pill, a quiet link) always win over it (#45).
-a:where(:not([aria-disabled="true"])):hover {
-  color: var(--state-hover-ink);
-  text-decoration-color: currentColor;
+// The weight of a bare `a:hover`, so a control's own hover and current looks (a tab, a nav pill, a
+// quiet link) always win over it (#45, #52).
+a {
+  @include states.text-link;
 }
 
 ul,

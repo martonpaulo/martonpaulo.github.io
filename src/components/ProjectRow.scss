@@ -1,4 +1,5 @@
 @use "../styles/breakpoints" as bp;
+@use "../styles/states";
 
 // On a phone: the icon, then the name, the line under it and the kind and year, one under the
 // other, so a long name or two kinds never squeeze each other. From tablets up the kind and
@@ -99,10 +100,8 @@
     text-decoration: none;
   }
 
-  a:hover,
-  a:focus-visible {
-    color: var(--state-hover-text);
-    text-decoration: underline;
+  a {
+    @include states.quiet-link;
   }
 }
 
@@ -121,8 +120,8 @@
     opacity var(--state-duration) var(--state-ease);
 }
 
-.project-row__icon-link:hover .project-row__icon {
-  transform: var(--state-lift);
+.project-row__icon-link {
+  @include states.image-link(".project-row__icon");
 }
 
 // Earlier work: retired, so quieter than the current list, yet a link like any other row. The
@@ -138,13 +137,5 @@
   }
 
   // Brightened while one of its links is pointed at or keyboard-focused, not the empty row.
-  &:has(a:hover, a:focus-visible) {
-    .project-row__title a {
-      color: var(--state-hover-text);
-    }
-
-    .project-row__icon {
-      opacity: var(--state-hover-opacity);
-    }
-  }
+  @include states.retired-row(".project-row__title a", ".project-row__icon");
 }
