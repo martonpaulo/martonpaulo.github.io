@@ -15,19 +15,23 @@
   font-weight: var(--weight-body);
   text-decoration: none;
   transition:
-    background var(--duration) var(--ease-out),
-    color var(--duration) var(--ease-out);
+    background-color var(--state-duration) var(--state-ease),
+    color var(--state-duration) var(--state-ease);
 }
 
 .work-filters__chip:hover {
-  background: var(--surface-strong);
-  color: var(--primary-strong);
+  background-color: var(--state-hover-fill);
+  color: var(--state-hover-ink);
+}
+
+.work-filters__chip:active {
+  box-shadow: var(--state-press-shade);
 }
 
 .work-filters__chip[aria-current="page"] {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--bg);
+  background-color: var(--state-current-fill);
+  border-color: var(--state-current-fill);
+  color: var(--state-current-ink);
 }
 
 // Everything is the whole list, not a platform: it reads in the display face, bold, with no

@@ -11,11 +11,12 @@
 // in a fresh profile, against a local server of the build; nothing reaches the screen.
 // The functions passed to evaluate() run in the page, where these are its globals.
 /* global document, window, innerHeight */
-import { createReadStream, existsSync, statSync } from "node:fs";
-import { createServer } from "node:http";
-import { extname, join, normalize } from "node:path";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 import { chromium } from "playwright-core";
+
+import { serveDist } from "./lib/serve-dist.mjs";
 
 const dist = process.argv[2];
 if (!dist || !existsSync(join(dist, "index.html"))) {
@@ -33,26 +34,8 @@ const SHORT_PAGE = "/projects/kind/typeface/";
 const LONG_PAGE = "/projects/earlier/";
 /** Layout positions are whole or half pixels; anything above this is a real move. */
 const TOLERANCE = 0.5;
-const HOST = "127.0.0.1";
-const LOCAL = `http://${HOST}`;
-const HTTP = { ok: 200, notFound: 404 };
-const TYPES = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript" };
 
-const server = createServer((request, response) => {
-  const path = normalize(decodeURIComponent(new URL(request.url, LOCAL).pathname));
-  let file = join(dist, path);
-  if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
-  if (!existsSync(file)) {
-    response.writeHead(HTTP.notFound).end();
-    return;
-  }
-  response.writeHead(HTTP.ok, {
-    "content-type": TYPES[extname(file)] ?? "application/octet-stream",
-  });
-  createReadStream(file).pipe(response);
-});
-await new Promise((resolve) => server.listen(0, HOST, resolve));
-const origin = `${LOCAL}:${server.address().port}`;
+const { origin, close } = await serveDist(dist);
 
 const failures = [];
 // Headless Chrome hides scrollbars by default, which would hide the very jump this checks.
@@ -114,7 +97,7 @@ try {
   }
 } finally {
   await browser.close();
-  server.close();
+  close();
 }
 
 if (failures.length > 0) {

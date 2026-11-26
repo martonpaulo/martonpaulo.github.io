@@ -26,13 +26,14 @@
     "test": "node --test",
     "archive-check": "node scripts/archive-check.mjs",
     "build-check": "node scripts/earlier-build-check.mjs dist",
-    "validate": "pnpm check && pnpm lint && pnpm test && pnpm archive-check && pnpm kinds-check && pnpm build && pnpm build-check && pnpm text-width-check && pnpm layout-check",
+    "validate": "pnpm check && pnpm lint && pnpm test && pnpm archive-check && pnpm kinds-check && pnpm build && pnpm build-check && pnpm text-width-check && pnpm layout-check && pnpm state-check",
     "share-ground": "pnpm dlx playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/scripts/share-home/ground.html\" src/assets/share/home-ground.png",
     "card-art": "node scripts/card-art/render.mjs",
     "card-gradients": "node scripts/card-art/gradients.mjs",
     "kinds-check": "node scripts/kinds.mjs --check",
     "layout-check": "node scripts/layout-check.mjs dist",
-    "text-width-check": "python3 scripts/text_width_check.py src dist"
+    "text-width-check": "python3 scripts/text_width_check.py src dist",
+    "state-check": "node scripts/state-check.mjs dist"
   },
   "packageManager": "pnpm@11.7.0",
   "dependencies": {

@@ -9,6 +9,7 @@ colour, font or measure of its own.
 - [What the site should signify](#what-the-site-should-signify)
 - [The signs](#the-signs)
 - [Motion](#motion)
+- [Interaction states](#interaction-states)
 - [What is deliberately absent](#what-is-deliberately-absent)
 - [Tokens](#tokens)
 - [Checks every change passes](#checks-every-change-passes)
@@ -89,7 +90,7 @@ frozen build in the archive. No badge marks it: the grouping says it. A retired
 product keeps its page, which says when it stopped, why, and where to go instead
 ([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42), replacing the badge of
 [#26](https://github.com/martonpaulo/martonpaulo.github.io/issues/26)). Its rows are quieter than
-the current list: the name in `--text-muted` and the icon grey at `--retired-opacity`, with full
+the current list: the name in `--text-muted` and the icon faded to `--retired-opacity`, with full
 colour back while the row is pointed at or holds focus; each stays a link like any other row
 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 
@@ -109,14 +110,50 @@ projects carry that.
 
 Two kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`); they rise without fading in, so the content is
-there from the first paint. Response: a tile grows by two and a half percent, artwork included, and its shadow deepens over
-800 ms; buttons grow the same amount; everything presses to 98.5%
-on click. Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through the browser's own
+there from the first paint. Response: a card grows by two and a half percent, artwork included, and its shadow deepens; it
+presses to 98.5% on click. Every other control answers in colour and never moves
+([Interaction states](#interaction-states)). Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through the browser's own
 cross-document view transition, with no script: the background paints the same on both pages, so
 only the content changes, and it then arrives, so a page change never flashes. Browsers without
 cross-document view transitions (Firefox today) change pages with a plain load. Under `prefers-reduced-motion` everything that moves stops; the arrival keeps a
 short fade of opacity alone, because a fade is not motion and a hard cut between pages reads as a
 flash.
+
+## Interaction states
+
+One system for every control ([#45](https://github.com/martonpaulo/martonpaulo.github.io/issues/45)).
+Each look is a `--state-*` or `--focus-*` token in `src/styles/tokens.scss`, and a component only
+picks tokens: it never writes a hover, focus or press colour, shadow or transform of its own.
+`tests/states.test.mjs` fails on a state rule that does, and `pnpm state-check` renders each family
+in each state and fails when a hover does not show, keyboard focus draws no ring, or the current
+item looks like a hovered one.
+
+| Family                                             | Hover                                      | Pressed               | Current                                                        |
+| :------------------------------------------------- | :----------------------------------------- | :-------------------- | :------------------------------------------------------------- |
+| Primary button                                     | `--state-primary-hover-fill` and its ring  | `--state-press-shade` | none                                                           |
+| Secondary button, pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`  | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
+| Text link                                          | `--state-hover-ink` and a full underline   | none                  | none                                                           |
+| Quiet link, retired row                            | `--state-hover-text` (muted text comes up) | none                  | none                                                           |
+| Card                                               | `--state-lift`, `--state-lift-shadow`      | `--state-press`       | none                                                           |
+| Image link                                         | `--state-lift` on the image                | none                  | none                                                           |
+
+- **Who moves.** Only cards and image links grow, by `--grow`, and press back by `--press`.
+  Buttons, pills, tabs, navigation and text links never move: hover changes their colour, a press
+  darkens them in place. The mark's shadow steps one hairline (`--state-nudge`), its one gesture.
+- **Focus.** One ring, `--focus-ring` (three hairlines of `--focus`, white) at `--focus-ring-offset`,
+  on every control and every background; the page is dark, so the ring keeps well over 3:1. It is
+  never removed without a replacement.
+- **Current.** The page or tab in view carries `aria-current` and the accent fill, which no hover
+  uses, so current and hover never look alike.
+- **Disabled.** `:disabled` or `aria-disabled="true"`: faded to `--state-disabled-opacity`,
+  `cursor: not-allowed`, still announced, and every hover rule skips it. The site has no disabled
+  control today; the rule is there for the first one.
+- **Accessibility.** Text keeps 4.5:1 in every state and the ring 3:1; hover is never the only cue
+  (the underline, the fill and `aria-current` say it too); under `prefers-reduced-motion` the
+  transforms are `none` and every transition ends at once.
+- **Speed.** A state changes only `color`, `background-color`, `border-color`, `box-shadow`,
+  `transform` and `opacity` (and a link's underline), over `--state-duration` with
+  `--state-ease`; nothing that triggers layout.
 
 ## What is deliberately absent
 
@@ -129,23 +166,23 @@ template, and a template signifies that the owner did not decide.
 The values live in `src/styles/tokens.scss` as CSS custom properties, so they are read at runtime
 and can be inspected in the browser. Their meaning:
 
-| Token                                                                    | Role                                                                                                                 |
-| :----------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
-| `--bg`, `--bg-glow`                                                      | The room and the light at the top of it                                                                              |
-| `--surface`, `--surface-strong`, `--border`                              | Translucent layers for the pill, chips and buttons                                                                   |
-| `--text`, `--text-muted`                                                 | Body text at two levels of emphasis; both pass AA on `--bg`                                                          |
-| `--heading`, `--primary`, `--primary-strong`                             | Warm white headings; aqua links and controls, and their hover                                                        |
-| `--focus`                                                                | White keyboard-focus indicator, distinct from the aqua interactive accent                                            |
-| `--tile-*`, `--tile-ink`, `--tile-ink-muted`, `--tile-ink-light*`        | The eight fallback pastel tiles, the dark ink for them and light cards, the light ink for dark cards                 |
-| `--font-display`, `--font-body`                                          | The two voices                                                                                                       |
-| `--text-*`                                                               | The type scale; the three largest steps are fluid                                                                    |
-| `--space-1` … `--space-6`                                                | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps                    |
-| `--radius-*`, `--hairline`                                               | Corners and the one line weight                                                                                      |
-| `--shadow-card`, `--shadow-card-raised`                                  | A card at rest and the deeper lift it reaches under the pointer                                                      |
-| `--shadow-panel`, `--shadow-relief`                                      | The panel edge and the icon drop                                                                                     |
-| `--container`, `--container-wide`, `--width-subtitle`                    | The column, the only width text gets, and the subtitle under a page title; the container widens on ultrawide screens |
-| `--card-*`, `--touch-target`                                             | Tile geometry and the minimum size of anything tappable                                                              |
-| `--duration-*`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*` | Response timing, easing, transforms and entrance motion                                                              |
+| Token                                                                                                | Role                                                                                                                 |
+| :--------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| `--bg`, `--bg-glow`                                                                                  | The room and the light at the top of it                                                                              |
+| `--surface`, `--surface-strong`, `--border`                                                          | Translucent layers for the pill, chips and buttons                                                                   |
+| `--text`, `--text-muted`                                                                             | Body text at two levels of emphasis; both pass AA on `--bg`                                                          |
+| `--heading`, `--primary`, `--primary-strong`                                                         | Warm white headings; aqua links and controls, and their hover                                                        |
+| `--focus`                                                                                            | White keyboard-focus indicator, distinct from the aqua interactive accent                                            |
+| `--tile-*`, `--tile-ink`, `--tile-ink-muted`, `--tile-ink-light*`                                    | The eight fallback pastel tiles, the dark ink for them and light cards, the light ink for dark cards                 |
+| `--font-display`, `--font-body`                                                                      | The two voices                                                                                                       |
+| `--text-*`                                                                                           | The type scale; the three largest steps are fluid                                                                    |
+| `--space-1` … `--space-6`                                                                            | The only spacing scale: 0.25 rem doubling to 8 rem. Components do not invent values between steps                    |
+| `--radius-*`, `--hairline`                                                                           | Corners and the one line weight                                                                                      |
+| `--shadow-card`, `--shadow-card-raised`                                                              | A card at rest and the deeper lift it reaches under the pointer                                                      |
+| `--shadow-panel`, `--shadow-relief`                                                                  | The panel edge and the icon drop                                                                                     |
+| `--container`, `--container-wide`, `--width-subtitle`                                                | The column, the only width text gets, and the subtitle under a page title; the container widens on ultrawide screens |
+| `--card-*`, `--touch-target`                                                                         | Tile geometry and the minimum size of anything tappable                                                              |
+| `--duration`, `--ease`, `--ease-out`, `--grow`, `--press`, `--enter-*`, `--state-*`, `--focus-ring*` | Response timing, easing, transforms and entrance motion                                                              |
 
 Breakpoints are the one thing that cannot be a custom property, so they live once in
 `src/styles/_breakpoints.scss` as a Sass mixin: `tablet` at 48 rem, `desktop` at 64 rem,

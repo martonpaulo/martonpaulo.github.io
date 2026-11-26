@@ -43,9 +43,17 @@ body {
 }
 
 :focus-visible {
-  outline: calc(3 * var(--hairline)) solid var(--focus);
-  outline-offset: calc(3 * var(--hairline));
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
+}
+
+// Disabled, for any control (#45): faded and refusing the pointer, but still in the
+// accessibility tree, so it is announced. Every hover rule skips it through :not(…) below.
+:disabled,
+[aria-disabled="true"] {
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
 }
 
 h1,
@@ -92,13 +100,11 @@ a {
   text-decoration-color: color-mix(in srgb, var(--primary) 40%, transparent);
   text-decoration-thickness: var(--hairline);
   text-underline-offset: 0.2em;
-  transition:
-    color var(--duration) var(--ease-out),
-    text-decoration-color var(--duration) var(--ease-out);
+  transition: color var(--state-duration) var(--state-ease);
 }
 
-a:hover {
-  color: var(--primary-strong);
+a:hover:not([aria-disabled="true"]) {
+  color: var(--state-hover-ink);
   text-decoration-color: currentColor;
 }
 

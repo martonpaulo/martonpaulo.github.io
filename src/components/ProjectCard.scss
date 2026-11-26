@@ -13,17 +13,17 @@
   box-shadow: var(--shadow-card);
   // No will-change on purpose: a pre-rasterised layer stays blurry once scaled.
   transition:
-    transform var(--duration-card) var(--ease-out),
-    box-shadow var(--duration-card) var(--ease-out);
+    transform var(--state-duration) var(--state-ease),
+    box-shadow var(--state-duration) var(--state-ease);
 
+  // A card is one of the two families that may move: it lifts, then presses back (#45).
   &:hover {
-    transform: scale(var(--grow));
-    box-shadow: var(--shadow-card-raised);
+    transform: var(--state-lift);
+    box-shadow: var(--state-lift-shadow);
   }
 
   &:active {
-    transform: scale(var(--press));
-    transition-duration: var(--duration-fast);
+    transform: var(--state-press);
   }
 }
 

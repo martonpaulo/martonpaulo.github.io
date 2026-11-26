@@ -12,6 +12,7 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 import { homeProjects } from "../src/lib/status.ts";
+import { hex, ratio } from "./support/contrast.mjs";
 
 const TEXT_REACH = 0.7;
 const AA_TEXT = 4.5;
@@ -25,19 +26,6 @@ const SAMPLES = 20;
 const projects = JSON.parse(
   await readFile(new URL("../db/projects.json", import.meta.url), "utf8"),
 );
-
-const hex = (value) => [1, 3, 5].map((i) => parseInt(value.slice(i, i + 2), 16));
-const luminance = (rgb) => {
-  const [r, g, b] = rgb.map((channel) => {
-    const c = channel / 255;
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
-const ratio = (a, b) => {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-};
 
 /** The stops of a `linear-gradient(135deg, #rrggbb N%, ...)`, or null for any other background. */
 function stops(gradient) {

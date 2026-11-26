@@ -11,7 +11,7 @@
 
 .mark__shadow {
   stroke: color-mix(in srgb, currentColor 30%, transparent);
-  transition: transform var(--duration) var(--ease-out);
+  transition: transform var(--state-duration) var(--state-ease);
 }
 
 .mark__ink {
@@ -19,5 +19,5 @@
 }
 
 a:hover .mark__shadow {
-  transform: translate(var(--hairline), var(--hairline));
+  transform: var(--state-nudge);
 }

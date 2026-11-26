@@ -32,12 +32,7 @@
   height: var(--touch-target);
   border-radius: var(--radius-pill);
   color: var(--primary);
-  transition: background var(--duration) var(--ease-out);
-}
-
-.nav__home:hover,
-.nav__home[aria-current="page"] {
-  background: var(--surface-strong);
+  transition: background-color var(--state-duration) var(--state-ease);
 }
 
 .nav__list {
@@ -56,18 +51,26 @@
   color: var(--text);
   text-decoration: none;
   transition:
-    background var(--duration) var(--ease-out),
-    color var(--duration) var(--ease-out);
+    background-color var(--state-duration) var(--state-ease),
+    color var(--state-duration) var(--state-ease);
 }
 
+// Navigation items are pills too: the same hover, press and current looks as the tab row (#45).
+.nav__home:hover,
 .nav__link:hover {
-  color: var(--primary-strong);
-  background: var(--surface);
+  background-color: var(--state-hover-fill);
+  color: var(--state-hover-ink);
 }
 
+.nav__home:active,
+.nav__link:active {
+  box-shadow: var(--state-press-shade);
+}
+
+.nav__home[aria-current="page"],
 .nav__link[aria-current="page"] {
-  background: var(--surface-strong);
-  color: var(--primary);
+  background-color: var(--state-current-fill);
+  color: var(--state-current-ink);
 }
 
 @include bp.up("tablet") {

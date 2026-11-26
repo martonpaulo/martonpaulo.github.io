@@ -67,6 +67,13 @@ $enter-steps: 6;
     animation: none !important;
   }
 
+  // Nothing grows, lifts or shifts on hover or press (#45); the colour and shadow cues stay.
+  :root {
+    --state-lift: none;
+    --state-press: none;
+    --state-nudge: none;
+  }
+
   *,
   *::before,
   *::after {

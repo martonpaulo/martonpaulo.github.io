@@ -113,10 +113,7 @@
      reads as a slow site, not as a considered one: the content is there, the
      reader is just not allowed to see it yet. Everything settles within about
      half a second now. Same scale on moon and andreo-docs. */
-  --duration-fast: 150ms;
   --duration: 250ms;
-  --duration-slow: 400ms;
-  --duration-card: 400ms;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --grow: 1.025;
@@ -124,6 +121,36 @@
   --enter-duration: 300ms;
   --enter-duration-reduced: 200ms;
   --enter-stagger: 40ms;
+
+  /* Interaction states (#45). Every hover, focus, press, current and disabled look is one of these;
+     docs/design-system.md, "Interaction states", says which control family takes which, and
+     tests/states.test.mjs fails on a state rule that uses anything else. */
+  --state-duration: var(--duration);
+  --state-ease: var(--ease-out);
+  // Pills, tabs, secondary buttons and navigation items: a stronger fill and the brighter accent.
+  --state-hover-fill: var(--surface-strong);
+  --state-hover-ink: var(--primary-strong);
+  // Quiet text (a muted link, a retired row) comes up to the body text.
+  --state-hover-text: var(--text);
+  --state-hover-opacity: 1;
+  --state-primary-hover-fill: var(--primary-strong);
+  --state-primary-hover-ring: 0 0 0 var(--space-1) var(--border);
+  // Pressed: the control darkens in place, whatever its fill, and never moves.
+  --state-press-shade: inset 0 0 0 var(--radius-pill) rgb(0 0 0 / 18%);
+  // The current page or tab: the accent fill, unlike any hover.
+  --state-current-fill: var(--primary);
+  --state-current-ink: var(--bg);
+  // Cards and image links alone may move: a small lift, a deeper shadow, a press back.
+  --state-lift: scale(var(--grow));
+  --state-lift-shadow: var(--shadow-card-raised);
+  --state-press: scale(var(--press));
+  // The mark's shadow steps one hairline away on hover, its one gesture.
+  --state-nudge: translate(var(--hairline), var(--hairline));
+  // Focus: one ring on every background, never removed without a replacement.
+  --focus-ring: calc(3 * var(--hairline)) solid var(--focus);
+  --focus-ring-offset: calc(3 * var(--hairline));
+  // Disabled: faded, still announced, no hover.
+  --state-disabled-opacity: 45%;
 }
 
 @include bp.up("ultrawide") {
