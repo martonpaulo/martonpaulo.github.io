@@ -2,9 +2,18 @@
   padding-block: var(--space-6) var(--space-4);
 }
 
-// The one link in the colophon, sized to the tappable minimum like every
-// other control; inline-flex keeps its width the width of its own text.
-.footer__source {
+// The colophon's links, side by side and wrapping on a narrow screen.
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--space-4);
+}
+
+// Each link is sized to the tappable minimum like every other control;
+// inline-flex keeps its width the width of its own text.
+.footer__link {
   display: inline-flex;
   align-items: center;
   min-height: var(--touch-target);

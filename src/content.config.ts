@@ -53,6 +53,8 @@ const site = defineCollection({
     description: z.string().max(160),
     locale: z.string(),
     repository: z.url(),
+    /** The noindex archive of retired web projects (martonpaulo/portfolio-archive), linked from the footer. */
+    archive: z.url(),
     twitter: z.string().nullable(),
   }),
 });
@@ -152,6 +154,7 @@ const copy = defineCollection({
       lede: z.string(),
       colophon: z.string(),
       sourceLink: z.string(),
+      archiveLink: z.string(),
     }),
     notFound: z.object({
       title: z.string(),
