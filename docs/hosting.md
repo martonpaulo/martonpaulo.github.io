@@ -41,13 +41,18 @@ sends an agent here before it edits `.github/`.
   Its `archive` job compares `db/earlier.json` with the archive's folders the same way, since a
   folder can be added there without a commit here
   ([#42](https://github.com/martonpaulo/martonpaulo.github.io/issues/42)).
+- `Scan` runs `pnpm audit` over the lockfile each Monday and on demand, because a new advisory
+  arrives without a push. A red run is the report; the fix is a dependency update or a recorded
+  reason.
 
 ## Settled settings
 
 - `homepage` is `https://martonpaulo.com` while the Pages API's `html_url` is
   `http://martonpaulo.com/`, for the certificate reason above. That is the settled state;
   `homepage` is already correct, so do not "fix" either value and do not reopen it as a finding.
-- The Dependabot tab (`/network/updates`) answers `404` because `dependabot_security_updates` is
-  disabled, which is what manual dependency updates mean. The dependency graph itself is enabled
-  and populated: `/network/dependencies` and the SBOM API both answer `200`. A `404` on the
-  updates tab is not a broken dependency viewer.
+- Dependency updates come from `.github/dependabot.yml` (weekly, grouped, no major versions), and
+  `dependabot_security_updates` is enabled (read back 2026-11-26).
+- `main` has no branch protection and no ruleset. The branch policy commits and pushes directly to
+  `main`, and a required status check would refuse every such push; `pnpm validate` runs before each
+  push, and `Validate` runs again on `main`. Secret scanning and push protection are enabled (read
+  back 2026-11-26).

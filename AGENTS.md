@@ -11,6 +11,7 @@
 - Public identifiers: the domain `martonpaulo.com`. The npm package name is private and never published.
 - Landing page: the site itself, canonical URL `https://martonpaulo.com`, served by GitHub Pages from this repository's `Deploy` workflow behind the owner-managed Cloudflare proxy. The certificate and proxy details, and the GitHub settings that look wrong but are settled, are in `docs/hosting.md`.
 - Icon: `public/favicon.svg`
+- Skill packs: core, design, web
 - License: `MIT`
 - Copyright: 2025 Marton Paulo
 - Development language: English.
@@ -23,7 +24,7 @@
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`, never the pull request's.
 - Delete branches after merge: enabled
 - Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `pnpm install --frozen-lockfile && pnpm build`.
-- Skills baseline revision: `4588ac536cc6868f682c26309beb47f55d6de5d7`
+- Skills baseline revision: `3b383f57b641880836e69e2e5541f1c972826a43`
 - Skills baseline applied: `2026-11-26`
 - Skills baseline divergence `host-fixed-repository-name` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io` (owner decision, 2026-09-17, [martonpaulo/skill-deck#286](https://github.com/martonpaulo/skill-deck/issues/286)).
 - Skills baseline divergence `workflow-names` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: `live.yml` (`Live`) requests uncached paths daily, because the Cloudflare proxy's settings change without a commit and a cached page hides a refused origin ([#40](https://github.com/martonpaulo/martonpaulo.github.io/issues/40)); Deploy's read-back runs only after a deploy (assumption taken during the unattended alignment of [#21](https://github.com/martonpaulo/martonpaulo.github.io/issues/21), 2026-11-26).
@@ -146,7 +147,7 @@ Shape every message and ask the owner as Skill Deck's global rules define (`glob
 - Ignore secrets, local environments, logs, caches, and build output. Keep `.env.example` with every variable and a safe placeholder, and secrets only in the platform's secure store. Nothing new in `~` (`project-layout.md`).
 - Add CI, dependency updates, release workflows, and signing only when distribution or risk requires them.
 - The Validate workflow has no `pull_request_target` trigger and reads no stored secret, so it runs on a fork; the `validate-trust` check of `check_repository_conventions.py` fails either ([martonpaulo/skill-deck#801](https://github.com/martonpaulo/skill-deck/issues/801)).
-- Workflows: `deploy.yml` (`Deploy`), `live.yml` (`Live`) and `validate.yml` (`Validate`). A workflow added outside the `bench-setup` skill's `references/ci-pipelines.md` is a recorded exception. A Node repository's `validate` script runs exactly what CI runs. Do not add an image-optimisation bot.
+- Workflows: `deploy.yml` (`Deploy`), `live.yml` (`Live`), `scan.yml` (`Scan`) and `validate.yml` (`Validate`). A workflow added outside the `bench-setup` skill's `references/ci-pipelines.md` is a recorded exception. A Node repository's `validate` script runs exactly what CI runs. Do not add an image-optimisation bot.
 - The agent rules live in `AGENTS.md`, the one real file; `CLAUDE.md` is a symlink to it. Do not create `GEMINI.md`, `.gemini/rules/agents.md`, or any other alias, and never commit `.claude/settings.local.json`.
 - Change the repository `homepage` only as the `bench-setup` skill's `references/github-settings.md` describes.
 

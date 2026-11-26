@@ -34,5 +34,23 @@
         ]
       }
     ]
+  },
+  "skillOverrides": {
+    "bench-agent-context": "name-only",
+    "bench-apple-app-shell": "name-only",
+    "bench-apple-swiftui": "name-only",
+    "bench-ask": "name-only",
+    "bench-audit-infrastructure": "name-only",
+    "bench-backlog": "name-only",
+    "bench-checkpoint": "name-only",
+    "bench-docs-apple": "name-only",
+    "bench-github-publishing": "name-only",
+    "bench-github-trust": "name-only",
+    "bench-issue-implement": "name-only",
+    "bench-issue-plan": "name-only",
+    "bench-owner-inbox": "name-only",
+    "bench-project-standards": "name-only",
+    "bench-release": "name-only",
+    "bench-supernote-plugin": "name-only"
   }
 }
