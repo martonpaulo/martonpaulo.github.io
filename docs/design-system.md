@@ -51,8 +51,8 @@ do not move: the owner tried a drifting light and preferred the room quiet.
 
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
-faint resting shadow, and a whole-card grow of two and a half percent under the pointer with the
-artwork growing with it, never on its own. A tile is painted with the gradient of its product's own
+faint resting shadow that deepens under the pointer; the card does not grow
+([#51](https://github.com/martonpaulo/martonpaulo.github.io/issues/51)). A tile is painted with the gradient of its product's own
 social card, copied as CSS by `pnpm card-gradients`, so the tile and the card read as one product.
 The gradient is never lightened or darkened to suit the text: the text takes the ink that reads on
 it instead, the dark `--tile-ink` on a light card and the light `--tile-ink-light` on a dark one,
@@ -113,8 +113,9 @@ projects carry that.
 
 Two kinds of motion, each with one job. Arrival: the hero and the card grid rise into place on
 load, each child a beat after the last (`.enter`); they rise without fading in, so the content is
-there from the first paint. Response: a card grows by two and a half percent, artwork included, and its shadow deepens; it
-presses to 98.5% on click. Every other control answers in colour and never moves
+there from the first paint. Response: a card's shadow deepens under the pointer, and it
+presses to 98.5% on click; a row's icon grows by two and a half percent. Every other control
+answers in colour and never moves
 ([Interaction states](#interaction-states)). Every curve is a long ease-out, never a bounce, so nothing overshoots or snaps. Pages change through the browser's own
 cross-document view transition, with no script: the background paints the same on both pages, so
 only the content changes, and it then arrives, so a page change never flashes. Browsers without
@@ -143,10 +144,11 @@ changes its fill, border or ink under hover, focus or press, or a label falls un
 | Secondary button, pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`          | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
 | Text link                                          | `--state-hover-ink` and a full underline           | none                  | none                                                           |
 | Retired row                                        | `--state-hover-text` (muted text comes up)         | none                  | none                                                           |
-| Card                                               | `--state-lift`, `--state-lift-shadow`              | `--state-press`       | none                                                           |
+| Card                                               | `--state-lift-shadow`                              | `--state-press`       | none                                                           |
 | Image link                                         | `--state-lift` on the image                        | none                  | none                                                           |
 
-- **Who moves.** Only cards and image links grow, by `--grow`, and press back by `--press`.
+- **Who moves.** Only an image link grows, by `--grow`; a card deepens its shadow and does not grow
+  ([#51](https://github.com/martonpaulo/martonpaulo.github.io/issues/51)); both press back by `--press`.
   Buttons, pills, tabs, navigation and text links never move: hover changes their colour, a press
   darkens them in place. The mark's shadow steps one hairline (`--state-nudge`), its one gesture.
 - **Focus.** One ring, `--focus-ring` (three hairlines of `--focus`, white) at `--focus-ring-offset`,

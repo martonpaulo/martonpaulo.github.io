@@ -1,7 +1,7 @@
 @use "../styles/states";
 
 // Modelled on an App Store story card: text at the top, artwork filling the
-// bottom, one soft surface that grows a little under the pointer.
+// bottom, one soft surface whose shadow deepens under the pointer.
 //
 // The link and the tile are two elements on purpose. Clipping the artwork to
 // the corner also clips everything the card paints outside itself, so a single
@@ -18,7 +18,7 @@
     transform var(--state-duration) var(--state-ease),
     box-shadow var(--state-duration) var(--state-ease);
 
-  // A card is one of the two families that may move: it lifts, then presses back (#45).
+  // A card's shadow deepens under the pointer, and it presses back; it does not grow (#45, #51).
   @include states.card;
 }
 

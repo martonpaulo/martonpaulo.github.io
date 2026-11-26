@@ -65,10 +65,9 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
   }
 }
 
-/// A card: it lifts under the pointer with a deeper shadow, and presses back.
+/// A card: under the pointer its shadow deepens, and it presses back; it does not grow (#51).
 @mixin card {
   &:where(#{$live}):hover {
-    transform: var(--state-lift);
     box-shadow: var(--state-lift-shadow);
   }
 

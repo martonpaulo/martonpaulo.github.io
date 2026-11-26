@@ -69,6 +69,7 @@ const FAMILIES = [
 ];
 /** How much of a control's markup a failure quotes. */
 const SNIPPET = 120;
+const PERCENT = 100;
 /** The widths at which the floating bar's links are measured over every home card (#48). */
 const BAR_WIDTHS = [390, 1280, 1920];
 /** Where on a card the bar is measured: near its copy, its middle and over its artwork. */
@@ -376,7 +377,46 @@ try {
     }
   }
 
-  // 3. The floating bar over what passes behind it (#48): every home card, its copy, middle and
+  // 3. Disabled (#45). The site has no disabled control yet, so one control of each family is made
+  //    disabled in place: it fades to --state-disabled-opacity, shows the not-allowed cursor, and
+  //    hover and press leave it exactly as it was.
+  await page.emulateMedia({ colorScheme: "dark", reducedMotion: "reduce" });
+  for (const family of FAMILIES.filter((candidate) => !candidate.hidden)) {
+    const sample = [...samples.values()].find((item) => item.family === family && !item.current);
+    if (!sample) continue;
+    const where = `${family.name} disabled, ${sample.path}`;
+    await visit(sample.path);
+    const target = page.locator(CONTROL).nth(sample.index);
+    await target.scrollIntoViewIfNeeded();
+    await target.evaluate((element) => element.setAttribute("aria-disabled", "true"));
+    await release();
+    const rest = await lookOf(target);
+    const disabled = await target.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const token = getComputedStyle(document.documentElement).getPropertyValue(
+        "--state-disabled-opacity",
+      );
+      return { cursor: style.cursor, opacity: Number(style.opacity), token: parseFloat(token) };
+    });
+    if (disabled.cursor !== "not-allowed") fail(`${where}: the cursor is ${disabled.cursor}`);
+    if (Math.abs(disabled.opacity * PERCENT - disabled.token) > 1) {
+      fail(`${where}: opacity ${disabled.opacity}, not ${disabled.token}%`);
+    }
+    await target.hover();
+    await settle();
+    if (JSON.stringify(await lookOf(target)) !== JSON.stringify(rest)) {
+      fail(`${where}: hover changes it`);
+    }
+    await page.mouse.down();
+    await settle();
+    if (JSON.stringify(await lookOf(target)) !== JSON.stringify(rest)) {
+      fail(`${where}: a press changes it`);
+    }
+    await release();
+    rendered += 1;
+  }
+
+  // 4. The floating bar over what passes behind it (#48): every home card, its copy, middle and
   //    artwork in turn under the bar, at each width the owner compared. The links keep their
   //    contrast over whatever shows through.
   const bar = FAMILIES.find((family) => family.name === "navigation-item");

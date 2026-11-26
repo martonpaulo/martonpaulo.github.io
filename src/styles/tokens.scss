@@ -156,7 +156,7 @@
   // press (src/styles/_states.scss, #52).
   --state-current-fill: var(--primary);
   --state-current-ink: var(--bg);
-  // Cards and image links alone may move: a small lift, a deeper shadow, a press back.
+  // Only an image link grows, a little; a card deepens its shadow; both press back (#51).
   --state-lift: scale(var(--grow));
   --state-lift-shadow: var(--shadow-card-raised);
   --state-press: scale(var(--press));
