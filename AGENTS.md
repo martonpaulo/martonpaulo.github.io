@@ -18,13 +18,14 @@
 - Product copy: English only, no localization. Language skills are content in `db/person.json`, not a UI feature; the reason is recorded in `docs/product.md`.
 - Branch policy: `main`-only. Work is committed directly to `main`; a branch is an occasional convenience for an experiment, never a requirement, and no pull request is needed to deliver.
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
-- Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed.
+- Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed. A cloud session pushes `main` too, only for a `runs: cloud` issue whose gates all ran there.
+- Cloud setup command: `bash scripts/cloud-setup.sh` (a cloud run's start; packages and Mac-only paths in `.github/cloud.json`).
 - Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0`. Every push to `main` whose validation passes deploys.
 - Merge policy: merge commits. When a pull request is used, it is merged with `gh pr merge <number> --merge --delete-branch`, and the repository allows no other method ([martonpaulo/skill-deck#277](https://github.com/martonpaulo/skill-deck/issues/277)).
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`, never the pull request's.
 - Delete branches after merge: enabled
 - Release, signing, and secret-storage policy: Not applicable. There is no distribution beyond the website, no secret, no environment variable, and no signing; the build must succeed from a clean clone with `pnpm install --frozen-lockfile && pnpm build`.
-- Skills baseline revision: `3b383f57b641880836e69e2e5541f1c972826a43`
+- Skills baseline revision: `560c2437ee7e93e7fd9c8c52102f593bb96f166a`
 - Skills baseline applied: `2026-11-26`
 - Skills baseline divergence `host-fixed-repository-name` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: the slug is `martonpaulo.github.io`, not a lowercase hyphenated name, because GitHub Pages fixes a user site's repository name to `<user>.github.io` (owner decision, 2026-09-17, [martonpaulo/skill-deck#286](https://github.com/martonpaulo/skill-deck/issues/286)).
 - Skills baseline divergence `workflow-names` at `4588ac536cc6868f682c26309beb47f55d6de5d7`: `live.yml` (`Live`) requests uncached paths daily, because the Cloudflare proxy's settings change without a commit and a cached page hides a refused origin ([#40](https://github.com/martonpaulo/martonpaulo.github.io/issues/40)); Deploy's read-back runs only after a deploy (assumption taken during the unattended alignment of [#21](https://github.com/martonpaulo/martonpaulo.github.io/issues/21), 2026-11-26).
