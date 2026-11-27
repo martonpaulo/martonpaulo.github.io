@@ -105,6 +105,11 @@
   > li {
     white-space: nowrap;
   }
+
+  // The year stands a little apart from the platform lines above it (#65).
+  > li:last-child:not(:first-child) {
+    margin-top: var(--space-1);
+  }
 }
 
 // The icon is the pointer's target for the same destination as the name.
