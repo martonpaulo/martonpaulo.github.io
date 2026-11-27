@@ -44,10 +44,10 @@ body {
   color: var(--highlight-ink);
 }
 
-// A phrase highlighted as if selected (#56): the selection's colours, carried across a line break, square on every line (#60).
+// A phrase highlighted as if selected (#56): the selection's colours, carried across a line break, square on every line:
+// no radius is written, since tokens.scss owns every radius and a mark's default is none (#60).
 mark {
   padding-inline: 0.15em;
-  border-radius: 0;
   background: var(--highlight);
   color: var(--highlight-ink);
   box-decoration-break: clone;

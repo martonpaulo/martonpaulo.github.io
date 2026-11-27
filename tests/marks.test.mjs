@@ -30,6 +30,10 @@ test("the home intro holds both highlighted phrases", () => {
 test("the highlight is square on every wrapped line (#60)", async () => {
   const css = await readFile(new URL("../src/styles/base.scss", import.meta.url), "utf8");
   const rule = css.match(/\nmark \{([^}]*)\}/)?.[1] ?? "";
-  assert.match(rule, /border-radius:\s*0;/);
+  assert.doesNotMatch(
+    rule,
+    /border-radius/,
+    "a radius comes from tokens.scss, and the mark takes none",
+  );
   assert.match(rule, /box-decoration-break:\s*clone;/);
 });
