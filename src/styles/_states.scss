@@ -70,6 +70,13 @@ $live: ':not([aria-current], [aria-disabled="true"], :disabled)';
   }
 }
 
+/// The ↗ after an external link: its own box, which the link's underline never reaches (#67).
+/// An inline-block is an atomic inline, so a decoration its parent draws stops at its edge.
+@mixin external-arrow {
+  display: inline-block;
+  text-decoration: none;
+}
+
 /// A card: under the pointer its shadow deepens, and it presses back; it does not grow (#51).
 @mixin card {
   &:where(#{$live}):hover {

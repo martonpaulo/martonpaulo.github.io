@@ -47,7 +47,7 @@ const { nav } = await getCopy();
   <div class="project-row__text">
     <Heading class="project-row__title">
       <a href={item.href} {...linkAttributes}>
-        {item.name}
+        <span class="project-row__name">{item.name}</span>
         {
           item.external && (
             <>

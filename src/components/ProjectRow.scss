@@ -70,11 +70,14 @@
 
 // The archive opens in a new tab, which the arrow shows and the hidden words say.
 .project-row__arrow {
+  @include states.external-arrow;
+
   margin-inline-start: var(--space-1);
   font-size: var(--text-sm);
 }
 
-.project-row__title a:hover {
+// Only the name is underlined: the link is a flex box, whose underline would reach the arrow (#67).
+.project-row__title a:hover .project-row__name {
   text-decoration: underline;
 }
 

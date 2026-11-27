@@ -64,6 +64,8 @@
 
 // The card leads to the project's own site (#57); the arrow says so, as on a row.
 .project-card__arrow {
+  @include states.external-arrow;
+
   margin-inline-start: var(--space-2);
   font-size: var(--text-md);
 }

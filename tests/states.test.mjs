@@ -211,6 +211,9 @@ test("only a current pill draws the ring, and both buttons share one hover", asy
   }
   assert.deepEqual(ringed, []);
   const button = await readFile(join(SRC, "components/Button.scss"), "utf8");
-  const mixins = [...button.matchAll(/@include states\.([\w-]+)/g)].map((match) => match[1]);
+  // The arrow's mixin draws no state; it only keeps the underline off the ↗ (#67).
+  const mixins = [...button.matchAll(/@include states\.([\w-]+)/g)]
+    .map((match) => match[1])
+    .filter((name) => name !== "external-arrow");
   assert.deepEqual(mixins, ["button", "button"]);
 });

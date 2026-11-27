@@ -41,5 +41,7 @@
 }
 
 .button__arrow {
+  @include states.external-arrow;
+
   font-size: 0.9em;
 }

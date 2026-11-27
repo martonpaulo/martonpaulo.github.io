@@ -140,15 +140,15 @@ changes its fill, border or ink under hover, focus or press, or a label falls un
 (4.5:1 for text, 3:1 for an icon), measured against the pixels behind it
 ([#52](https://github.com/martonpaulo/martonpaulo.github.io/issues/52)).
 
-| Family                           | Hover                                                              | Pressed               | Current                                                        |
-| :------------------------------- | :----------------------------------------------------------------- | :-------------------- | :------------------------------------------------------------- |
-| Primary button                   | `--state-primary-hover-fill`, `--state-button-shadow`              | `--state-press-shade` | none                                                           |
-| Secondary button                 | `--state-hover-fill`, `--state-hover-ink`, `--state-button-shadow` | `--state-press-shade` | none                                                           |
-| Pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`                          | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
-| Text link                        | `--state-hover-ink` and a full underline                           | none                  | none                                                           |
-| Retired row                      | `--state-hover-text` (muted text comes up)                         | none                  | none                                                           |
-| Card                             | `--state-lift-shadow`                                              | `--state-press`       | none                                                           |
-| Image link                       | `--state-lift` on the image                                        | none                  | none                                                           |
+| Family                           | Hover                                                                                                                               | Pressed               | Current                                                        |
+| :------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- | :-------------------- | :------------------------------------------------------------- |
+| Primary button                   | `--state-primary-hover-fill`, `--state-button-shadow`                                                                               | `--state-press-shade` | none                                                           |
+| Secondary button                 | `--state-hover-fill`, `--state-hover-ink`, `--state-button-shadow`                                                                  | `--state-press-shade` | none                                                           |
+| Pill, tab, nav item, icon button | `--state-hover-fill`, `--state-hover-ink`                                                                                           | `--state-press-shade` | `--state-current-fill`, `--state-current-ink` (`aria-current`) |
+| Text link                        | `--state-hover-ink` and a full underline, never under the ↗ ([#67](https://github.com/martonpaulo/martonpaulo.github.io/issues/67)) | none                  | none                                                           |
+| Retired row                      | `--state-hover-text` (muted text comes up)                                                                                          | none                  | none                                                           |
+| Card                             | `--state-lift-shadow`                                                                                                               | `--state-press`       | none                                                           |
+| Image link                       | `--state-lift` on the image                                                                                                         | none                  | none                                                           |
 
 - **Who moves.** Only an image link grows, by `--grow`; a card deepens its shadow and does not grow
   ([#51](https://github.com/martonpaulo/martonpaulo.github.io/issues/51)); both press back by `--press`.

@@ -3,7 +3,10 @@
 // - the content's left edge differs between a short page and a long one, which happens when only
 //   the long one shows a scrollbar and the page's width changes with it;
 // - the tab row's or the list's top differs between the Projects tabs at 390, 768, 1024, 1280 or
-//   1920 px, which happens when one tab's text above them wraps to more lines than another's (#54).
+//   1920 px, which happens when one tab's text above them wraps to more lines than another's (#54);
+// - the underline of a hovered link reaches its external-link arrow (↗), which is never
+//   underlined (#67): the arrow's box is drawn with the arrow's own ink hidden, once as it is and
+//   once with every underline turned off, and the two must match.
 //
 //   node scripts/layout-check.mjs dist
 //
@@ -46,6 +49,13 @@ const TAB_PARTS = { "tab row": ".work-filters", list: ".project-list" };
 const TOLERANCE_TABS = 1;
 /** Layout positions are whole or half pixels; anything above this is a real move. */
 const TOLERANCE = 0.5;
+
+/** The pages with external links whose arrow must never be underlined (#67). */
+const ARROW_PAGES = ["/", "/projects/"];
+/** The arrow after an external link's name: a hidden glyph inside the link. */
+const ARROW = 'a [aria-hidden="true"]';
+/** Pixels below the arrow's box that an underline offset can reach. */
+const UNDERLINE_REACH = 6;
 
 /** Every page of the build, as the path a visitor requests; a redirect page is not a page. */
 async function builtPages(root) {
@@ -176,6 +186,38 @@ try {
   }
   process.stdout.write(`phones: ${pages.length} pages at ${PHONE_WIDTHS.join(", ")}px\n`);
   await page.close();
+
+  // An external link's arrow is never underlined, at rest or under the pointer (#67).
+  const arrowPage = await browser.newPage({ viewport: VIEWPORTS[0], reducedMotion: "reduce" });
+  let arrows = 0;
+  for (const path of ARROW_PAGES) {
+    await openBuilt(arrowPage, origin, path);
+    const marks = arrowPage.locator(ARROW, { hasText: "↗" });
+    for (let index = 0; index < (await marks.count()); index += 1) {
+      const arrow = marks.nth(index);
+      const link = arrow.locator("xpath=ancestor::a[1]");
+      await arrow.scrollIntoViewIfNeeded();
+      await link.hover();
+      await arrow.evaluate((mark) => mark.style.setProperty("color", "transparent", "important"));
+      const box = await arrow.boundingBox();
+      const clip = { ...box, height: box.height + UNDERLINE_REACH };
+      const shot = () => arrowPage.screenshot({ clip, animations: "disabled" });
+      const hovered = await shot();
+      await link.evaluate((anchor) => {
+        for (const part of [anchor, ...anchor.querySelectorAll("*")])
+          part.style.setProperty("text-decoration-line", "none", "important");
+      });
+      if (!hovered.equals(await shot()))
+        failures.push(
+          `${path}: the arrow of «${(await link.innerText()).trim().split("\n")[0]}» is underlined on hover`,
+        );
+      await arrowPage.reload({ waitUntil: "load" });
+      arrows += 1;
+    }
+  }
+  if (arrows === 0) failures.push(`no external-link arrow found on ${ARROW_PAGES.join(", ")}`);
+  process.stdout.write(`arrows: ${arrows} on ${ARROW_PAGES.join(", ")}\n`);
+  await arrowPage.close();
 } finally {
   await browser.close();
   close();
