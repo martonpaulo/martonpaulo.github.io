@@ -49,15 +49,15 @@ Before editing under a path, read the file its row names. A module with rules of
 with its reason. Read it before proposing a feature. `docs/patterns.md` holds the patterns the code
 repeats; a change that would break one, or establish a new one, stops and asks the owner first.
 
-| Command         | What it does                                                                                  |
-| :-------------- | :-------------------------------------------------------------------------------------------- |
-| `pnpm dev`      | Astro dev server at `http://localhost:4321`                                                   |
-| `pnpm check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema |
-| `pnpm lint`     | ESLint, Prettier in check mode, then the repository text checks in `scripts/`                 |
-| `pnpm format`   | Prettier in write mode                                                                        |
-| `pnpm test`     | Node's test runner over `tests/`: invariants in `db/` the schema cannot express               |
-| `pnpm build`    | Static build into `dist/`, including sitemap, share images and redirects                      |
-| `pnpm validate` | `check`, `lint`, `test`, `build`, in that order; the gate before every commit                 |
+| Command         | What it does                                                                                                                                                   |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm dev`      | Astro dev server at `http://localhost:4321`                                                                                                                    |
+| `pnpm check`    | `astro check`: type-checks `.astro` and `.ts`, validates every `db/*.json` against its schema                                                                  |
+| `pnpm lint`     | ESLint, Prettier in check mode, then the repository text checks in `scripts/`                                                                                  |
+| `pnpm format`   | Prettier in write mode                                                                                                                                         |
+| `pnpm test`     | Node's test runner over `tests/`: invariants in `db/` the schema cannot express                                                                                |
+| `pnpm build`    | Static build into `dist/`, including sitemap, share images and redirects                                                                                       |
+| `pnpm validate` | `check`, `lint`, `test`, the archive and kinds checks, `build`, then the build, text-width, layout and state checks over `dist/`; the gate before every commit |
 
 ## Instruction hierarchy and sources of truth
 

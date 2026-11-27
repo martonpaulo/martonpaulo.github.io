@@ -28,7 +28,7 @@ images are rendered once per build with satori and resvg.
 
 ## 🌱 Quick Start
 
-Requires **Node.js 22.12 or newer** (even majors only) and npm.
+Requires **Node.js 22.12 or newer** (even majors only) and pnpm, which `corepack enable` provides at the version `package.json` names.
 
 ```bash
 git clone https://github.com/martonpaulo/martonpaulo.github.io.git
@@ -47,17 +47,17 @@ TypeScript stays on major 6 until `astro check` supports 7.
 
 ## 🛠 Commands
 
-| Command             | What it does                                                                          |
-| ------------------- | ------------------------------------------------------------------------------------- |
-| `pnpm validate`     | Runs the full gate before a commit: `check`, `lint`, `test`, `build`, in that order.  |
-| `pnpm dev`          | Starts the Astro dev server at `http://localhost:4321`.                               |
-| `pnpm build`        | Builds the whole site, sitemap, redirects and share images into `dist/`.              |
-| `pnpm preview`      | Serves the built `dist/` locally.                                                     |
-| `pnpm check`        | Checks types, and every file in `db/` against its schema.                             |
-| `pnpm lint`         | Runs ESLint, then Prettier in check mode.                                             |
-| `pnpm format`       | Rewrites every file with Prettier.                                                    |
-| `pnpm test`         | Runs Node's test runner over `tests/`, covering invariants the schema cannot express. |
-| `pnpm share-ground` | Re-renders the share image's ground after a product or icon changes.                  |
+| Command             | What it does                                                                                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm validate`     | Runs the full gate before a commit: `check`, `lint`, `test`, the archive and kinds checks, `build`, then the build, text-width, layout and state checks over `dist/`. |
+| `pnpm dev`          | Starts the Astro dev server at `http://localhost:4321`.                                                                                                               |
+| `pnpm build`        | Builds the whole site, sitemap, redirects and share images into `dist/`.                                                                                              |
+| `pnpm preview`      | Serves the built `dist/` locally.                                                                                                                                     |
+| `pnpm check`        | Checks types, and every file in `db/` against its schema.                                                                                                             |
+| `pnpm lint`         | Runs ESLint, then Prettier in check mode.                                                                                                                             |
+| `pnpm format`       | Rewrites every file with Prettier.                                                                                                                                    |
+| `pnpm test`         | Runs Node's test runner over `tests/`, covering invariants the schema cannot express.                                                                                 |
+| `pnpm share-ground` | Re-renders the share image's ground after a product or icon changes.                                                                                                  |
 
 ---
 
