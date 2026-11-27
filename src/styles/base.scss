@@ -44,10 +44,10 @@ body {
   color: var(--highlight-ink);
 }
 
-// A phrase highlighted as if selected (#56): the selection's colours, carried across a line break.
+// A phrase highlighted as if selected (#56): the selection's colours, carried across a line break, square on every line (#60).
 mark {
   padding-inline: 0.15em;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   background: var(--highlight);
   color: var(--highlight-ink);
   box-decoration-break: clone;
