@@ -4,7 +4,6 @@ import "./Footer.scss";
 import { fill } from "../lib/copy";
 import { getCopy, getLinks, getPerson, getSite } from "../lib/db";
 import { externalLinkAttributes, isEmailLink, isExternalLink } from "../lib/links";
-import { earlierPath } from "../lib/projects";
 import Button from "./Button.astro";
 import SectionHeading from "./SectionHeading.astro";
 
@@ -12,7 +11,7 @@ import SectionHeading from "./SectionHeading.astro";
 const site = await getSite();
 const person = await getPerson();
 const links = await getLinks();
-const { contact, earlier } = await getCopy();
+const { contact } = await getCopy();
 const year = new Date().getFullYear();
 ---
 
@@ -46,9 +45,6 @@ const year = new Date().getFullYear();
         <a class="footer__link" href={site.repository} {...externalLinkAttributes}>
           {contact.sourceLink}
         </a>
-      </li>
-      <li>
-        <a class="footer__link" href={earlierPath}>{earlier.tab}</a>
       </li>
     </ul>
   </div>

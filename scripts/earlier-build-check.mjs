@@ -8,7 +8,7 @@
 // project with its own site has no page and every list leads to that site (#57); and no page links
 // the repository of a project that has no public source link. Every indexed page's meta
 // description keeps the length search engines show whole (#59). A subject folded into another
-// leaves a redirect page that is not in the sitemap (#69).
+// leaves a redirect page that is not in the sitemap (#69). No footer links Earlier work (#68).
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -188,6 +188,16 @@ for (const file of walk(dist)) {
     problems.push(
       `DESCRIPTION ${file}: ${length} characters, not ${descriptionLength.min} to ${descriptionLength.max}`,
     );
+}
+
+// The footer holds contact and the source only; Earlier work is reached from the Projects tabs (#68).
+const earlierHref = 'href="/projects/earlier/"';
+for (const file of walk(dist)) {
+  const footer = /<footer\b[\s\S]*?<\/footer>/.exec(readFileSync(file, "utf8"))?.[0] ?? "";
+  if (footer.includes(earlierHref)) problems.push(`FOOTER ${file}: links /projects/earlier/`);
+}
+for (const path of ["/projects/", ...subjectTabs]) {
+  if (!page(path).includes(earlierHref)) problems.push(`NO EARLIER TAB ${path}`);
 }
 
 for (const line of problems) say(line);
