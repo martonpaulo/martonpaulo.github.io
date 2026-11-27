@@ -158,7 +158,9 @@ Retired products, older projects and course exercises are listed only on the Ear
   redirect elsewhere): a folder that the archive's Cloudflare rule still redirects keeps its entry
   planned, so no row links to a 404 ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
   The archive repository is private and CI holds no token for it, so a folder with no entry shows
-  only where the clone works (the Mac, a cloud session).
+  only where the clone works (the Mac). A cloud session's access may reach neither the archive nor
+  martonpaulo.com; the check then prints `SKIPPED` and exits 0, and CI, which sets `CI`, fails
+  that case instead ([#72](https://github.com/martonpaulo/martonpaulo.github.io/issues/72)).
 - **Not indexed.** The tab carries `noindex` and is left out of the sitemap in `astro.config.ts`
   (a retired project has no page of its own since [#57](https://github.com/martonpaulo/martonpaulo.github.io/issues/57)), so martonpaulo/domain, which lists martonpaulo.com from the sitemap,
   does not list them either. `scripts/earlier-build-check.mjs` checks the build for this, and that

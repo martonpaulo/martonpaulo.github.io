@@ -8,9 +8,13 @@
 // answers 200 at a project folder and redirects every other path, so it proves each entry but
 // cannot list a folder that has no entry; that direction needs the repository's folder list,
 // from --site DIR or a shallow, treeless clone of the private martonpaulo/archive, which works
-// wherever git can read it (the Mac, a cloud session). CI has no token for that repository, so
+// wherever git can read it (the Mac). CI has no token for that repository, so
 // there the clone is refused and only the live direction is checked. --site DIR alone reads no
 // network: its folders stand for both directions, for the tests.
+//
+// When neither source can be read (a cloud session whose access reaches neither the private
+// repository nor martonpaulo.com), the check says so and exits 0, since the environment, not the
+// change, is at fault (#72). With CI set, that case fails: CI and the Mac always run it in full.
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -109,6 +113,17 @@ async function source() {
 }
 
 const { folders, present, unread, problems } = await source();
+if (!folders && present.size === 0 && unread.size === earlier.length) {
+  for (const line of problems.sort()) say(line);
+  if (process.env.CI) {
+    console.error(
+      "cannot read either source here: neither the archive repository nor the live site",
+    );
+    process.exit(1);
+  }
+  say("archive check SKIPPED: cannot read either source here; CI and the Mac run it in full");
+  process.exit(0);
+}
 if (present.size === 0) {
   console.error("the archive shows no folder; refusing to pass on an empty list");
   process.exit(1);

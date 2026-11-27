@@ -155,3 +155,25 @@ test("clone: a folder whose live address redirects away keeps its entry planned"
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+// A cloud session that reaches neither source: every answer is an error, as the proxy's 403 (#72).
+const unreachable = { ...process.env, GIT_CONFIG_COUNT: "1" };
+const refusedClone = {
+  GIT_CONFIG_KEY_0: "url./nonexistent-archive/.insteadOf",
+  GIT_CONFIG_VALUE_0: "https://github.com/martonpaulo/",
+};
+
+test("neither source readable: skipped outside CI, told apart from an empty archive", async () => {
+  const env = { ...unreachable, ...refusedClone };
+  delete env.CI;
+  const result = await runLive(() => 403, { args: [], env });
+  assert.equal(result.status, 0, result.stdout);
+  assert.match(result.stdout, /archive check SKIPPED: cannot read either source/);
+  assert.doesNotMatch(result.stdout, /shows no folder/);
+});
+
+test("neither source readable: fails in CI", async () => {
+  const env = { ...unreachable, ...refusedClone, CI: "true" };
+  const result = await runLive(() => 403, { args: [], env });
+  assert.equal(result.status, 1);
+});
