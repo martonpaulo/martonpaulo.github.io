@@ -458,6 +458,7 @@
     "stack": ["Swift", "AppKit", "SwiftUI", "EventKit"],
     "tags": ["macos", "calendar", "focus"],
     "links": {
+      "live": "https://leve.martonpaulo.com/",
       "source": "https://github.com/martonpaulo/leve"
     },
     "status": "active",
@@ -484,7 +485,9 @@
     "year": 2026,
     "stack": ["JavaScript", "WebExtensions API"],
     "tags": ["browser", "performance"],
-    "links": {},
+    "links": {
+      "live": "https://trickletabs.martonpaulo.com/"
+    },
     "note": "Not published yet. This page says what it does.",
     "status": "active",
     "kinds": ["extension"],
