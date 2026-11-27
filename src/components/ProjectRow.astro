@@ -67,6 +67,19 @@ const { nav } = await getCopy();
   <ul class="project-row__meta" role="list">
     {/* Each platform the project runs on, then the year, one per line, no divider (#55). */}
     {item.kinds.map((kind) => <li>{kind}</li>)}
+    {
+      /* Recorded GitHub figures past their threshold (#71); a glyph is read as its words. */
+      item.figures.map((figure) =>
+        figure.text === figure.label ? (
+          <li>{figure.text}</li>
+        ) : (
+          <li>
+            <span aria-hidden="true">{figure.text}</span>
+            <span class="visually-hidden">{figure.label}</span>
+          </li>
+        ),
+      )
+    }
     <li>{item.when}</li>
   </ul>
 </article>

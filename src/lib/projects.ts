@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import type { projectKinds, tileColors } from "../content.config";
 import { type Copy, fill, listOf, lowerFirst } from "./copy";
 import { firstThatFits } from "./descriptions";
+import { countText, shownFigures } from "./figures";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
 import { projectSubjects, subjectPath } from "./subjects";
@@ -86,14 +87,36 @@ export interface RowItem {
   icon: ImageMetadata;
   /** Each kind: the platform it runs on, a tag (#43). */
   kinds: string[];
+  /** Recorded GitHub figures worth showing (#71): what a row shows, and the words a reader hears. */
+  figures: RowFigure[];
   /** The year, or the period of an Earlier work entry. */
   when: string;
   /** An Earlier work entry: drawn muted until it is pointed at or focused (#43). */
   retired: boolean;
 }
 
-/** A current project as a row: its own site or its page (#57), its kinds, its year. */
-export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
+/** One GitHub figure on a row: «★ 29» shown, «29 stars on GitHub» read (#71). */
+export interface RowFigure {
+  text: string;
+  label: string;
+}
+
+/** The figures a current project's row shows, in the Projects copy's words (#71). */
+function rowFigures(project: Project, copy: Copy["projects"]): RowFigure[] {
+  return shownFigures(project.metrics).map(({ kind, count }) => {
+    const values = { count: countText(count) };
+    return kind === "stars"
+      ? { text: fill(copy.stars, values), label: fill(copy.starsLabel, values) }
+      : { text: fill(copy.downloads, values), label: fill(copy.downloads, values) };
+  });
+}
+
+/** A current project as a row: its own site or its page (#57), its kinds, figures and year. */
+export function projectRow(
+  project: Project,
+  labels: Copy["kinds"],
+  copy: Copy["projects"],
+): RowItem {
   const target = projectTarget(project);
   return {
     key: project.slug,
@@ -103,6 +126,7 @@ export function projectRow(project: Project, labels: Copy["kinds"]): RowItem {
     tagline: project.tagline,
     icon: projectIcon(project.slug),
     kinds: kindLabels(project, labels),
+    figures: rowFigures(project, copy),
     when: String(project.year),
     retired: false,
   };

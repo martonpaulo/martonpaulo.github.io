@@ -105,7 +105,9 @@ and the Projects list and each subject tab list every current Project in score o
 name. The figures are recorded in `db/projects.json` as `metrics`, with the day they were read, by
 `GH_TOKEN=… node scripts/metrics.mjs`, which reads each Project's `repo`; the build reads only the
 recorded figures, so the same data always gives the same order, and the build check fails when the
-rendered home page or Projects list differs from it. A Project whose repository is private has no `source` link and a `note`, and its page says
+rendered home page or Projects list differs from it. A row of the Projects list also shows the
+recorded stars from 10 and downloads from 100, never forks, and the home cards show none
+(`src/lib/figures.ts`, [#71](https://github.com/martonpaulo/martonpaulo.github.io/issues/71)). A Project whose repository is private has no `source` link and a `note`, and its page says
 only what its README says; the build check fails when any page names such a repository.
 
 ## Kinds and icons

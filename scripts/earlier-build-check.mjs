@@ -13,6 +13,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { descriptionLength } from "../src/lib/descriptions.ts";
+import { shownFigures } from "../src/lib/figures.ts";
 import { homeProjects, rankedProjects } from "../src/lib/status.ts";
 import {
   mergedInto,
@@ -88,8 +89,11 @@ const inkAt = list.indexOf(`href="${projectTarget(ink).href}"`);
 const inkMeta = /<ul class="project-row__meta"[^>]*>(.*?)<\/ul>/s.exec(list.slice(inkAt))?.[1];
 const inkLines = (inkMeta ?? "").match(/<li>/g)?.length ?? 0;
 const inkKinds = ink.kinds.length;
-if (inkLines !== inkKinds + 1)
-  problems.push(`META ink-tools: ${inkLines} lines, not its ${inkKinds} platforms and the year`);
+const inkFigures = shownFigures(ink.metrics).length;
+if (inkLines !== inkKinds + inkFigures + 1)
+  problems.push(
+    `META ink-tools: ${inkLines} lines, not its ${inkKinds} platforms, ${inkFigures} figures and the year`,
+  );
 
 const earlierNames = projects
   .filter((p) => p.status === "discontinued")

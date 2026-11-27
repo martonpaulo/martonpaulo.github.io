@@ -26,7 +26,10 @@
     "filterAll": "Everything",
     "subjectNote": "Only the {subject} projects, ranked by real use, availability and recent work.",
     "subjectDescription": "Marton Paulo's {subject} projects, ranked by real use: what each one does, the platform it runs on, the stack behind it, live demos and source code.",
-    "subjectListHeading": "All {subject} projects"
+    "subjectListHeading": "All {subject} projects",
+    "stars": "★ {count}",
+    "starsLabel": "{count} stars on GitHub",
+    "downloads": "{count} downloads"
   },
   "project": {
     "description": "{tagline} Built by {author} with {stack}.",

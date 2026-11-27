@@ -9,7 +9,7 @@ const allCopy = await getCopy();
 const { projects: copy, kinds } = allCopy;
 // One list of current projects, by score as on the home page (#43). Earlier work has its own
 // tab (#42).
-const listed = (await byScore(projects)).map((project) => projectRow(project, kinds));
+const listed = (await byScore(projects)).map((project) => projectRow(project, kinds, copy));
 const counts = countBySubject(projects);
 ---
 

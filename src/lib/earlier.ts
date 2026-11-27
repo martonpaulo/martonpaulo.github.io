@@ -42,6 +42,7 @@ export function earlierRow(
     tagline,
     icon: projectIcon(project?.slug ?? entry.slug),
     kinds: kinds.map((kind) => labels[kind].one),
+    figures: [],
     when: periodLabel(entry.period),
     retired: true,
   };

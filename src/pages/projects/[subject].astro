@@ -28,7 +28,7 @@ const counts = countBySubject(projects);
 
 const ofSubject = projects.filter((project) => project.subject === subject);
 // One list, by score as on the projects page (#43).
-const listed = (await byScore(ofSubject)).map((project) => projectRow(project, kinds));
+const listed = (await byScore(ofSubject)).map((project) => projectRow(project, kinds, copy));
 const vars = { subject: subjectInSentence(subject, subjects) };
 ---
 

@@ -124,6 +124,10 @@ const copy = defineCollection({
       subjectNote: z.string(),
       subjectDescription: z.string(),
       subjectListHeading: z.string(),
+      /** A row's GitHub figures (#71): the visible star count, its words, and the downloads. */
+      stars: z.string(),
+      starsLabel: z.string(),
+      downloads: z.string(),
     }),
     project: z.object({
       description: z.string(),
