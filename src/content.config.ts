@@ -105,7 +105,6 @@ const copy = defineCollection({
       newTabSite: z.string(),
     }),
     home: z.object({
-      eyebrow: z.string(),
       greeting: z.string(),
       featuredHeading: z.string(),
       allWork: z.string(),

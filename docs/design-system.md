@@ -40,11 +40,13 @@ tiles are the light.
 **White headings, one aqua accent.** Headings are a warm white (`--heading`), so hierarchy comes
 from size and weight rather than colour. The accent, `#7fd0e6`, a light aqua between the room's
 blue and its green, is spent only on what can be acted on or what names a thing: links, the
-primary button, the mark, the eyebrows' brackets and list bullets.
+primary button, the mark and list bullets.
 
-**The bracket, kept small.** The site's signature is `[ ]`: the mark in the navigation and the
-brackets around every label. Never around a title and never as a bullet; the owner tried both and
-they read as decoration. Lists use a small accent dot.
+**The bracket, kept small.** The site's signature is `[ ]`, and it lives only in the mark. Never
+around a label, a title or a bullet: the owner tried all three and they read as decoration
+([#61](https://github.com/martonpaulo/martonpaulo.github.io/issues/61)). A label is plain uppercase
+words, and several items in one label are separated by a comma (`LABEL_SEPARATOR` in
+`src/lib/copy.ts`), never by a middle dot. Lists use a small accent dot.
 
 **A still light.** Two blurred discs, one blue and one teal, sit at the top of every page. They
 do not move: the owner tried a drifting light and preferred the room quiet.

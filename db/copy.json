@@ -14,8 +14,7 @@
     "featuredHeading": "Things I've made",
     "allWork": "All projects",
     "nowHeading": "Lately",
-    "moreAbout": "More about me",
-    "eyebrow": "{name} · {role}"
+    "moreAbout": "More about me"
   },
   "projects": {
     "title": "Projects",

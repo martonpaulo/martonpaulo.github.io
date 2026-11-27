@@ -1,8 +1,10 @@
 ---
 import "./KindLabels.scss";
 
+import { LABEL_SEPARATOR } from "../lib/copy";
+
 /**
- * A project's kinds, "iOS app · macOS app": a line breaks between two kinds, never inside one,
+ * A project's kinds, "iOS app, macOS app": a line breaks between two kinds, never inside one,
  * so "Supernote plugin" never splits (#43).
  */
 interface Props {
@@ -15,7 +17,7 @@ const { labels } = Astro.props;
 {
   labels.map((label, index) => (
     <>
-      {index > 0 && " · "}
+      {index > 0 && LABEL_SEPARATOR}
       <span class="kind-labels__item">{label}</span>
     </>
   ))

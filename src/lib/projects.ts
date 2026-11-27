@@ -59,7 +59,7 @@ export function projectLinks(project: Project, copy: Copy["project"]): ProjectLi
 
 /**
  * What a project is, in words: every kind it has, each in full, as its card and page show them
- * ("iOS app · macOS app"). A suite such as Ink Tools has several (#43).
+ * ("iOS app, macOS app"). A suite such as Ink Tools has several (#43).
  */
 export function kindLabels(project: Project, labels: Copy["kinds"]): string[] {
   return project.kinds.map((kind) => labels[kind].one);

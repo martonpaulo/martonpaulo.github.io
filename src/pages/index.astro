@@ -6,7 +6,7 @@ import Hero from "../components/Hero.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Base from "../layouts/Base.astro";
-import { fill } from "../lib/copy";
+import { labelOf } from "../lib/copy";
 import { projectsPath } from "../lib/projects";
 import { getCopy, getFeaturedProjects, getPerson, getSite } from "../lib/db";
 
@@ -14,7 +14,7 @@ const site = await getSite();
 const person = await getPerson();
 const { home } = await getCopy();
 const featured = await getFeaturedProjects();
-const eyebrow = fill(home.eyebrow, { name: person.name, role: person.role });
+const eyebrow = labelOf([person.name, person.role]);
 ---
 
 <Base description={site.description}>

@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 
-import { fill } from "./copy";
+import { fill, LABEL_SEPARATOR } from "./copy";
 
 type Person = CollectionEntry<"person">["data"];
 
@@ -34,6 +34,8 @@ export function stackRows(person: Person) {
 export function languageRows(person: Person) {
   return person.languages.map((language) => ({
     term: language.name,
-    value: [language.level, language.cefr, language.certificate].filter(Boolean).join(" · "),
+    value: [language.level, language.cefr, language.certificate]
+      .filter(Boolean)
+      .join(LABEL_SEPARATOR),
   }));
 }

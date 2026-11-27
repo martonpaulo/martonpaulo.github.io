@@ -19,6 +19,17 @@ export function listOf(items: readonly string[]): string {
   return new Intl.ListFormat("en-GB", { style: "long", type: "conjunction" }).format(items);
 }
 
+/**
+ * What separates several items in one label: a comma, so a label reads as words, never as
+ * decoration (#61). The one owner of the separator; every label joins its items with it.
+ */
+export const LABEL_SEPARATOR = ", ";
+
+/** "a, b, c": several items of one label, joined by {@link LABEL_SEPARATOR}. */
+export function labelOf(items: readonly string[]): string {
+  return items.join(LABEL_SEPARATOR);
+}
+
 /** One run of a text: plain, or a phrase to highlight. */
 export interface Run {
   text: string;
