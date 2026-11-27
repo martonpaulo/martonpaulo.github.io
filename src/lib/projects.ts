@@ -5,7 +5,7 @@ import { type Copy, fill, listOf, lowerFirst } from "./copy";
 import { firstThatFits } from "./descriptions";
 import { projectIcon } from "./images";
 import { isDiscontinued, monthYear } from "./status";
-import { projectSubjects } from "./subjects";
+import { projectSubjects, subjectPath } from "./subjects";
 import { projectTarget } from "./targets";
 
 export type Project = CollectionEntry<"projects">["data"];
@@ -69,10 +69,8 @@ export const projectsPath = "/projects/";
 
 export { hasPage, pagePath as projectPath, projectTarget } from "./targets";
 
-/** A subject's tab (#43). */
-export function subjectPath(subject: ProjectSubject): string {
-  return `/projects/subject/${subject}/`;
-}
+/** A subject's tab (#43), at the address subjects.ts owns (#70). */
+export { subjectPath };
 
 /** The Earlier work tab (#42); noindex and out of the sitemap, like the pages it lists. */
 export const earlierPath = "/projects/earlier/";

@@ -1,9 +1,9 @@
 ---
-import ProjectTabs from "../../../components/ProjectTabs.astro";
-import { projectSubjects } from "../../../content.config";
-import Base from "../../../layouts/Base.astro";
-import { fill } from "../../../lib/copy";
-import { byScore, getCopy, getCurrentProjects } from "../../../lib/db";
+import ProjectTabs from "../../components/ProjectTabs.astro";
+import { projectSubjects } from "../../content.config";
+import Base from "../../layouts/Base.astro";
+import { fill } from "../../lib/copy";
+import { byScore, getCopy, getCurrentProjects } from "../../lib/db";
 import {
   countBySubject,
   type ProjectSubject,
@@ -11,7 +11,7 @@ import {
   subjectInSentence,
   subjectNote,
   tabNotes,
-} from "../../../lib/projects";
+} from "../../lib/projects";
 
 export async function getStaticPaths() {
   const projects = await getCurrentProjects();

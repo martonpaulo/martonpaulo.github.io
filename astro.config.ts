@@ -5,7 +5,13 @@ import earlier from "./db/earlier.json" with { type: "json" };
 import projects from "./db/projects.json" with { type: "json" };
 import site from "./db/site.json" with { type: "json" };
 import { projectKinds } from "./src/lib/kinds";
-import { mergedSubjects } from "./src/lib/subjects";
+import {
+  mergedInto,
+  mergedSubjects,
+  oldSubjectPath,
+  projectSubjects,
+  subjectPath,
+} from "./src/lib/subjects";
 import { oldPageTarget } from "./src/lib/targets";
 
 // Every live project gets a short redirect (/p/<slug>) that survives the
@@ -25,14 +31,13 @@ const kindRedirects = Object.fromEntries(
   ]),
 );
 
-// Supernote and AI each held one project until the owner folded them into Productivity (#69);
-// their old tabs lead there.
-const mergedSubjectRedirects = Object.fromEntries(
-  mergedSubjects.map((subject) => [
-    `/projects/subject/${subject}/`,
-    "/projects/subject/productivity/",
-  ]),
-);
+// The subject tabs lived at /projects/subject/<subject>/ until #70; each old address leads to its
+// tab. Supernote and AI each held one project until the owner folded them into Productivity
+// (#69); their old tabs lead there.
+const subjectRedirects = Object.fromEntries([
+  ...projectSubjects.map((subject) => [oldSubjectPath(subject), subjectPath(subject)]),
+  ...mergedSubjects.map((subject) => [oldSubjectPath(subject), subjectPath(mergedInto)]),
+]);
 
 // Project pages lived at /projects/<slug>/ (and /work/<slug>/ before that) until #57. Each old URL
 // now leads where the project does: its own site, its page at /<slug>/, or its frozen build. Two
@@ -71,12 +76,12 @@ export default defineConfig({
     "/p/atlas-tint/": "/p/atlastint/",
     ...projectRedirects,
     ...kindRedirects,
-    ...mergedSubjectRedirects,
+    ...subjectRedirects,
   },
   // /p/ is redirects; /design/ is files for other sites, not pages.
   integrations: [
     sitemap({
-      // By the path's start, so a page such as /projects/subject/design/ stays listed (#43).
+      // By the path's start, so a page such as /projects/design/ stays listed (#43).
       filter: (page) => {
         const path = new URL(page).pathname;
         return !path.startsWith("/p/") && !path.startsWith("/design/") && !unlisted.has(path);

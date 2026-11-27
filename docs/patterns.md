@@ -117,12 +117,15 @@ only what its README says; the build check fails when any page names such a repo
   ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)).
 - **A Subject is a tab.** Each current project has exactly one `subject`, from `projectSubjects`
   in `src/lib/subjects.ts` (Productivity, Design, Learning), and each subject is a
-  tab at `/projects/subject/<subject>/`; a retired project has none. `tests/db.test.mjs` fails on a
+  tab at `/projects/<subject>/` (`subjectPath`); a retired project has none. `tests/db.test.mjs` fails on a
   current project without one or a subject with no current project, so no tab is empty. The old
   platform tabs, `/projects/kind/<kind>/`, redirect to `/projects/`
   ([#43](https://github.com/martonpaulo/martonpaulo.github.io/issues/43)), and the Supernote and AI
   tabs, folded into Productivity, redirect to it (`mergedSubjects`,
-  [#69](https://github.com/martonpaulo/martonpaulo.github.io/issues/69)).
+  [#69](https://github.com/martonpaulo/martonpaulo.github.io/issues/69)). Each tab's old address,
+  `/projects/subject/<subject>/`, redirects to the new one, and no subject takes a name in
+  `reservedProjectPaths` or a project's slug, whose old page address it would share
+  ([#70](https://github.com/martonpaulo/martonpaulo.github.io/issues/70)).
 - **A suite's kinds come from its repository.** A Project with `kindsFrom` names a file of its
   repository listing its tools (Ink Tools: `docs/tools.json`); `node scripts/kinds.mjs` writes
   `kinds` from it, skipping internal tools, and `pnpm kinds-check` fails when they differ.

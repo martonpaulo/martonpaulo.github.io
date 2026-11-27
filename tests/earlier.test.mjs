@@ -7,6 +7,8 @@ import { test } from "node:test";
 
 import sharp from "sharp";
 
+import { projectSubjects, reservedProjectPaths } from "../src/lib/subjects.ts";
+
 const read = async (name) =>
   JSON.parse(await readFile(new URL(`../db/${name}.json`, import.meta.url), "utf8"));
 
@@ -67,7 +69,16 @@ test("the list is written newest first", () => {
 });
 
 test("no project slug takes a path the projects section already uses", () => {
-  for (const reserved of ["earlier", "kind", "subject"]) assert.ok(!bySlug.has(reserved), reserved);
+  for (const reserved of reservedProjectPaths) assert.ok(!bySlug.has(reserved), reserved);
+});
+
+// A subject's tab is /projects/<subject>/ (#70): a reserved name or a project's slug, whose old
+// page address redirects there, would make two pages claim one address.
+test("no subject takes a reserved path or a project's old page address", () => {
+  for (const subject of projectSubjects) {
+    assert.ok(!reservedProjectPaths.includes(subject), `${subject} is a reserved path`);
+    assert.ok(!bySlug.has(subject), `${subject} is a project's slug`);
+  }
 });
 
 // Every row shows an icon: the product's own, or one scripts/icons.mjs draws (#43).

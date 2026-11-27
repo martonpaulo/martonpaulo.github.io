@@ -14,7 +14,13 @@ import { join } from "node:path";
 
 import { descriptionLength } from "../src/lib/descriptions.ts";
 import { homeProjects, rankedProjects } from "../src/lib/status.ts";
-import { mergedSubjects, projectSubjects } from "../src/lib/subjects.ts";
+import {
+  mergedInto,
+  mergedSubjects,
+  oldSubjectPath,
+  projectSubjects,
+  subjectPath,
+} from "../src/lib/subjects.ts";
 import { hasPage, pagePath, projectTarget } from "../src/lib/targets.ts";
 
 const say = (line) => process.stdout.write(`${line}\n`);
@@ -51,17 +57,21 @@ for (const path of unlisted) {
 }
 
 // Every subject tab is a listed page; a filter that matched part of a path once dropped Design (#43).
-const subjectTabs = projectSubjects.map((subject) => `/projects/subject/${subject}/`);
+const subjectTabs = projectSubjects.map(subjectPath);
 for (const path of subjectTabs) {
   if (!inSitemap(path)) problems.push(`NOT IN SITEMAP ${path}`);
 }
 
-// A subject folded into Productivity leaves its old tab as a redirect page to it, unlisted (#69).
-for (const subject of mergedSubjects) {
-  const path = `/projects/subject/${subject}/`;
+// Every old subject address is an unlisted redirect page: a tab's to the tab at its new address
+// (#70), a subject folded into Productivity's to Productivity's tab (#69).
+const oldSubjects = [
+  ...projectSubjects.map((subject) => [oldSubjectPath(subject), subjectPath(subject)]),
+  ...mergedSubjects.map((subject) => [oldSubjectPath(subject), subjectPath(mergedInto)]),
+];
+for (const [path, target] of oldSubjects) {
   const html = page(path);
-  if (!html.includes('http-equiv="refresh" content="0;url=/projects/subject/productivity/"'))
-    problems.push(`REDIRECT ${path}: does not lead to the Productivity tab`);
+  if (!html.includes(`http-equiv="refresh" content="0;url=${target}"`))
+    problems.push(`REDIRECT ${path}: does not lead to ${target}`);
   if (!NOINDEX.test(html)) problems.push(`INDEXED ${path}: no noindex meta`);
   if (inSitemap(path)) problems.push(`IN SITEMAP ${path}`);
 }

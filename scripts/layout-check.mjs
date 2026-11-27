@@ -21,6 +21,7 @@ import { join, relative } from "node:path";
 
 import { launchChrome, openBuilt } from "./lib/browser.mjs";
 import { serveDist } from "./lib/serve-dist.mjs";
+import { subjectPath } from "../src/lib/subjects.ts";
 
 const dist = process.argv[2];
 if (!dist || !existsSync(join(dist, "index.html"))) {
@@ -39,7 +40,7 @@ const VIEWPORTS = [
 const PHONE_WIDTHS = [320, 375, 414];
 const PHONE_HEIGHT = 812;
 /** A short page and one far longer, both under the same layout. */
-const SHORT_PAGE = "/projects/subject/learning/";
+const SHORT_PAGE = subjectPath("learning");
 const LONG_PAGE = "/projects/earlier/";
 /** The widths at which every Projects tab must place its tab row and list alike (#54). */
 const TAB_WIDTHS = [390, 768, 1024, 1280, 1920];
