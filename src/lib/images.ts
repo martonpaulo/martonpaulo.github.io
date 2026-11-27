@@ -77,8 +77,11 @@ export function projectIcon(slug: string): ImageMetadata {
   return icon;
 }
 
-/** The icon beside a list row: 44 CSS px, drawn from the file at 1x and 2x. */
-export const ROW_ICON_SIZE = 44;
+/**
+ * The icon beside a list row: 48 CSS px, drawn from the file at 1x and 2x. It follows
+ * `--project-row-icon` in ProjectRow.scss, the size's one owner (tests/rows.test.mjs, #66).
+ */
+export const ROW_ICON_SIZE = 48;
 
 // Every product's own social card, 1200x630 (src/assets/cards/<slug>.jpg), copied
 // from the card the product itself serves. A project page shows it whole, text

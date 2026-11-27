@@ -6,14 +6,15 @@
 //   1920 px, which happens when one tab's text above them wraps to more lines than another's (#54);
 // - the underline of a hovered link reaches its external-link arrow (↗), which is never
 //   underlined (#67): the arrow's box is drawn with the arrow's own ink hidden, once as it is and
-//   once with every underline turned off, and the two must match.
+//   once with every underline turned off, and the two must match;
+// - a project row's platform-and-year column is not centred in the row at 1024 or 1280 px (#66).
 //
 //   node scripts/layout-check.mjs dist
 //
 // It drives Chrome through playwright-core (scripts/lib/browser.mjs picks the installed one), headless,
 // in a fresh profile, against a local server of the build; nothing reaches the screen.
 // The functions passed to evaluate() run in the page, where these are its globals.
-/* global document, window, innerHeight */
+/* global document, getComputedStyle, window, innerHeight */
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join, relative } from "node:path";
@@ -56,6 +57,13 @@ const ARROW_PAGES = ["/", "/projects/"];
 const ARROW = 'a [aria-hidden="true"]';
 /** Pixels below the arrow's box that an underline offset can reach. */
 const UNDERLINE_REACH = 6;
+
+/** The widths where a row's meta sits beside the name, centred in the row (#66). */
+const ROW_WIDTHS = [1024, 1280];
+/** A current list and the Earlier work list, whose rows are quieter but laid out alike. */
+const ROW_PAGES = ["/projects/", LONG_PAGE];
+/** One hairline, in CSS pixels: how far the meta's centre may sit from the row's. */
+const HAIRLINE = 1;
 
 /** Every page of the build, as the path a visitor requests; a redirect page is not a page. */
 async function builtPages(root) {
@@ -186,6 +194,38 @@ try {
   }
   process.stdout.write(`phones: ${pages.length} pages at ${PHONE_WIDTHS.join(", ")}px\n`);
   await page.close();
+
+  // A row's meta column is centred against the whole row, whatever its number of lines (#66).
+  const rowPage = await browser.newPage({ viewport: VIEWPORTS[0], reducedMotion: "reduce" });
+  let rows = 0;
+  for (const width of ROW_WIDTHS) {
+    await rowPage.setViewportSize({ width, height: TAB_HEIGHT });
+    for (const path of ROW_PAGES) {
+      await openBuilt(rowPage, origin, path);
+      const offCentre = await rowPage.evaluate((hairline) => {
+        const wrong = [];
+        for (const row of document.querySelectorAll(".project-row")) {
+          const box = row.getBoundingClientRect();
+          const style = getComputedStyle(row);
+          const top = box.top + parseFloat(style.paddingTop);
+          const bottom = box.bottom - parseFloat(style.paddingBottom);
+          const meta = row.querySelector(".project-row__meta").getBoundingClientRect();
+          const off = (meta.top + meta.bottom) / 2 - (top + bottom) / 2;
+          if (Math.abs(off) > hairline) {
+            const name = row.querySelector(".project-row__title").innerText.split("\n")[0];
+            wrong.push(`${name} by ${off.toFixed(1)}px`);
+          }
+        }
+        return [document.querySelectorAll(".project-row").length, wrong];
+      }, HAIRLINE);
+      rows += offCentre[0];
+      for (const miss of offCentre[1])
+        failures.push(`${width}px: ${path}: the meta of ${miss} is off the row's centre`);
+    }
+  }
+  if (rows === 0) failures.push("no project row found");
+  process.stdout.write(`rows: ${rows} at ${ROW_WIDTHS.join(", ")}px\n`);
+  await rowPage.close();
 
   // An external link's arrow is never underlined, at rest or under the pointer (#67).
   const arrowPage = await browser.newPage({ viewport: VIEWPORTS[0], reducedMotion: "reduce" });

@@ -5,8 +5,9 @@
 // other, so a long name or two kinds never squeeze each other. From tablets up the kind and
 // year sit on the name's line. Every line of a row starts at the same edge, beside the icon.
 .project-row {
-  // The icon column keeps the icon's size whatever the text beside it needs.
-  --project-row-icon: 2.75rem;
+  // The icon column keeps the icon's size whatever the text beside it needs. The one owner of
+  // the icon's size: ROW_ICON_SIZE in src/lib/images.ts follows it (tests/rows.test.mjs, #66).
+  --project-row-icon: 3rem;
 
   display: grid;
   grid-template-columns: var(--project-row-icon) minmax(0, 1fr);
@@ -32,13 +33,11 @@
     column-gap: var(--space-4);
   }
 
-  // The first line sits on the name's baseline.
-  .project-row__title,
+  // The meta column is centred against the whole row, name and tagline, however many lines it
+  // has (#66). A meta taller than them makes the row as tall as the meta; the name and tagline
+  // stay together at the top of their column.
   .project-row__meta {
-    align-self: baseline;
-  }
-
-  .project-row__meta {
+    align-self: center;
     justify-items: end;
   }
 }
@@ -89,8 +88,8 @@
 }
 
 // One platform per line, then the year on the last, with no divider (#55). On a phone the lines
-// stack under the tagline; from tablets up they sit right-aligned beside the name, the first one
-// level with it, and run down beside the tagline, so the name and tagline never move for them.
+// stack under the tagline; from tablets up they sit right-aligned beside the name and tagline,
+// centred against them (#66), so the name and tagline never move for them.
 .project-row__meta {
   grid-area: meta;
   display: grid;
