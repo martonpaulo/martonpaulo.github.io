@@ -174,7 +174,7 @@
   },
   {
     "slug": "puc-minas-todo-list",
-    "name": "PUC Minas Todo List",
+    "name": "Full Stack Todo List",
     "tagline": "A React to-do list from the full stack course at PUC Minas.",
     "kinds": ["web"],
     "source": "https://github.com/martonpaulo/puc-minas-excercises",
