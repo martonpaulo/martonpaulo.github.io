@@ -5,6 +5,7 @@ import earlier from "./db/earlier.json" with { type: "json" };
 import projects from "./db/projects.json" with { type: "json" };
 import site from "./db/site.json" with { type: "json" };
 import { projectKinds } from "./src/lib/kinds";
+import { mergedSubjects } from "./src/lib/subjects";
 import { oldPageTarget } from "./src/lib/targets";
 
 // Every live project gets a short redirect (/p/<slug>) that survives the
@@ -21,6 +22,15 @@ const kindRedirects = Object.fromEntries(
   projectKinds.flatMap((kind) => [
     [`/projects/kind/${kind}/`, "/projects/"],
     [`/work/kind/${kind}/`, "/projects/"],
+  ]),
+);
+
+// Supernote and AI each held one project until the owner folded them into Productivity (#69);
+// their old tabs lead there.
+const mergedSubjectRedirects = Object.fromEntries(
+  mergedSubjects.map((subject) => [
+    `/projects/subject/${subject}/`,
+    "/projects/subject/productivity/",
   ]),
 );
 
@@ -61,6 +71,7 @@ export default defineConfig({
     "/p/atlas-tint/": "/p/atlastint/",
     ...projectRedirects,
     ...kindRedirects,
+    ...mergedSubjectRedirects,
   },
   // /p/ is redirects; /design/ is files for other sites, not pages.
   integrations: [

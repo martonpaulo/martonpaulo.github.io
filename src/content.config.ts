@@ -197,8 +197,6 @@ const copy = defineCollection({
       productivity: subjectLabel,
       design: subjectLabel,
       learning: subjectLabel,
-      supernote: subjectLabel,
-      ai: subjectLabel,
     } satisfies Record<(typeof projectSubjects)[number], typeof subjectLabel>),
   }),
 });

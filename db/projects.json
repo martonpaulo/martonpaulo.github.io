@@ -403,7 +403,7 @@
       "fit": "contain"
     },
     "kinds": ["supernote-plugin", "supernote-app", "macos", "cli"],
-    "subject": "supernote",
+    "subject": "productivity",
     "cardAlt": "Ink Tools on an ink-blue card: a Supernote page with a lassoed handwritten word, the Lasso Actions buttons and the picture they inserted.",
     "gradient": "linear-gradient(135deg,#10263f 0%,#1e4670 55%,#2f6aa3 100%)",
     "ink": "light",
@@ -566,7 +566,7 @@
     "note": "Private. This page is its only public description.",
     "status": "active",
     "kinds": ["library"],
-    "subject": "ai",
+    "subject": "productivity",
     "repo": "martonpaulo/workbench",
     "metrics": {
       "stars": 0,

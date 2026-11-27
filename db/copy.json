@@ -127,14 +127,6 @@
     },
     "learning": {
       "tab": "Learning"
-    },
-    "supernote": {
-      "tab": "Supernote",
-      "sentence": "Supernote"
-    },
-    "ai": {
-      "tab": "AI",
-      "sentence": "AI"
     }
   }
 }

@@ -7,12 +7,14 @@
 // Earlier work project; the home page and the Projects list follow the score (#43); a
 // project with its own site has no page and every list leads to that site (#57); and no page links
 // the repository of a project that has no public source link. Every indexed page's meta
-// description keeps the length search engines show whole (#59).
+// description keeps the length search engines show whole (#59). A subject folded into another
+// leaves a redirect page that is not in the sitemap (#69).
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { descriptionLength } from "../src/lib/descriptions.ts";
 import { homeProjects, rankedProjects } from "../src/lib/status.ts";
+import { mergedSubjects, projectSubjects } from "../src/lib/subjects.ts";
 import { hasPage, pagePath, projectTarget } from "../src/lib/targets.ts";
 
 const say = (line) => process.stdout.write(`${line}\n`);
@@ -42,17 +44,26 @@ const sitemap = readdirSync(dist)
   .map((name) => readFileSync(join(dist, name), "utf8"))
   .join("\n");
 if (!sitemap) problems.push("NO SITEMAP in " + dist);
+const inSitemap = (path) => sitemap.includes(`<loc>${new URL(path, site.url)}</loc>`);
 for (const path of unlisted) {
   if (!NOINDEX.test(page(path))) problems.push(`INDEXED ${path}: no noindex meta`);
-  if (sitemap.includes(`<loc>${new URL(path, site.url)}</loc>`))
-    problems.push(`IN SITEMAP ${path}`);
+  if (inSitemap(path)) problems.push(`IN SITEMAP ${path}`);
 }
 
 // Every subject tab is a listed page; a filter that matched part of a path once dropped Design (#43).
-for (const subject of readdirSync(join(dist, "projects/subject"))) {
+const subjectTabs = projectSubjects.map((subject) => `/projects/subject/${subject}/`);
+for (const path of subjectTabs) {
+  if (!inSitemap(path)) problems.push(`NOT IN SITEMAP ${path}`);
+}
+
+// A subject folded into Productivity leaves its old tab as a redirect page to it, unlisted (#69).
+for (const subject of mergedSubjects) {
   const path = `/projects/subject/${subject}/`;
-  if (!sitemap.includes(`<loc>${new URL(path, site.url)}</loc>`))
-    problems.push(`NOT IN SITEMAP ${path}`);
+  const html = page(path);
+  if (!html.includes('http-equiv="refresh" content="0;url=/projects/subject/productivity/"'))
+    problems.push(`REDIRECT ${path}: does not lead to the Productivity tab`);
+  if (!NOINDEX.test(html)) problems.push(`INDEXED ${path}: no noindex meta`);
+  if (inSitemap(path)) problems.push(`IN SITEMAP ${path}`);
 }
 
 // A row's meta is a list: one platform per item, then the year, with no divider (#55).
@@ -73,11 +84,7 @@ if (inkLines !== inkKinds + 1)
 const earlierNames = projects
   .filter((p) => p.status === "discontinued")
   .map((p) => `/projects/${p.slug}/`);
-for (const path of [
-  "/",
-  "/projects/",
-  ...readdirSync(join(dist, "projects/subject")).map((s) => `/projects/subject/${s}/`),
-]) {
+for (const path of ["/", "/projects/", ...subjectTabs]) {
   const html = page(path);
   for (const href of earlierNames)
     if (html.includes(`href="${href}"`)) problems.push(`CURRENT LIST ${path} links ${href}`);
@@ -98,11 +105,7 @@ for (const file of walk(dist)) {
 
 // A project with a site of its own has no page here, and every current list leads to that site;
 // only a current project without one has a page, at /<slug>/, and the lists lead there (#57).
-const lists = [
-  "/",
-  "/projects/",
-  ...readdirSync(join(dist, "projects/subject")).map((s) => `/projects/subject/${s}/`),
-];
+const lists = ["/", "/projects/", ...subjectTabs];
 for (const project of projects) {
   const built = existsSync(join(dist, project.slug, "index.html"));
   if (built !== hasPage(project)) {
