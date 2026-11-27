@@ -7,7 +7,10 @@
 // - the underline of a hovered link reaches its external-link arrow (↗), which is never
 //   underlined (#67): the arrow's box is drawn with the arrow's own ink hidden, once as it is and
 //   once with every underline turned off, and the two must match;
-// - a project row's platform-and-year column is not centred in the row at 1024 or 1280 px (#66).
+// - a project row's platform-and-year column is not centred in the row at 1024 or 1280 px (#66);
+// - a home card's picture does not start the same distance under its text as every other card's,
+//   does not reach the card's bottom, or pushes its text past the padding, at 390, 1024, 1280 or
+//   1920 px (#64).
 //
 //   node scripts/layout-check.mjs dist
 //
@@ -65,6 +68,9 @@ const ROW_WIDTHS = [1024, 1280];
 const ROW_PAGES = ["/projects/", LONG_PAGE];
 /** One hairline, in CSS pixels: how far the meta's centre may sit from the row's. */
 const HAIRLINE = 1;
+
+/** The widths at which every home card places its picture by one rule (#64). */
+const CARD_WIDTHS = [390, 1024, 1280, 1920];
 
 /** Every page of the build, as the path a visitor requests; a redirect page is not a page. */
 async function builtPages(root) {
@@ -227,6 +233,56 @@ try {
   if (rows === 0) failures.push("no project row found");
   process.stdout.write(`rows: ${rows} at ${ROW_WIDTHS.join(", ")}px\n`);
   await rowPage.close();
+
+  // Every home card's picture starts the same distance under its text and reaches the card's
+  // bottom, whatever its neighbour's text; the art box takes a row's leftover height (#64, D4 A).
+  const cardPage = await browser.newPage({ viewport: VIEWPORTS[0], reducedMotion: "reduce" });
+  const fits = new Set();
+  for (const width of CARD_WIDTHS) {
+    await cardPage.setViewportSize({ width, height: TAB_HEIGHT });
+    await openBuilt(cardPage, origin, "/");
+    const cards = await cardPage.locator(".project-card__surface").evaluateAll((surfaces) =>
+      surfaces.map((surface) => {
+        const art = surface.querySelector(".project-card__art");
+        const name = surface.querySelector(".project-card__title span").textContent.trim();
+        if (!art) return { name, fit: "none" };
+        const style = getComputedStyle(surface);
+        const box = art.getBoundingClientRect();
+        const info = surface.querySelector(".project-card__info").getBoundingClientRect();
+        const margin = parseFloat(getComputedStyle(art).marginBottom);
+        return {
+          name,
+          // The modifier class, project-card__art--<fit>, names the kind of art.
+          fit: art.className.split("--").pop(),
+          // The text stays inside the padding; a wider art box would push it past the card.
+          over:
+            info.right - (surface.getBoundingClientRect().right - parseFloat(style.paddingRight)),
+          gap: box.top - info.bottom,
+          // The art's box plus its own bottom margin ends where the surface's padding begins.
+          short:
+            surface.getBoundingClientRect().bottom -
+            parseFloat(style.paddingBottom) -
+            (box.bottom + margin),
+        };
+      }),
+    );
+    const placed = cards.filter((card) => card.fit !== "none");
+    if (placed.length === 0) failures.push(`${width}px: no home card with a picture found`);
+    for (const card of cards) fits.add(card.fit);
+    for (const { name, over } of placed)
+      if (over > HAIRLINE)
+        failures.push(`${width}px: ${name}'s text runs ${over.toFixed(1)}px past its padding`);
+    for (const { name, gap, short } of placed) {
+      if (Math.abs(gap - placed[0].gap) > HAIRLINE)
+        failures.push(
+          `${width}px: ${name}'s picture starts ${gap.toFixed(1)}px under its text, ${placed[0].name}'s ${placed[0].gap.toFixed(1)}px`,
+        );
+      if (Math.abs(short) > HAIRLINE)
+        failures.push(`${width}px: ${name}'s picture stops ${short.toFixed(1)}px above its bottom`);
+    }
+  }
+  process.stdout.write(`cards: ${[...fits].join(", ")} at ${CARD_WIDTHS.join(", ")}px\n`);
+  await cardPage.close();
 
   // An external link's arrow is never underlined, at rest or under the pointer (#67).
   const arrowPage = await browser.newPage({ viewport: VIEWPORTS[0], reducedMotion: "reduce" });

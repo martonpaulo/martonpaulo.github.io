@@ -32,6 +32,9 @@
 .project-card__surface {
   position: relative;
   display: grid;
+  // One column the card's width: a stretched art box keeps its aspect ratio, and
+  // its ratio would otherwise widen an auto column past the card (#64).
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr;
   padding: var(--space-4);
   border-radius: var(--radius-lg);
@@ -75,12 +78,16 @@
   line-height: var(--leading-relaxed);
 }
 
-// The art box keeps one aspect ratio and every asset is cut to it, so the
-// browser never crops and the full file width is what renders (sharp on 3x).
-// Leftover height in the row goes above the art, never below it.
+// The art box keeps one aspect ratio as its least height, and every asset is
+// cut to it, so in a card of its own height the browser never crops and the
+// full file width is what renders (sharp on 3x). Cards in one grid row share
+// the tallest card's height; the art box takes that leftover height, so every
+// picture starts the same distance under its text and stays flush with the
+// bottom (#64, owner D4 A). A screenshot then fills a taller box from its top
+// left corner, and an icon is centred in it.
 .project-card__art {
   position: relative;
-  align-self: end;
+  align-self: stretch;
   width: 100%;
   aspect-ratio: var(--card-art-ratio);
   margin-top: var(--space-3);

@@ -54,7 +54,9 @@ do not move: the owner tried a drifting light and preferred the room quiet.
 **Tiles shaped like App Store stories.** The card model is Apple's "Today" card: a small caption,
 a bold title and one line at the top, the artwork filling the bottom, a large continuous corner, a
 faint resting shadow that deepens under the pointer; the card does not grow
-([#51](https://github.com/martonpaulo/martonpaulo.github.io/issues/51)). A tile is painted with the gradient of its product's own
+([#51](https://github.com/martonpaulo/martonpaulo.github.io/issues/51)). The cards of one row share one height, and the
+artwork takes a row's extra height, so every picture starts the same distance under its text
+([#64](https://github.com/martonpaulo/martonpaulo.github.io/issues/64)). A tile is painted with the gradient of its product's own
 social card, copied as CSS by `pnpm card-gradients`, so the tile and the card read as one product.
 The gradient is never lightened or darkened to suit the text: the text takes the ink that reads on
 it instead, the dark `--tile-ink` on a light card and the light `--tile-ink-light` on a dark one,
