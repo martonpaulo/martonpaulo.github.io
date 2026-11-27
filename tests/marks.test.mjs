@@ -26,3 +26,10 @@ test("the home intro holds both highlighted phrases", () => {
   assert.equal(runs.filter((run) => run.mark).length, 2);
   assert.equal(runs.map((run) => run.text).join(""), person.intro);
 });
+
+test("the highlight is square on every wrapped line (#60)", async () => {
+  const css = await readFile(new URL("../src/styles/base.scss", import.meta.url), "utf8");
+  const rule = css.match(/\nmark \{([^}]*)\}/)?.[1] ?? "";
+  assert.match(rule, /border-radius:\s*0;/);
+  assert.match(rule, /box-decoration-break:\s*clone;/);
+});
