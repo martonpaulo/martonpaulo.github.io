@@ -19,6 +19,7 @@
 - Branch policy: `main`-only. Work is committed directly to `main`; a branch is an occasional convenience for an experiment, never a requirement, and no pull request is needed to deliver.
 - Commit policy: automatic. When a task's validation passes, the agent commits its result as one Conventional Commit per concern without being asked.
 - Push policy: automatic. After committing, the agent pushes `main` to `origin`, which runs the deploy workflow. A failed validation is never pushed. A cloud session pushes `main` too, only for a `runs: cloud` issue whose gates all ran there.
+- Cloud hand-off: on (owner, 2026-11-28): a cloud session also delivers the `[cloud]` Tasks of a split issue, on `cloud/<issue>` when it cannot push `main`.
 - Cloud setup command: `bash scripts/cloud-setup.sh` (a cloud run's start; packages and Mac-only paths in `.github/cloud.json`).
 - Product versioning: unversioned. The site has no user-visible version and no releases; `version` in `package.json` stays `0.0.0`. Every push to `main` whose validation passes deploys.
 - Merge policy: merge commits. When a pull request is used, it is merged with `gh pr merge <number> --merge --delete-branch`, and the repository allows no other method ([martonpaulo/skill-deck#277](https://github.com/martonpaulo/skill-deck/issues/277)).
