@@ -299,7 +299,7 @@
     "stack": ["Python", "fontTools", "HarfBuzz", "OpenType"],
     "tags": ["accessibility", "typography", "open-source"],
     "links": {
-      "live": "https://moon.martonpaulo.com/"
+      "live": "https://moonuniform.martonpaulo.com/"
     },
     "status": "active",
     "tile": "salmon",
